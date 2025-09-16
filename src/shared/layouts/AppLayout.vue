@@ -8,6 +8,13 @@
     <main class="app-layout__content">
       <slot />
     </main>
+    <div class="divider"></div>
+    <footer class="app-layout__footer">
+      <div class="footer-content">
+        <span class="footer-text">Open Finance 2025.</span>
+        <img src="/src/assets/logo.png" alt="Open Finance Demo" class="footer-logo" />
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -15,28 +22,18 @@
 .app-layout {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr;
-  background: var(--surface-primary);
+  grid-template-rows: auto 1fr auto auto;
+  background: #ffffff;
   color: var(--text-primary);
 }
 
 .app-layout__header {
   height: 100px;
-  background: linear-gradient(135deg, #6B2C91 0%, #9C3493 50%, #8E44AD 100%);
+  background: linear-gradient(135deg, #2981fd 0%, #3b82f6 50%, #1e40af 100%);
   position: relative;
   overflow: hidden;
 }
 
-.app-layout__header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  background: white;
-  clip-path: polygon(0% 100%, 5% 80%, 15% 85%, 25% 75%, 35% 80%, 45% 70%, 55% 75%, 65% 65%, 75% 70%, 85% 60%, 95% 65%, 100% 50%, 100% 100%);
-}
 
 .header-content {
   height: 100%;
@@ -66,5 +63,38 @@
   padding: var(--space-6);
   display: flex;
   justify-content: center;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 0;
+}
+
+.app-layout__footer {
+  padding: 20px 40px;
+  background: #ffffff;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-text {
+  color: #6b7280;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.footer-logo {
+  margin-top: -50px;
+  height: 250px;
+  width: auto;
+  object-fit: contain;
 }
 </style>
