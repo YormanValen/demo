@@ -8,7 +8,7 @@ export interface SelectOption {
   value: string
 }
 
-export interface RegistroFormData {
+export interface RegistrationFormData {
   nombres: string
   primerApellido: string
   segundoApellido: string
@@ -24,7 +24,7 @@ export interface RegistroFormData {
   autorizaFinesComerciales: boolean
 }
 
-export interface RegistroResponse {
+export interface RegistrationResponse {
   success: boolean
   message: string
 }

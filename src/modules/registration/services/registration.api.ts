@@ -1,8 +1,8 @@
 import type {
-  RegistroFormData,
-  RegistroResponse,
+  RegistrationFormData,
+  RegistrationResponse,
   TipoDocumento
-} from '../types/registro.types'
+} from '../types/registration.types'
 
 const MOCK_TIPOS_DOCUMENTO: TipoDocumento[] = [
   { id: 'dni', label: 'DNI' },
@@ -16,9 +16,9 @@ export async function fetchTiposDocumento(): Promise<TipoDocumento[]> {
   })
 }
 
-export async function submitRegistro(
-  payload: RegistroFormData
-): Promise<RegistroResponse> {
+export async function submitRegistration(
+  payload: RegistrationFormData
+): Promise<RegistrationResponse> {
   return new Promise((resolve) => {
     // simulamos latencia y respuesta exitosa
     setTimeout(
