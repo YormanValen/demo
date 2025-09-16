@@ -1,14 +1,14 @@
 import { readonly, ref } from 'vue'
-import { fetchTiposDocumento, submitRegistro } from '../services/registro.api'
-import { mapTiposDocumentoToSelectOptions } from '../services/registro.mappers'
-import type { RegistroFormData, SelectOption } from '../types/registro.types'
+import { fetchTiposDocumento, submitRegistration } from '../services/registration.api'
+import { mapTiposDocumentoToSelectOptions } from '../services/registration.mappers'
+import type { RegistrationFormData, SelectOption } from '../types/registration.types'
 
 const tipoOptionsState = ref<SelectOption[]>([])
 const isLoadingTipos = ref(false)
 const tiposError = ref<string | null>(null)
 let hasLoadedTipos = false
 
-export function useRegistroStore() {
+export function useRegistrationStore() {
   const isSubmitting = ref(false)
   const feedbackMessage = ref<string | null>(null)
 
@@ -32,12 +32,12 @@ export function useRegistroStore() {
     }
   }
 
-  const submit = async (payload: RegistroFormData) => {
+  const submit = async (payload: RegistrationFormData) => {
     isSubmitting.value = true
     feedbackMessage.value = null
 
     try {
-      const response = await submitRegistro(payload)
+      const response = await submitRegistration(payload)
       feedbackMessage.value = response.message
       return response
     } finally {

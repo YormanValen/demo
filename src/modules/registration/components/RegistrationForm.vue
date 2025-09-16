@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-import { useRegistroStore } from '../stores/registro.store'
-import type { RegistroFormData } from '../types/registro.types'
+import { useRouter } from 'vue-router'
+import { useRegistrationStore } from '../stores/registration.store'
+import type { RegistrationFormData } from '../types/registration.types'
 import OtpModal from './OtpModal.vue'
 import ValidationLoader from './ValidationLoader.vue'
+import FinancialLoader from './FinancialLoader.vue'
 
-const store = useRegistroStore()
+const router = useRouter()
+const store = useRegistrationStore()
 const { tipoOptions, isLoadingTipos, isSubmitting, feedbackMessage } = store
 
 const showOtpModal = ref(false)
 const showValidationLoader = ref(false)
+const showFinancialLoader = ref(false)
 
-const form = reactive<RegistroFormData>({
+const form = reactive<RegistrationFormData>({
   nombres: '',
   primerApellido: '',
   segundoApellido: '',
@@ -58,22 +62,12 @@ const handleSubmit = async () => {
 
 const handleOtpVerified = async () => {
   showOtpModal.value = false
+  showFinancialLoader.value = true
   
-  await store.submit({
-    nombres: form.nombres,
-    primerApellido: form.primerApellido,
-    segundoApellido: form.segundoApellido,
-    tipoDocumento: form.tipoDocumento,
-    numeroIdentificacion: form.numeroIdentificacion,
-    fechaExpedicionDocumento: form.fechaExpedicionDocumento,
-    departamentoExpedicion: form.departamentoExpedicion,
-    ciudadExpedicion: form.ciudadExpedicion,
-    celular: form.celular,
-    correo: form.correo,
-    esPEP: form.esPEP,
-    autorizaTratamientoDatos: form.autorizaTratamientoDatos,
-    autorizaFinesComerciales: form.autorizaFinesComerciales
-  })
+  setTimeout(() => {
+    showFinancialLoader.value = false
+    router.push('/registration/financial-information')
+  }, 3000)
 }
 
 const handleOtpClose = () => {
@@ -82,8 +76,8 @@ const handleOtpClose = () => {
 </script>
 
 <template>
-  <div class="registro-container">
-    <div class="registro-form">
+  <div class="registration-container">
+    <div class="registration-form">
       <div class="form-header">
         <h2>INFORMACIÓN BÁSICA</h2>
       </div>
@@ -192,9 +186,10 @@ const handleOtpClose = () => {
       </form>
     </div>
 
-    <p v-if="feedbackMessage" class="registro-form__feedback">{{ feedbackMessage }}</p>
+    <p v-if="feedbackMessage" class="registration-form__feedback">{{ feedbackMessage }}</p>
     
     <ValidationLoader :show="showValidationLoader" />
+    <FinancialLoader :show="showFinancialLoader" />
     
     <OtpModal 
       :show="showOtpModal"
@@ -206,7 +201,7 @@ const handleOtpClose = () => {
 </template>
 
 <style scoped>
-.registro-container {
+.registration-container {
   width: 1200px;
   max-width: none;
   margin: 0;
@@ -214,7 +209,7 @@ const handleOtpClose = () => {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.registro-subtitle {
+.registration-subtitle {
   text-align: center;
   color: white;
   font-size: 16px;
@@ -222,7 +217,7 @@ const handleOtpClose = () => {
   font-style: italic;
 }
 
-.registro-form {
+.registration-form {
   background: white;
   border-radius: 8px;
   overflow: hidden;
@@ -394,7 +389,7 @@ const handleOtpClose = () => {
   cursor: not-allowed;
 }
 
-.registro-form__feedback {
+.registration-form__feedback {
   margin: 20px 0 0 0;
   padding: 12px;
   border-radius: 4px;
