@@ -1,39 +1,41 @@
 <template>
   <Transition name="fade">
-    <div v-if="show" class="loading-screen">
-      <div class="loading-content">
+    <div v-if="show" class="validation-overlay">
+      <div class="validation-content">
         <img src="/src/assets/logo.png" alt="Open Finance Demo" class="logo" />
         <div class="progress-bar">
           <div class="progress-fill"></div>
         </div>
-        <p class="loading-text">Procesando solicitud...</p>
+        <p class="validation-text">Validando información ...</p>
       </div>
     </div>
   </Transition>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+interface Props {
   show: boolean
-}>()
+}
+
+defineProps<Props>()
 </script>
 
 <style scoped>
-.loading-screen {
+.validation-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 10001;
 }
 
-.loading-content {
+.validation-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,13 +67,23 @@ defineProps<{
   animation: progress 2s infinite;
 }
 
+.validation-text {
+  color: #374151;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
 @keyframes progress {
   0% {
     transform: translateX(-100%);
   }
+
   50% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(100%);
   }
@@ -85,13 +97,5 @@ defineProps<{
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.loading-text {
-  color: #374151;
-  font-size: 18px;
-  font-weight: 500;
-  margin: 0;
-  text-align: center;
 }
 </style>
