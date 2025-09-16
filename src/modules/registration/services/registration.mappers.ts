@@ -1,4 +1,4 @@
-import type { SelectOption, TipoDocumento } from '../types/registro.types'
+import type { SelectOption, TipoDocumento } from '../types/registration.types'
 
 export function mapTiposDocumentoToSelectOptions(
   tipos: TipoDocumento[]
