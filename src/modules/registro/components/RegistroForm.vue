@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useRegistroStore } from '../stores/registro.store'
 import type { RegistroFormData } from '../types/registro.types'
+import OtpModal from './OtpModal.vue'
+import ValidationLoader from './ValidationLoader.vue'
 
 const store = useRegistroStore()
 const { tipoOptions, isLoadingTipos, isSubmitting, feedbackMessage } = store
+
+const showOtpModal = ref(false)
+const showValidationLoader = ref(false)
 
 const form = reactive<RegistroFormData>({
   nombres: '',
@@ -43,6 +48,17 @@ const handleSubmit = async () => {
     return
   }
 
+  showValidationLoader.value = true
+  
+  setTimeout(() => {
+    showValidationLoader.value = false
+    showOtpModal.value = true
+  }, 5000)
+}
+
+const handleOtpVerified = async () => {
+  showOtpModal.value = false
+  
   await store.submit({
     nombres: form.nombres,
     primerApellido: form.primerApellido,
@@ -58,6 +74,10 @@ const handleSubmit = async () => {
     autorizaTratamientoDatos: form.autorizaTratamientoDatos,
     autorizaFinesComerciales: form.autorizaFinesComerciales
   })
+}
+
+const handleOtpClose = () => {
+  showOtpModal.value = false
 }
 </script>
 
@@ -173,6 +193,15 @@ const handleSubmit = async () => {
     </div>
 
     <p v-if="feedbackMessage" class="registro-form__feedback">{{ feedbackMessage }}</p>
+    
+    <ValidationLoader :show="showValidationLoader" />
+    
+    <OtpModal 
+      :show="showOtpModal"
+      :phone-number="form.celular"
+      @close="handleOtpClose"
+      @verified="handleOtpVerified"
+    />
   </div>
 </template>
 
