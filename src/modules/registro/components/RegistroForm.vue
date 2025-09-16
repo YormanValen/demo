@@ -201,7 +201,7 @@ const handleSubmit = async () => {
 }
 
 .form-header {
-  background: linear-gradient(135deg, #8e44ad 0%, #c9509a 100%);
+  background: linear-gradient(135deg, #2981fd 0%, #3b82f6 50%, #1e40af 100%);
   padding: 20px 40px;
   text-align: center;
 }
@@ -342,7 +342,7 @@ const handleSubmit = async () => {
 }
 
 .form-submit {
-  background: linear-gradient(135deg, #8e44ad 0%, #c9509a 100%);
+  background: linear-gradient(135deg, #2981fd 0%, #3b82f6 50%, #1e40af 100%);
   color: white;
   border: none;
   padding: 12px 40px;
