@@ -10,11 +10,18 @@ export interface SelectOption {
 
 export interface RegistroFormData {
   nombres: string
-  apellidos: string
-  correo: string
+  primerApellido: string
+  segundoApellido: string
   tipoDocumento: string
-  numeroDocumento: string
-  aceptaTerminos: boolean
+  numeroIdentificacion: string
+  fechaExpedicionDocumento: string
+  departamentoExpedicion: string
+  ciudadExpedicion: string
+  celular: string
+  correo: string
+  esPEP: boolean
+  autorizaTratamientoDatos: boolean
+  autorizaFinesComerciales: boolean
 }
 
 export interface RegistroResponse {
