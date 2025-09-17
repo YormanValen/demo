@@ -39,6 +39,7 @@
 
 .app-layout__header {
   height: 100px;
+  background: #270d34;
   position: relative;
   overflow: hidden;
   width: 100vw;
