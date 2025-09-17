@@ -45,6 +45,10 @@
         <div v-if="success" class="success-message">
           ¡Código verificado correctamente!
         </div>
+        
+        <div class="demo-message">
+          Para fines demostrativos, el OTP de prueba es 123456
+        </div>
       </div>
     </div>
   </div>
@@ -73,7 +77,7 @@ const success = ref(false)
 
 const maskedPhone = computed(() => {
   if (!props.phoneNumber) return ''
-  return props.phoneNumber.slice(-3)
+  return props.phoneNumber.slice(-4)
 })
 
 const handleInput = async (index: number, event: Event) => {
@@ -185,7 +189,7 @@ watch(() => props.show, (newValue) => {
   justify-content: space-between;
   align-items: center;
   padding: 24px 24px 0 24px;
-  background: linear-gradient(135deg, #2981fd 0%, #3b82f6 50%, #1e40af 100%);
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
   color: white;
   border-radius: 12px 12px 0 0;
 }
@@ -229,7 +233,7 @@ watch(() => props.show, (newValue) => {
 .phone-icon svg {
   width: 48px;
   height: 48px;
-  color: #2981fd;
+  color: #982881;
 }
 
 .otp-message {
@@ -240,7 +244,7 @@ watch(() => props.show, (newValue) => {
 }
 
 .phone-number {
-  color: #2981fd;
+  color: #982881;
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 32px;
@@ -267,12 +271,12 @@ watch(() => props.show, (newValue) => {
 
 .otp-input:focus {
   outline: none;
-  border-color: #2981fd;
-  box-shadow: 0 0 0 3px rgba(41, 129, 253, 0.1);
+  border-color: #982881;
+  box-shadow: 0 0 0 3px rgba(152, 40, 129, 0.1);
 }
 
 .otp-input:not(:placeholder-shown) {
-  border-color: #2981fd;
+  border-color: #982881;
   background-color: #f8fafc;
 }
 
@@ -296,6 +300,17 @@ watch(() => props.show, (newValue) => {
   border: 1px solid #bbf7d0;
   border-radius: 6px;
   margin-top: 16px;
+}
+
+.demo-message {
+  color: #6b7280;
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 20px;
+  padding: 8px 12px;
+  background-color: #f9fafb;
+  border-radius: 4px;
+  border-left: 3px solid #982881;
 }
 
 @media (max-width: 480px) {

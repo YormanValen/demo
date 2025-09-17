@@ -1,40 +1,55 @@
 <template>
-  <div class="financial-container">
-    <div class="financial-form">
+  <div class="registration-container">
+    <div class="registration-form">
       <div class="form-header">
-        <h2>INFORMACIÓN FINANCIERA</h2>
+        <h2>INFORMACIÓN BÁSICA SOLICITUD DE CREDITO</h2>
       </div>
 
       <form class="form-body" @submit.prevent="handleSubmit">
-        <div class="form-row">
-          <div class="form-field">
-            <input v-model="form.gastosMensuales" type="text" placeholder="Gastos mensuales" required
-              @input="formatCurrency($event, 'gastosMensuales')" />
-          </div>
+        <v-row class="form_row">
+          <v-col cols="12" md="4">
+            <v-text-field variant="underlined" v-model="form.gastosMensuales" label="Gastos mensuales"
+              class="form-field" required @input="formatCurrency($event, 'gastosMensuales')"
+              @blur="validateField('gastosMensuales')" />
+            <transition name="slide-down">
+              <div v-if="fieldErrors.gastosMensuales" class="error-message">{{ fieldErrors.gastosMensuales }}</div>
+            </transition>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field variant="underlined" v-model="form.antiguedadMeses" label="Antigüedad (meses)"
+              class="form-field" type="number" min="0" required @blur="validateField('antiguedadMeses')" />
+            <transition name="slide-down">
+              <div v-if="fieldErrors.antiguedadMeses" class="error-message">{{ fieldErrors.antiguedadMeses }}</div>
+            </transition>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field variant="underlined" v-model="form.ingresosMensualesPromedio"
+              label="Ingresos mensuales promedio" class="form-field" required
+              @input="formatCurrency($event, 'ingresosMensualesPromedio')"
+              @blur="validateField('ingresosMensualesPromedio')" />
+            <transition name="slide-down">
+              <div v-if="fieldErrors.ingresosMensualesPromedio" class="error-message">{{
+                fieldErrors.ingresosMensualesPromedio }}</div>
+            </transition>
+          </v-col>
+        </v-row>
 
-          <div class="form-field">
-            <input v-model="form.antiguedadMeses" type="number" placeholder="Antigüedad (meses)" required min="0" />
-          </div>
-
-          <div class="form-field">
-            <input v-model="form.ingresosMensualesPromedio" type="text" placeholder="Ingresos mensuales promedio"
-              required @input="formatCurrency($event, 'ingresosMensualesPromedio')" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-field">
-            <input v-model="form.otrosIngresos" type="text" placeholder="Otros ingresos"
+        <v-row class="form_row">
+          <v-col cols="12" md="4">
+            <v-text-field variant="underlined" v-model="form.otrosIngresos" label="Otros ingresos" class="form-field"
               @input="formatCurrency($event, 'otrosIngresos')" />
-          </div>
-
-          <div class="form-field">
-            <input v-model="form.montoSolicitado" type="text" placeholder="Monto solicitado" required
-              @input="formatCurrency($event, 'montoSolicitado')" />
-          </div>
-
-          <div class="form-field-empty"></div>
-        </div>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field variant="underlined" v-model="form.montoSolicitado" label="Monto solicitado"
+              class="form-field" required @input="formatCurrency($event, 'montoSolicitado')"
+              @blur="validateField('montoSolicitado')" />
+            <transition name="slide-down">
+              <div v-if="fieldErrors.montoSolicitado" class="error-message">{{ fieldErrors.montoSolicitado }}</div>
+            </transition>
+          </v-col>
+          <v-col cols="12" md="4">
+          </v-col>
+        </v-row>
 
         <button type="submit" class="form-submit" :disabled="!isFormValid">
           Continuar
@@ -46,10 +61,7 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
-import { useRouter } from 'vue-router'
 import type { FinancialFormData } from '../types/financial.types'
-
-const router = useRouter()
 
 const form = reactive<FinancialFormData>({
   gastosMensuales: '',
@@ -58,6 +70,30 @@ const form = reactive<FinancialFormData>({
   otrosIngresos: '',
   montoSolicitado: ''
 })
+
+const fieldErrors = reactive({
+  gastosMensuales: '',
+  antiguedadMeses: '',
+  ingresosMensualesPromedio: '',
+  montoSolicitado: ''
+});
+
+const validateField = (fieldName: keyof typeof fieldErrors) => {
+  switch (fieldName) {
+    case 'gastosMensuales':
+      fieldErrors.gastosMensuales = !form.gastosMensuales.trim() ? 'Los gastos mensuales son obligatorios' : '';
+      break;
+    case 'antiguedadMeses':
+      fieldErrors.antiguedadMeses = !form.antiguedadMeses.trim() ? 'La antigüedad es obligatoria' : '';
+      break;
+    case 'ingresosMensualesPromedio':
+      fieldErrors.ingresosMensualesPromedio = !form.ingresosMensualesPromedio.trim() ? 'Los ingresos mensuales promedio son obligatorios' : '';
+      break;
+    case 'montoSolicitado':
+      fieldErrors.montoSolicitado = !form.montoSolicitado.trim() ? 'El monto solicitado es obligatorio' : '';
+      break;
+  }
+};
 
 const isFormValid = computed(() => {
   return (
@@ -87,6 +123,10 @@ const formatCurrency = (event: Event, field: keyof FinancialFormData) => {
 }
 
 const handleSubmit = () => {
+  Object.keys(fieldErrors).forEach(key => {
+    validateField(key as keyof typeof fieldErrors);
+  });
+
   if (!isFormValid.value) {
     return
   }
@@ -94,92 +134,59 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-.financial-container {
-  width: 1200px;
-  max-width: none;
-  margin: 0;
-  padding: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-.financial-form {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.form-header {
-  background: linear-gradient(135deg, #2981fd 0%, #3b82f6 50%, #1e40af 100%);
-  padding: 20px 40px;
-  text-align: center;
-}
-
-.form-header h2 {
-  color: white;
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-  letter-spacing: 0.5px;
-}
-
-.form-body {
-  padding: 40px;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.form-field {
+.registration-container {
+  padding: 0;
+  margin-top: -50vh;
   position: relative;
 }
 
-.form-field-empty {
-  /* Empty space for grid alignment */
+.form-header {
+  background: linear-gradient(21deg,
+      rgb(97, 40, 120) 0%,
+      rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent;
+
+  width: 55vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  color: white;
 }
 
-.form-field input {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  font-size: 14px;
-  background: white;
-  transition: border-color 0.2s ease;
-  box-sizing: border-box;
+.form-header h2 {
+  font-size: 19px;
 }
 
-.form-field input:focus {
-  outline: none;
-  border-color: #2981fd;
-  box-shadow: 0 0 0 2px rgba(41, 129, 253, 0.1);
+.form-body .form-ctn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1vw;
+  position: relative;
 }
 
-.form-field input::placeholder {
-  color: #9ca3af;
+.form-body .form-icon {
+  height: 19px !important;
+  width: 19px !important;
+  color: #707070;
+  font-size: 22px;
 }
 
 .form-submit {
-  background: linear-gradient(135deg, #2981fd 0%, #3b82f6 50%, #1e40af 100%);
+  width: 160px;
+  height: 36px;
+  background: linear-gradient(21deg, rgb(97, 40, 120), rgb(186, 45, 125) 100%);
   color: white;
   border: none;
-  padding: 12px 40px;
-  border-radius: 25px;
-  font-size: 16px;
-  font-weight: 500;
+  border-radius: 5px;
   cursor: pointer;
-  transition: opacity 0.2s ease;
-  margin: 30px auto 0;
+  font-size: 14px;
+  font-weight: bold;
   display: block;
-  min-width: 140px;
-  max-width: 200px;
+  margin: 20px auto 0;
 }
 
-.form-submit:hover:not(:disabled) {
+.form-submit:hover {
   opacity: 0.9;
 }
 
@@ -187,18 +194,75 @@ const handleSubmit = () => {
   opacity: 0.6;
   cursor: not-allowed;
 }
+</style>
 
-@media (max-width: 768px) {
-  .form-body {
-    padding: 20px;
-  }
+<style>
+.v-field__input {
+  padding-bottom: 1vw;
+  padding-top: 30px;
+  font-size: 16px;
+}
 
-  .form-header {
-    padding: 15px 20px;
-  }
+.v-field--variant-underlined,
+.v-field--variant-underlined *,
+.v-field--variant-underlined::before,
+.v-field--variant-underlined::after,
+.v-text-field--underlined,
+.v-text-field--underlined *,
+.v-text-field--underlined::before,
+.v-text-field--underlined::after {
+  border: none !important;
+  border-width: 0 !important;
+  border-style: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
 
-  .form-row {
-    grid-template-columns: 1fr;
-  }
+.v-field--variant-underlined.v-field--focused,
+.v-field--variant-underlined.v-field--active,
+.v-field--variant-underlined.v-field--error,
+.v-text-field--underlined.v-field--focused,
+.v-text-field--underlined.v-field--active,
+.v-text-field--underlined.v-field--error {
+  border: none !important;
+  border-width: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.v-label {
+  background-color: white;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: -15px;
+  margin-left: 0;
+  position: absolute;
+  z-index: 10;
+}
+
+.slide-down-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-down-leave-active {
+  transition: all 0.2s ease-in;
+}
+
+.slide-down-enter-from {
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+.slide-down-leave-to {
+  transform: translateY(5px);
+  opacity: 0;
 }
 </style>

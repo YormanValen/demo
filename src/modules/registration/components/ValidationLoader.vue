@@ -62,7 +62,8 @@ defineProps<Props>()
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(135deg, #2981fd 0%, #3b82f6 50%, #1e40af 100%);
+  background-color: rgb(97, 40, 120) !important;
+  background-image: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) !important;
   border-radius: 3px;
   animation: progress 2s infinite;
 }
@@ -78,14 +79,17 @@ defineProps<Props>()
 @keyframes progress {
   0% {
     transform: translateX(-100%);
+    background-image: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
   }
 
   50% {
     transform: translateX(0%);
+    background-image: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
   }
 
   100% {
     transform: translateX(100%);
+    background-image: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
   }
 }
 

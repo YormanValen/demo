@@ -5,9 +5,8 @@ import type {
 } from '../types/registration.types'
 
 const MOCK_TIPOS_DOCUMENTO: TipoDocumento[] = [
-  { id: 'dni', label: 'DNI' },
-  { id: 'ce', label: 'Carné de Extranjería' },
-  { id: 'passport', label: 'Pasaporte' }
+  { id: 'cc', label: 'Cédula de ciudadanía' },
+  { id: 'ce', label: 'Cédula de extranjería' }
 ]
 
 export async function fetchTiposDocumento(): Promise<TipoDocumento[]> {
@@ -20,7 +19,6 @@ export async function submitRegistration(
   payload: RegistrationFormData
 ): Promise<RegistrationResponse> {
   return new Promise((resolve) => {
-    // simulamos latencia y respuesta exitosa
     setTimeout(
       () =>
         resolve({
