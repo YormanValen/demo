@@ -29,7 +29,7 @@
 
 .app-layout__header {
   height: 100px;
-  background: linear-gradient(135deg, #2981fd 0%, #3b82f6 50%, #1e40af 100%);
+  background: #270d34;
   position: relative;
   overflow: hidden;
 }
