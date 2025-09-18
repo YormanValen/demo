@@ -1,30 +1,33 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import AppLayout from './shared/layouts/AppLayout.vue'
+import LoadingScreen from './shared/components/LoadingScreen.vue'
+
+const showContent = ref(false)
+
+onMounted(() => {
+  setTimeout(() => {
+    showContent.value = true
+  }, 5000)
+})
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <LoadingScreen :show="!showContent" />
+  <Transition name="slide-fade">
+    <AppLayout v-if="showContent">
+      <RouterView />
+    </AppLayout>
+  </Transition>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<style>
+.slide-fade-enter-active {
+  transition: opacity 0.8s ease;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.slide-fade-enter-from {
+  opacity: 0;
 }
 </style>

@@ -1,0 +1,166 @@
+<template>
+  <div class="app-layout">
+    <header class="app-layout__header">
+      <div class="header-content">
+        <span class="header-tagline">"Evolucionando el camino de ser digital"</span>
+      </div>
+    </header>
+    <div v-if="showProgressBar" class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+    <main class="app-layout__content">
+      <slot />
+    </main>
+    <div class="divider"></div>
+    <footer class="app-layout__footer">
+      <div class="footer-content">
+        <span class="footer-text">Open Finance 2025.</span>
+        <img src="/src/assets/logo.png" alt="Open Finance Demo" class="footer-logo" />
+      </div>
+    </footer>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const showProgressBar = computed(() => {
+  return route.path === '/registration/financial-information' || route.path === '/registration/finerio-information'
+})
+</script>
+
+<style scoped>
+.app-layout {
+  min-height: 100vh;
+  background: #ffffff;
+  color: var(--text-primary);
+}
+
+.app-layout__header {
+  height: 150px;
+  background-image: url('/src/assets/header-bg.svg');
+  background-size: 100% auto;
+  background-position: top center;
+  background-repeat: no-repeat;
+  position: relative;
+  z-index: 10;
+  overflow: visible;
+}
+
+
+.header-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.header-tagline {
+  margin-bottom: 40px;
+  margin-right: 140px;
+  color: rgba(255, 255, 255, 0.822);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.app-layout__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.app-layout__content {
+  padding: 10px var(--space-6);
+  display: flex;
+  justify-content: center;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 0;
+}
+
+.app-layout__footer {
+  padding: 20px 40px;
+  background: #ffffff;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.footer-text {
+  color: #6b7280;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.footer-logo {
+  margin-top: -50px;
+  height: 250px;
+  width: auto;
+  object-fit: contain;
+}
+
+.progress-container {
+  width: 100%;
+  height: fit-content;
+  padding: 10px 0;
+  background: #f9fafb;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #dbe0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+</style>
