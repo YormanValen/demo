@@ -17,12 +17,12 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/registration/financial-information',
     name: 'registration-step2',
-    component: () => import('../modules/registration/views/RegistrationStep2View.vue')
+    component: () => import('../modules/financial/views/FinancialView.vue')
   },
   {
     path: '/registration/finerio-information',
     name: 'registration-step3',
-    component: () => import('../modules/registration/views/RegistrationStep3View.vue')
+    component: () => import('../modules/finerio-stage/views/FinerioStageView.vue')
   }
 ]
 

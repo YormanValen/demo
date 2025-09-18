@@ -3,11 +3,10 @@ import { computed, onMounted, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useRegistrationStore } from "../stores/registration.store";
 import type { RegistrationFormData } from "../types/registration.types";
-import OtpModal from "./OtpModal.vue";
-import ValidationLoader from "./ValidationLoader.vue";
+import ValidationLoader from "../../financial/components/ValidationLoader.vue";
 import FinancialLoader from "./FinancialLoader.vue";
 import FlowVisualization from "./FlowVisualization.vue";
-import AnimationContainer from "./AnimationContainer.vue";
+import AnimationContainer from "../../financial/components/AnimationContainer.vue";
 const router = useRouter();
 const store = useRegistrationStore();
 const {
@@ -17,9 +16,9 @@ const {
   departamentoOptions,
   ciudadOptions,
   updateCiudadesByDepartamento,
+  setPhoneNumber,
 } = store;
 
-const showOtpModal = ref(false);
 const showValidationLoader = ref(false);
 const showFinancialLoader = ref(false);
 const showDatePicker = ref(false);
@@ -166,6 +165,8 @@ const handleSubmit = async () => {
     return;
   }
 
+  setPhoneNumber(form.celular);
+  
   openAnimationContainer();
   showValidationLoader.value = true;
 
@@ -173,22 +174,13 @@ const handleSubmit = async () => {
     showValidationLoader.value = false;
     isAnimationOpen.value = false;
     showFlow.value = false;
-    showOtpModal.value = true;
+    showFinancialLoader.value = true;
+    
+    setTimeout(() => {
+      showFinancialLoader.value = false;
+      router.push("/registration/financial-information");
+    }, PROCESSING_TIME);
   }, VALIDATION_TIME);
-};
-
-const handleOtpVerified = async () => {
-  showOtpModal.value = false;
-  showFinancialLoader.value = true;
-
-  setTimeout(() => {
-    showFinancialLoader.value = false;
-    router.push("/registration/financial-information");
-  }, PROCESSING_TIME);
-};
-
-const handleOtpClose = () => {
-  showOtpModal.value = false;
 };
 
 
@@ -403,8 +395,6 @@ const handleAnimationToggle = (isOpen: boolean) => {
 
     <ValidationLoader :show="showValidationLoader" />
     <FinancialLoader :show="showFinancialLoader" />
-
-    <OtpModal :show="showOtpModal" :phone-number="form.celular" @close="handleOtpClose" @verified="handleOtpVerified" />
 
     <AnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen" :clickable-header="false"
       @toggle="handleAnimationToggle">

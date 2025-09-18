@@ -1,15 +1,15 @@
 <template>
-  <div class="registration-step2-view">
-    <FinancialForm />
+  <div class="finerio-stage-view">
+    <FinerioWelcome />
   </div>
 </template>
 
 <script setup lang="ts">
-import FinancialForm from '../components/FinancialForm.vue'
+import FinerioWelcome from '../components/FinerioWelcome.vue'
 </script>
 
 <style scoped>
-.registration-step2-view {
+.finerio-stage-view {
   display: flex;
   justify-content: center;
   align-items: flex-start;
