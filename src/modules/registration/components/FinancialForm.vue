@@ -62,7 +62,9 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import type { FinancialFormData } from '../types/financial.types'
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
 const form = reactive<FinancialFormData>({
   gastosMensuales: '',
   antiguedadMeses: '',
@@ -130,6 +132,8 @@ const handleSubmit = () => {
   if (!isFormValid.value) {
     return
   }
+
+  router.push("/registration/finerio-information");
 }
 </script>
 
