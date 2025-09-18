@@ -48,12 +48,15 @@ onMounted(() => {
   store.loadTiposDocumento();
 });
 
-watch(() => form.departamentoExpedicion, (newDepartamento) => {
-  if (newDepartamento) {
-    updateCiudadesByDepartamento(newDepartamento);
-    form.ciudadExpedicion = "";
+watch(
+  () => form.departamentoExpedicion,
+  (newDepartamento) => {
+    if (newDepartamento) {
+      updateCiudadesByDepartamento(newDepartamento);
+      form.ciudadExpedicion = "";
+    }
   }
-});
+);
 
 const formattedDate = computed(() => {
   if (!form.fechaExpedicionDocumento) return "";
@@ -66,55 +69,73 @@ const formattedDate = computed(() => {
 });
 
 const fieldErrors = reactive({
-  nombres: '',
-  primerApellido: '',
-  tipoDocumento: '',
-  numeroIdentificacion: '',
-  fechaExpedicionDocumento: '',
-  departamentoExpedicion: '',
-  ciudadExpedicion: '',
-  celular: '',
-  correo: '',
-  autorizaTratamientoDatos: ''
+  nombres: "",
+  primerApellido: "",
+  tipoDocumento: "",
+  numeroIdentificacion: "",
+  fechaExpedicionDocumento: "",
+  departamentoExpedicion: "",
+  ciudadExpedicion: "",
+  celular: "",
+  correo: "",
+  autorizaTratamientoDatos: "",
 });
 
 const validateField = (fieldName: keyof typeof fieldErrors) => {
   switch (fieldName) {
-    case 'nombres':
-      fieldErrors.nombres = !form.nombres.trim() ? 'Los nombres son obligatorios' : '';
+    case "nombres":
+      fieldErrors.nombres = !form.nombres.trim()
+        ? "Los nombres son obligatorios"
+        : "";
       break;
-    case 'primerApellido':
-      fieldErrors.primerApellido = !form.primerApellido.trim() ? 'El primer apellido es obligatorio' : '';
+    case "primerApellido":
+      fieldErrors.primerApellido = !form.primerApellido.trim()
+        ? "El primer apellido es obligatorio"
+        : "";
       break;
-    case 'tipoDocumento':
-      fieldErrors.tipoDocumento = !form.tipoDocumento ? 'El tipo de documento es obligatorio' : '';
+    case "tipoDocumento":
+      fieldErrors.tipoDocumento = !form.tipoDocumento
+        ? "El tipo de documento es obligatorio"
+        : "";
       break;
-    case 'numeroIdentificacion':
-      fieldErrors.numeroIdentificacion = !form.numeroIdentificacion.trim() ? 'El número de identificación es obligatorio' : '';
+    case "numeroIdentificacion":
+      fieldErrors.numeroIdentificacion = !form.numeroIdentificacion.trim()
+        ? "El número de identificación es obligatorio"
+        : "";
       break;
-    case 'fechaExpedicionDocumento':
-      fieldErrors.fechaExpedicionDocumento = !form.fechaExpedicionDocumento ? 'La fecha de expedición es obligatoria' : '';
+    case "fechaExpedicionDocumento":
+      fieldErrors.fechaExpedicionDocumento = !form.fechaExpedicionDocumento
+        ? "La fecha de expedición es obligatoria"
+        : "";
       break;
-    case 'departamentoExpedicion':
-      fieldErrors.departamentoExpedicion = !form.departamentoExpedicion ? 'El departamento de expedición es obligatorio' : '';
+    case "departamentoExpedicion":
+      fieldErrors.departamentoExpedicion = !form.departamentoExpedicion
+        ? "El departamento de expedición es obligatorio"
+        : "";
       break;
-    case 'ciudadExpedicion':
-      fieldErrors.ciudadExpedicion = !form.ciudadExpedicion ? 'La ciudad de expedición es obligatoria' : '';
+    case "ciudadExpedicion":
+      fieldErrors.ciudadExpedicion = !form.ciudadExpedicion
+        ? "La ciudad de expedición es obligatoria"
+        : "";
       break;
-    case 'celular':
-      fieldErrors.celular = !form.celular.trim() ? 'El número de celular es obligatorio' : '';
+    case "celular":
+      fieldErrors.celular = !form.celular.trim()
+        ? "El número de celular es obligatorio"
+        : "";
       break;
-    case 'correo':
+    case "correo":
       if (!form.correo.trim()) {
-        fieldErrors.correo = 'El correo electrónico es obligatorio';
+        fieldErrors.correo = "El correo electrónico es obligatorio";
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.correo)) {
-        fieldErrors.correo = 'El correo electrónico no es válido';
+        fieldErrors.correo = "El correo electrónico no es válido";
       } else {
-        fieldErrors.correo = '';
+        fieldErrors.correo = "";
       }
       break;
-    case 'autorizaTratamientoDatos':
-      fieldErrors.autorizaTratamientoDatos = !form.autorizaTratamientoDatos ? 'Debe autorizar el tratamiento de datos' : '';
+    case "autorizaTratamientoDatos":
+      fieldErrors.autorizaTratamientoDatos = !form.autorizaTratamientoDatos
+        ? "Debe autorizar el tratamiento de datos"
+        : "";
       break;
   }
 };
@@ -135,7 +156,7 @@ const isFormValid = computed(() => {
 });
 
 const handleSubmit = async () => {
-  Object.keys(fieldErrors).forEach(key => {
+  Object.keys(fieldErrors).forEach((key) => {
     validateField(key as keyof typeof fieldErrors);
   });
 
@@ -183,81 +204,162 @@ const toggleFlow = () => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-account</v-icon>
-              <v-text-field variant="underlined" v-model="form.nombres" label="Nombres" class="form-field" required
-                @blur="validateField('nombres')" />
+              <v-text-field
+                variant="underlined"
+                v-model="form.nombres"
+                label="Nombres"
+                class="form-field"
+                required
+                @blur="validateField('nombres')"
+              />
             </div>
             <transition name="slide-down">
-              <div v-if="fieldErrors.nombres" class="error-message">{{ fieldErrors.nombres }}</div>
-            </transition>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field variant="underlined" v-model="form.primerApellido" label="Primer apellido" class="form-field"
-              required @blur="validateField('primerApellido')" />
-            <transition name="slide-down">
-              <div v-if="fieldErrors.primerApellido" class="error-message">{{ fieldErrors.primerApellido }}</div>
-            </transition>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field variant="underlined" v-model="form.segundoApellido" label="Segundo apellido"
-              class="form-field" required />
-          </v-col>
-          <v-col cols="12" md="4">
-            <div class="form-ctn">
-              <v-icon class="form-icon">mdi-card-account-details</v-icon>
-              <v-select variant="outlined" v-model="form.tipoDocumento" :items="tipoOptions" label="Tipo de documento"
-                item-title="label" item-value="value" required @blur="validateField('tipoDocumento')" />
-            </div>
-            <transition name="slide-down">
-              <div v-if="fieldErrors.tipoDocumento" class="error-message">{{ fieldErrors.tipoDocumento }}</div>
-            </transition>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field variant="underlined" v-model="form.numeroIdentificacion" label="Número de identificación"
-              class="form-field" required @blur="validateField('numeroIdentificacion')" />
-            <transition name="slide-down">
-              <div v-if="fieldErrors.numeroIdentificacion" class="error-message">{{ fieldErrors.numeroIdentificacion }}
+              <div v-if="fieldErrors.nombres" class="error-message">
+                {{ fieldErrors.nombres }}
               </div>
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field variant="underlined" :model-value="formattedDate" label="Fecha de expedición de documento"
-              readonly append-inner-icon="mdi-calendar" @click="showDatePicker = true" required class="form-field"
-              @blur="validateField('fechaExpedicionDocumento')" />
+            <v-text-field
+              variant="underlined"
+              v-model="form.primerApellido"
+              label="Primer apellido"
+              class="form-field"
+              required
+              @blur="validateField('primerApellido')"
+            />
+            <transition name="slide-down">
+              <div v-if="fieldErrors.primerApellido" class="error-message">
+                {{ fieldErrors.primerApellido }}
+              </div>
+            </transition>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field
+              variant="underlined"
+              v-model="form.segundoApellido"
+              label="Segundo apellido"
+              class="form-field"
+              required
+            />
+          </v-col>
+          <v-col cols="12" md="4">
+            <div class="form-ctn">
+              <v-icon class="form-icon">mdi-card-account-details</v-icon>
+              <v-select
+                variant="outlined"
+                v-model="form.tipoDocumento"
+                :items="tipoOptions"
+                label="Tipo de documento"
+                item-title="label"
+                item-value="value"
+                required
+                @blur="validateField('tipoDocumento')"
+              />
+            </div>
+            <transition name="slide-down">
+              <div v-if="fieldErrors.tipoDocumento" class="error-message">
+                {{ fieldErrors.tipoDocumento }}
+              </div>
+            </transition>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field
+              variant="underlined"
+              v-model="form.numeroIdentificacion"
+              label="Número de identificación"
+              class="form-field"
+              required
+              @blur="validateField('numeroIdentificacion')"
+            />
+            <transition name="slide-down">
+              <div
+                v-if="fieldErrors.numeroIdentificacion"
+                class="error-message"
+              >
+                {{ fieldErrors.numeroIdentificacion }}
+              </div>
+            </transition>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-text-field
+              variant="underlined"
+              :model-value="formattedDate"
+              label="Fecha de expedición de documento"
+              readonly
+              append-inner-icon="mdi-calendar"
+              @click="showDatePicker = true"
+              required
+              class="form-field"
+              @blur="validateField('fechaExpedicionDocumento')"
+            />
             <v-dialog v-model="showDatePicker" width="auto">
-              <v-date-picker show-adjacent-months v-model="form.fechaExpedicionDocumento"
-                @update:model-value="showDatePicker = false; validateField('fechaExpedicionDocumento')"
-                color="#982881" />
+              <v-date-picker
+                show-adjacent-months
+                v-model="form.fechaExpedicionDocumento"
+                @update:model-value="
+                  showDatePicker = false;
+                  validateField('fechaExpedicionDocumento');
+                "
+                color="#982881"
+              />
             </v-dialog>
             <transition name="slide-down">
-              <div v-if="fieldErrors.fechaExpedicionDocumento" class="error-message">{{
-                fieldErrors.fechaExpedicionDocumento }}</div>
+              <div
+                v-if="fieldErrors.fechaExpedicionDocumento"
+                class="error-message"
+              >
+                {{ fieldErrors.fechaExpedicionDocumento }}
+              </div>
             </transition>
           </v-col>
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <div class="form-icon-spacer"></div>
-              <v-select variant="outlined" v-model="form.departamentoExpedicion" :items="departamentoOptions"
-                label="Departamento de expedición" item-title="label" item-value="value" required
-                @blur="validateField('departamentoExpedicion')" />
+              <v-select
+                variant="outlined"
+                v-model="form.departamentoExpedicion"
+                :items="departamentoOptions"
+                label="Departamento de expedición"
+                item-title="label"
+                item-value="value"
+                required
+                @blur="validateField('departamentoExpedicion')"
+              />
             </div>
             <transition name="slide-down">
-              <div v-if="fieldErrors.departamentoExpedicion" class="error-message">{{ fieldErrors.departamentoExpedicion
-              }}</div>
+              <div
+                v-if="fieldErrors.departamentoExpedicion"
+                class="error-message"
+              >
+                {{ fieldErrors.departamentoExpedicion }}
+              </div>
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-select variant="outlined" v-model="form.ciudadExpedicion" :items="ciudadOptions"
-              label="Ciudad de expedición" item-title="label" item-value="value" required
-              @blur="validateField('ciudadExpedicion')" />
+            <v-select
+              variant="outlined"
+              v-model="form.ciudadExpedicion"
+              :items="ciudadOptions"
+              label="Ciudad de expedición"
+              item-title="label"
+              item-value="value"
+              required
+              @blur="validateField('ciudadExpedicion')"
+            />
             <transition name="slide-down">
-              <div v-if="fieldErrors.ciudadExpedicion" class="error-message">{{ fieldErrors.ciudadExpedicion }}</div>
+              <div v-if="fieldErrors.ciudadExpedicion" class="error-message">
+                {{ fieldErrors.ciudadExpedicion }}
+              </div>
             </transition>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="12" md="4" class="sms-container">
-            <p class="sms-text">Te enviaremos un código de verificación vía SMS a tu número móvil.</p>
+            <p class="sms-text">
+              Te enviaremos un código de verificación vía SMS a tu número móvil.
+            </p>
           </v-col>
         </v-row>
 
@@ -265,18 +367,28 @@ const toggleFlow = () => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-phone</v-icon>
-              <v-text-field variant="underlined" v-model="form.celular" label="Celular" class="form-field" required
-                @blur="validateField('celular')" />
+              <v-text-field
+                variant="underlined"
+                v-model="form.celular"
+                label="Celular"
+                class="form-field"
+                required
+                @blur="validateField('celular')"
+              />
             </div>
             <transition name="slide-down">
-              <div v-if="fieldErrors.celular" class="error-message">{{ fieldErrors.celular }}</div>
+              <div v-if="fieldErrors.celular" class="error-message">
+                {{ fieldErrors.celular }}
+              </div>
             </transition>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="12" md="4" class="sms-container">
-            <p class="sms-text">Indícanos a que correo enviamos la información de tu solicitud</p>
+            <p class="sms-text">
+              Indícanos a que correo enviamos la información de tu solicitud
+            </p>
           </v-col>
         </v-row>
 
@@ -284,48 +396,81 @@ const toggleFlow = () => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-email</v-icon>
-              <v-text-field variant="underlined" v-model="form.correo" label="Correo" class="form-field" required
-                @blur="validateField('correo')" />
+              <v-text-field
+                variant="underlined"
+                v-model="form.correo"
+                label="Correo"
+                class="form-field"
+                required
+                @blur="validateField('correo')"
+              />
             </div>
             <transition name="slide-down">
-              <div v-if="fieldErrors.correo" class="error-message">{{ fieldErrors.correo }}</div>
+              <div v-if="fieldErrors.correo" class="error-message">
+                {{ fieldErrors.correo }}
+              </div>
             </transition>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="12" class="switch-container">
-            <v-switch v-model="form.esPEP" color="#982881" density="compact" hide-details inline />
-            <span class="switch-text">Soy una persona expuesta públicamente (PEP)</span>
+            <v-switch
+              v-model="form.esPEP"
+              color="#982881"
+              density="compact"
+              hide-details
+              inline
+            />
+            <span class="switch-text"
+              >Soy una persona expuesta públicamente (PEP)</span
+            >
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="12" class="checkbox-container">
-            <v-checkbox v-model="form.autorizaTratamientoDatos" color="#982881" density="compact" hide-details
-              @change="validateField('autorizaTratamientoDatos')" />
+            <v-checkbox
+              v-model="form.autorizaTratamientoDatos"
+              color="#982881"
+              density="compact"
+              hide-details
+              @change="validateField('autorizaTratamientoDatos')"
+            />
             <span class="checkbox-text">
-              Autorizo el tratamiento de mis datos para fines de inclusión financiera y mayor acceso al crédito
+              Autorizo el tratamiento de mis datos para fines de inclusión
+              financiera y mayor acceso al crédito
               <a href="#" class="document-link">Ver documento</a>
             </span>
           </v-col>
           <v-col v-if="fieldErrors.autorizaTratamientoDatos" cols="12">
             <transition name="slide-down">
-              <div class="error-message">{{ fieldErrors.autorizaTratamientoDatos }}</div>
+              <div class="error-message">
+                {{ fieldErrors.autorizaTratamientoDatos }}
+              </div>
             </transition>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="12" class="checkbox-container">
-            <v-checkbox v-model="form.autorizaFinesComerciales" color="#982881" density="compact" hide-details />
+            <v-checkbox
+              v-model="form.autorizaFinesComerciales"
+              color="#982881"
+              density="compact"
+              hide-details
+            />
             <span class="checkbox-text">
               Autorización para fines comerciales
             </span>
           </v-col>
         </v-row>
 
-        <button type="submit" class="form-submit" :disabled="!isFormValid || isSubmitting">
+        <button
+          type="submit"
+          class="form-submit"
+          :disabled="!isFormValid || isSubmitting"
+        >
           {{ isSubmitting ? "Enviando..." : "Continuar" }}
         </button>
       </form>
@@ -344,24 +489,22 @@ const toggleFlow = () => {
       @close="handleOtpClose"
       @verified="handleOtpVerified"
     />
-    
-      <FlowVisualization 
-        :is-visible="showFlow"
-        :validation-time="VALIDATION_TIME"
-        :processing-time="PROCESSING_TIME"
-      />
 
-      <div class="flow-button-container">
-        <button
-          type="button"
-          class="flow-button"
-          @click="toggleFlow"
-        >
-          <v-icon left color="white">{{ showFlow ? 'mdi-eye-off' : 'mdi-eye' }}</v-icon>
-          {{ showFlow ? 'Ocultar Flujo' : 'Mostrar Flujo' }}
-        </button>
-      </div>
+    <FlowVisualization
+      :is-visible="showFlow"
+      :validation-time="VALIDATION_TIME"
+      :processing-time="PROCESSING_TIME"
+    />
+
+    <div class="flow-button-container">
+      <button type="button" class="flow-button" @click="toggleFlow">
+        <v-icon left color="white">{{
+          showFlow ? "mdi-eye-off" : "mdi-eye"
+        }}</v-icon>
+        {{ showFlow ? "Ocultar Flujo" : "Mostrar Flujo" }}
+      </button>
     </div>
+  </div>
 </template>
 
 <style scoped>
@@ -371,11 +514,14 @@ const toggleFlow = () => {
 }
 
 .form-header {
-  background: linear-gradient(21deg,
+  background: linear-gradient(
+      21deg,
       rgb(97, 40, 120) 0%,
-      rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent;
+      rgb(186, 45, 125) 100%
+    )
+    0% 0% no-repeat padding-box padding-box transparent;
 
-  width: 55vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
