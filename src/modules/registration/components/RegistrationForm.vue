@@ -510,6 +510,7 @@ const toggleFlow = () => {
 <style scoped>
 .registration-container {
   padding: 0;
+  width: 60vw;
   margin-top: 10px;
 }
 
