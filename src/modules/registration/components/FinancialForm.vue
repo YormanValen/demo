@@ -136,7 +136,7 @@ const handleSubmit = () => {
 <style scoped>
 .registration-container {
   padding: 0;
-  margin-top: -50vh;
+  /* margin-top: -50vh; */
   position: relative;
 }
 
