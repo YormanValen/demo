@@ -1,5 +1,5 @@
 <template>
-  <div class="registration-step2-view">
+  <div class="financial-view">
     <FinancialForm />
   </div>
 </template>
@@ -9,7 +9,7 @@ import FinancialForm from '../components/FinancialForm.vue'
 </script>
 
 <style scoped>
-.registration-step2-view {
+.financial-view {
   display: flex;
   justify-content: center;
   align-items: flex-start;

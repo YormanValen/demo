@@ -3,10 +3,10 @@ import { computed, onMounted, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useRegistrationStore } from "../stores/registration.store";
 import type { RegistrationFormData } from "../types/registration.types";
-import ValidationLoader from "./ValidationLoader.vue";
+import ValidationLoader from "../../financial/components/ValidationLoader.vue";
 import FinancialLoader from "./FinancialLoader.vue";
 import FlowVisualization from "./FlowVisualization.vue";
-import AnimationContainer from "./AnimationContainer.vue";
+import AnimationContainer from "../../financial/components/AnimationContainer.vue";
 const router = useRouter();
 const store = useRegistrationStore();
 const {
