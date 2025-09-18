@@ -6,6 +6,8 @@ import type { RegistrationFormData } from "../types/registration.types";
 import OtpModal from "./OtpModal.vue";
 import ValidationLoader from "./ValidationLoader.vue";
 import FinancialLoader from "./FinancialLoader.vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import FlowVisualization from "./FlowVisualization.vue";
 const router = useRouter();
 const store = useRegistrationStore();
 const {
@@ -21,6 +23,10 @@ const showOtpModal = ref(false);
 const showValidationLoader = ref(false);
 const showFinancialLoader = ref(false);
 const showDatePicker = ref(false);
+const showFlow = ref(false);
+
+const VALIDATION_TIME = 5000; // 5 segundos para la validación
+const PROCESSING_TIME = 3000; // 3 segundos para el procesamiento
 
 const form = reactive<RegistrationFormData>({
   nombres: "",
@@ -137,12 +143,13 @@ const handleSubmit = async () => {
     return;
   }
 
+  showFlow.value = true;
   showValidationLoader.value = true;
 
   setTimeout(() => {
     showValidationLoader.value = false;
     showOtpModal.value = true;
-  }, 5000);
+  }, VALIDATION_TIME);
 };
 
 const handleOtpVerified = async () => {
@@ -152,11 +159,15 @@ const handleOtpVerified = async () => {
   setTimeout(() => {
     showFinancialLoader.value = false;
     router.push("/registration/financial-information");
-  }, 3000);
+  }, PROCESSING_TIME);
 };
 
 const handleOtpClose = () => {
   showOtpModal.value = false;
+};
+
+const toggleFlow = () => {
+  showFlow.value = !showFlow.value;
 };
 </script>
 
@@ -327,8 +338,30 @@ const handleOtpClose = () => {
     <ValidationLoader :show="showValidationLoader" />
     <FinancialLoader :show="showFinancialLoader" />
 
-    <OtpModal :show="showOtpModal" :phone-number="form.celular" @close="handleOtpClose" @verified="handleOtpVerified" />
-  </div>
+    <OtpModal
+      :show="showOtpModal"
+      :phone-number="form.celular"
+      @close="handleOtpClose"
+      @verified="handleOtpVerified"
+    />
+    
+      <FlowVisualization 
+        :is-visible="showFlow"
+        :validation-time="VALIDATION_TIME"
+        :processing-time="PROCESSING_TIME"
+      />
+
+      <div class="flow-button-container">
+        <button
+          type="button"
+          class="flow-button"
+          @click="toggleFlow"
+        >
+          <v-icon left color="white">{{ showFlow ? 'mdi-eye-off' : 'mdi-eye' }}</v-icon>
+          {{ showFlow ? 'Ocultar Flujo' : 'Mostrar Flujo' }}
+        </button>
+      </div>
+    </div>
 </template>
 
 <style scoped>
@@ -446,6 +479,33 @@ const handleOtpClose = () => {
 .form-submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.flow-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.flow-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(
+    21deg,
+    rgb(97, 40, 120) 0%,
+    rgb(186, 45, 125) 100%
+  );
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.flow-button:hover {
+  opacity: 0.9;
 }
 </style>
 
