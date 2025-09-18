@@ -4,17 +4,12 @@
       <div class="header-content">
         <span class="header-tagline">"Evolucionando el camino de ser digital"</span>
       </div>
-      <svg class="header-wave" viewBox="0 0 2561 195" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="headerWaveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#2981fd;stop-opacity:1" />
-          </linearGradient>
-        </defs>
-        <path d="M2560.5 0H3.5H0V184L181 170.5C683 146.5 810 150.5 954 149.5C1069.2 148.7 1491.33 170.5 1688 181.5C1761 185.833 1945.2 194.5 2098 194.5C2250.8 194.5 2470 177.5 2560.5 169V0Z" fill="url(#headerWaveGradient)"/>
-      </svg>
     </header>
+    <div v-if="showProgressBar" class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
     <main class="app-layout__content">
       <slot />
     </main>
@@ -28,6 +23,17 @@
   </div>
 </template>
 
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const showProgressBar = computed(() => {
+  return route.path === '/registration/financial-information'
+})
+</script>
+
 <style scoped>
 .app-layout {
   min-height: 100vh;
@@ -38,22 +44,14 @@
 }
 
 .app-layout__header {
-  height: 100px;
-  background: #270d34;
+  height: 150px;
+  background-image: url('/src/assets/header-bg.svg');
+  background-size: 100% auto;
+  background-position: top center;
+  background-repeat: no-repeat;
   position: relative;
-  overflow: hidden;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-}
-
-.header-wave {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  opacity: 1;
+  z-index: 10;
+  overflow: visible;
 }
 
 
@@ -65,17 +63,15 @@
   padding: 0 40px;
   position: relative;
   z-index: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: calc(100vw - 80px);
 }
 
 .header-tagline {
-  color: white;
-  font-size: 16px;
-  font-style: italic;
+  margin-bottom: 40px;
+  margin-right: 140px;
+  color: rgba(255, 255, 255, 0.822);
+  font-size: 20px;
+  font-style: normal;
   font-weight: 300;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .app-layout__title {
@@ -85,7 +81,7 @@
 }
 
 .app-layout__content {
-  padding: var(--space-6);
+  padding: 10px var(--space-6);
   display: flex;
   justify-content: center;
 }
@@ -121,5 +117,50 @@
   height: 250px;
   width: auto;
   object-fit: contain;
+}
+
+.progress-container {
+  width: 100%;
+  padding: 5px 0;
+  background: #f9fafb;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #dbe0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 </style>
