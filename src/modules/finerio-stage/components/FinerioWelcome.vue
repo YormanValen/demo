@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import FinancialLoader from '../../registration/components/FinancialLoader.vue'
 import FlowVisualization from '../../registration/components/FlowVisualization.vue'
 import AnimationContainer from '../../financial/components/AnimationContainer.vue'
+
+const router = useRouter()
 
 const showLoader = ref(false)
 const showAnimationContainer = ref(true)
@@ -22,6 +25,8 @@ const handleContinue = () => {
   setTimeout(() => {
     showLoader.value = false
     isAnimationOpen.value = false
+    // Navegar a la nueva vista de procesamiento
+    router.push('/finerio/process')
   }, 5000)
 }
 
