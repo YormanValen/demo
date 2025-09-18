@@ -1,18 +1,32 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 
 const props = defineProps<{
   isVisible: boolean;
-  validationTime?: number; // Tiempo para la primera animación (Usuario -> API)
-  processingTime?: number; // Tiempo para la segunda animación (API -> DB)
+  validationTime?: number;
+  processingTime?: number;
 }>();
 
 const flowVisible = ref(false);
 const firstStepDuration = computed(() => (props.validationTime || 5000) / 1000);
-const secondStepDuration = computed(() => (props.processingTime || 3000) / 1000);
+const secondStepDuration = computed(() => (props.processingTime || 5000) / 1000);
 
 watch(() => props.isVisible, (newValue) => {
-  flowVisible.value = newValue;
+  if (newValue) {
+    setTimeout(() => {
+      flowVisible.value = true;
+    }, 100);
+  } else {
+    flowVisible.value = false;
+  }
+});
+
+onMounted(() => {
+  if (props.isVisible) {
+    setTimeout(() => {
+      flowVisible.value = true;
+    }, 100);
+  }
 });
 </script>
 
@@ -23,27 +37,12 @@ watch(() => props.isVisible, (newValue) => {
         <v-icon size="32" color="#982881">mdi-account</v-icon>
         <span>Usuario</span>
       </div>
-      
+
       <div class="flow-line">
         <svg class="flow-svg" width="100%" height="20">
-          <line 
-            x1="0" 
-            y1="10" 
-            x2="100%" 
-            y2="10" 
-            stroke="#982881" 
-            stroke-width="2"
-            class="connecting-line"
-          />
-          <circle 
-            v-if="flowVisible"
-            class="moving-dot dot-1" 
-            :style="{ '--animation-duration': firstStepDuration + 's' }"
-            cx="0" 
-            cy="10" 
-            r="6" 
-            fill="#982881"
-          />
+          <line x1="0" y1="10" x2="100%" y2="10" stroke="#982881" stroke-width="2" class="connecting-line" />
+          <circle v-if="flowVisible" class="moving-dot dot-1"
+            :style="{ '--animation-duration': firstStepDuration + 's' }" cx="0" cy="10" r="6" fill="#982881" />
         </svg>
       </div>
 
@@ -51,27 +50,13 @@ watch(() => props.isVisible, (newValue) => {
         <v-icon size="32" color="#982881">mdi-api</v-icon>
         <span>API</span>
       </div>
-      
+
       <div class="flow-line">
         <svg class="flow-svg" width="100%" height="20">
-          <line 
-            x1="0" 
-            y1="10" 
-            x2="100%" 
-            y2="10" 
-            stroke="#982881" 
-            stroke-width="2"
-            class="connecting-line"
-          />
-          <circle 
-            v-if="flowVisible"
-            class="moving-dot dot-2" 
+          <line x1="0" y1="10" x2="100%" y2="10" stroke="#982881" stroke-width="2" class="connecting-line" />
+          <circle v-if="flowVisible" class="moving-dot dot-2"
             :style="{ '--animation-duration': secondStepDuration + 's', '--animation-delay': firstStepDuration + 's' }"
-            cx="0" 
-            cy="10" 
-            r="6" 
-            fill="#982881"
-          />
+            cx="0" cy="10" r="6" fill="#982881" />
         </svg>
       </div>
 
@@ -85,18 +70,21 @@ watch(() => props.isVisible, (newValue) => {
 
 <style scoped>
 .flow-container {
-  width: 70vw;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease-in-out;
+  width: 100%;
+  max-width: 700px;
   background: white;
   border-radius: 10px;
-  margin-top: 20px;
+  transform: translateX(20px) !important;
+  margin: 20px auto 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease-in-out;
 }
 
 .flow-visible {
-  max-height: 200px;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .flow-content {
@@ -104,7 +92,7 @@ watch(() => props.isVisible, (newValue) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
 }
 
 .flow-step {
@@ -134,7 +122,7 @@ watch(() => props.isVisible, (newValue) => {
   align-items: center;
   position: relative;
   flex: 1;
-  min-width: 100px;
+  min-width: 120px;
 }
 
 .flow-svg {
@@ -169,6 +157,7 @@ watch(() => props.isVisible, (newValue) => {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -180,14 +169,17 @@ watch(() => props.isVisible, (newValue) => {
     opacity: 0;
     transform: translateX(0);
   }
+
   10% {
     opacity: 1;
     transform: translateX(0);
   }
+
   90% {
     opacity: 1;
     transform: translateX(calc(100% - 12px));
   }
+
   100% {
     opacity: 0;
     transform: translateX(calc(100% - 12px));

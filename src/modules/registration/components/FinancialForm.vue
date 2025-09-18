@@ -146,7 +146,7 @@ const handleSubmit = () => {
       rgb(97, 40, 120) 0%,
       rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent;
 
-  width: 55vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

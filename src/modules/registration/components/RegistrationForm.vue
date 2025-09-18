@@ -6,8 +6,8 @@ import type { RegistrationFormData } from "../types/registration.types";
 import OtpModal from "./OtpModal.vue";
 import ValidationLoader from "./ValidationLoader.vue";
 import FinancialLoader from "./FinancialLoader.vue";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import FlowVisualization from "./FlowVisualization.vue";
+import AnimationContainer from "./AnimationContainer.vue";
 const router = useRouter();
 const store = useRegistrationStore();
 const {
@@ -24,6 +24,8 @@ const showValidationLoader = ref(false);
 const showFinancialLoader = ref(false);
 const showDatePicker = ref(false);
 const showFlow = ref(false);
+const showAnimationContainer = ref(true);
+const isAnimationOpen = ref(false);
 
 const VALIDATION_TIME = 5000; // 5 segundos para la validación
 const PROCESSING_TIME = 3000; // 3 segundos para el procesamiento
@@ -164,11 +166,13 @@ const handleSubmit = async () => {
     return;
   }
 
-  showFlow.value = true;
+  openAnimationContainer();
   showValidationLoader.value = true;
 
   setTimeout(() => {
     showValidationLoader.value = false;
+    isAnimationOpen.value = false;
+    showFlow.value = false;
     showOtpModal.value = true;
   }, VALIDATION_TIME);
 };
@@ -187,8 +191,26 @@ const handleOtpClose = () => {
   showOtpModal.value = false;
 };
 
-const toggleFlow = () => {
-  showFlow.value = !showFlow.value;
+
+const openAnimationContainer = () => {
+  // Programmatically open the container through reactive state
+  isAnimationOpen.value = true;
+  setTimeout(() => {
+    showFlow.value = true;
+    console.log('showFlow activated:', showFlow.value);
+  }, 300);
+};
+
+const handleAnimationToggle = (isOpen: boolean) => {
+  if (isOpen) {
+    setTimeout(() => {
+      showFlow.value = true;
+      console.log('showFlow activated:', showFlow.value);
+    }, 300);
+  } else {
+    showFlow.value = false;
+    console.log('showFlow deactivated:', showFlow.value);
+  }
 };
 </script>
 
@@ -204,14 +226,8 @@ const toggleFlow = () => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-account</v-icon>
-              <v-text-field
-                variant="underlined"
-                v-model="form.nombres"
-                label="Nombres"
-                class="form-field"
-                required
-                @blur="validateField('nombres')"
-              />
+              <v-text-field variant="underlined" v-model="form.nombres" label="Nombres" class="form-field" required
+                @blur="validateField('nombres')" />
             </div>
             <transition name="slide-down">
               <div v-if="fieldErrors.nombres" class="error-message">
@@ -220,14 +236,8 @@ const toggleFlow = () => {
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field
-              variant="underlined"
-              v-model="form.primerApellido"
-              label="Primer apellido"
-              class="form-field"
-              required
-              @blur="validateField('primerApellido')"
-            />
+            <v-text-field variant="underlined" v-model="form.primerApellido" label="Primer apellido" class="form-field"
+              required @blur="validateField('primerApellido')" />
             <transition name="slide-down">
               <div v-if="fieldErrors.primerApellido" class="error-message">
                 {{ fieldErrors.primerApellido }}
@@ -235,27 +245,14 @@ const toggleFlow = () => {
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field
-              variant="underlined"
-              v-model="form.segundoApellido"
-              label="Segundo apellido"
-              class="form-field"
-              required
-            />
+            <v-text-field variant="underlined" v-model="form.segundoApellido" label="Segundo apellido"
+              class="form-field" required />
           </v-col>
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-card-account-details</v-icon>
-              <v-select
-                variant="outlined"
-                v-model="form.tipoDocumento"
-                :items="tipoOptions"
-                label="Tipo de documento"
-                item-title="label"
-                item-value="value"
-                required
-                @blur="validateField('tipoDocumento')"
-              />
+              <v-select variant="outlined" v-model="form.tipoDocumento" :items="tipoOptions" label="Tipo de documento"
+                item-title="label" item-value="value" required @blur="validateField('tipoDocumento')" />
             </div>
             <transition name="slide-down">
               <div v-if="fieldErrors.tipoDocumento" class="error-message">
@@ -264,51 +261,26 @@ const toggleFlow = () => {
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field
-              variant="underlined"
-              v-model="form.numeroIdentificacion"
-              label="Número de identificación"
-              class="form-field"
-              required
-              @blur="validateField('numeroIdentificacion')"
-            />
+            <v-text-field variant="underlined" v-model="form.numeroIdentificacion" label="Número de identificación"
+              class="form-field" required @blur="validateField('numeroIdentificacion')" />
             <transition name="slide-down">
-              <div
-                v-if="fieldErrors.numeroIdentificacion"
-                class="error-message"
-              >
+              <div v-if="fieldErrors.numeroIdentificacion" class="error-message">
                 {{ fieldErrors.numeroIdentificacion }}
               </div>
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field
-              variant="underlined"
-              :model-value="formattedDate"
-              label="Fecha de expedición de documento"
-              readonly
-              append-inner-icon="mdi-calendar"
-              @click="showDatePicker = true"
-              required
-              class="form-field"
-              @blur="validateField('fechaExpedicionDocumento')"
-            />
+            <v-text-field variant="underlined" :model-value="formattedDate" label="Fecha de expedición de documento"
+              readonly append-inner-icon="mdi-calendar" @click="showDatePicker = true" required class="form-field"
+              @blur="validateField('fechaExpedicionDocumento')" />
             <v-dialog v-model="showDatePicker" width="auto">
-              <v-date-picker
-                show-adjacent-months
-                v-model="form.fechaExpedicionDocumento"
-                @update:model-value="
-                  showDatePicker = false;
-                  validateField('fechaExpedicionDocumento');
-                "
-                color="#982881"
-              />
+              <v-date-picker show-adjacent-months v-model="form.fechaExpedicionDocumento" @update:model-value="
+                showDatePicker = false;
+              validateField('fechaExpedicionDocumento');
+              " color="#982881" />
             </v-dialog>
             <transition name="slide-down">
-              <div
-                v-if="fieldErrors.fechaExpedicionDocumento"
-                class="error-message"
-              >
+              <div v-if="fieldErrors.fechaExpedicionDocumento" class="error-message">
                 {{ fieldErrors.fechaExpedicionDocumento }}
               </div>
             </transition>
@@ -316,37 +288,20 @@ const toggleFlow = () => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <div class="form-icon-spacer"></div>
-              <v-select
-                variant="outlined"
-                v-model="form.departamentoExpedicion"
-                :items="departamentoOptions"
-                label="Departamento de expedición"
-                item-title="label"
-                item-value="value"
-                required
-                @blur="validateField('departamentoExpedicion')"
-              />
+              <v-select variant="outlined" v-model="form.departamentoExpedicion" :items="departamentoOptions"
+                label="Departamento de expedición" item-title="label" item-value="value" required
+                @blur="validateField('departamentoExpedicion')" />
             </div>
             <transition name="slide-down">
-              <div
-                v-if="fieldErrors.departamentoExpedicion"
-                class="error-message"
-              >
+              <div v-if="fieldErrors.departamentoExpedicion" class="error-message">
                 {{ fieldErrors.departamentoExpedicion }}
               </div>
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-select
-              variant="outlined"
-              v-model="form.ciudadExpedicion"
-              :items="ciudadOptions"
-              label="Ciudad de expedición"
-              item-title="label"
-              item-value="value"
-              required
-              @blur="validateField('ciudadExpedicion')"
-            />
+            <v-select variant="outlined" v-model="form.ciudadExpedicion" :items="ciudadOptions"
+              label="Ciudad de expedición" item-title="label" item-value="value" required
+              @blur="validateField('ciudadExpedicion')" />
             <transition name="slide-down">
               <div v-if="fieldErrors.ciudadExpedicion" class="error-message">
                 {{ fieldErrors.ciudadExpedicion }}
@@ -367,14 +322,8 @@ const toggleFlow = () => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-phone</v-icon>
-              <v-text-field
-                variant="underlined"
-                v-model="form.celular"
-                label="Celular"
-                class="form-field"
-                required
-                @blur="validateField('celular')"
-              />
+              <v-text-field variant="underlined" v-model="form.celular" label="Celular" class="form-field" required
+                @blur="validateField('celular')" />
             </div>
             <transition name="slide-down">
               <div v-if="fieldErrors.celular" class="error-message">
@@ -396,14 +345,8 @@ const toggleFlow = () => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-email</v-icon>
-              <v-text-field
-                variant="underlined"
-                v-model="form.correo"
-                label="Correo"
-                class="form-field"
-                required
-                @blur="validateField('correo')"
-              />
+              <v-text-field variant="underlined" v-model="form.correo" label="Correo" class="form-field" required
+                @blur="validateField('correo')" />
             </div>
             <transition name="slide-down">
               <div v-if="fieldErrors.correo" class="error-message">
@@ -415,28 +358,15 @@ const toggleFlow = () => {
 
         <v-row>
           <v-col cols="12" class="switch-container">
-            <v-switch
-              v-model="form.esPEP"
-              color="#982881"
-              density="compact"
-              hide-details
-              inline
-            />
-            <span class="switch-text"
-              >Soy una persona expuesta públicamente (PEP)</span
-            >
+            <v-switch v-model="form.esPEP" color="#982881" density="compact" hide-details inline />
+            <span class="switch-text">Soy una persona expuesta públicamente (PEP)</span>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="12" class="checkbox-container">
-            <v-checkbox
-              v-model="form.autorizaTratamientoDatos"
-              color="#982881"
-              density="compact"
-              hide-details
-              @change="validateField('autorizaTratamientoDatos')"
-            />
+            <v-checkbox v-model="form.autorizaTratamientoDatos" color="#982881" density="compact" hide-details
+              @change="validateField('autorizaTratamientoDatos')" />
             <span class="checkbox-text">
               Autorizo el tratamiento de mis datos para fines de inclusión
               financiera y mayor acceso al crédito
@@ -454,23 +384,14 @@ const toggleFlow = () => {
 
         <v-row>
           <v-col cols="12" class="checkbox-container">
-            <v-checkbox
-              v-model="form.autorizaFinesComerciales"
-              color="#982881"
-              density="compact"
-              hide-details
-            />
+            <v-checkbox v-model="form.autorizaFinesComerciales" color="#982881" density="compact" hide-details />
             <span class="checkbox-text">
               Autorización para fines comerciales
             </span>
           </v-col>
         </v-row>
 
-        <button
-          type="submit"
-          class="form-submit"
-          :disabled="!isFormValid || isSubmitting"
-        >
+        <button type="submit" class="form-submit" :disabled="!isFormValid || isSubmitting">
           {{ isSubmitting ? "Enviando..." : "Continuar" }}
         </button>
       </form>
@@ -483,27 +404,21 @@ const toggleFlow = () => {
     <ValidationLoader :show="showValidationLoader" />
     <FinancialLoader :show="showFinancialLoader" />
 
-    <OtpModal
-      :show="showOtpModal"
-      :phone-number="form.celular"
-      @close="handleOtpClose"
-      @verified="handleOtpVerified"
-    />
+    <OtpModal :show="showOtpModal" :phone-number="form.celular" @close="handleOtpClose" @verified="handleOtpVerified" />
 
-    <FlowVisualization
-      :is-visible="showFlow"
-      :validation-time="VALIDATION_TIME"
-      :processing-time="PROCESSING_TIME"
-    />
-
-    <div class="flow-button-container">
-      <button type="button" class="flow-button" @click="toggleFlow">
-        <v-icon left color="white">{{
-          showFlow ? "mdi-eye-off" : "mdi-eye"
-        }}</v-icon>
-        {{ showFlow ? "Ocultar Flujo" : "Mostrar Flujo" }}
-      </button>
-    </div>
+    <AnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen" :clickable-header="false"
+      @toggle="handleAnimationToggle">
+      <template #header>
+        <span>Flujo de Proceso</span>
+      </template>
+      <div style="display: flex; justify-content: center; min-height: 120px; align-items: center;">
+        <div v-if="!showFlow" class="flow-spinner">
+          <v-progress-circular :size="50" :width="4" color="#982881" indeterminate />
+          <p style="margin-top: 12px; color: #666; font-size: 14px;">Cargando flujo de proceso...</p>
+        </div>
+        <FlowVisualization v-else :is-visible="true" :validation-time="3000" :processing-time="2000" />
+      </div>
+    </AnimationContainer>
   </div>
 </template>
 
@@ -515,12 +430,9 @@ const toggleFlow = () => {
 }
 
 .form-header {
-  background: linear-gradient(
-      21deg,
+  background: linear-gradient(21deg,
       rgb(97, 40, 120) 0%,
-      rgb(186, 45, 125) 100%
-    )
-    0% 0% no-repeat padding-box padding-box transparent;
+      rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent;
 
   width: 100%;
   display: flex;
@@ -628,31 +540,12 @@ const toggleFlow = () => {
   cursor: not-allowed;
 }
 
-.flow-button-container {
+.flow-spinner {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.flow-button {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  background: linear-gradient(
-    21deg,
-    rgb(97, 40, 120) 0%,
-    rgb(186, 45, 125) 100%
-  );
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-}
-
-.flow-button:hover {
-  opacity: 0.9;
+  justify-content: center;
+  text-align: center;
 }
 </style>
 
