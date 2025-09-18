@@ -1,5 +1,8 @@
 <template>
-  <div class="app-layout">
+  <div v-if="hideLayout">
+    <slot />
+  </div>
+  <div v-else class="app-layout">
     <header class="app-layout__header">
       <div class="header-content">
         <span class="header-tagline">"Evolucionando el camino de ser digital"</span>
@@ -31,6 +34,10 @@ const route = useRoute()
 
 const showProgressBar = computed(() => {
   return route.path === '/registration/financial-information' || route.path === '/registration/finerio-information'
+})
+
+const hideLayout = computed(() => {
+  return route.meta?.hideLayout === true
 })
 </script>
 

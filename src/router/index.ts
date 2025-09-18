@@ -23,6 +23,24 @@ const routes: RouteRecordRaw[] = [
     path: '/registration/finerio-information',
     name: 'registration-step3',
     component: () => import('../modules/finerio-stage/views/FinerioStageView.vue')
+  },
+  {
+    path: '/finerio/process',
+    name: 'finerio-process',
+    component: () => import('../modules/finerio-stage/views/FinerioProcessView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/finerio/connect-stage1',
+    name: 'finerio-connect-stage1',
+    component: () => import('../modules/finerio-stage/views/FinerioConnectStage1View.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/finerio/connected-accounts',
+    name: 'finerio-connected-accounts',
+    component: () => import('../modules/finerio-stage/views/ConnectedAccountsView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 
