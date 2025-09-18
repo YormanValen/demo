@@ -502,12 +502,12 @@ const handleOtpClose = () => {
 }
 
 .v-select__content .v-list-item:hover {
-  background-color: rgba(152, 40, 129, 0.03) !important;
-  transition: background-color 0.3s ease !important;
+  background-color: rgba(152, 40, 129, 0.06) !important;
+  transition: background-color 0.2s ease !important;
 }
 
 .v-select__content .v-list-item {
-  transition: background-color 0.3s ease !important;
+  transition: background-color 0.2s ease !important;
 }
 
 /* Evitar que el texto de las opciones expanda los selectores */
@@ -529,9 +529,27 @@ const handleOtpClose = () => {
   padding: 0 4px !important;
 }
 
+.v-overlay__content .v-list-item {
+  transition: background-color 0.2s ease !important;
+}
+
 .v-overlay__content .v-list-item:hover {
-  background-color: rgba(245, 245, 245, 0.6) !important;
-  transition: all 0.2s ease !important;
+  background-color: rgba(152, 40, 129, 0.06) !important;
+  transition: background-color 0.2s ease !important;
+}
+
+/* Aclarar overlay por defecto para evitar oscurecer el texto */
+.v-overlay__content .v-list-item .v-list-item__overlay {
+  background-color: transparent !important;
+}
+
+.v-overlay__content .v-list-item:hover .v-list-item__overlay {
+  background-color: rgba(152, 40, 129, 0.06) !important;
+}
+
+/* Estado activo/seleccionado más sutil y legible */
+.v-overlay__content .v-list-item.v-list-item--active .v-list-item__overlay {
+  background-color: rgba(152, 40, 129, 0.12) !important;
 }
 
 /* Mensajes de error */
