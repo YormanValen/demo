@@ -56,15 +56,47 @@
         </button>
       </form>
     </div>
+
+    <ValidationLoader :show="showValidationLoader" />
+    
+    <OtpModal :show="showOtpModal" :phone-number="userPhoneNumber" @close="handleOtpClose" @verified="handleOtpVerified" />
+
+    <AnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen" :clickable-header="false"
+      @toggle="handleAnimationToggle">
+      <template #header>
+        <span>Flujo de Proceso</span>
+      </template>
+      <div style="display: flex; justify-content: center; min-height: 120px; align-items: center;">
+        <div v-if="!showCompleteFlow" class="flow-spinner">
+          <v-progress-circular :size="50" :width="4" color="#982881" indeterminate />
+          <p style="margin-top: 12px; color: #666; font-size: 14px;">Cargando flujo de proceso...</p>
+        </div>
+        <CompleteFlowVisualization v-else :is-visible="true" :total-duration="10000" />
+      </div>
+    </AnimationContainer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import type { FinancialFormData } from '../types/financial.types'
 import { useRouter } from 'vue-router'
+import { useRegistrationStore } from '../stores/registration.store'
+import OtpModal from './OtpModal.vue'
+import ValidationLoader from './ValidationLoader.vue'
+import AnimationContainer from './AnimationContainer.vue'
+import CompleteFlowVisualization from './CompleteFlowVisualization.vue'
 
 const router = useRouter();
+const store = useRegistrationStore();
+const { userPhoneNumber } = store;
+const showOtpModal = ref(false);
+const showValidationLoader = ref(false);
+const showAnimationContainer = ref(true);
+const isAnimationOpen = ref(false);
+const showCompleteFlow = ref(false);
+
+const COMPLETE_ANIMATION_TIME = 10000; // 10 segundos para la animación completa de 5 pasos
 const form = reactive<FinancialFormData>({
   gastosMensuales: '',
   antiguedadMeses: '',
@@ -133,7 +165,40 @@ const handleSubmit = () => {
     return
   }
 
+  openAnimationContainer();
+  showValidationLoader.value = true;
+  showCompleteFlow.value = true;
+
+  // Both validation loader and animation end at the same time
+  setTimeout(() => {
+    showValidationLoader.value = false;
+    isAnimationOpen.value = false;
+    showCompleteFlow.value = false;
+    showOtpModal.value = true;
+  }, COMPLETE_ANIMATION_TIME);
+}
+
+const handleOtpVerified = async () => {
+  showOtpModal.value = false;
   router.push("/registration/finerio-information");
+}
+
+const handleOtpClose = () => {
+  showOtpModal.value = false;
+}
+
+const openAnimationContainer = () => {
+  isAnimationOpen.value = true;
+}
+
+const handleAnimationToggle = (isOpen: boolean) => {
+  if (isOpen) {
+    setTimeout(() => {
+      showCompleteFlow.value = true;
+    }, 300);
+  } else {
+    showCompleteFlow.value = false;
+  }
 }
 </script>
 
@@ -198,6 +263,14 @@ const handleSubmit = () => {
 .form-submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.flow-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 </style>
 

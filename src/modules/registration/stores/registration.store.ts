@@ -6,6 +6,7 @@ import type { RegistrationFormData, SelectOption } from '../types/registration.t
 const tipoOptionsState = ref<SelectOption[]>([])
 const isLoadingTipos = ref(false)
 const tiposError = ref<string | null>(null)
+const userPhoneNumber = ref<string>('')
 let hasLoadedTipos = false
 
 export function useRegistrationStore() {
@@ -816,6 +817,10 @@ export function useRegistrationStore() {
     ciudadOptions.value = municipiosPorDepartamento[departamentoValue] || []
   }
 
+  const setPhoneNumber = (phone: string) => {
+    userPhoneNumber.value = phone
+  }
+
   return {
     tipoOptions: readonly(tipoOptionsState),
     isLoadingTipos: readonly(isLoadingTipos),
@@ -824,8 +829,10 @@ export function useRegistrationStore() {
     feedbackMessage: readonly(feedbackMessage),
     departamentoOptions: readonly(departamentoOptions),
     ciudadOptions: readonly(ciudadOptions),
+    userPhoneNumber: readonly(userPhoneNumber),
     loadTiposDocumento,
     updateCiudadesByDepartamento,
+    setPhoneNumber,
     submit
   }
 }
