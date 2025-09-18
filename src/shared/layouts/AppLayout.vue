@@ -30,15 +30,13 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const showProgressBar = computed(() => {
-  return route.path === '/registration/financial-information'
+  return route.path === '/registration/financial-information' || route.path === '/registration/finerio-information'
 })
 </script>
 
 <style scoped>
 .app-layout {
   min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr auto auto;
   background: #ffffff;
   color: var(--text-primary);
 }
@@ -121,7 +119,8 @@ const showProgressBar = computed(() => {
 
 .progress-container {
   width: 100%;
-  padding: 5px 0;
+  height: fit-content;
+  padding: 10px 0;
   background: #f9fafb;
 }
 
