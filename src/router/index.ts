@@ -22,7 +22,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/registration/finerio-information',
     name: 'registration-step3',
-    component: () => import('../modules/registration/views/RegistrationStep3View.vue')
+    component: () => import('../modules/finerio-stage/views/FinerioStageView.vue')
   }
 ]
 
