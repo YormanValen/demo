@@ -102,20 +102,6 @@ const banks = ref<Bank[]>([
     initials: 'BV',
     color: '#059669',
     isConnected: false
-  },
-  {
-    id: '4',
-    name: 'Banco Amarillo',
-    initials: 'BY',
-    color: '#eab308',
-    isConnected: false
-  },
-  {
-    id: '5',
-    name: 'Banco Gris',
-    initials: 'BG',
-    color: '#6b7280',
-    isConnected: false
   }
 ])
 
@@ -135,7 +121,7 @@ const handleGoBack = () => {
 const handleConnectBank = (bank: Bank) => {
   if (!bank.isConnected) {
     router.push({
-      path: '/finerio/institution-form',
+      path: '/finerio/validation',
       query: { 
         bankName: bank.name,
         bankInitials: bank.initials,

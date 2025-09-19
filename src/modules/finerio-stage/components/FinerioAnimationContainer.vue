@@ -72,7 +72,7 @@ const toggleContainer = () => {
 
 .animation-header {
   height: 40px;
-  background: #001340;
+  background: #000d2c;
   color: white;
   display: flex;
   align-items: center;

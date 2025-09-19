@@ -7,65 +7,59 @@
         </div>
         <span class="bank-name">{{ bankName }}</span>
       </div>
-      
-      <h1 class="page-title">Colombia Account Information Request (AIS)</h1>
-      
-      <div class="finerio-bar">
-        <span>Finerio - Staging</span>
-      </div>
+
+      <h1 class="page-title">Solicitud de Información de Cuentas Colombia (AIS)</h1>
+
     </div>
 
     <div class="content-section">
       <p class="instructions">
-        Select and confirm account(s) to share information with <strong>Finerio - Staging</strong>
+        Selecciona y confirma las cuentas para compartir información.
       </p>
 
       <div class="accounts-grid">
-        <div 
-          v-for="account in accounts" 
-          :key="account.id"
-          class="account-card"
-        >
+        <div v-for="account in accounts" :key="account.id" class="account-card">
           <div class="account-info">
             <h3 class="account-name">{{ account.name }}</h3>
             <p class="account-number">{{ account.number }}</p>
             <p class="account-type">{{ account.type }}</p>
           </div>
           <div class="account-checkbox">
-            <input 
-              type="checkbox" 
-              :id="account.id"
-              v-model="selectedAccounts"
-              :value="account.id"
-              class="checkbox-input"
-            />
+            <input type="checkbox" :id="account.id" v-model="selectedAccounts" :value="account.id"
+              class="checkbox-input" />
             <label :for="account.id" class="checkbox-label"></label>
           </div>
         </div>
       </div>
 
       <div class="review-section">
-        <h2 class="review-title">Review the information you will be sharing</h2>
-        
+        <h2 class="review-title">Revisa la información que compartirás</h2>
+
         <div class="info-items">
           <div class="info-item-container">
             <div class="info-item" @click="toggleAccounts">
               <div class="info-icon">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 9C11.6569 9 13 7.65685 13 6C13 4.34315 11.6569 3 10 3C8.34315 3 7 4.34315 7 6C7 7.65685 8.34315 9 10 9Z" stroke="#374151" stroke-width="1.5"/>
-                  <path d="M3 18C3 14.134 6.13401 11 10 11C13.866 11 17 14.134 17 18" stroke="#374151" stroke-width="1.5"/>
+                  <path
+                    d="M10 9C11.6569 9 13 7.65685 13 6C13 4.34315 11.6569 3 10 3C8.34315 3 7 4.34315 7 6C7 7.65685 8.34315 9 10 9Z"
+                    stroke="#374151" stroke-width="1.5" />
+                  <path d="M3 18C3 14.134 6.13401 11 10 11C13.866 11 17 14.134 17 18" stroke="#374151"
+                    stroke-width="1.5" />
                 </svg>
               </div>
-              <span class="info-label">Accounts</span>
+              <span class="info-label">Cuentas</span>
               <div class="info-arrow" :class="{ 'rotated': showAccounts }">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 4L10 8L6 12" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6 4L10 8L6 12" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
                 </svg>
               </div>
             </div>
             <transition name="expand">
               <div v-if="showAccounts" class="info-content">
-                <p>Your account name, nickname, sort code, account number, currency, IBAN, roll number (for Building Society accounts), and Primary Account Number (PAN), masked or unmasked, depending on how your bank displays this online.</p>
+                <p>Nombre de tu cuenta, apodo, código de clasificación, número de cuenta, moneda, IBAN, número de
+                  registro (para cuentas de Building Society), y Número de Cuenta Principal (PAN), enmascarado o no,
+                  dependiendo de cómo tu banco muestre esta información en línea.</p>
               </div>
             </transition>
           </div>
@@ -74,20 +68,21 @@
             <div class="info-item" @click="toggleBalances">
               <div class="info-icon">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <rect x="3" y="4" width="14" height="12" rx="2" stroke="#374151" stroke-width="1.5"/>
-                  <path d="M7 8H13M7 12H10" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/>
+                  <rect x="3" y="4" width="14" height="12" rx="2" stroke="#374151" stroke-width="1.5" />
+                  <path d="M7 8H13M7 12H10" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
                 </svg>
               </div>
-              <span class="info-label">Balances</span>
+              <span class="info-label">Saldos</span>
               <div class="info-arrow" :class="{ 'rotated': showBalances }">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 4L10 8L6 12" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6 4L10 8L6 12" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
                 </svg>
               </div>
             </div>
             <transition name="expand">
               <div v-if="showBalances" class="info-content">
-                <p>Balance amount, currency, credit/debit flag, type of balance, and date/time.</p>
+                <p>Monto del saldo, moneda, indicador de crédito/débito, tipo de saldo, y fecha/hora.</p>
               </div>
             </transition>
           </div>
@@ -96,43 +91,42 @@
             <div class="info-item" @click="toggleTransactions">
               <div class="info-icon">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M3 7H17M3 12H17" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/>
-                  <rect x="3" y="4" width="14" height="12" rx="2" stroke="#374151" stroke-width="1.5"/>
+                  <path d="M3 7H17M3 12H17" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
+                  <rect x="3" y="4" width="14" height="12" rx="2" stroke="#374151" stroke-width="1.5" />
                 </svg>
               </div>
-              <span class="info-label">Transactions</span>
+              <span class="info-label">Transacciones</span>
               <div class="info-arrow" :class="{ 'rotated': showTransactions }">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 4L10 8L6 12" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6 4L10 8L6 12" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
                 </svg>
               </div>
             </div>
             <transition name="expand">
               <div v-if="showTransactions" class="info-content">
-                <p>List of all credits and debits to your account in the selected period with amount, status, date/time, transaction type/code, plus reference details and information about each payer/payee for each.</p>
+                <p>Lista de todos los créditos y débitos a tu cuenta en el período seleccionado con monto, estado,
+                  fecha/hora, tipo/código de transacción, más detalles de referencia e información sobre cada
+                  pagador/beneficiario.</p>
               </div>
             </transition>
           </div>
         </div>
       </div>
 
-      <div class="time-notice">
-        <p>Finerio - Staging will get information from your account(s) until :</p>
-      </div>
-
       <div class="action-buttons">
         <button type="button" class="cancel-button" @click="handleCancel">
-          Cancel
+          Cancelar
         </button>
         <button type="button" class="confirm-button" @click="handleConfirm" :disabled="selectedAccounts.length === 0">
-          Confirm
+          Confirmar
         </button>
       </div>
     </div>
 
     <div class="footer-section">
       <div class="powered-by">
-        <span>Powered by</span>
+        <span>Desarrollado por</span>
         <div class="ozone-logo">
           <span class="ozone-text">OZONE</span>
           <span class="api-text">API</span>
@@ -158,7 +152,7 @@ const route = useRoute()
 
 const selectedAccounts = ref<string[]>([])
 const showAccounts = ref(false)
-const showBalances = ref(false) 
+const showBalances = ref(false)
 const showTransactions = ref(false)
 
 const accounts = ref<Account[]>([
@@ -166,19 +160,19 @@ const accounts = ref<Account[]>([
     id: 'luigi',
     name: 'Luigi International',
     number: '1234576',
-    type: 'Business Current Account'
+    type: 'Cuenta Corriente Empresarial'
   },
   {
     id: 'mario',
-    name: 'Mario International', 
+    name: 'Mario International',
     number: '1000010910103',
-    type: 'Business Currency Account'
+    type: 'Cuenta de Divisas Empresarial'
   },
   {
     id: 'spectrum',
     name: 'Spectrum',
-    number: '1000010910105', 
-    type: 'Foreign Currency Account'
+    number: '1000010910105',
+    type: 'Cuenta en Moneda Extranjera'
   }
 ])
 
@@ -207,7 +201,19 @@ const toggleTransactions = () => {
 }
 
 const handleCancel = () => {
-  router.push('/bankambient/dashboard')
+  const currentBankName = bankName.value
+  let dashboardPath = '/bankambient/dashboard'
+
+  // Determine specific dashboard based on bank name
+  if (currentBankName === 'Banco Azul') {
+    dashboardPath = '/bankambient/dashboard/blue'
+  } else if (currentBankName === 'Banco Rojo') {
+    dashboardPath = '/bankambient/dashboard/red'
+  } else if (currentBankName === 'Banco Verde') {
+    dashboardPath = '/bankambient/dashboard/green'
+  }
+
+  router.push(dashboardPath)
 }
 
 const handleConfirm = () => {
@@ -277,18 +283,6 @@ const handleConfirm = () => {
   margin: 0 0 24px 0;
 }
 
-.finerio-bar {
-  background: #001340;
-  color: white;
-  padding: 16px 24px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  margin: 24px auto 0 auto;
-  text-align: left;
-  width: 100%;
-  max-width: 1200px;
-}
 
 .content-section {
   flex: 1;
@@ -420,7 +414,8 @@ const handleConfirm = () => {
 }
 
 .info-item:hover {
-  background: #f9fafb;
+  background: #fafbfc;
+  border-left: 3px solid #e5e7eb;
 }
 
 .info-icon {

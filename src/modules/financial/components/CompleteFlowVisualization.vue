@@ -8,7 +8,6 @@ const props = defineProps<{
 
 const flowVisible = ref(false);
 const totalTime = computed(() => (props.totalDuration || 10000) / 1000);
-const stepDuration = computed(() => totalTime.value / 4); // 4 connections between 5 steps
 
 watch(() => props.isVisible, (newValue) => {
   if (newValue) {
@@ -43,7 +42,7 @@ onMounted(() => {
         <svg class="flow-svg" width="100%" height="20">
           <line x1="0" y1="10" x2="100%" y2="10" stroke="#982881" stroke-width="2" class="connecting-line" />
           <circle v-if="flowVisible" class="moving-dot dot-1"
-            :style="{ '--animation-duration': stepDuration + 's', '--animation-delay': '0s' }" 
+            :style="{ '--total-duration': totalTime + 's' }" 
             cx="0" cy="10" r="6" fill="#982881" />
         </svg>
       </div>
@@ -66,7 +65,7 @@ onMounted(() => {
         <svg class="flow-svg" width="100%" height="20">
           <line x1="0" y1="10" x2="100%" y2="10" stroke="#982881" stroke-width="2" class="connecting-line" />
           <circle v-if="flowVisible" class="moving-dot dot-2"
-            :style="{ '--animation-duration': stepDuration + 's', '--animation-delay': stepDuration + 's' }" 
+            :style="{ '--total-duration': totalTime + 's' }" 
             cx="0" cy="10" r="6" fill="#982881" />
         </svg>
       </div>
@@ -82,7 +81,7 @@ onMounted(() => {
         <svg class="flow-svg" width="100%" height="20">
           <line x1="0" y1="10" x2="100%" y2="10" stroke="#982881" stroke-width="2" class="connecting-line" />
           <circle v-if="flowVisible" class="moving-dot dot-3"
-            :style="{ '--animation-duration': stepDuration + 's', '--animation-delay': (stepDuration * 2) + 's' }" 
+            :style="{ '--total-duration': totalTime + 's' }" 
             cx="0" cy="10" r="6" fill="#982881" />
         </svg>
       </div>
@@ -98,7 +97,7 @@ onMounted(() => {
         <svg class="flow-svg" width="100%" height="20">
           <line x1="0" y1="10" x2="100%" y2="10" stroke="#982881" stroke-width="2" class="connecting-line" />
           <circle v-if="flowVisible" class="moving-dot dot-4"
-            :style="{ '--animation-duration': stepDuration + 's', '--animation-delay': (stepDuration * 3) + 's' }" 
+            :style="{ '--total-duration': totalTime + 's' }" 
             cx="0" cy="10" r="6" fill="#982881" />
         </svg>
       </div>
@@ -263,12 +262,20 @@ onMounted(() => {
   opacity: 0;
 }
 
-.flow-visible .dot-1,
-.flow-visible .dot-2,
-.flow-visible .dot-3,
+.flow-visible .dot-1 {
+  animation: moveCompleteDot1 var(--total-duration, 10s) ease-in-out infinite;
+}
+
+.flow-visible .dot-2 {
+  animation: moveCompleteDot2 var(--total-duration, 10s) ease-in-out infinite;
+}
+
+.flow-visible .dot-3 {
+  animation: moveCompleteDot3 var(--total-duration, 10s) ease-in-out infinite;
+}
+
 .flow-visible .dot-4 {
-  animation: moveDot var(--animation-duration) ease-in-out forwards;
-  animation-delay: var(--animation-delay);
+  animation: moveCompleteDot4 var(--total-duration, 10s) ease-in-out infinite;
 }
 
 @keyframes fadeInUp {
@@ -282,22 +289,131 @@ onMounted(() => {
   }
 }
 
-@keyframes moveDot {
+@keyframes moveCompleteDot1 {
+  /* Dot 1: Usuario → API (0% - 20% del ciclo total) */
   0% {
     opacity: 0;
     transform: translateX(0);
   }
-  10% {
+  2% {
     opacity: 1;
     transform: translateX(0);
   }
-  90% {
+  18% {
     opacity: 1;
     transform: translateX(calc(100% - 12px));
   }
-  100% {
+  20% {
     opacity: 0;
     transform: translateX(calc(100% - 12px));
+  }
+  /* Esperar el resto del ciclo */
+  20.1% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveCompleteDot2 {
+  /* Dot 2: API → Base de Datos (20% - 40% del ciclo total) */
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  20% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  22% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  38% {
+    opacity: 1;
+    transform: translateX(calc(100% - 12px));
+  }
+  40% {
+    opacity: 0;
+    transform: translateX(calc(100% - 12px));
+  }
+  /* Esperar el resto del ciclo */
+  40.1% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveCompleteDot3 {
+  /* Dot 3: Base de Datos → Proveedor SMS (40% - 60% del ciclo total) */
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  40% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  42% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  58% {
+    opacity: 1;
+    transform: translateX(calc(100% - 12px));
+  }
+  60% {
+    opacity: 0;
+    transform: translateX(calc(100% - 12px));
+  }
+  /* Esperar el resto del ciclo */
+  60.1% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveCompleteDot4 {
+  /* Dot 4: Proveedor SMS → OTP Celular (60% - 80% del ciclo total) */
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  60% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  62% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  78% {
+    opacity: 1;
+    transform: translateX(calc(100% - 12px));
+  }
+  80% {
+    opacity: 0;
+    transform: translateX(calc(100% - 12px));
+  }
+  /* Pausa antes del próximo ciclo (80% - 100% del ciclo total) */
+  80.1% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
   }
 }
 

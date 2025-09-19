@@ -25,9 +25,9 @@ const showDatePicker = ref(false);
 const showFlow = ref(false);
 const showAnimationContainer = ref(true);
 const isAnimationOpen = ref(false);
-
-const VALIDATION_TIME = 5000; // 5 segundos para la validación
-const PROCESSING_TIME = 3000; // 3 segundos para el procesamiento
+const showContainerLoader = ref(false);
+const showNextButton = ref(false);
+const showProcessComplete = ref(false);
 
 const form = reactive<RegistrationFormData>({
   nombres: "",
@@ -166,30 +166,25 @@ const handleSubmit = async () => {
   }
 
   setPhoneNumber(form.celular);
-  
-  openAnimationContainer();
-  showValidationLoader.value = true;
 
-  setTimeout(() => {
-    showValidationLoader.value = false;
-    isAnimationOpen.value = false;
-    showFlow.value = false;
-    showFinancialLoader.value = true;
-    
-    setTimeout(() => {
-      showFinancialLoader.value = false;
-      router.push("/registration/financial-information");
-    }, PROCESSING_TIME);
-  }, VALIDATION_TIME);
+  openAnimationContainer();
 };
 
 
 const openAnimationContainer = () => {
   // Programmatically open the container through reactive state
   isAnimationOpen.value = true;
+  showContainerLoader.value = true;
+
   setTimeout(() => {
     showFlow.value = true;
     console.log('showFlow activated:', showFlow.value);
+
+    // Show button after first flow animation cycle completes (3000 + 2000 = 5000ms)
+    setTimeout(() => {
+      showProcessComplete.value = true;
+      showNextButton.value = true;
+    }, 5000);
   }, 300);
 };
 
@@ -204,6 +199,10 @@ const handleAnimationToggle = (isOpen: boolean) => {
     console.log('showFlow deactivated:', showFlow.value);
   }
 };
+
+const handleNextClick = () => {
+  router.push("/registration/financial-information");
+};
 </script>
 
 <template>
@@ -213,7 +212,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
         <h2>INFORMACIÓN BÁSICA</h2>
       </div>
 
-      <form class="form-body" @submit.prevent="handleSubmit">
+      <form class="form-body" @submit.prevent="handleSubmit" novalidate>
         <v-row class="form_row">
           <v-col cols="12" md="4">
             <div class="form-ctn">
@@ -243,6 +242,10 @@ const handleAnimationToggle = (isOpen: boolean) => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-card-account-details</v-icon>
+              <v-tooltip activator="parent" location="bottom" class="custom-tooltip" transition="fade-transition"
+                :open-delay="200" :offset="0">
+                <span>Selecciona el tipo de documento de identidad (CC, CE, Pasaporte, etc.)</span>
+              </v-tooltip>
               <v-select variant="outlined" v-model="form.tipoDocumento" :items="tipoOptions" label="Tipo de documento"
                 item-title="label" item-value="value" required @blur="validateField('tipoDocumento')" />
             </div>
@@ -253,8 +256,15 @@ const handleAnimationToggle = (isOpen: boolean) => {
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field variant="underlined" v-model="form.numeroIdentificacion" label="Número de identificación"
-              class="form-field" required @blur="validateField('numeroIdentificacion')" />
+            <v-tooltip location="bottom" class="custom-tooltip" transition="fade-transition" :open-delay="200"
+              :offset="0">
+              <template v-slot:activator="{ props }">
+                <v-text-field v-bind="props" variant="underlined" v-model="form.numeroIdentificacion"
+                  label="Número de identificación" class="form-field" required
+                  @blur="validateField('numeroIdentificacion')" />
+              </template>
+              <span>Ingresa el número de tu documento de identidad sin puntos ni espacios</span>
+            </v-tooltip>
             <transition name="slide-down">
               <div v-if="fieldErrors.numeroIdentificacion" class="error-message">
                 {{ fieldErrors.numeroIdentificacion }}
@@ -265,11 +275,13 @@ const handleAnimationToggle = (isOpen: boolean) => {
             <v-text-field variant="underlined" :model-value="formattedDate" label="Fecha de expedición de documento"
               readonly append-inner-icon="mdi-calendar" @click="showDatePicker = true" required class="form-field"
               @blur="validateField('fechaExpedicionDocumento')" />
-            <v-dialog v-model="showDatePicker" width="auto">
-              <v-date-picker show-adjacent-months v-model="form.fechaExpedicionDocumento" @update:model-value="
-                showDatePicker = false;
-              validateField('fechaExpedicionDocumento');
-              " color="#982881" />
+            <v-dialog v-model="showDatePicker" width="auto" :scrim="false">
+              <v-card>
+                <v-date-picker show-adjacent-months v-model="form.fechaExpedicionDocumento" @update:model-value="
+                  showDatePicker = false;
+                validateField('fechaExpedicionDocumento');
+                " color="#982881" />
+              </v-card>
             </v-dialog>
             <transition name="slide-down">
               <div v-if="fieldErrors.fechaExpedicionDocumento" class="error-message">
@@ -314,6 +326,10 @@ const handleAnimationToggle = (isOpen: boolean) => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-phone</v-icon>
+              <v-tooltip activator="parent" location="bottom" class="custom-tooltip" transition="fade-transition"
+                :open-delay="200" :offset="0">
+                <span>Ingresa tu número de celular para recibir el código de verificación vía SMS</span>
+              </v-tooltip>
               <v-text-field variant="underlined" v-model="form.celular" label="Celular" class="form-field" required
                 @blur="validateField('celular')" />
             </div>
@@ -337,6 +353,10 @@ const handleAnimationToggle = (isOpen: boolean) => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-email</v-icon>
+              <v-tooltip activator="parent" location="bottom" class="custom-tooltip" transition="fade-transition"
+                :open-delay="200" :offset="0">
+                <span>Ingresa tu correo electrónico para recibir información sobre tu solicitud</span>
+              </v-tooltip>
               <v-text-field variant="underlined" v-model="form.correo" label="Correo" class="form-field" required
                 @blur="validateField('correo')" />
             </div>
@@ -351,7 +371,14 @@ const handleAnimationToggle = (isOpen: boolean) => {
         <v-row>
           <v-col cols="12" class="switch-container">
             <v-switch v-model="form.esPEP" color="#982881" density="compact" hide-details inline />
-            <span class="switch-text">Soy una persona expuesta públicamente (PEP)</span>
+            <v-tooltip location="bottom" class="custom-tooltip" transition="fade-transition" :open-delay="200"
+              :offset="0">
+              <template v-slot:activator="{ props }">
+                <span v-bind="props" class="switch-text">Soy una persona expuesta públicamente (PEP)</span>
+              </template>
+              <span>Las PEP son personas que ejercen funciones públicas prominentes o han estado relacionadas con
+                ellas</span>
+            </v-tooltip>
           </v-col>
         </v-row>
 
@@ -377,9 +404,15 @@ const handleAnimationToggle = (isOpen: boolean) => {
         <v-row>
           <v-col cols="12" class="checkbox-container">
             <v-checkbox v-model="form.autorizaFinesComerciales" color="#982881" density="compact" hide-details />
-            <span class="checkbox-text">
-              Autorización para fines comerciales
-            </span>
+            <v-tooltip location="bottom" class="custom-tooltip" transition="fade-transition" :open-delay="200"
+              :offset="0">
+              <template v-slot:activator="{ props }">
+                <span v-bind="props" class="checkbox-text">
+                  Autorización para fines comerciales
+                </span>
+              </template>
+              <span>Autoriza el uso de tus datos para ofrecerte productos y servicios comerciales relacionados</span>
+            </v-tooltip>
           </v-col>
         </v-row>
 
@@ -401,12 +434,44 @@ const handleAnimationToggle = (isOpen: boolean) => {
       <template #header>
         <span>Flujo de Proceso</span>
       </template>
-      <div style="display: flex; justify-content: center; min-height: 120px; align-items: center;">
-        <div v-if="!showFlow" class="flow-spinner">
-          <v-progress-circular :size="50" :width="4" color="#982881" indeterminate />
-          <p style="margin-top: 12px; color: #666; font-size: 14px;">Cargando flujo de proceso...</p>
+      <div style="display: flex; flex-direction: column; min-height: 300px;">
+        <!-- Loading animation at the top -->
+        <div v-if="showContainerLoader"
+          style="display: flex; justify-content: center; align-items: center; padding: 20px 0;">
+          <div class="container-loader">
+            <div style="display: flex; justify-content: center; align-items: center;">
+            </div>
+          </div>
         </div>
-        <FlowVisualization v-else :is-visible="true" :validation-time="3000" :processing-time="2000" />
+
+        <!-- Flow visualization -->
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div v-if="!showFlow && !showContainerLoader" class="flow-spinner">
+            <v-progress-circular :size="50" :width="4" color="#982881" indeterminate />
+            <p style="margin-top: 12px; color: #666; font-size: 14px;">Cargando flujo de proceso...</p>
+          </div>
+          <FlowVisualization v-else-if="showFlow" :is-visible="true" :validation-time="3000" :processing-time="2000" />
+
+          <!-- Process disclaimer -->
+          <div v-if="showFlow" class="process-disclaimer">
+            <p>Este proceso se realiza en milisegundos, pero te mostramos la animación para que visualices el recorrido
+              de
+              tus datos.</p>
+          </div>
+        </div>
+
+        <!-- Next button at the bottom -->
+        <transition name="fade-slide-up">
+          <div v-if="showNextButton" style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+            <!-- Next instruction disclaimer -->
+            <div class="next-disclaimer">
+              <p>Haz click en "Siguiente" para continuar al siguiente paso</p>
+            </div>
+            <button @click="handleNextClick" class="next-button">
+              Siguiente
+            </button>
+          </div>
+        </transition>
       </div>
     </AnimationContainer>
   </div>
@@ -536,6 +601,152 @@ const handleAnimationToggle = (isOpen: boolean) => {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.container-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.next-button {
+  width: 160px;
+  height: 36px;
+  background: linear-gradient(21deg, rgb(97, 40, 120), rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+}
+
+.next-button:hover {
+  opacity: 0.9;
+}
+
+.loader-logo {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  background: none !important;
+  background-color: transparent !important;
+  filter: brightness(1.2) contrast(1.1);
+  mix-blend-mode: darken;
+}
+
+/* Animación para el botón "Siguiente" */
+.fade-slide-up-enter-active {
+  transition: all 0.6s ease-out;
+}
+
+.fade-slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-slide-up-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animación spinner a check */
+.spinner-to-check-enter-active,
+.spinner-to-check-leave-active {
+  transition: all 0.4s ease-in-out;
+}
+
+.spinner-to-check-enter-from {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.spinner-to-check-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.spinner-to-check-enter-to,
+.spinner-to-check-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Animación del texto */
+.text-fade-enter-active,
+.text-fade-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.text-fade-enter-from,
+.text-fade-leave-to {
+  opacity: 0;
+}
+
+.text-fade-enter-to,
+.text-fade-leave-from {
+  opacity: 1;
+}
+
+/* Estilo del check icon */
+.check-icon {
+  animation: checkPulse 0.6s ease-out;
+}
+
+@keyframes checkPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Disclaimers */
+.process-disclaimer {
+  margin-top: 20px;
+  padding: 18px 30px;
+  background-color: rgba(152, 40, 129, 0.1);
+  border-radius: 10px;
+  border-left: 5px solid #982881;
+  max-width: 600px;
+  text-align: center;
+}
+
+.process-disclaimer p {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.next-disclaimer {
+  margin-bottom: 20px;
+  padding: 16px 24px;
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: 8px;
+  border: 2px solid rgba(76, 175, 80, 0.3);
+}
+
+.next-disclaimer p {
+  margin: 0;
+  font-size: 15px;
+  color: #4CAF50;
+  text-align: center;
+  font-weight: 600;
 }
 </style>
 
@@ -669,5 +880,41 @@ const handleAnimationToggle = (isOpen: boolean) => {
 .slide-down-leave-to {
   transform: translateY(5px);
   opacity: 0;
+}
+
+/* Custom tooltip styles */
+.custom-tooltip .v-overlay__content {
+  background-color: #767676 !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  max-width: 250px !important;
+  min-width: 200px !important;
+  font-size: 12px !important;
+  line-height: 1.3 !important;
+  color: white !important;
+  text-align: center !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}
+
+.custom-tooltip .v-overlay__content::before {
+  display: none !important;
+}
+
+/* Fade transition for tooltips */
+.fade-transition-enter-active,
+.fade-transition-leave-active {
+  transition: opacity 0.4s ease !important;
+}
+
+.fade-transition-enter-from,
+.fade-transition-leave-to {
+  opacity: 0 !important;
+}
+
+.fade-transition-enter-to,
+.fade-transition-leave-from {
+  opacity: 1 !important;
 }
 </style>

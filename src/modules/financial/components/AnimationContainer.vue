@@ -72,7 +72,7 @@ const toggleContainer = () => {
 
 .animation-header {
   height: 40px;
-  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  background: #000d2c;
   color: white;
   display: flex;
   align-items: center;
@@ -109,7 +109,8 @@ const toggleContainer = () => {
 }
 
 .animation-content {
-  max-height: 70vh;
+  height: 60vh;
+  max-height: 60vh;
   overflow-y: auto;
   padding: 20px;
   background: white;
