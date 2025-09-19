@@ -3,7 +3,7 @@ name: Build Windows EXE
 on:
   workflow_dispatch:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, test ]
     paths:
       - '**/*.ts'
       - '**/*.tsx'
@@ -46,4 +46,3 @@ jobs:
         with:
           name: demo-windows-exe
           path: src-tauri/target/release/demo.exe
-
