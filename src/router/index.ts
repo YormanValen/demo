@@ -37,9 +37,75 @@ const routes: RouteRecordRaw[] = [
     meta: { hideLayout: true }
   },
   {
+    path: '/finerio/connect-stage2',
+    name: 'finerio-connect-stage2',
+    component: () => import('../modules/finerio-stage/views/FinerioConnectStage2View.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/finerio/info',
+    name: 'finerio-info',
+    component: () => import('../modules/finerio-stage/views/FinerioInfoView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/finerio/data-access',
+    name: 'finerio-data-access',
+    component: () => import('../modules/finerio-stage/views/DataAccessView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/finerio/data-usage-mode',
+    name: 'finerio-data-usage-mode',
+    component: () => import('../modules/finerio-stage/views/DataUsageModeView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/finerio/connect-institutions',
+    name: 'finerio-connect-institutions',
+    component: () => import('../modules/finerio-stage/views/ConnectInstitutionsView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/finerio/institution-form',
+    name: 'finerio-institution-form',
+    component: () => import('../modules/finerio-stage/views/InstitutionFormView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/finerio/validation',
+    name: 'finerio-validation',
+    component: () => import('../modules/finerio-stage/views/ValidationView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
     path: '/finerio/connected-accounts',
     name: 'finerio-connected-accounts',
     component: () => import('../modules/finerio-stage/views/ConnectedAccountsView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/dashboard',
+    name: 'bankambient-dashboard',
+    component: () => import('../modules/bankambient/views/BankDashboardView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/account-selection',
+    name: 'bankambient-account-selection',
+    component: () => import('../modules/bankambient/views/AccountSelectionView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/connection-loading',
+    name: 'bankambient-connection-loading',
+    component: () => import('../modules/bankambient/views/ConnectionLoadingView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/connection-success',
+    name: 'bankambient-connection-success',
+    component: () => import('../modules/bankambient/views/ConnectionSuccessView.vue'),
     meta: { hideLayout: true }
   }
 ]
