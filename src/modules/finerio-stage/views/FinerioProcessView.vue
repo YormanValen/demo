@@ -1,11 +1,11 @@
 <template>
-  <div class="finerio-process">
+  <div class="financial-process">
     <div class="process-content">
       <div class="spinner"></div>
       <p class="loading-text">Validando permisos</p>
     </div>
 
-    <FinerioAnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen"
+    <FinancialAnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen"
       :clickable-header="false" @toggle="handleAnimationToggle">
       <template #header>
         <span>Validando...</span>
@@ -14,7 +14,11 @@
         
         <!-- Flow visualization -->
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<<<<<<< HEAD
           <FinerioFlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500"
+=======
+          <FinancialFlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500"
+>>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
             :processing-time="2500" />
           
           <!-- Process disclaimer -->
@@ -36,15 +40,15 @@
           </div>
         </transition>
       </div>
-    </FinerioAnimationContainer>
+    </FinancialAnimationContainer>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import FinerioFlowVisualization from '../components/FinerioFlowVisualization.vue'
-import FinerioAnimationContainer from '../components/FinerioAnimationContainer.vue'
+import FinancialFlowVisualization from '../components/FinerioFlowVisualization.vue'
+import FinancialAnimationContainer from '../components/FinerioAnimationContainer.vue'
 
 const router = useRouter()
 
@@ -72,7 +76,11 @@ onMounted(() => {
 
 const handleNextClick = () => {
   isAnimationOpen.value = false
+<<<<<<< HEAD
   router.push('/finerio/connect-stage1')
+=======
+  router.push('/financial/connect-stage1')
+>>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
 }
 
 const handleAnimationToggle = (isOpen: boolean) => {
@@ -87,7 +95,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 </script>
 
 <style scoped>
-.finerio-process {
+.financial-process {
   min-height: 100vh;
   background: #ffffff;
   display: flex;

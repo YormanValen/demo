@@ -42,11 +42,11 @@ const handleSearch = (query: string) => {
 }
 
 const handleBack = () => {
-  router.push('/finerio/connect-stage1')
+  router.push('/financial/connect-stage1')
 }
 
 const handleManageBank = (bank: any) => {
-  router.push('/finerio/institution-details')
+  router.push('/financial/institution-details')
   console.log('Gestionar banco:', bank)
 }
 </script>

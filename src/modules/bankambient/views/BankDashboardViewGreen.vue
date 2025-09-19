@@ -321,7 +321,11 @@ const handleContinue = () => {
 }
 
 const handleRegister = () => {
+<<<<<<< HEAD
   router.push('/finerio/connect-institutions')
+=======
+  router.push('/financial/connect-institutions')
+>>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
 }
 
 const handlePrivacy = () => {

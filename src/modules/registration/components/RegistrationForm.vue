@@ -389,7 +389,7 @@ const handleNextClick = () => {
             <span class="checkbox-text">
               Autorizo el tratamiento de mis datos para fines de inclusión
               financiera y mayor acceso al crédito
-              <a href="#" class="document-link">Ver documento</a>
+              <a href="/autorizacion_obligatoria_v14.pdf" target="_blank" class="document-link">Ver documento</a>
             </span>
           </v-col>
           <v-col v-if="fieldErrors.autorizaTratamientoDatos" cols="12">

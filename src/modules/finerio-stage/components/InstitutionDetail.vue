@@ -37,7 +37,7 @@ const handleDisconnectBank = () => {
 };
 
 const handleBack = () => {
-  router.push("/finerio/connected-accounts");
+  router.push("/financial/connected-accounts");
 };
 
 

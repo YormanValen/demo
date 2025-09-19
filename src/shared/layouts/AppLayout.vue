@@ -33,7 +33,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const showProgressBar = computed(() => {
-  return route.path === '/registration/financial-information' || route.path === '/registration/finerio-information'
+  return route.path === '/registration/financial-information' || route.path === '/registration/financial-verification'
 })
 
 const hideLayout = computed(() => {
@@ -120,7 +120,7 @@ const hideLayout = computed(() => {
 
 .footer-logo {
   margin-top: -50px;
-  height: 250px;
+  height: 120px;
   width: auto;
   object-fit: contain;
 }
