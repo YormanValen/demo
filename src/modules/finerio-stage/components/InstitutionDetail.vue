@@ -5,50 +5,42 @@
         <button class="back-button" @click="handleBack">
           <v-icon size="24" color="#001340">mdi-arrow-left</v-icon>
         </button>
-        
-        <h1 class="page-title">Mis instituciones conectadas</h1>
       </div>
-      
-      <SearchBar @search="handleSearch" />
-      
-      <SecurityMessage />
-      
-      <ConnectedBanksList :banks="connectedBanks" @manage="handleManageBank" />
+
+      <bank-details :bank="connectedBanks[0]" @disconnectBank="handleDisconnectBank" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import SearchBar from '../components/SearchBar.vue'
-import SecurityMessage from '../components/SecurityMessage.vue'
-import ConnectedBanksList from '../components/ConnectedBanksList.vue'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import BankDetails from "../components/Bankdetails.vue";
+const router = useRouter();
 
-const router = useRouter()
-
+const showDisconnectModal = ref(false);
 const connectedBanks = ref([
   {
     id: 1,
-    name: 'Bancolombia',
-    logo: '/src/assets/bancolombia-logo.png',
-    status: 'CONECTADO',
-    connected: true
-  }
-])
+    name: "Bancolombia",
+    logo: "/src/assets/bancolombia-logo.png",
+    status: "CONECTADO",
+    connected: true,
+    initialDate: "18 de septiembre de 2025",
+    expirationDate: "18 de septiembre de 2026",
+  },
+]);
 
-const handleSearch = (query: string) => {
-  console.log('Buscar:', query)
-}
+
+const handleDisconnectBank = () => {
+  showDisconnectModal.value = true;
+};
 
 const handleBack = () => {
-  router.push('/finerio/connect-stage1')
-}
+  router.push("/finerio/connected-accounts");
+};
 
-const handleManageBank = (bank: any) => {
-  router.push('/finerio/institution-details')
-  console.log('Gestionar banco:', bank)
-}
+
 </script>
 
 <style scoped>
@@ -62,6 +54,9 @@ const handleManageBank = (bank: any) => {
 }
 
 .accounts-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5vw;
   background: white;
   padding: 40px;
   border-radius: 16px;

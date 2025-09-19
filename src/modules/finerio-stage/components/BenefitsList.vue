@@ -47,6 +47,7 @@
 }
 
 .benefit-text {
+  text-align: left;
   color: #374151;
   font-size: 16px;
   line-height: 1.5;
