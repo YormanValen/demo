@@ -1,44 +1,44 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import FinancialLoader from '../../registration/components/FinancialLoader.vue'
-import FlowVisualization from '../../registration/components/FlowVisualization.vue'
-import AnimationContainer from '../../financial/components/AnimationContainer.vue'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import FinancialLoader from "../../registration/components/FinancialLoader.vue";
+import FlowVisualization from "../../registration/components/FlowVisualization.vue";
+import AnimationContainer from "../../financial/components/AnimationContainer.vue";
 
-const router = useRouter()
+const router = useRouter();
 
-const showLoader = ref(false)
-const showAnimationContainer = ref(true)
-const isAnimationOpen = ref(false)
-const showFlowVisualization = ref(false)
+const showLoader = ref(false);
+const showAnimationContainer = ref(true);
+const isAnimationOpen = ref(false);
+const showFlowVisualization = ref(false);
 
 const handleContinue = () => {
-  showLoader.value = true
-  
+  showLoader.value = true;
+
   // Mostrar header inmediatamente pero esperar un poco para abrir
   setTimeout(() => {
-    isAnimationOpen.value = true
-    showFlowVisualization.value = true
-  }, 300)
-  
+    isAnimationOpen.value = true;
+    showFlowVisualization.value = true;
+  }, 300);
+
   // Duración total de 5 segundos
   setTimeout(() => {
-    showLoader.value = false
-    isAnimationOpen.value = false
+    showLoader.value = false;
+    isAnimationOpen.value = false;
     // Navegar a la nueva vista de procesamiento
-    router.push('/finerio/process')
-  }, 5000)
-}
+    router.push("/finerio/process");
+  }, 5000);
+};
 
 const handleAnimationToggle = (isOpen: boolean) => {
   if (isOpen) {
     setTimeout(() => {
-      showFlowVisualization.value = true
-    }, 300)
+      showFlowVisualization.value = true;
+    }, 300);
   } else {
-    showFlowVisualization.value = false
+    showFlowVisualization.value = false;
   }
-}
+};
 </script>
 
 <template>
@@ -50,33 +50,45 @@ const handleAnimationToggle = (isOpen: boolean) => {
     <div class="blue-container">
       <div class="decoration-image"></div>
       <div class="welcome-text">
-        <span class="welcome-bold">¡Finerio</span> <span class="welcome-normal">bienvenido a finerio</span>
+        <span class="welcome-bold">¡Finerio</span>
+        <span class="welcome-normal">bienvenido a finerio</span>
       </div>
       <div class="divider-line"></div>
       <div class="description-text">
-        <span class="description-bold">Finerio!</span> A partir de este momento pudes continuar tu solicitud en finerio
-        y diligenciar la información correspondiente con la entidad que selecciones.
+        <span class="description-bold">Finerio!</span> A partir de este momento
+        pudes continuar tu solicitud en finerio y diligenciar la información
+        correspondiente con la entidad que selecciones.
       </div>
       <div class="finerio-image"></div>
     </div>
-    <button class="continue-button" @click="handleContinue">
-      Continuar
-    </button>
-    
-    <AnimationContainer 
-      :is-visible="showAnimationContainer" 
-      :force-open="isAnimationOpen" 
+    <button class="continue-button" @click="handleContinue">Continuar</button>
+
+    <AnimationContainer
+      :is-visible="showAnimationContainer"
+      :force-open="isAnimationOpen"
       :clickable-header="false"
       @toggle="handleAnimationToggle"
     >
       <template #header>
         <span>Flujo de Proceso</span>
       </template>
-      <div style="display: flex; justify-content: center; min-height: 120px; align-items: center;">
-        <FlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500" :processing-time="2500" />
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          min-height: 120px;
+          align-items: center;
+        "
+      >
+        <FlowVisualization
+          v-if="showFlowVisualization"
+          :is-visible="true"
+          :validation-time="2500"
+          :processing-time="2500"
+        />
       </div>
     </AnimationContainer>
-    
+
     <FinancialLoader :show="showLoader" />
   </div>
 </template>
@@ -126,7 +138,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
   left: 0;
   width: 100%;
   height: 200px;
-  background-image: url('/src/assets/confeti.png');
+  background-image: url("/src/assets/confeti.png");
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: top center;
@@ -187,7 +199,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
   transform: translateX(-50%);
   width: 1200px;
   height: 600px;
-  background-image: url('/src/assets/finerio_image.png');
+  background-image: url("/src/assets/finerio_image.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

@@ -107,6 +107,12 @@ const routes: RouteRecordRaw[] = [
     name: 'bankambient-connection-success',
     component: () => import('../modules/bankambient/views/ConnectionSuccessView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/finerio/institution-details',
+    name: 'finerio-institution-details',
+    component: () => import('../modules/finerio-stage/views/IntitutionDetail.vue'),
+    meta: { hideLayout: true }
   }
 ]
 
