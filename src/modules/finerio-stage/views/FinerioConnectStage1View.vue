@@ -24,8 +24,7 @@ import ConnectionButtons from '../components/ConnectionButtons.vue'
 const router = useRouter()
 
 const handleConnect = () => {
-  console.log('Conectar cuenta')
-  // Lógica para conectar cuenta
+  router.push('/finerio/connect-stage2')
 }
 
 const handleViewConnected = () => {
