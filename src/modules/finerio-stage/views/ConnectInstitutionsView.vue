@@ -207,13 +207,8 @@ onMounted(() => {
 const handleConnectBank = (bank: Bank) => {
   if (!bank.isConnected) {
     router.push({
-<<<<<<< HEAD
-      path: '/finerio/validation',
-      query: { 
-=======
       path: '/financial/validation',
       query: {
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
         bankName: bank.name,
         bankInitials: bank.initials,
         bankColor: bank.color

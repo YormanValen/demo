@@ -14,11 +14,7 @@
         
         <!-- Flow visualization -->
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-<<<<<<< HEAD
           <FinerioFlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500"
-=======
-          <FinancialFlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500"
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
             :processing-time="2500" />
           
           <!-- Process disclaimer -->
@@ -47,7 +43,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import FinancialFlowVisualization from '../components/FinerioFlowVisualization.vue'
+import FinerioFlowVisualization from '../components/FinerioFlowVisualization.vue'
 import FinancialAnimationContainer from '../components/FinerioAnimationContainer.vue'
 
 const router = useRouter()
@@ -76,11 +72,7 @@ onMounted(() => {
 
 const handleNextClick = () => {
   isAnimationOpen.value = false
-<<<<<<< HEAD
-  router.push('/finerio/connect-stage1')
-=======
   router.push('/financial/connect-stage1')
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
 }
 
 const handleAnimationToggle = (isOpen: boolean) => {

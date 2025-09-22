@@ -42,19 +42,8 @@ const routes: RouteRecordRaw[] = [
     meta: { hideLayout: true }
   },
   {
-<<<<<<< HEAD
-    path: '/finerio/connect-stage2',
-    name: 'finerio-connect-stage2',
-    component: () => import('../modules/finerio-stage/views/FinerioConnectStage2View.vue'),
-    meta: { hideLayout: true }
-  },
-  {
-    path: '/finerio/data-access',
-    name: 'finerio-data-access',
-=======
     path: '/financial/data-access',
     name: 'financial-data-access',
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
     component: () => import('../modules/finerio-stage/views/DataAccessView.vue'),
     meta: { hideLayout: true }
   },
@@ -71,13 +60,8 @@ const routes: RouteRecordRaw[] = [
     meta: { hideLayout: true }
   },
   {
-<<<<<<< HEAD
-    path: '/finerio/validation',
-    name: 'finerio-validation',
-=======
     path: '/financial/validation',
     name: 'financial-validation',
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
     component: () => import('../modules/finerio-stage/views/ValidationView.vue'),
     meta: { hideLayout: true }
   },
@@ -136,13 +120,8 @@ const routes: RouteRecordRaw[] = [
     meta: { hideLayout: true }
   },
   {
-<<<<<<< HEAD
-    path: '/finerio/institution-details',
-    name: 'finerio-institution-details',
-=======
     path: '/financial/institution-details',
     name: 'financial-institution-details',
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
     component: () => import('../modules/finerio-stage/views/IntitutionDetail.vue'),
     meta: { hideLayout: true }
   }

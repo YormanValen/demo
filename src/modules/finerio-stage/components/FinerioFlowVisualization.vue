@@ -143,19 +143,11 @@ onMounted(() => {
 }
 
 .flow-visible .dot-1 {
-<<<<<<< HEAD
   animation: moveFinerioFlowDot1 var(--total-duration, 10s) ease-in-out infinite;
 }
 
 .flow-visible .dot-2 {
   animation: moveFinerioFlowDot2 var(--total-duration, 10s) ease-in-out infinite;
-=======
-  animation: moveFinancialFlowDot1 var(--total-duration, 10s) ease-in-out infinite;
-}
-
-.flow-visible .dot-2 {
-  animation: moveFinancialFlowDot2 var(--total-duration, 10s) ease-in-out infinite;
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
 }
 
 @keyframes fadeInUp {
@@ -170,11 +162,7 @@ onMounted(() => {
   }
 }
 
-<<<<<<< HEAD
 @keyframes moveFinerioFlowDot1 {
-=======
-@keyframes moveFinancialFlowDot1 {
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
   /* Dot 1: Usuario → API (0% - 45% del ciclo total) */
   0% {
     opacity: 0;
@@ -203,11 +191,7 @@ onMounted(() => {
   }
 }
 
-<<<<<<< HEAD
 @keyframes moveFinerioFlowDot2 {
-=======
-@keyframes moveFinancialFlowDot2 {
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
   /* Dot 2: API → Base de Datos (45% - 90% del ciclo total) */
   0% {
     opacity: 0;

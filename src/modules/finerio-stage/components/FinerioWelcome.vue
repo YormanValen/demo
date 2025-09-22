@@ -36,11 +36,7 @@ const handleNextClick = () => {
   showLoader.value = false;
   isAnimationOpen.value = false;
   // Navegar a la nueva vista de procesamiento
-<<<<<<< HEAD
-  router.push("/finerio/process");
-=======
   router.push("/financial/process");
->>>>>>> 5bcc17b (fix/Registerform-UI-adjusments)
 };
 
 const handleAnimationToggle = (isOpen: boolean) => {
