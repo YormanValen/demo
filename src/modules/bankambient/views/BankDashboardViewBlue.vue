@@ -138,7 +138,7 @@ const handleForgotPassword = () => {
 }
 
 const handleRegister = () => {
-  router.push('/finerio/connect-institutions')
+  router.push('/financial/connect-institutions')
 }
 
 const handleLogin = () => {

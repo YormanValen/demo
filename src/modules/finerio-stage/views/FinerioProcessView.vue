@@ -1,11 +1,11 @@
 <template>
-  <div class="finerio-process">
+  <div class="financial-process">
     <div class="process-content">
       <div class="spinner"></div>
       <p class="loading-text">Validando permisos</p>
     </div>
 
-    <FinerioAnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen"
+    <FinancialAnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen"
       :clickable-header="false" @toggle="handleAnimationToggle">
       <template #header>
         <span>Validando...</span>
@@ -36,7 +36,7 @@
           </div>
         </transition>
       </div>
-    </FinerioAnimationContainer>
+    </FinancialAnimationContainer>
   </div>
 </template>
 
@@ -44,7 +44,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FinerioFlowVisualization from '../components/FinerioFlowVisualization.vue'
-import FinerioAnimationContainer from '../components/FinerioAnimationContainer.vue'
+import FinancialAnimationContainer from '../components/FinerioAnimationContainer.vue'
 
 const router = useRouter()
 
@@ -72,7 +72,7 @@ onMounted(() => {
 
 const handleNextClick = () => {
   isAnimationOpen.value = false
-  router.push('/finerio/connect-stage1')
+  router.push('/financial/connect-stage1')
 }
 
 const handleAnimationToggle = (isOpen: boolean) => {
@@ -87,7 +87,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 </script>
 
 <style scoped>
-.finerio-process {
+.financial-process {
   min-height: 100vh;
   background: #ffffff;
   display: flex;

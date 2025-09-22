@@ -215,7 +215,7 @@ const handleNextClick = () => {
 
 const handleOtpVerified = async () => {
   showOtpModal.value = false;
-  router.push("/registration/finerio-information");
+  router.push("/registration/financial-verification");
 }
 
 const handleOtpClose = () => {

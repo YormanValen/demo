@@ -3,11 +3,16 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/registration/basic-information'
+    redirect: '/registration/experience-selection'
   },
   {
     path: '/registration',
-    redirect: '/registration/basic-information'
+    redirect: '/registration/experience-selection'
+  },
+  {
+    path: '/registration/experience-selection',
+    name: 'experience-selection',
+    component: () => import('../modules/registration/views/ExperienceSelectionView.vue')
   },
   {
     path: '/registration/basic-information',
@@ -20,55 +25,49 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../modules/financial/views/FinancialView.vue')
   },
   {
-    path: '/registration/finerio-information',
+    path: '/registration/financial-verification',
     name: 'registration-step3',
     component: () => import('../modules/finerio-stage/views/FinerioStageView.vue')
   },
   {
-    path: '/finerio/process',
-    name: 'finerio-process',
+    path: '/financial/process',
+    name: 'financial-process',
     component: () => import('../modules/finerio-stage/views/FinerioProcessView.vue'),
     meta: { hideLayout: true }
   },
   {
-    path: '/finerio/connect-stage1',
-    name: 'finerio-connect-stage1',
+    path: '/financial/connect-stage1',
+    name: 'financial-connect-stage1',
     component: () => import('../modules/finerio-stage/views/FinerioConnectStage1View.vue'),
     meta: { hideLayout: true }
   },
   {
-    path: '/finerio/connect-stage2',
-    name: 'finerio-connect-stage2',
-    component: () => import('../modules/finerio-stage/views/FinerioConnectStage2View.vue'),
-    meta: { hideLayout: true }
-  },
-  {
-    path: '/finerio/data-access',
-    name: 'finerio-data-access',
+    path: '/financial/data-access',
+    name: 'financial-data-access',
     component: () => import('../modules/finerio-stage/views/DataAccessView.vue'),
     meta: { hideLayout: true }
   },
   {
-    path: '/finerio/data-usage-mode',
-    name: 'finerio-data-usage-mode',
+    path: '/financial/data-usage-mode',
+    name: 'financial-data-usage-mode',
     component: () => import('../modules/finerio-stage/views/DataUsageModeView.vue'),
     meta: { hideLayout: true }
   },
   {
-    path: '/finerio/connect-institutions',
-    name: 'finerio-connect-institutions',
+    path: '/financial/connect-institutions',
+    name: 'financial-connect-institutions',
     component: () => import('../modules/finerio-stage/views/ConnectInstitutionsView.vue'),
     meta: { hideLayout: true }
   },
   {
-    path: '/finerio/validation',
-    name: 'finerio-validation',
+    path: '/financial/validation',
+    name: 'financial-validation',
     component: () => import('../modules/finerio-stage/views/ValidationView.vue'),
     meta: { hideLayout: true }
   },
   {
-    path: '/finerio/connected-accounts',
-    name: 'finerio-connected-accounts',
+    path: '/financial/connected-accounts',
+    name: 'financial-connected-accounts',
     component: () => import('../modules/finerio-stage/views/ConnectedAccountsView.vue'),
     meta: { hideLayout: true }
   },
@@ -121,8 +120,8 @@ const routes: RouteRecordRaw[] = [
     meta: { hideLayout: true }
   },
   {
-    path: '/finerio/institution-details',
-    name: 'finerio-institution-details',
+    path: '/financial/institution-details',
+    name: 'financial-institution-details',
     component: () => import('../modules/finerio-stage/views/IntitutionDetail.vue'),
     meta: { hideLayout: true }
   }

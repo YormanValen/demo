@@ -133,7 +133,7 @@ const togglePassword = () => {
 }
 
 const handleCancel = () => {
-  router.push('/finerio/connect-institutions')
+  router.push('/financial/connect-institutions')
 }
 
 const handleLogin = () => {

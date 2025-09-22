@@ -76,7 +76,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const handleGoBack = () => {
-  router.push('/finerio/connect-stage2')
+  router.push('/financial/connect-institutions')
 }
 </script>
 

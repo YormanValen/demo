@@ -36,7 +36,7 @@ const handleNextClick = () => {
   showLoader.value = false;
   isAnimationOpen.value = false;
   // Navegar a la nueva vista de procesamiento
-  router.push("/finerio/process");
+  router.push("/financial/process");
 };
 
 const handleAnimationToggle = (isOpen: boolean) => {
@@ -51,24 +51,24 @@ const handleAnimationToggle = (isOpen: boolean) => {
 </script>
 
 <template>
-  <div class="finerio-welcome">
+  <div class="financial-welcome">
     <div class="header-section">
-      <h1 class="title">Continúe con su solicitud en finerio</h1>
-      <p class="subtitle">Continua solicitud en finerio por favor</p>
+      <h1 class="title">Continúe con su verificación financiera</h1>
+      <p class="subtitle">Proceda con la verificación de sus datos financieros</p>
     </div>
     <div class="blue-container">
       <div class="decoration-image"></div>
       <div class="welcome-text">
-        <span class="welcome-bold">¡Finerio</span>
-        <span class="welcome-normal">bienvenido a finerio</span>
+        <span class="welcome-bold"></span>
+        <span class="welcome-normal">Bienvenido a la verificación financiera</span>
       </div>
       <div class="divider-line"></div>
       <div class="description-text">
-        <span class="description-bold">Finerio!</span> A partir de este momento
-        pudes continuar tu solicitud en finerio y diligenciar la información
+        <span class="description-bold"></span> A partir de este momento
+        puedes continuar tu solicitud en la plataforma y diligenciar la información
         correspondiente con la entidad que selecciones.
       </div>
-      <div class="finerio-image"></div>
+      <div class="financial-image"></div>
     </div>
     <button class="continue-button" @click="handleContinue">Continuar</button>
 
@@ -120,7 +120,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 </template>
 
 <style scoped>
-.finerio-welcome {
+.financial-welcome {
   display: flex;
   flex-direction: column;
   width: 60vw;
@@ -218,14 +218,14 @@ const handleAnimationToggle = (isOpen: boolean) => {
   font-weight: bold;
 }
 
-.finerio-image {
+.financial-image {
   position: absolute;
   top: 320px;
   left: 50%;
   transform: translateX(-50%);
   width: 1200px;
   height: 600px;
-  background-image: url("/src/assets/finerio_image.png");
+  background-image: url("/src/assets/financial_image.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
