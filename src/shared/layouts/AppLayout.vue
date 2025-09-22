@@ -19,8 +19,8 @@
     <div class="divider"></div>
     <footer class="app-layout__footer">
       <div class="footer-content">
-        <span class="footer-text">Open Finance 2025.</span>
-        <img src="/src/assets/logo.png" alt="Open Finance Demo" class="footer-logo" />
+        <span class="footer-text">Experiencia Open Finance 2025.</span>
+        <img src="/src/assets/logo.png" alt="Experiencia Open Finance" class="footer-logo" />
       </div>
     </footer>
   </div>

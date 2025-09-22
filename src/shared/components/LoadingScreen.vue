@@ -2,7 +2,7 @@
   <Transition name="fade">
     <div v-if="show" class="loading-screen">
       <div class="loading-content">
-        <img src="/src/assets/logo.png" alt="Open Finance Demo" class="logo" />
+        <img src="/src/assets/logo.png" alt="Experiencia Open Finance" class="logo" />
         <div class="progress-bar">
           <div class="progress-fill"></div>
         </div>

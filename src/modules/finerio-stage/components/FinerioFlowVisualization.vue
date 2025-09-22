@@ -8,8 +8,7 @@ const props = defineProps<{
 }>();
 
 const flowVisible = ref(false);
-const firstStepDuration = computed(() => (props.validationTime || 5000) / 1000);
-const secondStepDuration = computed(() => (props.processingTime || 5000) / 1000);
+const totalTime = computed(() => ((props.validationTime || 5000) + (props.processingTime || 5000)) / 1000);
 
 watch(() => props.isVisible, (newValue) => {
   if (newValue) {
@@ -42,7 +41,7 @@ onMounted(() => {
         <svg class="flow-svg" width="100%" height="20">
           <line x1="0" y1="10" x2="100%" y2="10" stroke="#001340" stroke-width="2" class="connecting-line" />
           <circle v-if="flowVisible" class="moving-dot dot-1"
-            :style="{ '--animation-duration': firstStepDuration + 's' }" cx="0" cy="10" r="6" fill="#001340" />
+            :style="{ '--total-duration': totalTime + 's' }" cx="0" cy="10" r="6" fill="#001340" />
         </svg>
       </div>
 
@@ -55,7 +54,7 @@ onMounted(() => {
         <svg class="flow-svg" width="100%" height="20">
           <line x1="0" y1="10" x2="100%" y2="10" stroke="#001340" stroke-width="2" class="connecting-line" />
           <circle v-if="flowVisible" class="moving-dot dot-2"
-            :style="{ '--animation-duration': secondStepDuration + 's', '--animation-delay': firstStepDuration + 's' }"
+            :style="{ '--total-duration': totalTime + 's' }"
             cx="0" cy="10" r="6" fill="#001340" />
         </svg>
       </div>
@@ -144,12 +143,11 @@ onMounted(() => {
 }
 
 .flow-visible .dot-1 {
-  animation: moveDot var(--animation-duration) ease-in-out forwards;
+  animation: moveFinerioFlowDot1 var(--total-duration, 10s) ease-in-out infinite;
 }
 
 .flow-visible .dot-2 {
-  animation: moveDot var(--animation-duration) ease-in-out forwards;
-  animation-delay: var(--animation-delay);
+  animation: moveFinerioFlowDot2 var(--total-duration, 10s) ease-in-out infinite;
 }
 
 @keyframes fadeInUp {
@@ -164,25 +162,65 @@ onMounted(() => {
   }
 }
 
-@keyframes moveDot {
+@keyframes moveFinerioFlowDot1 {
+  /* Dot 1: Usuario → API (0% - 45% del ciclo total) */
   0% {
     opacity: 0;
     transform: translateX(0);
   }
-
-  10% {
+  5% {
     opacity: 1;
     transform: translateX(0);
   }
-
-  90% {
+  40% {
     opacity: 1;
     transform: translateX(calc(100% - 12px));
   }
-
-  100% {
+  45% {
     opacity: 0;
     transform: translateX(calc(100% - 12px));
+  }
+  /* Esperar el resto del ciclo */
+  45.1% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveFinerioFlowDot2 {
+  /* Dot 2: API → Base de Datos (45% - 90% del ciclo total) */
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  45% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateX(calc(100% - 12px));
+  }
+  90% {
+    opacity: 0;
+    transform: translateX(calc(100% - 12px));
+  }
+  /* Pausa antes del próximo ciclo */
+  90.1% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
   }
 }
 </style>

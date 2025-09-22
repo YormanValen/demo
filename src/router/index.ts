@@ -43,12 +43,6 @@ const routes: RouteRecordRaw[] = [
     meta: { hideLayout: true }
   },
   {
-    path: '/finerio/info',
-    name: 'finerio-info',
-    component: () => import('../modules/finerio-stage/views/FinerioInfoView.vue'),
-    meta: { hideLayout: true }
-  },
-  {
     path: '/finerio/data-access',
     name: 'finerio-data-access',
     component: () => import('../modules/finerio-stage/views/DataAccessView.vue'),
@@ -64,12 +58,6 @@ const routes: RouteRecordRaw[] = [
     path: '/finerio/connect-institutions',
     name: 'finerio-connect-institutions',
     component: () => import('../modules/finerio-stage/views/ConnectInstitutionsView.vue'),
-    meta: { hideLayout: true }
-  },
-  {
-    path: '/finerio/institution-form',
-    name: 'finerio-institution-form',
-    component: () => import('../modules/finerio-stage/views/InstitutionFormView.vue'),
     meta: { hideLayout: true }
   },
   {
@@ -91,6 +79,24 @@ const routes: RouteRecordRaw[] = [
     meta: { hideLayout: true }
   },
   {
+    path: '/bankambient/dashboard/blue',
+    name: 'bankambient-dashboard-blue',
+    component: () => import('../modules/bankambient/views/BankDashboardViewBlue.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/dashboard/red',
+    name: 'bankambient-dashboard-red',
+    component: () => import('../modules/bankambient/views/BankDashboardViewRed.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/dashboard/green',
+    name: 'bankambient-dashboard-green',
+    component: () => import('../modules/bankambient/views/BankDashboardViewGreen.vue'),
+    meta: { hideLayout: true }
+  },
+  {
     path: '/bankambient/account-selection',
     name: 'bankambient-account-selection',
     component: () => import('../modules/bankambient/views/AccountSelectionView.vue'),
@@ -106,6 +112,12 @@ const routes: RouteRecordRaw[] = [
     path: '/bankambient/connection-success',
     name: 'bankambient-connection-success',
     component: () => import('../modules/bankambient/views/ConnectionSuccessView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/thank-you',
+    name: 'bankambient-thank-you',
+    component: () => import('../modules/bankambient/views/ThankYouView.vue'),
     meta: { hideLayout: true }
   },
   {

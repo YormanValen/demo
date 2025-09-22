@@ -50,9 +50,6 @@
         <button class="accept-button" @click="handleAcceptAndContinue">
           Aceptar y continuar
         </button>
-        <button class="info-button" @click="handleWhatIsFinerio">
-          ¿Qué es Finerio?
-        </button>
       </div>
     </div>
   </div>
@@ -80,9 +77,6 @@ const handleAcceptAndContinue = () => {
   router.push('/finerio/connect-institutions')
 }
 
-const handleWhatIsFinerio = () => {
-  router.push('/finerio/info')
-}
 </script>
 
 <style scoped>
@@ -202,13 +196,13 @@ const handleWhatIsFinerio = () => {
 }
 
 .link {
-  color: #3b82f6;
+  color: #001340;
   text-decoration: underline;
   font-weight: 500;
 }
 
 .link:hover {
-  color: #2563eb;
+  color: #002157;
 }
 
 .action-buttons {

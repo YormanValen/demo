@@ -144,12 +144,11 @@ onMounted(() => {
 }
 
 .flow-visible .dot-1 {
-  animation: moveDot var(--animation-duration) ease-in-out forwards;
+  animation: moveDot1 7s ease-in-out infinite;
 }
 
 .flow-visible .dot-2 {
-  animation: moveDot var(--animation-duration) ease-in-out forwards;
-  animation-delay: var(--animation-delay);
+  animation: moveDot2 7s ease-in-out infinite;
 }
 
 @keyframes fadeInUp {
@@ -164,25 +163,76 @@ onMounted(() => {
   }
 }
 
-@keyframes moveDot {
+@keyframes moveDot1 {
+  /* Primer dot: Usuario → API (0% - 43% del ciclo total) */
   0% {
     opacity: 0;
     transform: translateX(0);
   }
 
-  10% {
+  3% {
     opacity: 1;
     transform: translateX(0);
   }
 
-  90% {
+  40% {
     opacity: 1;
     transform: translateX(calc(100% - 12px));
   }
 
-  100% {
+  43% {
     opacity: 0;
     transform: translateX(calc(100% - 12px));
+  }
+
+  /* Esperar el resto del ciclo */
+  43.1% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveDot2 {
+  /* Segundo dot: API → Base de Datos (43% - 86% del ciclo total) */
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  43% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  46% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  83% {
+    opacity: 1;
+    transform: translateX(calc(100% - 12px));
+  }
+
+  86% {
+    opacity: 0;
+    transform: translateX(calc(100% - 12px));
+  }
+
+  /* Pausa y reset para el próximo ciclo */
+  86.1% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(0);
   }
 }
 </style>

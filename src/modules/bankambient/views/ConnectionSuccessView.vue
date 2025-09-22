@@ -8,9 +8,9 @@
       </div>
 
       <div class="success-check">
-        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-          <circle cx="30" cy="30" r="30" fill="none" stroke="#22c55e" stroke-width="3"/>
-          <path d="M18 30L26 38L42 22" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="35" fill="none" stroke="#22c55e" stroke-width="4"/>
+          <path d="M25 40L35 50L55 30" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
 
@@ -33,9 +33,6 @@ const router = useRouter()
 const route = useRoute()
 const countdown = ref(10)
 
-const bankName = computed(() => {
-  return route.query.bankName as string || 'Banco Azul'
-})
 
 const bankInitials = computed(() => {
   return route.query.bankInitials as string || 'BA'
@@ -50,8 +47,8 @@ onMounted(() => {
     countdown.value--
     if (countdown.value <= 0) {
       clearInterval(timer)
-      // Navigate back to registration form to complete the MVP loop
-      router.push('/registration/basic-information')
+      // Navigate to thank you page
+      router.push('/bankambient/thank-you')
     }
   }, 1000)
 })
