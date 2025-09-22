@@ -30,7 +30,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
-const countdown = ref(10)
+const countdown = ref(5)
 
 const bankInitials = computed(() => {
   return route.query.bankInitials as string || 'BA'
@@ -57,11 +57,11 @@ const handleNavigation = () => {
   let dashboardPath = '/bankambient/dashboard'
   
   // Determine specific dashboard based on bank name
-  if (bankName === 'Banco Azul') {
+  if (bankName === 'Neodigi Bank') {
     dashboardPath = '/bankambient/dashboard/blue'
-  } else if (bankName === 'Banco Rojo') {
+  } else if (bankName === 'TekCredit') {
     dashboardPath = '/bankambient/dashboard/red'
-  } else if (bankName === 'Banco Verde') {
+  } else if (bankName === 'Flexfinia') {
     dashboardPath = '/bankambient/dashboard/green'
   }
   

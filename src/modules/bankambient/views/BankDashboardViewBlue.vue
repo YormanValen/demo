@@ -14,7 +14,7 @@
               <span class="bank-initials">BA</span>
             </div>
           </div>
-          <span class="bank-name">Banco Azul</span>
+          <span class="bank-name">Neodigi Bank</span>
           <div class="search-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="7" cy="7" r="6" stroke="#666" stroke-width="1.5"/>
@@ -149,8 +149,8 @@ const handleLogin = () => {
       router.push({
         path: '/bankambient/account-selection',
         query: {
-          bankName: 'Banco Azul',
-          bankInitials: 'BA',
+          bankName: 'Neodigi Bank',
+          bankInitials: 'ND',
           bankColor: '#0066cc'
         }
       })

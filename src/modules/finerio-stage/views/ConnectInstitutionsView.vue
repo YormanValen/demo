@@ -25,7 +25,29 @@
             :style="{ 'animation-delay': `${index * 100}ms` }" @click="handleConnectBank(bank)">
             <div class="institution-info">
               <div class="institution-logo" :style="{ backgroundColor: bank.color }">
-                <span class="logo-text">{{ bank.initials }}</span>
+                <div v-if="bank.name === 'Neodigi Bank'" class="custom-logo neodigi-logo">
+                  <svg viewBox="0 0 32 32" width="28" height="28" fill="white">
+                    <path d="M16 3L6 8v8c0 6.2 4.3 12 10 13.5 5.7-1.5 10-7.3 10-13.5V8L16 3z"/>
+                    <circle cx="16" cy="14" r="4" fill="#2563eb"/>
+                    <path d="M12 22l2-2 2 2 2-2 2 2" stroke="white" stroke-width="1.5" fill="none"/>
+                  </svg>
+                </div>
+                <div v-else-if="bank.name === 'TekCredit'" class="custom-logo tek-logo">
+                  <svg viewBox="0 0 32 32" width="28" height="28" fill="white">
+                    <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="white" stroke-width="1" fill="rgba(255,255,255,0.2)"/>
+                    <circle cx="16" cy="16" r="6" fill="white"/>
+                    <path d="M13 16h6M16 13v6" stroke="#dc2626" stroke-width="2"/>
+                  </svg>
+                </div>
+                <div v-else-if="bank.name === 'Flexfinia'" class="custom-logo flex-logo">
+                  <svg viewBox="0 0 32 32" width="28" height="28" fill="white">
+                    <path d="M4 6c0-1.1.9-2 2-2h20c1.1 0 2 .9 2 2v4H4V6z"/>
+                    <path d="M4 12h24v14c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V12z"/>
+                    <circle cx="24" cy="19" r="3" fill="#059669"/>
+                    <rect x="8" y="17" width="10" height="4" rx="2" fill="rgba(255,255,255,0.8)"/>
+                  </svg>
+                </div>
+                <span v-else class="logo-text">{{ bank.initials }}</span>
               </div>
               <div class="institution-details">
                 <h3 class="institution-name">{{ bank.name }}</h3>
@@ -142,11 +164,20 @@
         </div>
       </div>
     </div>
+
+    <!-- Timestamp fijo en la parte inferior -->
+    <div class="timestamp-fixed">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="timestamp-icon">
+        <circle cx="12" cy="12" r="10" stroke="#9ca3af" stroke-width="2"/>
+        <polyline points="12,6 12,12 16,14" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="timestamp-text">{{ currentDateTime }}</span>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 interface Bank {
@@ -160,26 +191,43 @@ interface Bank {
 const router = useRouter()
 const searchQuery = ref('')
 const showContent = ref(false)
+const currentDateTime = ref('')
+let intervalId: ReturnType<typeof setInterval> | null = null
+
+const updateDateTime = () => {
+  const now = new Date()
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short'
+  }
+  currentDateTime.value = now.toLocaleDateString('es-ES', options)
+}
 
 const banks = ref<Bank[]>([
   {
     id: '1',
-    name: 'Banco Azul',
-    initials: 'BA',
+    name: 'Neodigi Bank',
+    initials: 'ND',
     color: '#2563eb',
     isConnected: false
   },
   {
     id: '2',
-    name: 'Banco Rojo',
-    initials: 'BR',
+    name: 'TekCredit',
+    initials: 'TC',
     color: '#dc2626',
     isConnected: false
   },
   {
     id: '3',
-    name: 'Banco Verde',
-    initials: 'BV',
+    name: 'Flexfinia',
+    initials: 'FF',
     color: '#059669',
     isConnected: false
   }
@@ -202,6 +250,14 @@ onMounted(() => {
   setTimeout(() => {
     showContent.value = true
   }, 300)
+  updateDateTime()
+  intervalId = setInterval(updateDateTime, 1000)
+})
+
+onUnmounted(() => {
+  if (intervalId) {
+    clearInterval(intervalId)
+  }
 })
 
 const handleConnectBank = (bank: Bank) => {
@@ -402,6 +458,18 @@ const handleConnectBank = (bank: Bank) => {
   font-weight: 700;
 }
 
+.custom-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-logo svg {
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
 .institution-name {
   font-size: 16px;
   font-weight: 600;
@@ -577,6 +645,35 @@ const handleConnectBank = (bank: Bank) => {
   color: #059669;
   margin: 0;
   font-weight: 500;
+}
+
+/* Timestamp fijo */
+.timestamp-fixed {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(156, 163, 175, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.timestamp-icon {
+  flex-shrink: 0;
+}
+
+.timestamp-text {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.3px;
 }
 
 /* Responsive Design */
