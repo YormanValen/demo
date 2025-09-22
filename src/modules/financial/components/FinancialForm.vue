@@ -5,6 +5,15 @@
         <h2>INFORMACIÓN BÁSICA SOLICITUD DE CREDITO</h2>
       </div>
 
+      <div class="open-finance-message">
+        <div class="finance-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+        <p>Usa el poder de tus datos a través de <strong>Open Finance</strong> para obtener un mejor crédito.</p>
+      </div>
+
       <form class="form-body" @submit.prevent="handleSubmit">
         <v-row class="form_row">
           <v-col cols="12" md="4">
@@ -444,6 +453,56 @@ const handleAnimationToggle = (isOpen: boolean) => {
   color: #4CAF50;
   text-align: center;
   font-weight: 600;
+}
+
+/* Open Finance Message */
+.open-finance-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  background: linear-gradient(135deg, rgba(97, 40, 120, 0.08) 0%, rgba(186, 45, 125, 0.08) 100%);
+  border-radius: 12px;
+  border-left: 4px solid #612878;
+  position: relative;
+  overflow: hidden;
+}
+
+.open-finance-message::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(97, 40, 120, 0.05) 100%);
+  pointer-events: none;
+}
+
+.finance-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #612878 0%, #ba2d7d 100%);
+  border-radius: 50%;
+  color: white;
+  flex-shrink: 0;
+}
+
+.open-finance-message p {
+  margin: 0;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.open-finance-message strong {
+  color: #612878;
+  font-weight: 700;
 }
 </style>
 

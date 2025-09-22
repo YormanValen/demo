@@ -72,12 +72,6 @@ const routes: RouteRecordRaw[] = [
     meta: { hideLayout: true }
   },
   {
-    path: '/bankambient/dashboard',
-    name: 'bankambient-dashboard',
-    component: () => import('../modules/bankambient/views/BankDashboardView.vue'),
-    meta: { hideLayout: true }
-  },
-  {
     path: '/bankambient/dashboard/blue',
     name: 'bankambient-dashboard-blue',
     component: () => import('../modules/bankambient/views/BankDashboardViewBlue.vue'),

@@ -15,9 +15,9 @@
             <h1 class="welcome-title">Bienvenido a</h1>
             <div class="bank-logo">
               <div class="bank-logo-circle">
-                <span class="bank-initials">BV</span>
+                <span class="bank-initials">FF</span>
               </div>
-              <span class="bank-name">Banco Verde</span>
+              <span class="bank-name">Flexfinia</span>
             </div>
           </div>
         </div>
@@ -131,9 +131,9 @@
         <div class="info-section">
           <div class="bank-logo-small">
             <div class="bank-logo-circle-small">
-              <span class="bank-initials-small">BV</span>
+              <span class="bank-initials-small">FF</span>
             </div>
-            <span class="bank-text">Banco Verde</span>
+            <span class="bank-text">Flexfinia</span>
           </div>
           
           <div class="carousel-container">
@@ -340,8 +340,8 @@ const handleLogin = () => {
       router.push({
         path: '/bankambient/account-selection',
         query: {
-          bankName: 'Banco Verde',
-          bankInitials: 'BV',
+          bankName: 'Flexfinia',
+          bankInitials: 'FF',
           bankColor: '#16a34a'
         }
       })

@@ -5,9 +5,9 @@
         <div class="bank-logo">
           <div class="logo-container">
             <div class="bank-logo-circle">
-              <span class="bank-initials">BR</span>
+              <span class="bank-initials">TC</span>
             </div>
-            <span class="bank-name">Banco Rojo</span>
+            <span class="bank-name">TekCredit</span>
           </div>
         </div>
         
@@ -148,8 +148,8 @@ const handleLogin = () => {
       router.push({
         path: '/bankambient/account-selection',
         query: {
-          bankName: 'Banco Rojo',
-          bankInitials: 'BR',
+          bankName: 'TekCredit',
+          bankInitials: 'TC',
           bankColor: '#dc2626'
         }
       })
