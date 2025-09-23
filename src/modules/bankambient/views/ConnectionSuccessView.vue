@@ -7,15 +7,8 @@
         </div>
       </div>
 
-      <div class="success-check">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="40" r="35" fill="none" stroke="#22c55e" stroke-width="4"/>
-          <path d="M25 40L35 50L55 30" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-
       <h1 class="main-title">Conexión exitosa</h1>
-      
+
       <p class="success-message">Institución conectada exitosamente.</p>
 
       <div class="countdown">

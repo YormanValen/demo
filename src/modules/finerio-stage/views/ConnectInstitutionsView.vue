@@ -152,19 +152,11 @@
       </div>
     </div>
 
-    <!-- Timestamp fijo en la parte inferior -->
-    <div class="timestamp-fixed">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" class="timestamp-icon">
-        <circle cx="12" cy="12" r="10" stroke="#9ca3af" stroke-width="2"/>
-        <polyline points="12,6 12,12 16,14" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="timestamp-text">{{ currentDateTime }}</span>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 interface Bank {
@@ -178,23 +170,6 @@ interface Bank {
 const router = useRouter()
 const searchQuery = ref('')
 const showContent = ref(false)
-const currentDateTime = ref('')
-let intervalId: ReturnType<typeof setInterval> | null = null
-
-const updateDateTime = () => {
-  const now = new Date()
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    timeZoneName: 'short'
-  }
-  currentDateTime.value = now.toLocaleDateString('es-ES', options)
-}
 
 const banks = ref<Bank[]>([
   {
@@ -237,15 +212,8 @@ onMounted(() => {
   setTimeout(() => {
     showContent.value = true
   }, 300)
-  updateDateTime()
-  intervalId = setInterval(updateDateTime, 1000)
 })
 
-onUnmounted(() => {
-  if (intervalId) {
-    clearInterval(intervalId)
-  }
-})
 
 const handleConnectBank = (bank: Bank) => {
   if (!bank.isConnected) {
@@ -657,34 +625,6 @@ const handleConnectBank = (bank: Bank) => {
   font-weight: 500;
 }
 
-/* Timestamp fijo */
-.timestamp-fixed {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(156, 163, 175, 0.2);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.timestamp-icon {
-  flex-shrink: 0;
-}
-
-.timestamp-text {
-  font-size: 11px;
-  color: #6b7280;
-  font-weight: 500;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 0.3px;
-}
 
 /* Responsive Design */
 @media (max-width: 1024px) {
