@@ -2,8 +2,11 @@
   <div class="validation-view">
     <div class="validation-content">
       <div class="bank-logo">
-        <div class="bank-logo-circle" :style="{ backgroundColor: bankColor }">
-          <span class="bank-initials">{{ bankInitials }}</span>
+        <div class="bank-logo-circle">
+          <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
+          <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
+          <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+          <span v-else class="bank-initials" :style="{ backgroundColor: bankColor }">{{ bankInitials }}</span>
         </div>
       </div>
 
@@ -31,6 +34,10 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 const countdown = ref(5)
+
+const bankName = computed(() => {
+  return route.query.bankName as string || 'Bank'
+})
 
 const bankInitials = computed(() => {
   return route.query.bankInitials as string || 'BA'
@@ -112,10 +119,23 @@ const handleNavigation = () => {
   justify-content: center;
 }
 
+.bank-logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
 .bank-initials {
   color: white;
   font-size: 24px;
   font-weight: 600;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
 .spinner {

@@ -5,9 +5,12 @@
         <div class="bank-logo">
           <div class="logo-container">
             <div class="bank-logo-circle">
-              <span class="bank-initials">TC</span>
+              <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
+              <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
+              <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+              <span v-else class="bank-initials">{{ bankName.substring(0, 2).toUpperCase() }}</span>
             </div>
-            <span class="bank-name">TekCredit</span>
+            <span class="bank-name">{{ bankName }}</span>
           </div>
         </div>
         
@@ -106,7 +109,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 interface LoginData {
   username: string
@@ -114,6 +117,11 @@ interface LoginData {
 }
 
 const router = useRouter()
+const route = useRoute()
+
+const bankName = computed(() => {
+  return route.query.bankName as string || 'TekCredit'
+})
 
 const loginData = ref<LoginData>({
   username: '',
@@ -196,16 +204,29 @@ const handleLogin = () => {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #dc2626;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.bank-logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 .bank-initials {
   color: white;
   font-size: 16px;
   font-weight: 600;
+  background-color: #dc2626;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
 .bank-name {

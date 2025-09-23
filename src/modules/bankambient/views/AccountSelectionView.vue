@@ -2,8 +2,11 @@
   <div class="account-selection">
     <div class="header-section">
       <div class="bank-logo-header">
-        <div class="bank-logo-circle" :style="{ backgroundColor: bankColor }">
-          <span class="bank-initials">{{ bankInitials }}</span>
+        <div class="bank-logo-circle">
+          <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
+          <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
+          <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+          <span v-else class="bank-initials">{{ bankInitials }}</span>
         </div>
         <span class="bank-name">{{ bankName }}</span>
       </div>
@@ -14,20 +17,65 @@
 
     <div class="content-section">
       <p class="instructions">
-        Selecciona y confirma las cuentas para compartir información.
+        Danos acceso a todas tus cuentas y déjanos mostrarte todo lo que Open Finance puede ofrecerte..
       </p>
 
-      <div class="accounts-grid">
-        <div v-for="account in accounts" :key="account.id" class="account-card">
-          <div class="account-info">
-            <h3 class="account-name">{{ account.name }}</h3>
-            <p class="account-number">{{ account.number }}</p>
-            <p class="account-type">{{ account.type }}</p>
+      <div class="accounts-container">
+        <div class="accounts-header">
+          <h3 class="accounts-title">Cuentas disponibles</h3>
+          <div class="selection-control">
+            <div class="selection-hint" @click="allAccountsSelected = !allAccountsSelected; toggleAllAccounts()">
+              <span class="hint-text">Haz clic aquí para seleccionar todo</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="hint-arrow">
+                <path d="M9 18L15 12L9 6" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="main-checkbox">
+              <input type="checkbox" id="selectAll" v-model="allAccountsSelected" @change="toggleAllAccounts"
+                class="checkbox-input" />
+              <label for="selectAll" class="checkbox-label"></label>
+            </div>
           </div>
-          <div class="account-checkbox">
-            <input type="checkbox" :id="account.id" v-model="selectedAccounts" :value="account.id"
-              class="checkbox-input" />
-            <label :for="account.id" class="checkbox-label"></label>
+        </div>
+        
+        <div class="accounts-grid">
+          <div v-for="account in accounts" :key="account.id" class="account-item">
+            <div class="account-info">
+              <h4 class="account-name">{{ account.name }}</h4>
+              <p class="account-number">{{ account.number }}</p>
+              <p class="account-type">{{ account.type }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Información sobre credenciales bancarias -->
+        <div class="credentials-info">
+          <div class="credentials-header">
+            <h3 class="credentials-title">Conexión segura con tu banco</h3>
+            <p class="credentials-subtitle">Para validar tu identidad y traer tu información, te pediremos tus credenciales bancarias.</p>
+          </div>
+          
+          <div class="credentials-points">
+            <div class="credential-point">
+              <div class="point-icon">🔒</div>
+              <div class="point-content">
+                <strong>Seguridad garantizada:</strong> ingresas tus datos en la pasarela oficial del banco, no en nuestra plataforma.
+              </div>
+            </div>
+            
+            <div class="credential-point">
+              <div class="point-icon">⏳</div>
+              <div class="point-content">
+                <strong>Uso único:</strong> tus credenciales solo se usan para autenticarte en este momento, no quedan guardadas.
+              </div>
+            </div>
+            
+            <div class="credential-point">
+              <div class="point-icon">📈</div>
+              <div class="point-content">
+                <strong>Propósito claro:</strong> esta conexión nos permite consultar tus ingresos y movimientos autorizados para ofrecerte una solución ajustada a tu perfil.
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -115,10 +163,7 @@
       </div>
 
       <div class="action-buttons">
-        <button type="button" class="cancel-button" @click="handleCancel">
-          Cancelar
-        </button>
-        <button type="button" class="confirm-button" @click="handleConfirm" :disabled="selectedAccounts.length === 0">
+        <button type="button" class="confirm-button" @click="handleConfirm" :disabled="!allAccountsSelected">
           Confirmar
         </button>
       </div>
@@ -151,6 +196,7 @@ const router = useRouter()
 const route = useRoute()
 
 const selectedAccounts = ref<string[]>([])
+const allAccountsSelected = ref(false)
 const showAccounts = ref(false)
 const showBalances = ref(false)
 const showTransactions = ref(false)
@@ -217,32 +263,25 @@ const toggleTransactions = () => {
   showTransactions.value = !showTransactions.value
 }
 
-const handleCancel = () => {
-  const currentBankName = bankName.value
-  let dashboardPath = '/bankambient/dashboard'
-
-  // Determine specific dashboard based on bank name
-  if (currentBankName === 'Neodigi Bank') {
-    dashboardPath = '/bankambient/dashboard/blue'
-  } else if (currentBankName === 'TekCredit') {
-    dashboardPath = '/bankambient/dashboard/red'
-  } else if (currentBankName === 'Flexfinia') {
-    dashboardPath = '/bankambient/dashboard/green'
+const toggleAllAccounts = () => {
+  if (allAccountsSelected.value) {
+    selectedAccounts.value = accounts.value.map(account => account.id)
+  } else {
+    selectedAccounts.value = []
   }
-
-  router.push(dashboardPath)
 }
 
+
 const handleConfirm = () => {
-  if (selectedAccounts.value.length > 0) {
-    console.log('Confirmed accounts:', selectedAccounts.value)
+  if (allAccountsSelected.value) {
+    console.log('Confirmed all accounts')
     router.push({
       path: '/bankambient/connection-loading',
       query: {
         bankName: bankName.value,
         bankInitials: bankInitials.value,
         bankColor: bankColor.value,
-        selectedAccounts: selectedAccounts.value.join(',')
+        selectedAccounts: accounts.value.map(account => account.id).join(',')
       }
     })
   }
@@ -298,6 +337,12 @@ onUnmounted(() => {
   font-weight: 600;
 }
 
+.bank-logo-image {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
 .bank-name {
   font-size: 24px;
   font-weight: 700;
@@ -327,26 +372,134 @@ onUnmounted(() => {
   text-align: center;
 }
 
-.accounts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin-bottom: 48px;
-}
-
-.account-card {
+.accounts-container {
   background: white;
   border: 2px solid #e5e7eb;
   border-radius: 12px;
-  padding: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  transition: border-color 0.2s;
+  margin-bottom: 48px;
+  overflow: hidden;
 }
 
-.account-card:hover {
-  border-color: #d1d5db;
+.accounts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.accounts-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #001340;
+  margin: 0;
+}
+
+.selection-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.main-checkbox {
+  position: relative;
+}
+
+.selection-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.hint-arrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.selection-hint:hover .hint-arrow {
+  transform: translateX(2px);
+}
+
+.hint-text {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #f1f5f9;
+}
+
+.account-item {
+  padding: 20px 24px;
+  background: white;
+  transition: background-color 0.2s;
+}
+
+.account-item:hover {
+  background: #f8fafc;
+}
+
+/* Información sobre credenciales */
+.credentials-info {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.credentials-header {
+  margin-bottom: 20px;
+}
+
+.credentials-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #001340;
+  margin: 0 0 8px 0;
+}
+
+.credentials-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.credentials-points {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.credential-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.point-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.point-content {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.point-content strong {
+  color: #059669;
+  font-weight: 600;
 }
 
 .account-info {
@@ -354,7 +507,7 @@ onUnmounted(() => {
 }
 
 .account-name {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #001340;
   margin: 0 0 8px 0;
@@ -372,10 +525,6 @@ onUnmounted(() => {
   margin: 0;
 }
 
-.account-checkbox {
-  margin-left: 16px;
-  position: relative;
-}
 
 .checkbox-input {
   width: 20px;

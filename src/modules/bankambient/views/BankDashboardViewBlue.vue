@@ -11,10 +11,13 @@
         <div class="bank-logo">
           <div class="logo-icon">
             <div class="bank-logo-circle">
-              <span class="bank-initials">BA</span>
+              <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
+              <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
+              <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+              <span v-else class="bank-initials">{{ bankName.substring(0, 2).toUpperCase() }}</span>
             </div>
           </div>
-          <span class="bank-name">Neodigi Bank</span>
+          <span class="bank-name">{{ bankName }}</span>
           <div class="search-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="7" cy="7" r="6" stroke="#666" stroke-width="1.5"/>
@@ -108,7 +111,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 interface LoginData {
   username: string
@@ -116,6 +119,11 @@ interface LoginData {
 }
 
 const router = useRouter()
+const route = useRoute()
+
+const bankName = computed(() => {
+  return route.query.bankName as string || 'Neodigi Bank'
+})
 
 const loginData = ref<LoginData>({
   username: '',
@@ -227,6 +235,12 @@ const handleLogin = () => {
   color: white;
   font-size: 14px;
   font-weight: 600;
+}
+
+.bank-logo-image {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .bank-name {
