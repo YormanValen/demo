@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import LoadingScreen from '../../../shared/components/LoadingScreen.vue'
 
-const showContent = ref(false)
+const showContent = ref(false);
+const captchaChecked = ref(false);
 
 const router = useRouter();
 
@@ -79,6 +80,27 @@ const handleNextClick = async () => {
           class="benefit-checkbox"
           density="compact"
         ></v-checkbox>
+      </div>
+
+      <!-- Captcha -->
+      <div class="captcha-container">
+        <div class="captcha-box">
+          <v-checkbox
+            v-model="captchaChecked"
+            color="#982881"
+            hide-details
+            density="compact"
+          >
+            <template #label>
+              <span class="captcha-text">No soy un robot</span>
+            </template>
+          </v-checkbox>
+          <div class="recaptcha-logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDNi40NzcgMjIgMiAxNy41MjMgMiAxMlM2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTAtMmE4IDggMCAxIDAgMC0xNiA4IDggMCAwIDAgMCAxNnoiIGZpbGw9IiMwMEMzRTYiLz48L3N2Zz4=" alt="reCAPTCHA" class="recaptcha-icon" />
+            <span class="recaptcha-text">reCAPTCHA</span>
+            <span class="recaptcha-info">Privacidad - Términos</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -162,6 +184,56 @@ const handleNextClick = async () => {
   color: #333;
   margin: 0 0 5px 0;
   font-weight: 500;
+}
+
+.captcha-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.captcha-box {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  padding: 6px;
+  background: #f9f9f9;
+  width: fit-content;
+}
+
+.captcha-text {
+  color: #555;
+  font-size: 14px;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.recaptcha-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border-left: 1px solid #d3d3d3;
+  padding-left: 20px;
+}
+
+.recaptcha-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.recaptcha-text {
+  color: #555;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.recaptcha-info {
+  color: #555;
+  font-size: 8px;
+  text-decoration: none;
 }
 
 .benefit-description {
