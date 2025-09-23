@@ -33,7 +33,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const showProgressBar = computed(() => {
-  return route.path === '/registration/financial-information' || route.path === '/registration/financial-verification'
+  return route.path === '/registration/financial-information' || route.path === '/registration/financial-verification' || route.path === '/consent'
 })
 
 const hideLayout = computed(() => {
@@ -43,7 +43,10 @@ const hideLayout = computed(() => {
 
 <style scoped>
 .app-layout {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  justify-content: space-between;
   background: #f3f2f2;
   color: var(--text-primary);
 }
@@ -100,7 +103,7 @@ const hideLayout = computed(() => {
 
 .app-layout__footer {
   padding: 20px 40px;
-  background: #ffffff;
+  background: #f3f2f2;
 }
 
 .footer-content {
@@ -129,7 +132,7 @@ const hideLayout = computed(() => {
   width: 100%;
   height: fit-content;
   padding: 10px 0;
-  background: #f9fafb;
+  background: transparent;
 }
 
 .progress-bar {
