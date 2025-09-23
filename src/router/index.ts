@@ -124,6 +124,12 @@ const routes: RouteRecordRaw[] = [
     name: 'consent',
     component: () => import('../modules/consent/views/consentView.vue'),
     meta: { hideLayout: false }
+  },
+  {
+    path: '/financial/congrats',
+    name: 'financial-congrats',
+    component: () => import('../modules/financial/views/CongratsView.vue'),
+    meta: { hideLayout: false }
   }
 ]
 
