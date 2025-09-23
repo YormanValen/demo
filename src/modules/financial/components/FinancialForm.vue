@@ -8,55 +8,76 @@
       <div class="open-finance-message">
         <div class="finance-icon">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+            />
           </svg>
         </div>
-        <p>Usa el poder de tus datos a través de <strong>Open Finance</strong> para obtener un mejor crédito.</p>
+        <p>
+          Usa el poder de tus datos a través de
+          <strong>Open Finance</strong> para obtener un mejor crédito.
+        </p>
       </div>
 
       <form class="form-body" @submit.prevent="handleSubmit">
         <v-row class="form_row">
           <v-col cols="12" md="4">
-            <v-text-field variant="underlined" v-model="form.gastosMensuales" label="Gastos mensuales"
-              class="form-field" required @input="formatCurrency($event, 'gastosMensuales')"
-              @blur="validateField('gastosMensuales')" />
+            <v-text-field
+              variant="underlined"
+              v-model="form.gastosMensuales"
+              label="Gastos mensuales"
+              class="form-field"
+              required
+              @input="formatCurrency($event, 'gastosMensuales')"
+              @blur="validateField('gastosMensuales')"
+            />
             <transition name="slide-down">
-              <div v-if="fieldErrors.gastosMensuales" class="error-message">{{ fieldErrors.gastosMensuales }}</div>
+              <div v-if="fieldErrors.gastosMensuales" class="error-message">
+                {{ fieldErrors.gastosMensuales }}
+              </div>
             </transition>
           </v-col>
-          <v-col cols="12" md="4">
+          <!--  <v-col cols="12" md="4">
             <v-text-field variant="underlined" v-model="form.antiguedadMeses" label="Antigüedad (meses)"
               class="form-field" type="number" min="0" required @blur="validateField('antiguedadMeses')" />
             <transition name="slide-down">
               <div v-if="fieldErrors.antiguedadMeses" class="error-message">{{ fieldErrors.antiguedadMeses }}</div>
             </transition>
-          </v-col>
+          </v-col> -->
           <v-col cols="12" md="4">
-            <v-text-field variant="underlined" v-model="form.ingresosMensualesPromedio"
-              label="Ingresos mensuales promedio" class="form-field" required
+            <v-text-field
+              variant="underlined"
+              v-model="form.ingresosMensualesPromedio"
+              label="Ingresos mensuales promedio"
+              class="form-field"
+              required
               @input="formatCurrency($event, 'ingresosMensualesPromedio')"
-              @blur="validateField('ingresosMensualesPromedio')" />
+              @blur="validateField('ingresosMensualesPromedio')"
+            />
             <transition name="slide-down">
-              <div v-if="fieldErrors.ingresosMensualesPromedio" class="error-message">{{
-                fieldErrors.ingresosMensualesPromedio }}</div>
-            </transition>
-          </v-col>
-        </v-row>
-
-        <v-row class="form_row">
-          <v-col cols="12" md="4">
-            <v-text-field variant="underlined" v-model="form.otrosIngresos" label="Otros ingresos" class="form-field"
-              @input="formatCurrency($event, 'otrosIngresos')" />
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-text-field variant="underlined" v-model="form.montoSolicitado" label="Monto solicitado"
-              class="form-field" required @input="formatCurrency($event, 'montoSolicitado')"
-              @blur="validateField('montoSolicitado')" />
-            <transition name="slide-down">
-              <div v-if="fieldErrors.montoSolicitado" class="error-message">{{ fieldErrors.montoSolicitado }}</div>
+              <div
+                v-if="fieldErrors.ingresosMensualesPromedio"
+                class="error-message"
+              >
+                {{ fieldErrors.ingresosMensualesPromedio }}
+              </div>
             </transition>
           </v-col>
           <v-col cols="12" md="4">
+            <v-text-field
+              variant="underlined"
+              v-model="form.montoSolicitado"
+              label="Monto solicitado"
+              class="form-field"
+              required
+              @input="formatCurrency($event, 'montoSolicitado')"
+              @blur="validateField('montoSolicitado')"
+            />
+            <transition name="slide-down">
+              <div v-if="fieldErrors.montoSolicitado" class="error-message">
+                {{ fieldErrors.montoSolicitado }}
+              </div>
+            </transition>
           </v-col>
         </v-row>
 
@@ -68,39 +89,80 @@
 
     <ValidationLoader :show="showValidationLoader" />
 
-    <OtpModal :show="showOtpModal" :phone-number="userPhoneNumber" @close="handleOtpClose"
-      @verified="handleOtpVerified" />
+    <OtpModal
+      :show="showOtpModal"
+      :phone-number="userPhoneNumber"
+      @close="handleOtpClose"
+      @verified="handleOtpVerified"
+    />
 
-    <AnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen" :clickable-header="false"
-      @toggle="handleAnimationToggle">
+    <AnimationContainer
+      :is-visible="showAnimationContainer"
+      :force-open="isAnimationOpen"
+      :clickable-header="false"
+      @toggle="handleAnimationToggle"
+    >
       <template #header>
         <span>Flujo de Proceso</span>
       </template>
-      <div style="display: flex; flex-direction: column; min-height: 300px;">
+      <div style="display: flex; flex-direction: column; min-height: 300px">
         <!-- Loading animation at the top -->
-        <div v-if="showContainerLoader"
-          style="display: flex; justify-content: center; align-items: center; padding: 20px 0;">
+        <div
+          v-if="showContainerLoader"
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+          "
+        >
           <div class="container-loader">
-            <div style="display: flex; justify-content: center; align-items: center;">
-            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            ></div>
           </div>
         </div>
 
         <!-- Flow visualization -->
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <CompleteFlowVisualization v-if="showCompleteFlow" :is-visible="true" :total-duration="10000" />
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <CompleteFlowVisualization
+            v-if="showCompleteFlow"
+            :is-visible="true"
+            :total-duration="10000"
+          />
 
           <!-- Process disclaimer -->
           <div v-if="showCompleteFlow" class="process-disclaimer">
-            <p>Este proceso se realiza en milisegundos, pero te mostramos la animación para que visualices el recorrido
-              de tus
-              datos.</p>
+            <p>
+              Este proceso se realiza en milisegundos, pero te mostramos la
+              animación para que visualices el recorrido de tus datos.
+            </p>
           </div>
         </div>
 
         <!-- Next button at the bottom -->
         <transition name="fade-slide-up">
-          <div v-if="showNextButton" style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+          <div
+            v-if="showNextButton"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              padding: 20px;
+            "
+          >
             <!-- Next instruction disclaimer -->
             <div class="next-disclaimer">
               <p>Haz click en "Siguiente" para continuar al siguiente paso</p>
@@ -116,14 +178,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
-import type { FinancialFormData } from '../types/financial.types'
-import { useRouter } from 'vue-router'
-import { useRegistrationStore } from '../../registration/stores/registration.store'
-import OtpModal from '../../registration/components/OtpModal.vue'
-import ValidationLoader from './ValidationLoader.vue'
-import AnimationContainer from './AnimationContainer.vue'
-import CompleteFlowVisualization from './CompleteFlowVisualization.vue'
+import { computed, reactive, ref } from "vue";
+import type { FinancialFormData } from "../types/financial.types";
+import { useRouter } from "vue-router";
+import { useRegistrationStore } from "../../registration/stores/registration.store";
+import OtpModal from "../../registration/components/OtpModal.vue";
+import ValidationLoader from "./ValidationLoader.vue";
+import AnimationContainer from "./AnimationContainer.vue";
+import CompleteFlowVisualization from "./CompleteFlowVisualization.vue";
 
 const router = useRouter();
 const store = useRegistrationStore();
@@ -139,33 +201,40 @@ const showProcessComplete = ref(false);
 
 const COMPLETE_ANIMATION_TIME = 10000; // 10 segundos para la animación completa de 5 pasos
 const form = reactive<FinancialFormData>({
-  gastosMensuales: '',
-  antiguedadMeses: '',
-  ingresosMensualesPromedio: '',
-  otrosIngresos: '',
-  montoSolicitado: ''
-})
+  gastosMensuales: "",
+  /*   antiguedadMeses: '',
+   */ ingresosMensualesPromedio: "",
+  /*   otrosIngresos: '',
+   */ montoSolicitado: "",
+});
 
 const fieldErrors = reactive({
-  gastosMensuales: '',
-  antiguedadMeses: '',
-  ingresosMensualesPromedio: '',
-  montoSolicitado: ''
+  gastosMensuales: "",
+  /*   antiguedadMeses: '',
+   */ ingresosMensualesPromedio: "",
+  montoSolicitado: "",
 });
 
 const validateField = (fieldName: keyof typeof fieldErrors) => {
   switch (fieldName) {
-    case 'gastosMensuales':
-      fieldErrors.gastosMensuales = !form.gastosMensuales.trim() ? 'Los gastos mensuales son obligatorios' : '';
+    case "gastosMensuales":
+      fieldErrors.gastosMensuales = !form.gastosMensuales.trim()
+        ? "Los gastos mensuales son obligatorios"
+        : "";
       break;
-    case 'antiguedadMeses':
+    /* case 'antiguedadMeses':
       fieldErrors.antiguedadMeses = !form.antiguedadMeses.trim() ? 'La antigüedad es obligatoria' : '';
+      break; */
+    case "ingresosMensualesPromedio":
+      fieldErrors.ingresosMensualesPromedio =
+        !form.ingresosMensualesPromedio.trim()
+          ? "Los ingresos mensuales promedio son obligatorios"
+          : "";
       break;
-    case 'ingresosMensualesPromedio':
-      fieldErrors.ingresosMensualesPromedio = !form.ingresosMensualesPromedio.trim() ? 'Los ingresos mensuales promedio son obligatorios' : '';
-      break;
-    case 'montoSolicitado':
-      fieldErrors.montoSolicitado = !form.montoSolicitado.trim() ? 'El monto solicitado es obligatorio' : '';
+    case "montoSolicitado":
+      fieldErrors.montoSolicitado = !form.montoSolicitado.trim()
+        ? "El monto solicitado es obligatorio"
+        : "";
       break;
   }
 };
@@ -173,37 +242,38 @@ const validateField = (fieldName: keyof typeof fieldErrors) => {
 const isFormValid = computed(() => {
   return (
     !!form.gastosMensuales.trim() &&
-    !!form.antiguedadMeses.trim() &&
+    /*   !!form.antiguedadMeses.trim() &&
+   */ 
     !!form.ingresosMensualesPromedio.trim() &&
     !!form.montoSolicitado.trim()
-  )
-})
+  );
+});
 
 const formatCurrency = (event: Event, field: keyof FinancialFormData) => {
-  const input = event.target as HTMLInputElement
-  let value = input.value.replace(/[^\d]/g, '')
+  const input = event.target as HTMLInputElement;
+  let value = input.value.replace(/[^\d]/g, "");
 
   if (value) {
-    const numericValue = parseInt(value)
-    const formattedValue = new Intl.NumberFormat('es-CO', {
-      style: 'currency',
-      currency: 'COP',
-      minimumFractionDigits: 0
-    }).format(numericValue)
+    const numericValue = parseInt(value);
+    const formattedValue = new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      minimumFractionDigits: 0,
+    }).format(numericValue);
 
-    form[field] = formattedValue
+    form[field] = formattedValue;
   } else {
-    form[field] = ''
+    form[field] = "";
   }
-}
+};
 
 const handleSubmit = () => {
-  Object.keys(fieldErrors).forEach(key => {
+  Object.keys(fieldErrors).forEach((key) => {
     validateField(key as keyof typeof fieldErrors);
   });
 
   if (!isFormValid.value) {
-    return
+    return;
   }
 
   openAnimationContainer();
@@ -215,25 +285,25 @@ const handleSubmit = () => {
     showProcessComplete.value = true;
     showNextButton.value = true;
   }, COMPLETE_ANIMATION_TIME);
-}
+};
 
 const handleNextClick = () => {
   isAnimationOpen.value = false;
   showOtpModal.value = true;
-}
+};
 
 const handleOtpVerified = async () => {
   showOtpModal.value = false;
   router.push("/registration/financial-verification");
-}
+};
 
 const handleOtpClose = () => {
   showOtpModal.value = false;
-}
+};
 
 const openAnimationContainer = () => {
   isAnimationOpen.value = true;
-}
+};
 
 const handleAnimationToggle = (isOpen: boolean) => {
   if (isOpen) {
@@ -243,7 +313,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
   } else {
     showCompleteFlow.value = false;
   }
-}
+};
 </script>
 
 <style scoped>
@@ -255,9 +325,12 @@ const handleAnimationToggle = (isOpen: boolean) => {
 }
 
 .form-header {
-  background: linear-gradient(21deg,
+  background: linear-gradient(
+      21deg,
       rgb(97, 40, 120) 0%,
-      rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent;
+      rgb(186, 45, 125) 100%
+    )
+    0% 0% no-repeat padding-box padding-box transparent;
 
   width: 100%;
   display: flex;
@@ -450,7 +523,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 .next-disclaimer p {
   margin: 0;
   font-size: 15px;
-  color: #4CAF50;
+  color: #4caf50;
   text-align: center;
   font-weight: 600;
 }
@@ -462,7 +535,11 @@ const handleAnimationToggle = (isOpen: boolean) => {
   gap: 12px;
   padding: 16px 20px;
   margin: 20px 0;
-  background: linear-gradient(135deg, rgba(97, 40, 120, 0.08) 0%, rgba(186, 45, 125, 0.08) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(97, 40, 120, 0.08) 0%,
+    rgba(186, 45, 125, 0.08) 100%
+  );
   border-radius: 12px;
   border-left: 4px solid #612878;
   position: relative;
@@ -470,13 +547,17 @@ const handleAnimationToggle = (isOpen: boolean) => {
 }
 
 .open-finance-message::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
   width: 60px;
   height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(97, 40, 120, 0.05) 100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(97, 40, 120, 0.05) 100%
+  );
   pointer-events: none;
 }
 
