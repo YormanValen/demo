@@ -15,9 +15,12 @@
             <h1 class="welcome-title">Bienvenido a</h1>
             <div class="bank-logo">
               <div class="bank-logo-circle">
-                <span class="bank-initials">FF</span>
+                <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
+                <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
+                <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+                <span v-else class="bank-initials">{{ bankName.substring(0, 2).toUpperCase() }}</span>
               </div>
-              <span class="bank-name">Flexfinia</span>
+              <span class="bank-name">{{ bankName }}</span>
             </div>
           </div>
         </div>
@@ -131,9 +134,12 @@
         <div class="info-section">
           <div class="bank-logo-small">
             <div class="bank-logo-circle-small">
-              <span class="bank-initials-small">FF</span>
+              <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image-small" />
+              <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image-small" />
+              <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image-small" />
+              <span v-else class="bank-initials-small">{{ bankName.substring(0, 2).toUpperCase() }}</span>
             </div>
-            <span class="bank-text">Flexfinia</span>
+            <span class="bank-text">{{ bankName }}</span>
           </div>
           
           <div class="carousel-container">
@@ -233,7 +239,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 interface LoginData {
   username: string
@@ -241,6 +247,11 @@ interface LoginData {
 }
 
 const router = useRouter()
+const route = useRoute()
+
+const bankName = computed(() => {
+  return route.query.bankName as string || 'Flexfinia'
+})
 
 const loginData = ref<LoginData>({
   username: '',
@@ -419,16 +430,29 @@ const handleLogin = () => {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #16a34a;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.bank-logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 .bank-initials {
   color: white;
   font-size: 14px;
   font-weight: 600;
+  background-color: #16a34a;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
 .bank-name {
@@ -763,16 +787,29 @@ const handleLogin = () => {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #16a34a;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.bank-logo-image-small {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 .bank-initials-small {
   color: white;
   font-size: 10px;
   font-weight: 600;
+  background-color: #16a34a;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
 .bank-text {

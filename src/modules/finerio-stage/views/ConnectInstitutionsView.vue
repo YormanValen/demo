@@ -24,30 +24,19 @@
           <div v-for="(bank, index) in filteredBanks" :key="bank.id" class="institution-item"
             :style="{ 'animation-delay': `${index * 100}ms` }" @click="handleConnectBank(bank)">
             <div class="institution-info">
-              <div class="institution-logo" :style="{ backgroundColor: bank.color }">
+              <div class="institution-logo">
                 <div v-if="bank.name === 'Neodigi Bank'" class="custom-logo neodigi-logo">
-                  <svg viewBox="0 0 32 32" width="28" height="28" fill="white">
-                    <path d="M16 3L6 8v8c0 6.2 4.3 12 10 13.5 5.7-1.5 10-7.3 10-13.5V8L16 3z"/>
-                    <circle cx="16" cy="14" r="4" fill="#2563eb"/>
-                    <path d="M12 22l2-2 2 2 2-2 2 2" stroke="white" stroke-width="1.5" fill="none"/>
-                  </svg>
+                  <img src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="neodigi-logo-img" />
                 </div>
                 <div v-else-if="bank.name === 'TekCredit'" class="custom-logo tek-logo">
-                  <svg viewBox="0 0 32 32" width="28" height="28" fill="white">
-                    <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="white" stroke-width="1" fill="rgba(255,255,255,0.2)"/>
-                    <circle cx="16" cy="16" r="6" fill="white"/>
-                    <path d="M13 16h6M16 13v6" stroke="#dc2626" stroke-width="2"/>
-                  </svg>
+                  <img src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="tekcredit-logo-img" />
                 </div>
                 <div v-else-if="bank.name === 'Flexfinia'" class="custom-logo flex-logo">
-                  <svg viewBox="0 0 32 32" width="28" height="28" fill="white">
-                    <path d="M4 6c0-1.1.9-2 2-2h20c1.1 0 2 .9 2 2v4H4V6z"/>
-                    <path d="M4 12h24v14c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V12z"/>
-                    <circle cx="24" cy="19" r="3" fill="#059669"/>
-                    <rect x="8" y="17" width="10" height="4" rx="2" fill="rgba(255,255,255,0.8)"/>
-                  </svg>
+                  <img src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="flexfinia-logo-img" />
                 </div>
-                <span v-else class="logo-text">{{ bank.initials }}</span>
+                <div v-else class="custom-logo initials-logo" :style="{ backgroundColor: bank.color }">
+                  <span class="logo-text">{{ bank.initials }}</span>
+                </div>
               </div>
               <div class="institution-details">
                 <h3 class="institution-name">{{ bank.name }}</h3>
@@ -64,10 +53,6 @@
         </div>
 
         <button class="back-button-bottom" @click="handleGoBack">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M19 12H5M12 19L5 12L12 5" stroke="#374151" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
           Volver
         </button>
       </div>
@@ -98,13 +83,12 @@
                 </defs>
               </svg>
             </div>
-            <h2 class="info-title">¿Qué haremos con tu información?</h2>
+            <h2 class="info-title">Conecta el banco donde recibes tus ingresos o manejas tus productos</h2>
           </div>
 
           <div class="info-content">
             <p class="info-description">
-              <strong>Tranquilo, no tocaremos tu dinero.</strong> Solo vamos a revisar cómo manejas
-              tus finanzas para conocerte mejor y ofrecerte las mejores opciones.
+              <strong>Al elegir tu banco nos permites conocer mejor tu realidad financiera:</strong> tus ingresos, tarjetas y movimientos principales.
             </p>
 
             <div class="info-grid">
@@ -117,8 +101,8 @@
                   </svg>
                 </div>
                 <div class="detail-content">
-                  <h4>¿Qué revisaremos?</h4>
-                  <p>Tus ingresos, gastos y cómo administras tu dinero mes a mes</p>
+                  <h4>Propósito claro</h4>
+                  <p>Usamos esta información solo para crear una visión completa de ti y ofrecerte soluciones ajustadas a tu perfil.</p>
                 </div>
               </div>
 
@@ -131,8 +115,8 @@
                   </svg>
                 </div>
                 <div class="detail-content">
-                  <h4>¿Por cuánto tiempo?</h4>
-                  <p><strong>Los últimos 12 meses</strong> de movimientos en tu cuenta</p>
+                  <h4>Flexibilidad</h4>
+                  <p>Puedes conectar uno o varios bancos, porque tu vida financiera no está en un solo lugar.</p>
                 </div>
               </div>
 
@@ -144,23 +128,26 @@
                   </svg>
                 </div>
                 <div class="detail-content">
-                  <h4>¿Es seguro?</h4>
-                  <p>Sí, solo <strong>miramos</strong> tu información, no podemos mover dinero</p>
+                  <h4>Beneficio para ti</h4>
+                  <p>Entre más completa sea tu información, más rápido y justo será tu acceso a productos financieros.</p>
+                </div>
+              </div>
+
+              <div class="info-detail">
+                <div class="detail-icon security">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2Z" stroke="#64748b"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <div class="detail-content">
+                  <h4>Siempre seguro</h4>
+                  <p>La conexión se hace directamente con tu banco, sin que tus credenciales queden guardadas.</p>
                 </div>
               </div>
             </div>
 
           </div>
-        </div>
-
-        <div class="security-notice">
-          <div class="security-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 1L15 3V7.5C15 11.5 12.5 15.25 10 16C7.5 15.25 5 11.5 5 7.5V3L10 1Z" stroke="#059669"
-                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </div>
-          <p class="security-text">Conexión 100% segura con encriptación bancaria</p>
         </div>
       </div>
     </div>
@@ -444,12 +431,10 @@ const handleConnectBank = (bank: Bank) => {
 .institution-logo {
   width: 48px;
   height: 48px;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .logo-text {
@@ -467,7 +452,32 @@ const handleConnectBank = (bank: Bank) => {
 }
 
 .custom-logo svg {
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.initials-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.neodigi-logo-img {
+  width: 56px;
+  height: auto;
+  object-fit: contain;
+}
+
+.tekcredit-logo-img {
+  width: 48px;
+  height: auto;
+  object-fit: contain;
+}
+
+.flexfinia-logo-img {
+  width: 48px;
+  height: auto;
+  object-fit: contain;
 }
 
 .institution-name {
