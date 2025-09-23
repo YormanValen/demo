@@ -44,7 +44,7 @@ const hideLayout = computed(() => {
 <style scoped>
 .app-layout {
   min-height: 100vh;
-  background: #ffffff;
+  background: #f3f2f2;
   color: var(--text-primary);
 }
 
