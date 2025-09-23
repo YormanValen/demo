@@ -118,6 +118,12 @@ const routes: RouteRecordRaw[] = [
     name: 'financial-institution-details',
     component: () => import('../modules/finerio-stage/views/IntitutionDetail.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/consent',
+    name: 'consent',
+    component: () => import('../modules/consent/views/consentView.vue'),
+    meta: { hideLayout: false }
   }
 ]
 

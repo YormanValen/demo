@@ -201,7 +201,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 };
 
 const handleNextClick = () => {
-  router.push("/registration/financial-information");
+  router.push("/consent");
 };
 </script>
 
@@ -755,7 +755,10 @@ const handleNextClick = () => {
   padding-bottom: 1vw;
   padding-top: 30px;
   font-size: 16px;
+  background-color: transparent;
 }
+
+
 
 .v-field--variant-underlined,
 .v-field--variant-underlined *,
@@ -798,9 +801,7 @@ const handleNextClick = () => {
   color: black;
 }
 
-.v-label {
-  background-color: white;
-}
+
 
 .v-select__content .v-list-item:hover {
   background-color: rgba(152, 40, 129, 0.06) !important;

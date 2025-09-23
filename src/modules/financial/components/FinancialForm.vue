@@ -592,6 +592,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
   padding-bottom: 1vw;
   padding-top: 30px;
   font-size: 16px;
+  background-color: transparent;
 }
 
 .v-field--variant-underlined,
@@ -627,7 +628,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 }
 
 .v-label {
-  background-color: white;
+  background-color: transparent;
 }
 
 .error-message {
