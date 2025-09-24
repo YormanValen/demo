@@ -2,9 +2,9 @@
   <div class="connection-loading">
     <div class="loading-content">
       <div class="spinner"></div>
-      
-      <h1 class="main-title">Conectando su institución</h1>
-      
+
+      <h1 class="main-title">Conectando su entidad</h1>
+
       <div class="loading-text">
         <p>Danos unos segundos mientras finalizamos la</p>
         <p>conexión.</p>
@@ -94,9 +94,9 @@ onMounted(() => {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
-
 </style>

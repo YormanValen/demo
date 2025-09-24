@@ -30,7 +30,7 @@ const handleContinue = () => {
 
           <div class="credit-details">
             <p>
-              Por un monto de <span class="highlight">$20,000</span> con una
+              Por un monto de <span class="highlight">$50'000.000</span> con una
               tasa del <span class="highlight">14%</span> y un plazo de
               <span class="highlight">36 meses</span>
             </p>
@@ -150,10 +150,12 @@ const handleContinue = () => {
 }
 
 @keyframes bounce {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-5px);
   }

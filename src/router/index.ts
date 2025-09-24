@@ -114,6 +114,12 @@ const routes: RouteRecordRaw[] = [
     meta: { hideLayout: true }
   },
   {
+    path: '/bankambient/data-processing',
+    name: 'bankambient-data-processing',
+    component: () => import('../modules/bankambient/views/DataProcessingAnimationView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
     path: '/financial/institution-details',
     name: 'financial-institution-details',
     component: () => import('../modules/finerio-stage/views/IntitutionDetail.vue'),

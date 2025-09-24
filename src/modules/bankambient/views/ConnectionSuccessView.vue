@@ -9,7 +9,7 @@
 
       <h1 class="main-title">Conexión exitosa</h1>
 
-      <p class="success-message">Institución conectada exitosamente.</p>
+      <p class="success-message">Entidad conectada exitosamente.</p>
 
       <div class="countdown">
         {{ countdown }}

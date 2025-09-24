@@ -24,12 +24,6 @@
         <div class="accounts-header">
           <h3 class="accounts-title">Cuentas disponibles</h3>
           <div class="selection-control">
-            <div class="selection-hint" @click="allAccountsSelected = !allAccountsSelected; toggleAllAccounts()">
-              <span class="hint-text">Haz clic aquí para seleccionar todo</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="hint-arrow">
-                <path d="M9 18L15 12L9 6" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
             <div class="main-checkbox">
               <input type="checkbox" id="selectAll" v-model="allAccountsSelected" @change="toggleAllAccounts"
                 class="checkbox-input" />
@@ -173,7 +167,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 interface Account {
@@ -187,7 +181,7 @@ const router = useRouter()
 const route = useRoute()
 
 const selectedAccounts = ref<string[]>([])
-const allAccountsSelected = ref(false)
+const allAccountsSelected = ref(true)
 const showAccounts = ref(false)
 const showBalances = ref(false)
 const showTransactions = ref(false)
@@ -223,6 +217,11 @@ const bankInitials = computed(() => {
 
 const bankColor = computed(() => {
   return route.query.bankColor as string || '#2563eb'
+})
+
+// Inicializar con todas las cuentas seleccionadas
+onMounted(() => {
+  selectedAccounts.value = accounts.value.map(account => account.id)
 })
 
 const toggleAccounts = () => {
@@ -364,34 +363,11 @@ const handleConfirm = () => {
 .selection-control {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: flex-end;
 }
 
 .main-checkbox {
   position: relative;
-}
-
-.selection-hint {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.hint-arrow {
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-
-.selection-hint:hover .hint-arrow {
-  transform: translateX(2px);
-}
-
-.hint-text {
-  font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
-  white-space: nowrap;
 }
 
 .accounts-grid {

@@ -5,7 +5,7 @@
       <!-- Panel Izquierdo - Selector de Bancos -->
       <div class="left-panel" :class="{ 'animate': showContent }">
         <div class="panel-header">
-          <h1 class="panel-title">Selecciona el banco</h1>
+          <h1 class="panel-title">Selecciona tu entidad bancaria</h1>
           <p class="panel-subtitle">en el que tienes domiciliada tu nómina o pensión</p>
         </div>
 
@@ -88,7 +88,8 @@
 
           <div class="info-content">
             <p class="info-description">
-              <strong>Al elegir tu banco nos permites conocer mejor tu realidad financiera:</strong> tus ingresos, tarjetas y movimientos principales.
+              <strong>Al elegir tu banco nos permites conocer mejor tu realidad financiera:</strong> tus ingresos,
+              tarjetas y movimientos principales.
             </p>
 
             <div class="info-grid">
@@ -102,7 +103,8 @@
                 </div>
                 <div class="detail-content">
                   <h4>Propósito claro</h4>
-                  <p>Usamos esta información solo para crear una visión completa de ti y ofrecerte soluciones ajustadas a tu perfil.</p>
+                  <p>Usamos esta información solo para crear una visión completa de ti y ofrecerte soluciones ajustadas
+                    a tu perfil.</p>
                 </div>
               </div>
 
@@ -129,7 +131,8 @@
                 </div>
                 <div class="detail-content">
                   <h4>Beneficio para ti</h4>
-                  <p>Entre más completa sea tu información, más rápido y justo será tu acceso a productos financieros.</p>
+                  <p>Entre más completa sea tu información, más rápido y justo será tu acceso a productos financieros.
+                  </p>
                 </div>
               </div>
 
@@ -420,7 +423,7 @@ const handleConnectBank = (bank: Bank) => {
 }
 
 .custom-logo svg {
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .initials-logo {
