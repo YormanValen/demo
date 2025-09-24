@@ -173,4 +173,39 @@ const hideLayout = computed(() => {
     transform: translateX(100%);
   }
 }
+
+/* Media queries for responsive header */
+@media (max-width: 768px) {
+  .app-layout__header {
+    height: 120px;
+    background-size: cover;
+  }
+  
+  .header-content {
+    padding: 0 20px;
+    justify-content: center;
+  }
+  
+  .header-tagline {
+    margin-right: 0;
+    margin-bottom: 20px;
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-layout__header {
+    height: 100px;
+  }
+  
+  .header-content {
+    padding: 0 15px;
+  }
+  
+  .header-tagline {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+}
 </style>
