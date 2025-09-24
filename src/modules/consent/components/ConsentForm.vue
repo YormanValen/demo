@@ -1,21 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import LoadingScreen from '../../../shared/components/LoadingScreen.vue'
+import { ref, computed } from 'vue';
 
-const showContent = ref(false);
 const captchaChecked = ref(false);
-
-const router = useRouter();
-
-const openContent = () => {
-  showContent.value = true;
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(void 0);
-    }, 5000);
-  });
-};
 
 const benefits = ref([
   {
@@ -45,15 +31,35 @@ const benefits = ref([
     description: 'Con tu autorización podremos evaluar tu situación financiera y prevenir riesgos de sobreendeudamiento o fraude.',
     icon: 'mdi-shield-check-outline',
     checked: false
+  },
+  {
+    id: 'dataProcessing',
+    title: 'Autorizo el tratamiento de mis datos para fines de inclusión financiera y mayor acceso al crédito',
+    description: 'Permite que procesemos tu información personal para evaluarte y ofrecerte mejores oportunidades de crédito.',
+    icon: 'mdi-file-document-outline',
+    checked: false,
+    hasDocument: true,
+    documentUrl: '/autorizacion_obligatoria_v14.pdf'
   }
 ]);
 
 
-const handleNextClick = async () => {
-  // Primero activamos el loader
-  await openContent();
-  // Después de que termine el loader, navegamos a la siguiente ruta
-  router.push("/registration/financial-information");
+const emit = defineEmits(['trigger-animation']);
+
+// Computed para validar si se puede continuar
+const canContinue = computed(() => {
+  // Buscar el consentimiento obligatorio (tratamiento de datos)
+  const dataProcessingConsent = benefits.value.find(benefit => benefit.id === 'dataProcessing');
+  
+  // Requiere: captcha marcado Y consentimiento de tratamiento de datos marcado
+  return captchaChecked.value && dataProcessingConsent?.checked;
+});
+
+const handleNextClick = () => {
+  if (!canContinue.value) return;
+  
+  // Emitir evento para que el RegistrationForm active su animación
+  emit('trigger-animation');
 };
 </script>
 
@@ -69,7 +75,10 @@ const handleNextClick = async () => {
           <v-icon :icon="benefit.icon" color="#982881" size="24"></v-icon>
         </div>
         <div class="benefit-content">
-          <h3 class="benefit-title">{{ benefit.title }}</h3>
+          <h3 class="benefit-title">
+            {{ benefit.title }}
+            <a v-if="benefit.hasDocument" :href="benefit.documentUrl" target="_blank" class="document-link">Ver documento</a>
+          </h3>
           <p class="benefit-description">{{ benefit.description }}</p>
         </div>
         <v-checkbox
@@ -111,13 +120,16 @@ const handleNextClick = async () => {
 
     <!-- Botón Continuar -->
     <div class="button-container">
-      <button @click="handleNextClick" class="continue-button">
+      <button 
+        @click="handleNextClick" 
+        class="continue-button" 
+        :disabled="!canContinue"
+        :class="{ 'disabled': !canContinue }"
+      >
         Continuar
       </button>
     </div>
   </div>
-
-  <LoadingScreen :show="showContent" />
 
 </template>
 
@@ -184,6 +196,21 @@ const handleNextClick = async () => {
   color: #333;
   margin: 0 0 5px 0;
   font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.document-link {
+  color: #982881;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.document-link:hover {
+  color: #7a1f6a;
 }
 
 .captcha-container {
@@ -271,6 +298,18 @@ const handleNextClick = async () => {
 
 .continue-button:hover {
   opacity: 0.9;
+}
+
+.continue-button:disabled,
+.continue-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.continue-button:disabled:hover,
+.continue-button.disabled:hover {
+  opacity: 0.5;
 }
 
 :deep(.v-checkbox) {

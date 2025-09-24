@@ -7,6 +7,7 @@ import ValidationLoader from "../../financial/components/ValidationLoader.vue";
 import FinancialLoader from "./FinancialLoader.vue";
 import FlowVisualization from "./FlowVisualization.vue";
 import AnimationContainer from "../../financial/components/AnimationContainer.vue";
+import ConsentForm from "../../consent/components/ConsentForm.vue";
 const router = useRouter();
 const store = useRegistrationStore();
 const {
@@ -41,8 +42,6 @@ const form = reactive<RegistrationFormData>({
   celular: "",
   correo: "",
   esPEP: false,
-  autorizaTratamientoDatos: false,
-  autorizaFinesComerciales: false,
 });
 
 onMounted(() => {
@@ -79,7 +78,6 @@ const fieldErrors = reactive({
   ciudadExpedicion: "",
   celular: "",
   correo: "",
-  autorizaTratamientoDatos: "",
 });
 
 const validateField = (fieldName: keyof typeof fieldErrors) => {
@@ -133,11 +131,6 @@ const validateField = (fieldName: keyof typeof fieldErrors) => {
         fieldErrors.correo = "";
       }
       break;
-    case "autorizaTratamientoDatos":
-      fieldErrors.autorizaTratamientoDatos = !form.autorizaTratamientoDatos
-        ? "Debe autorizar el tratamiento de datos"
-        : "";
-      break;
   }
 };
 
@@ -151,8 +144,7 @@ const isFormValid = computed(() => {
     !!form.fechaExpedicionDocumento &&
     !!form.departamentoExpedicion &&
     !!form.ciudadExpedicion &&
-    !!form.celular.trim() &&
-    form.autorizaTratamientoDatos
+    !!form.celular.trim()
   );
 });
 
@@ -201,7 +193,12 @@ const handleAnimationToggle = (isOpen: boolean) => {
 };
 
 const handleNextClick = () => {
-  router.push("/consent");
+  router.push("/registration/financial-information");
+};
+
+const handleConsentAnimation = () => {
+  // Activar la animación cuando ConsentForm emite el evento
+  openAnimationContainer();
 };
 </script>
 
@@ -376,49 +373,14 @@ const handleNextClick = () => {
               <template v-slot:activator="{ props }">
                 <span v-bind="props" class="switch-text">Soy una persona expuesta públicamente (PEP)</span>
               </template>
-              <span>Las PEP son personas que ejercen funciones públicas prominentes o han estado relacionadas con
+              <span>Las PEP son personas que ejercen funciones públicas prominentes or han estado relacionadas con
                 ellas</span>
             </v-tooltip>
           </v-col>
         </v-row>
 
-        <v-row>
-          <v-col cols="12" class="checkbox-container">
-            <v-checkbox v-model="form.autorizaTratamientoDatos" color="#982881" density="compact" hide-details
-              @change="validateField('autorizaTratamientoDatos')" />
-            <span class="checkbox-text">
-              Autorizo el tratamiento de mis datos para fines de inclusión
-              financiera y mayor acceso al crédito
-              <a href="/autorizacion_obligatoria_v14.pdf" target="_blank" class="document-link">Ver documento</a>
-            </span>
-          </v-col>
-          <v-col v-if="fieldErrors.autorizaTratamientoDatos" cols="12">
-            <transition name="slide-down">
-              <div class="error-message">
-                {{ fieldErrors.autorizaTratamientoDatos }}
-              </div>
-            </transition>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols="12" class="checkbox-container">
-            <v-checkbox v-model="form.autorizaFinesComerciales" color="#982881" density="compact" hide-details />
-            <v-tooltip location="bottom" class="custom-tooltip" transition="fade-transition" :open-delay="200"
-              :offset="0">
-              <template v-slot:activator="{ props }">
-                <span v-bind="props" class="checkbox-text">
-                  Autorización para fines comerciales
-                </span>
-              </template>
-              <span>Autoriza el uso de tus datos para ofrecerte productos y servicios comerciales relacionados</span>
-            </v-tooltip>
-          </v-col>
-        </v-row>
-
-        <button type="submit" class="form-submit" :disabled="!isFormValid || isSubmitting">
-          {{ isSubmitting ? "Enviando..." : "Continuar" }}
-        </button>
+        <!-- Consent Form Section -->
+        <ConsentForm @trigger-animation="handleConsentAnimation" />
       </form>
     </div>
 
@@ -917,5 +879,63 @@ const handleNextClick = () => {
 .fade-transition-enter-to,
 .fade-transition-leave-from {
   opacity: 1 !important;
+}
+
+/* Open Finance Message - keeping for potential future use */
+.open-finance-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  background: linear-gradient(
+    135deg,
+    rgba(97, 40, 120, 0.08) 0%,
+    rgba(186, 45, 125, 0.08) 100%
+  );
+  border-radius: 12px;
+  border-left: 4px solid #612878;
+  position: relative;
+  overflow: hidden;
+}
+
+.open-finance-message::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(97, 40, 120, 0.05) 100%
+  );
+  pointer-events: none;
+}
+
+.finance-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #612878 0%, #ba2d7d 100%);
+  border-radius: 50%;
+  color: white;
+  flex-shrink: 0;
+}
+
+.open-finance-message p {
+  margin: 0;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.open-finance-message strong {
+  color: #612878;
+  font-weight: 700;
 }
 </style>
