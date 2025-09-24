@@ -129,7 +129,7 @@ onMounted(() => {
 });
 
 const handleNextClick = () => {
-  router.push("/financial/congrats");
+  router.push("/bankambient/data-processing");
 };
 </script>
 

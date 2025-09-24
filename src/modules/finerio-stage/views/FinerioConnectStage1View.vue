@@ -19,19 +19,20 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Título principal más amigable -->
         <div class="title-section">
           <h1 class="main-title">Usa el poder de tus datos a través de Open Finance para obtener un mejor crédito</h1>
           <p class="subtitle">Conecta tu banco de forma fácil y segura para acceder a mejores opciones financieras</p>
         </div>
-        
+
         <!-- Lista de beneficios mejorada -->
         <div class="benefits-section">
           <div class="benefit-card">
             <div class="benefit-icon secure">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2Z" stroke="url(#gradient1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2Z" stroke="url(#gradient1)"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <defs>
                   <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
@@ -45,12 +46,13 @@
               <p class="benefit-text">Solo revisamos tu información, nunca tocamos tu dinero</p>
             </div>
           </div>
-          
+
           <div class="benefit-card">
             <div class="benefit-icon fast">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="url(#gradient2)" stroke-width="2"/>
-                <polyline points="12,6 12,12 16,14" stroke="url(#gradient2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="10" stroke="url(#gradient2)" stroke-width="2" />
+                <polyline points="12,6 12,12 16,14" stroke="url(#gradient2)" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
                 <defs>
                   <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
@@ -64,12 +66,13 @@
               <p class="benefit-text">Solo toma unos minutos conectar tu cuenta</p>
             </div>
           </div>
-          
+
           <div class="benefit-card">
             <div class="benefit-icon control">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M9 12L11 14L15 10" stroke="url(#gradient3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="12" cy="12" r="9" stroke="url(#gradient3)" stroke-width="2"/>
+                <path d="M9 12L11 14L15 10" stroke="url(#gradient3)" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <circle cx="12" cy="12" r="9" stroke="url(#gradient3)" stroke-width="2" />
                 <defs>
                   <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
@@ -84,15 +87,15 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Botones mejorados -->
         <div class="action-buttons">
           <button class="btn-connect" @click="handleConnect">
-            <span class="btn-text">Conectar mi banco</span>
+            <span class="btn-text">Conectar mi entidad</span>
           </button>
-          
+
           <button class="btn-view" @click="handleViewConnected">
-            Ver cuentas conectadas
+            Ver entidades conectadas
           </button>
         </div>
       </div>
@@ -102,9 +105,9 @@
         <div class="info-box-internal">
           <div class="info-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke="url(#gradient4)" stroke-width="2"/>
-              <path d="M12 16v-4" stroke="url(#gradient4)" stroke-width="2" stroke-linecap="round"/>
-              <path d="M12 8h.01" stroke="url(#gradient4)" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="10" stroke="url(#gradient4)" stroke-width="2" />
+              <path d="M12 16v-4" stroke="url(#gradient4)" stroke-width="2" stroke-linecap="round" />
+              <path d="M12 8h.01" stroke="url(#gradient4)" stroke-width="2" stroke-linecap="round" />
               <defs>
                 <linearGradient id="gradient4" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
@@ -114,12 +117,15 @@
             </svg>
           </div>
           <div class="info-content">
-            <h4 class="info-title">¿Por qué conectar mi banco?</h4>
+            <h4 class="info-title">¿Por qué conectar mi entidad?</h4>
             <p class="info-text">
-              Al conectar tu cuenta bancaria de forma segura, analizamos tu historial financiero para ofrecerte productos crediticios personalizados con mejores tasas y condiciones adaptadas a tu perfil.
+              Al conectar tu cuenta bancaria de forma segura, analizamos tu historial financiero para ofrecerte
+              productos crediticios personalizados con mejores tasas y condiciones adaptadas a tu perfil.
             </p>
             <p class="info-text">
-              <strong>Tus datos están completamente protegidos</strong> - utilizamos tecnología de encriptación bancaria y solo accedemos a la información necesaria para evaluar tu perfil crediticio y encontrar las mejores opciones financieras disponibles para ti.
+              <strong>Tus datos están completamente protegidos</strong> - utilizamos tecnología de encriptación bancaria
+              y solo accedemos a la información necesaria para evaluar tu perfil crediticio y encontrar las mejores
+              opciones financieras disponibles para ti.
             </p>
             <p class="info-text">
               Puedes desconectar tu cuenta en cualquier momento y mantener el control total sobre tu información.
@@ -242,7 +248,8 @@ const handleViewConnected = () => {
   margin-bottom: 20px;
 }
 
-.logo-bubble, .bank-bubble {
+.logo-bubble,
+.bank-bubble {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -254,7 +261,8 @@ const handleViewConnected = () => {
   animation: pulse 2s infinite;
 }
 
-.logo-text, .bank-text {
+.logo-text,
+.bank-text {
   font-size: 24px;
 }
 
@@ -281,13 +289,29 @@ const handleViewConnected = () => {
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 @keyframes flowDots {
-  0%, 100% { opacity: 0.3; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.2); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 
@@ -297,15 +321,15 @@ const handleViewConnected = () => {
 }
 
 .main-title {
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 600;
   color: #001340;
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
   line-height: 1.3;
 }
 
 .subtitle {
-  font-size: 16px;
+  font-size: 14px;
   color: #64748b;
   line-height: 1.5;
   margin: 0;
@@ -411,14 +435,14 @@ const handleViewConnected = () => {
 }
 
 .benefit-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #001340;
   margin: 0 0 4px 0;
 }
 
 .benefit-text {
-  font-size: 14px;
+  font-size: 12px;
   color: #64748b;
   line-height: 1.4;
   margin: 0;
@@ -439,7 +463,7 @@ const handleViewConnected = () => {
   color: white;
   border: none;
   border-radius: 16px;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -487,7 +511,7 @@ const handleViewConnected = () => {
   color: #374151;
   border: 2px solid #e5e7eb;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -533,22 +557,22 @@ const handleViewConnected = () => {
   .right-panel {
     padding: 30px 24px;
   }
-  
+
   .main-title {
-    font-size: 24px;
+    font-size: 18px;
   }
-  
+
   .subtitle {
-    font-size: 15px;
+    font-size: 13px;
   }
-  
+
   .benefit-card {
     padding: 16px;
   }
-  
+
   .btn-connect {
     height: 52px;
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .info-box-internal {
@@ -560,13 +584,15 @@ const handleViewConnected = () => {
   .connection-flow {
     gap: 12px;
   }
-  
-  .logo-bubble, .bank-bubble {
+
+  .logo-bubble,
+  .bank-bubble {
     width: 50px;
     height: 50px;
   }
-  
-  .logo-text, .bank-text {
+
+  .logo-text,
+  .bank-text {
     font-size: 20px;
   }
 }
