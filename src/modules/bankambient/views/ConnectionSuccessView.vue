@@ -50,6 +50,7 @@ onMounted(() => {
 <style scoped>
 .connection-success {
   min-height: 100vh;
+  width: 100vw;
   background: #f8fafc;
   display: flex;
   justify-content: center;

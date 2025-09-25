@@ -5,28 +5,31 @@
         <div class="people-image"></div>
       </div>
     </div>
-    
+
     <div class="right-section">
       <div class="header">
         <div class="bank-logo">
           <div class="logo-icon">
             <div class="bank-logo-circle">
-              <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
-              <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
-              <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+              <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank"
+                class="bank-logo-image" />
+              <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit"
+                class="bank-logo-image" />
+              <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia"
+                class="bank-logo-image" />
               <span v-else class="bank-initials">{{ bankName.substring(0, 2).toUpperCase() }}</span>
             </div>
           </div>
           <span class="bank-name">{{ bankName }}</span>
           <div class="search-icon">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="7" cy="7" r="6" stroke="#666" stroke-width="1.5"/>
-              <path d="m13 13-6-6" stroke="#666" stroke-width="1.5"/>
+              <circle cx="7" cy="7" r="6" stroke="#666" stroke-width="1.5" />
+              <path d="m13 13-6-6" stroke="#666" stroke-width="1.5" />
             </svg>
           </div>
         </div>
       </div>
-      
+
       <div class="welcome-section">
         <h1 class="welcome-title">Bienvenido al Portal<br>Personas</h1>
         <p class="welcome-subtitle">
@@ -34,72 +37,47 @@
           identificación (CC, CE, NI, TI, PE ) o su Número de Identificación<br>
           sin espacios, puntos ni comas.
         </p>
-        
+
         <form @submit.prevent="handleLogin" class="login-form">
           <div class="form-group">
             <label class="form-label">Usuario</label>
-            <input
-              type="text"
-              v-model="loginData.username"
-              class="form-input"
-              placeholder="Ejemplo: CC1234567890"
-              required
-            />
+            <input type="text" v-model="loginData.username" class="form-input" placeholder="Ejemplo: CC1234567890"
+              required />
           </div>
-          
+
           <div class="form-group">
             <div class="password-label-row">
               <label class="form-label">Contraseña</label>
-              <button 
-                type="button" 
-                class="forgot-password-link"
-                @click="handleForgotPassword"
-              >
+              <button type="button" class="forgot-password-link" @click="handleForgotPassword">
                 ¿Olvidó su contraseña?
               </button>
             </div>
             <div class="password-input-wrapper">
-              <input
-                :type="showPassword ? 'text' : 'password'"
-                v-model="loginData.password"
-                class="form-input"
-                placeholder="Siguiente"
-                required
-              />
-              <button 
-                type="button"
-                @click="togglePassword"
-                class="password-toggle"
-              >
+              <input :type="showPassword ? 'text' : 'password'" v-model="loginData.password" class="form-input"
+                placeholder="Siguiente" required />
+              <button type="button" @click="togglePassword" class="password-toggle">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 3C6.5 3 3.5 5.5 2 8.5C3.5 11.5 6.5 14 10 14C13.5 14 16.5 11.5 18 8.5C16.5 5.5 13.5 3 10 3Z" stroke="#666" stroke-width="1.5"/>
-                  <circle cx="10" cy="8.5" r="2.5" stroke="#666" stroke-width="1.5"/>
-                  <path v-if="!showPassword" d="M2 2L18 18" stroke="#666" stroke-width="1.5"/>
+                  <path
+                    d="M10 3C6.5 3 3.5 5.5 2 8.5C3.5 11.5 6.5 14 10 14C13.5 14 16.5 11.5 18 8.5C16.5 5.5 13.5 3 10 3Z"
+                    stroke="#666" stroke-width="1.5" />
+                  <circle cx="10" cy="8.5" r="2.5" stroke="#666" stroke-width="1.5" />
+                  <path v-if="!showPassword" d="M2 2L18 18" stroke="#666" stroke-width="1.5" />
                 </svg>
               </button>
             </div>
           </div>
-          
+
           <button type="submit" class="continue-button" :disabled="!isFormValid || isLoggingIn">
             <div v-if="isLoggingIn" class="button-spinner">
               <svg width="20" height="20" viewBox="0 0 20 20" class="spinner">
-                <circle
-                  cx="10"
-                  cy="10"
-                  r="8"
-                  stroke="white"
-                  stroke-width="2"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-dasharray="25.1"
-                  stroke-dashoffset="25.1"
-                />
+                <circle cx="10" cy="10" r="8" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"
+                  stroke-dasharray="25.1" stroke-dashoffset="25.1" />
               </svg>
             </div>
             <span v-else>Siguiente</span>
           </button>
         </form>
-        
+
         <div class="new-client-section">
           <span class="new-client-text">¿Es un cliente nuevo?</span>
           <button class="register-link" @click="handleRegister">Registrarse</button>
@@ -152,7 +130,7 @@ const handleRegister = () => {
 const handleLogin = () => {
   if (isFormValid.value && !isLoggingIn.value) {
     isLoggingIn.value = true
-    
+
     setTimeout(() => {
       router.push({
         path: '/bankambient/account-selection',
@@ -170,6 +148,7 @@ const handleLogin = () => {
 <style scoped>
 .portal-container {
   min-height: 100vh;
+  width: 100vw;
   display: flex;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -413,6 +392,7 @@ const handleLogin = () => {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -423,10 +403,12 @@ const handleLogin = () => {
     stroke-dasharray: 1, 50;
     stroke-dashoffset: 0;
   }
+
   50% {
     stroke-dasharray: 25, 50;
     stroke-dashoffset: -12.5;
   }
+
   100% {
     stroke-dasharray: 25, 50;
     stroke-dashoffset: -37.5;
@@ -465,25 +447,69 @@ const handleLogin = () => {
   .portal-container {
     flex-direction: column;
   }
-  
+
   .left-section {
     height: 200px;
   }
-  
+
   .right-section {
     max-width: none;
   }
-  
+
   .welcome-section {
     padding: 40px 20px 20px;
   }
-  
+
   .header {
     padding: 20px;
   }
-  
+
   .welcome-title {
     font-size: 28px;
   }
+}
+
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.is-tablet .portal-container,
+.tablet .portal-container,
+.is-mobile .portal-container {
+  flex-direction: column;
+}
+
+.is-tablet .left-section,
+.tablet .left-section,
+.is-mobile .left-section {
+  height: 200px;
+}
+
+.is-tablet .right-section,
+.tablet .right-section,
+.is-mobile .right-section {
+  max-width: none;
+}
+
+.is-tablet .welcome-section,
+.tablet .welcome-section,
+.is-mobile .welcome-section {
+  padding: 40px 20px 20px;
+}
+
+.is-tablet .header,
+.tablet .header,
+.is-mobile .header {
+  padding: 20px;
+}
+
+.is-tablet .welcome-title,
+.tablet .welcome-title,
+.is-mobile .welcome-title {
+  font-size: 28px;
+}
+
+.is-tablet .right-section,
+.tablet .right-section,
+.is-mobile .right-section {
+  max-width: 500px;
+  margin: 0 auto;
 }
 </style>

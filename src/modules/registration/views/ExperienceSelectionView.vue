@@ -105,10 +105,6 @@ const continueWithSelection = () => {
 
 <style scoped>
 .experience-selection-view {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 250px);
   padding: 20px;
 }
 
@@ -117,7 +113,7 @@ const continueWithSelection = () => {
   flex-direction: column;
   gap: 20px;
   max-width: 600px;
-  width: 100%;
+  margin: 0 auto;
   text-align: center;
 }
 

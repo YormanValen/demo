@@ -2,13 +2,8 @@
   <div class="search-bar">
     <div class="search-input-container">
       <v-icon class="search-icon" size="20" color="#9ca3af">mdi-magnify</v-icon>
-      <input 
-        type="text" 
-        class="search-input"
-        placeholder="Busca tu institución"
-        v-model="searchQuery"
-        @input="$emit('search', searchQuery)"
-      />
+      <input type="text" class="search-input" placeholder="Busca tu entidad financiera" v-model="searchQuery"
+        @input="$emit('search', searchQuery)" />
     </div>
   </div>
 </template>

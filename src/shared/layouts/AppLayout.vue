@@ -43,10 +43,7 @@ const hideLayout = computed(() => {
 
 <style scoped>
 .app-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  justify-content: space-between;
+  display: block;
   background: #f3f2f2;
   color: var(--text-primary);
 }
@@ -122,8 +119,8 @@ const hideLayout = computed(() => {
 }
 
 .footer-logo {
-  margin-top: -50px;
-  height: 120px;
+  margin-top: -30px;
+  height: 100px;
   width: auto;
   object-fit: contain;
 }
@@ -207,5 +204,29 @@ const hideLayout = computed(() => {
     font-size: 14px;
     margin-bottom: 15px;
   }
+}
+
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.tablet .app-layout__header,
+.is-mobile .app-layout__header {
+  height: 120px;
+  background-size: cover;
+}
+
+.tablet .header-content,
+.is-mobile .header-content {
+  padding: 0 20px;
+  justify-content: center;
+}
+
+.tablet .header-tagline,
+.is-mobile .header-tagline {
+  margin-right: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.is-mobile .header-tagline {
+  font-size: 14px;
 }
 </style>

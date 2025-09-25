@@ -1,57 +1,59 @@
 <template>
-  <div v-if="show" class="modal-overlay" @click="closeModal">
-    <div class="modal-content" @click.stop>
-      <div class="modal-header">
-        <h3>Verificación de Código</h3>
-        <button class="close-button" @click="closeModal">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M6.225 4.811a1 1 0 00-1.414 1.414L10.586 12 4.81 17.775a1 1 0 101.414 1.414L12 13.414l5.775 5.775a1 1 0 001.414-1.414L13.414 12l5.775-5.775a1 1 0 00-1.414-1.414L12 10.586 6.225 4.81z"/>
-          </svg>
-        </button>
-      </div>
-      
-      <div class="modal-body">
-        <div class="phone-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M10.5 18.75a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" />
-            <path fill-rule="evenodd" d="M8.625.75A3.375 3.375 0 0 0 5.25 4.125v15.75a3.375 3.375 0 0 0 3.375 3.375h6.75a3.375 3.375 0 0 0 3.375-3.375V4.125A3.375 3.375 0 0 0 15.375.75h-6.75ZM7.5 4.125C7.5 3.504 8.004 3 8.625 3h6.75c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-6.75A1.125 1.125 0 0 1 7.5 19.875V4.125Z" clip-rule="evenodd" />
-          </svg>
+  <teleport to="body">
+    <div v-if="show" class="modal-overlay" @click="closeModal">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h3>Verificación de Código</h3>
+          <button class="close-button" @click="closeModal">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.225 4.811a1 1 0 00-1.414 1.414L10.586 12 4.81 17.775a1 1 0 101.414 1.414L12 13.414l5.775 5.775a1 1 0 001.414-1.414L13.414 12l5.775-5.775a1 1 0 00-1.414-1.414L12 10.586 6.225 4.81z"/>
+            </svg>
+          </button>
         </div>
         
-        <p class="otp-message">
-          Hemos enviado un código de verificación al número:
-        </p>
-        <p class="phone-number">XXXX{{ maskedPhone }}</p>
-        
-        <div class="otp-inputs">
-          <input 
-            v-for="(_, index) in otpDigits" 
-            :key="index"
-            v-model="otpDigits[index]"
-            :ref="el => otpInputs[index] = el as HTMLInputElement"
-            type="text"
-            maxlength="1"
-            class="otp-input"
-            @input="handleInput(index, $event)"
-            @keydown="handleKeydown(index, $event)"
-            @paste="handlePaste"
-          />
-        </div>
-        
-        <div v-if="error" class="error-message">
-          Código incorrecto. Inténtalo de nuevo.
-        </div>
-        
-        <div v-if="success" class="success-message">
-          ¡Código verificado correctamente!
-        </div>
-        
-        <div class="demo-message">
-          Para fines demostrativos, el OTP de prueba es 123456
+        <div class="modal-body">
+          <div class="phone-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10.5 18.75a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" />
+              <path fill-rule="evenodd" d="M8.625.75A3.375 3.375 0 0 0 5.25 4.125v15.75a3.375 3.375 0 0 0 3.375 3.375h6.75a3.375 3.375 0 0 0 3.375-3.375V4.125A3.375 3.375 0 0 0 15.375.75h-6.75ZM7.5 4.125C7.5 3.504 8.004 3 8.625 3h6.75c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-6.75A1.125 1.125 0 0 1 7.5 19.875V4.125Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          
+          <p class="otp-message">
+            Hemos enviado un código de verificación al número:
+          </p>
+          <p class="phone-number">XXXX{{ maskedPhone }}</p>
+          
+          <div class="otp-inputs">
+            <input 
+              v-for="(_, index) in otpDigits" 
+              :key="index"
+              v-model="otpDigits[index]"
+              :ref="el => otpInputs[index] = el as HTMLInputElement"
+              type="text"
+              maxlength="1"
+              class="otp-input"
+              @input="handleInput(index, $event)"
+              @keydown="handleKeydown(index, $event)"
+              @paste="handlePaste"
+            />
+          </div>
+          
+          <div v-if="error" class="error-message">
+            Código incorrecto. Inténtalo de nuevo.
+          </div>
+          
+          <div v-if="success" class="success-message">
+            ¡Código verificado correctamente!
+          </div>
+          
+          <div class="demo-message">
+            Para fines demostrativos, el OTP de prueba es 123456
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </teleport>
 </template>
 
 <script setup lang="ts">

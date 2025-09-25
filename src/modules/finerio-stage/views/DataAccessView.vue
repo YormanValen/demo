@@ -3,7 +3,8 @@
     <div class="data-content">
       <div class="back-button" @click="handleGoBack">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M19 12H5M12 19L5 12L12 5" stroke="#001340" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M19 12H5M12 19L5 12L12 5" stroke="#001340" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
       </div>
 
@@ -12,7 +13,8 @@
       <div class="security-notice">
         <div class="security-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M10 1L15 3V7.5C15 11.5 12.5 15.25 10 16C7.5 15.25 5 11.5 5 7.5V3L10 1Z" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 1L15 3V7.5C15 11.5 12.5 15.25 10 16C7.5 15.25 5 11.5 5 7.5V3L10 1Z" stroke="#64748b"
+              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
         <p class="security-text">Tus datos se compartirán de forma segura</p>
@@ -23,8 +25,9 @@
           <div class="section-header">
             <div class="section-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M16 21V19C16 17.8954 15.1046 17 14 17H10C8.89543 17 8 17.8954 8 19V21" stroke="#001340" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="12" cy="7" r="4" stroke="#001340" stroke-width="2"/>
+                <path d="M16 21V19C16 17.8954 15.1046 17 14 17H10C8.89543 17 8 17.8954 8 19V21" stroke="#001340"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="12" cy="7" r="4" stroke="#001340" stroke-width="2" />
               </svg>
             </div>
             <h2 class="section-title">Datos personales</h2>
@@ -44,8 +47,8 @@
           <div class="section-header">
             <div class="section-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="3" y="4" width="18" height="15" rx="2" stroke="#001340" stroke-width="2"/>
-                <path d="M7 8H17M7 12H13" stroke="#001340" stroke-width="2" stroke-linecap="round"/>
+                <rect x="3" y="4" width="18" height="15" rx="2" stroke="#001340" stroke-width="2" />
+                <path d="M7 8H17M7 12H13" stroke="#001340" stroke-width="2" stroke-linecap="round" />
               </svg>
             </div>
             <h2 class="section-title">Cuentas</h2>
@@ -83,6 +86,7 @@ const handleGoBack = () => {
 <style scoped>
 .data-access {
   min-height: 100vh;
+  width: 100vw;
   background: #f8fafc;
   display: flex;
   justify-content: center;

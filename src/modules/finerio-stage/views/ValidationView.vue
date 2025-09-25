@@ -3,9 +3,12 @@
     <div class="validation-content">
       <div class="bank-logo">
         <div class="bank-logo-circle">
-          <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
-          <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
-          <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+          <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank"
+            class="bank-logo-image" />
+          <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit"
+            class="bank-logo-image" />
+          <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia"
+            class="bank-logo-image" />
           <span v-else class="bank-initials" :style="{ backgroundColor: bankColor }">{{ bankInitials }}</span>
         </div>
       </div>
@@ -13,7 +16,7 @@
       <div class="spinner"></div>
 
       <h1 class="main-title">Validando información</h1>
-      
+
       <div class="validation-text">
         <p>Danos unos segundos mientras</p>
         <p>finalizamos la conexión.</p>
@@ -62,7 +65,7 @@ onMounted(() => {
 const handleNavigation = () => {
   const bankName = route.query.bankName as string
   let dashboardPath = '/bankambient/dashboard'
-  
+
   // Determine specific dashboard based on bank name
   if (bankName === 'Neodigi Bank') {
     dashboardPath = '/bankambient/dashboard/blue'
@@ -71,7 +74,7 @@ const handleNavigation = () => {
   } else if (bankName === 'Flexfinia') {
     dashboardPath = '/bankambient/dashboard/green'
   }
-  
+
   router.push({
     path: dashboardPath,
     query: {
@@ -87,6 +90,7 @@ const handleNavigation = () => {
 <style scoped>
 .validation-view {
   min-height: 100vh;
+  width: 100vw;
   background: #f8fafc;
   display: flex;
   justify-content: center;
@@ -152,6 +156,7 @@ const handleNavigation = () => {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -273,10 +278,12 @@ const handleNavigation = () => {
     transform: scale(0.8);
     opacity: 0.8;
   }
+
   50% {
     transform: scale(1.1);
     opacity: 1;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;

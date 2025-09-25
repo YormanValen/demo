@@ -5,14 +5,14 @@
         <button class="back-button" @click="handleBack">
           <v-icon size="24" color="#001340">mdi-arrow-left</v-icon>
         </button>
-        
-        <h1 class="page-title">Mis instituciones conectadas</h1>
+
+        <h1 class="page-title">Mis entidades conectadas</h1>
       </div>
-      
+
       <SearchBar @search="handleSearch" />
-      
+
       <SecurityMessage />
-      
+
       <ConnectedBanksList :banks="connectedBanks" @manage="handleManageBank" />
     </div>
   </div>
@@ -54,6 +54,7 @@ const handleManageBank = (bank: any) => {
 <style scoped>
 .connected-accounts {
   min-height: 100vh;
+  width: 100vw;
   background: #f8fafc;
   display: flex;
   justify-content: center;

@@ -585,6 +585,53 @@ const handleAnimationToggle = (isOpen: boolean) => {
   color: #612878;
   font-weight: 700;
 }
+
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.is-tablet .registration-container,
+.tablet .registration-container {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.is-mobile .registration-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.is-tablet .form-header h2,
+.tablet .form-header h2,
+.is-mobile .form-header h2 {
+  font-size: 16px;
+}
+
+.is-tablet .open-finance-message,
+.tablet .open-finance-message,
+.is-mobile .open-finance-message {
+  padding: 12px 14px;
+  gap: 10px;
+}
+
+.is-tablet .open-finance-message p,
+.tablet .open-finance-message p,
+.is-mobile .open-finance-message p {
+  font-size: 13px;
+}
+
+.is-mobile .error-message {
+  font-size: 11px;
+  margin-left: 0;
+  position: static;
+}
+
+.is-tablet .next-button,
+.tablet .next-button,
+.is-mobile .next-button {
+  width: 150px;
+  height: 34px;
+  font-size: 13px;
+}
 </style>
 
 <style>

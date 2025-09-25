@@ -2,7 +2,6 @@
   <div class="connect-institutions">
 
     <div class="main-container">
-      <!-- Panel Izquierdo - Selector de Bancos -->
       <div class="left-panel" :class="{ 'animate': showContent }">
         <div class="panel-header">
           <h1 class="panel-title">Selecciona tu entidad bancaria</h1>
@@ -16,7 +15,7 @@
               <path d="M21 21L16.65 16.65" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
-            <input type="text" v-model="searchQuery" placeholder="Busca tu banco" class="search-field" />
+            <input type="text" v-model="searchQuery" placeholder="Busca tu " class="search-field" />
           </div>
         </div>
 
@@ -83,12 +82,13 @@
                 </defs>
               </svg>
             </div>
-            <h2 class="info-title">Conecta el banco donde recibes tus ingresos o manejas tus productos</h2>
+            <h2 class="info-title">Conecta la entidad financiera donde recibes tus ingresos o manejas tus productos</h2>
           </div>
 
           <div class="info-content">
             <p class="info-description">
-              <strong>Al elegir tu banco nos permites conocer mejor tu realidad financiera:</strong> tus ingresos,
+              <strong>Al elegir tu entidad financiera nos permites conocer mejor tu realidad financiera:</strong> tus
+              ingresos,
               tarjetas y movimientos principales.
             </p>
 
@@ -118,7 +118,8 @@
                 </div>
                 <div class="detail-content">
                   <h4>Flexibilidad</h4>
-                  <p>Puedes conectar uno o varios bancos, porque tu vida financiera no está en un solo lugar.</p>
+                  <p>Puedes conectar una o varias entidades financieras, porque tu vida financiera no está en un solo
+                    lugar.</p>
                 </div>
               </div>
 
@@ -145,7 +146,8 @@
                 </div>
                 <div class="detail-content">
                   <h4>Siempre seguro</h4>
-                  <p>La conexión se hace directamente con tu banco, sin que tus credenciales queden guardadas.</p>
+                  <p>La conexión se hace directamente con tu entidad financiera, sin que tus credenciales queden
+                    guardadas.</p>
                 </div>
               </div>
             </div>
@@ -235,6 +237,7 @@ const handleConnectBank = (bank: Bank) => {
 <style scoped>
 .connect-institutions {
   min-height: 100vh;
+  width: 100vw;
   background: #f8fafc;
   position: relative;
   overflow: hidden;
@@ -257,7 +260,6 @@ const handleConnectBank = (bank: Bank) => {
   overflow: hidden;
 }
 
-/* Panel Izquierdo - Selector de Bancos */
 .left-panel {
   background: white;
   padding: 40px;

@@ -388,3 +388,102 @@ const handleAnimationToggle = (isOpen: boolean) => {
   font-weight: 600;
 }
 </style>
+
+<style>
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.is-tablet .financial-welcome,
+.tablet .financial-welcome {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 14px;
+}
+
+.is-mobile .financial-welcome {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.is-tablet .title,
+.tablet .title,
+.is-mobile .title {
+  font-size: 24px;
+}
+
+.is-tablet .subtitle,
+.tablet .subtitle,
+.is-mobile .subtitle {
+  font-size: 14px;
+}
+
+.is-tablet .blue-container,
+.tablet .blue-container {
+  height: 760px;
+}
+
+.is-mobile .blue-container {
+  height: 620px;
+}
+
+.is-tablet .welcome-text,
+.tablet .welcome-text,
+.is-mobile .welcome-text {
+  top: 140px;
+  font-size: 18px;
+}
+
+.is-mobile .welcome-text {
+  top: 120px;
+  font-size: 16px;
+}
+
+.is-tablet .divider-line,
+.tablet .divider-line,
+.is-mobile .divider-line {
+  top: 190px;
+  width: 85%;
+}
+
+.is-mobile .divider-line {
+  top: 175px;
+}
+
+.is-tablet .description-text,
+.tablet .description-text,
+.is-mobile .description-text {
+  top: 210px;
+  width: 88%;
+  font-size: 14px;
+}
+
+.is-mobile .description-text {
+  top: 195px;
+  font-size: 13px;
+}
+
+.is-tablet .financial-image,
+.tablet .financial-image,
+.is-mobile .financial-image {
+  width: 90%;
+  height: 360px;
+  top: 300px;
+}
+
+.is-mobile .financial-image {
+  width: 92%;
+  height: 260px;
+  top: 300px;
+}
+
+.is-tablet .continue-button,
+.tablet .continue-button,
+.is-mobile .continue-button,
+.is-tablet .next-button,
+.tablet .next-button,
+.is-mobile .next-button {
+  width: 150px;
+  height: 34px;
+  font-size: 13px;
+}
+</style>
