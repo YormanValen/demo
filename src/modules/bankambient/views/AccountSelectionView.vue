@@ -39,8 +39,8 @@
           <div v-for="account in accounts" :key="account.id" class="account-item">
             <div class="account-info">
               <h4 class="account-name">{{ account.name }}</h4>
-              <p class="account-number">{{ account.number }}</p>
               <p class="account-type">{{ account.type }}</p>
+              <p class="account-number">{{ account.number }}</p>
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@
 
           <div class="credentials-points">
             <div class="credential-point">
-              <div class="point-icon">🔒</div>
+              <div class="point-icon">🛡️</div>
               <div class="point-content">
                 <strong>Seguridad garantizada:</strong> ingresas tus datos en la pasarela oficial de la entidad
                 financiera, no en
@@ -196,22 +196,22 @@ const showTransactions = ref(false)
 
 const accounts = ref<Account[]>([
   {
-    id: 'luigi',
-    name: 'Luigi International',
-    number: '1234576',
-    type: 'Cuenta Corriente Empresarial'
+    id: 'savings',
+    name: 'Cuenta de ahorros',
+    number: '0012-3456-7890-1234',
+    type: 'Cuenta de Ahorros'
   },
   {
-    id: 'mario',
-    name: 'Mario International',
-    number: '1000010910103',
-    type: 'Cuenta de Divisas Empresarial'
+    id: 'credit1',
+    name: 'Crédito',
+    number: '4578-9012-3456-7890',
+    type: 'Tarjeta de crédito'
   },
   {
-    id: 'spectrum',
-    name: 'Spectrum',
-    number: '1000010910105',
-    type: 'Cuenta en Moneda Extranjera'
+    id: 'credit2',
+    name: 'Crédito',
+    number: '1001-0109-1010-5678',
+    type: 'Crédito libre inversión'
   }
 ])
 

@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import FinancialLoader from "../../registration/components/FinancialLoader.vue";
-import FlowVisualization from "../../registration/components/FlowVisualization.vue";
+import FinerioFlowVisualization from "./FinerioFlowVisualization.vue";
 import AnimationContainer from "../../financial/components/AnimationContainer.vue";
 
 const router = useRouter();
@@ -89,7 +89,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 
         <!-- Flow visualization -->
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <FlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500"
+          <FinerioFlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500"
             :processing-time="2500" />
 
           <!-- Process disclaimer -->

@@ -3,43 +3,36 @@ import { ref, watch, computed, onMounted } from 'vue';
 
 const props = defineProps<{
   isVisible: boolean;
-  totalDuration?: number;
+  validationTime?: number;
+  processingTime?: number;
 }>();
 
 const flowVisible = ref(false);
-const currentStep = ref(3); // Los primeros 3 ya completados, listo para empezar paso 4
-const stepCompleted = ref([true, true, true, false, false]); // Primeros 3 ya completados
+const currentStep = ref(2); // Los primeros 2 ya completados, listo para empezar paso 3
+const stepCompleted = ref([true, true, false]); // Primeros 2 ya completados
 
 const steps = [
-  { title: 'Usuario', icon: 'mdi-account' },
-  { title: 'Validación de Identidad y Otorgación de Consentimientos', icon: 'mdi-fingerprint' },
-  { title: 'Almacenamiento', icon: 'mdi-database' },
-  { title: 'Proveedor SMS', icon: 'mdi-message-text' },
-  { title: 'OTP Celular', icon: 'mdi-cellphone' }
+  { title: 'Sistema', icon: 'mdi-cog' },
+  { title: 'Directorio de Participantes', icon: 'mdi-account-group' },
+  { title: 'Entidades Financieras', icon: 'mdi-bank' }
 ];
 
-const stepDuration = computed(() => (props.totalDuration || 4000) / 2); // 2 pasos nuevos
+const thirdStepDuration = computed(() => (props.processingTime || 2500));
 
 const startAnimation = () => {
   flowVisible.value = true;
   
-  // Los primeros 3 ya están completados, empezar inmediatamente con Proveedor SMS
+  // Los primeros 2 ya están completados, empezar inmediatamente con Entidades Financieras
   
-  // Iniciar paso 4: Proveedor SMS inmediatamente
+  // Iniciar paso 3: Entidades Financieras inmediatamente
   setTimeout(() => {
-    currentStep.value = 4;
+    currentStep.value = 3;
   }, 100);
 
-  // Completar Proveedor SMS y pasar a OTP Celular
+  // Completar Entidades Financieras
   setTimeout(() => {
-    stepCompleted.value[3] = true;
-    currentStep.value = 5;
-  }, stepDuration.value);
-
-  // Completar OTP Celular
-  setTimeout(() => {
-    stepCompleted.value[4] = true;
-  }, stepDuration.value * 2);
+    stepCompleted.value[2] = true;
+  }, thirdStepDuration.value);
 };
 
 watch(() => props.isVisible, (newValue) => {
@@ -49,8 +42,8 @@ watch(() => props.isVisible, (newValue) => {
     }, 100);
   } else {
     flowVisible.value = false;
-    currentStep.value = 3;
-    stepCompleted.value = [true, true, true, false, false];
+    currentStep.value = 2;
+    stepCompleted.value = [true, true, false];
   }
 });
 
@@ -73,10 +66,10 @@ onMounted(() => {
             'active': currentStep > index,
             'completed': stepCompleted[index],
             'current': currentStep === index + 1 && !stepCompleted[index],
-            'previous-completed': stepCompleted[index] && index < 3
+            'previous-completed': stepCompleted[index] && index < 2
           }"
           :style="{
-            '--fill-duration': stepDuration + 'ms'
+            '--fill-duration': thirdStepDuration + 'ms'
           }"
         >
           <!-- Fondo de llenado animado -->
@@ -132,7 +125,7 @@ onMounted(() => {
 <style scoped>
 .flow-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 20px auto 0;
   opacity: 0;
   transform: translateY(20px);
@@ -146,10 +139,10 @@ onMounted(() => {
 
 .steps-container {
   display: grid;
-  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
   padding: 25px;
 }
 
@@ -162,7 +155,7 @@ onMounted(() => {
   transition: all 0.3s ease-in-out;
   position: relative;
   overflow: hidden;
-  height: 140px;
+  height: 130px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -189,26 +182,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(152, 40, 129, 0.05) 0%, rgba(152, 40, 129, 0.02) 100%);
 }
 
-/* Todas las tarjetas tienen la misma altura, con anchos especiales para ciertas tarjetas */
-.step-card:nth-child(1) {
-  min-width: 180px; /* Usuario */
-}
-
-.step-card:nth-child(3) {
-  min-width: 200px; /* Validación de Identidad y Otorgación de Consentimientos */
-}
-
-.step-card:nth-child(5) {
-  min-width: 180px; /* Almacenamiento */
-}
-
-.step-card:nth-child(7) {
-  min-width: 180px; /* Proveedor SMS */
-}
-
-.step-card:nth-child(9) {
-  min-width: 180px; /* OTP Celular */
-}
+/* Todas las tarjetas tienen la misma altura */
 
 /* Fondo de llenado animado */
 .card-fill-background {
@@ -302,12 +276,6 @@ onMounted(() => {
   z-index: 2;
 }
 
-/* Mejor organización para la tarjeta del paso 2 */
-.step-card:nth-child(3) .card-content {
-  justify-content: flex-start;
-  padding-top: 8px;
-}
-
 .step-title {
   font-size: 14px;
   font-weight: 600;
@@ -318,13 +286,6 @@ onMounted(() => {
   transition: color 0.3s ease;
   word-wrap: break-word;
   hyphens: auto;
-}
-
-/* Ajustar texto específicamente para la tarjeta más ancha */
-.step-card:nth-child(3) .step-title {
-  font-size: 13px;
-  line-height: 1.1;
-  padding: 0 5px;
 }
 
 .step-card.current .step-title {
@@ -444,33 +405,25 @@ onMounted(() => {
 }
 
 /* Responsive design */
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .steps-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 15px;
     padding: 20px;
   }
   
-  .step-card {
-    min-width: 180px;
-    max-width: 200px;
-  }
-  
-  .step-connector {
-    order: 10;
-    transform: rotate(90deg);
-    padding: 10px 0;
-  }
-  
   .connector-line {
-    width: 30px;
-    height: 2px;
+    width: 40px;
   }
   
-  .connector-arrow {
-    transform: rotate(90deg);
+  .step-card {
+    padding: 15px;
+    height: 120px;
+  }
+  
+  .step-title {
+    font-size: 13px;
+    line-height: 1.2;
   }
 }
 
@@ -486,38 +439,12 @@ onMounted(() => {
     min-width: auto;
     max-width: none;
     width: 100%;
-    height: 120px;
+    height: 110px;
     padding: 15px;
   }
   
-  .step-card:nth-child(1) {
-    min-width: 200px; /* Usuario */
-  }
-  
-  .step-card:nth-child(3) {
-    min-width: 220px; /* Validación de Identidad y Otorgación de Consentimientos */
-  }
-  
-  .step-card:nth-child(5) {
-    min-width: 200px; /* Almacenamiento */
-  }
-  
-  .step-card:nth-child(7) {
-    min-width: 200px; /* Proveedor SMS */
-  }
-  
-  .step-card:nth-child(9) {
-    min-width: 200px; /* OTP Celular */
-  }
-  
   .step-title {
-    font-size: 13px;
-    line-height: 1.2;
-  }
-  
-  .step-card:nth-child(3) .step-title {
-    font-size: 12px;
-    line-height: 1.1;
+    font-size: 14px;
   }
   
   .step-connector {
@@ -546,22 +473,12 @@ onMounted(() => {
   
   .step-card {
     padding: 12px;
-    height: 110px;
-  }
-  
-  .step-card:nth-child(3) {
-    min-width: auto;
-    width: 100%;
+    height: 105px;
   }
   
   .step-title {
     font-size: 12px;
     line-height: 1.2;
-  }
-  
-  .step-card:nth-child(3) .step-title {
-    font-size: 11px;
-    line-height: 1.1;
   }
 }
 </style>

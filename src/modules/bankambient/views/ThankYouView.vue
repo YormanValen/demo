@@ -33,15 +33,6 @@
 
       <div class="features-grid">
         <div class="feature-item">
-          <div class="feature-icon">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="20" fill="#001340" opacity="0.1" />
-              <path d="M24 8L32 16V32C32 36 24 40 24 40S16 36 16 32V16L24 8Z" fill="#001340" opacity="0.2" />
-              <path d="M24 8L32 16V32C32 36 24 40 24 40S16 36 16 32V16L24 8Z" stroke="#001340" stroke-width="2" />
-              <path d="M20 24L23 27L28 22" stroke="#001340" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
           <h3 class="feature-title">Seguridad garantizada</h3>
           <p class="feature-description">
             Sus datos están protegidos con los más altos estándares de seguridad
@@ -50,13 +41,6 @@
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="20" fill="#001340" opacity="0.1" />
-              <path d="M16 24H32M24 16L32 24L24 32" stroke="#001340" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
           <h3 class="feature-title">Proceso eficiente</h3>
           <p class="feature-description">
             Evaluación y aprobación de crédito en tiempo récord
@@ -64,15 +48,6 @@
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-              <circle cx="24" cy="24" r="20" fill="#001340" opacity="0.1" />
-              <circle cx="24" cy="18" r="6" fill="#001340" opacity="0.2" />
-              <circle cx="24" cy="18" r="6" stroke="#001340" stroke-width="2" />
-              <path d="M12 36C12 30 17.3 26 24 26S36 30 36 36" stroke="#001340" stroke-width="2"
-                stroke-linecap="round" />
-            </svg>
-          </div>
           <h3 class="feature-title">Atención personalizada</h3>
           <p class="feature-description">
             Créditos adaptados a su perfil financiero específico

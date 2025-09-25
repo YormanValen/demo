@@ -167,7 +167,7 @@ onMounted(() => {
   transition: all 0.3s ease-in-out;
   position: relative;
   overflow: hidden;
-  height: 110px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -189,10 +189,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(152, 40, 129, 0.05) 0%, rgba(152, 40, 129, 0.02) 100%);
 }
 
-/* Hacer la tarjeta del paso 2 (Validación + Consentimientos) más alta */
-.step-card:nth-child(3) {
-  height: 140px;
-}
+/* Todas las tarjetas ahora tienen la misma altura */
 
 /* Fondo de llenado animado */
 .card-fill-background {
@@ -420,10 +417,6 @@ onMounted(() => {
   
   .step-card {
     padding: 15px;
-    height: 100px;
-  }
-  
-  .step-card:nth-child(3) {
     height: 120px;
   }
   
@@ -466,10 +459,6 @@ onMounted(() => {
   
   .step-card {
     padding: 12px;
-    height: 90px;
-  }
-  
-  .step-card:nth-child(3) {
     height: 110px;
   }
   
