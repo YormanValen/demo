@@ -117,12 +117,9 @@ const goHome = () => router.push('/')
   top: 20px;
   left: 20px;
   z-index: 10000;
-  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  padding: 10px;
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
 .device-btn {
