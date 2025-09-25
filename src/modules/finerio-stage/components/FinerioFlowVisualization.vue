@@ -158,7 +158,7 @@ onMounted(() => {
   transition: all 0.3s ease-in-out;
   position: relative;
   overflow: hidden;
-  height: 110px;
+  height: 130px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -180,10 +180,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(152, 40, 129, 0.05) 0%, rgba(152, 40, 129, 0.02) 100%);
 }
 
-/* Hacer la tarjeta del paso 2 (Directorio de Participantes) más alta */
-.step-card:nth-child(3) {
-  height: 130px;
-}
+/* Las tarjetas ahora tienen la misma altura */
 
 /* Fondo de llenado animado */
 .card-fill-background {
@@ -274,11 +271,7 @@ onMounted(() => {
   z-index: 2;
 }
 
-/* Mejor organización para la tarjeta del paso 2 */
-.step-card:nth-child(3) .card-content {
-  justify-content: flex-start;
-  padding-top: 8px;
-}
+/* Organización mejorada del contenido para todas las tarjetas */
 
 .step-title {
   font-size: 14px;
@@ -292,12 +285,7 @@ onMounted(() => {
   hyphens: auto;
 }
 
-/* Ajustar texto específicamente para la tarjeta más alta */
-.step-card:nth-child(3) .step-title {
-  font-size: 13px;
-  line-height: 1.1;
-  padding: 0 5px;
-}
+/* Texto uniforme para todas las tarjetas */
 
 .step-card.current .step-title {
   color: #982881;
@@ -425,10 +413,6 @@ onMounted(() => {
   
   .step-card {
     padding: 15px;
-    height: 100px;
-  }
-  
-  .step-card:nth-child(3) {
     height: 120px;
   }
   
@@ -437,10 +421,6 @@ onMounted(() => {
     line-height: 1.2;
   }
   
-  .step-card:nth-child(3) .step-title {
-    font-size: 12px;
-    line-height: 1.1;
-  }
 }
 
 @media (max-width: 768px) {
@@ -455,12 +435,8 @@ onMounted(() => {
     min-width: auto;
     max-width: none;
     width: 100%;
-    height: 90px;
-    padding: 15px;
-  }
-  
-  .step-card:nth-child(3) {
     height: 110px;
+    padding: 15px;
   }
   
   .step-title {
@@ -493,10 +469,6 @@ onMounted(() => {
   
   .step-card {
     padding: 12px;
-    height: 85px;
-  }
-  
-  .step-card:nth-child(3) {
     height: 105px;
   }
   
@@ -505,9 +477,5 @@ onMounted(() => {
     line-height: 1.2;
   }
   
-  .step-card:nth-child(3) .step-title {
-    font-size: 11px;
-    line-height: 1.1;
-  }
 }
 </style>

@@ -14,7 +14,7 @@
 
         <!-- Flow visualization -->
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <FinerioFlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500"
+          <FinerioExtendedFlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500"
             :processing-time="2500" />
 
           <!-- Process disclaimer -->
@@ -46,7 +46,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useInstitutionsStore } from '../../financial/stores/institutions.store'
-import FinerioFlowVisualization from '../components/FinerioFlowVisualization.vue'
+import FinerioExtendedFlowVisualization from '../components/FinerioExtendedFlowVisualization.vue'
 import FinancialAnimationContainer from '../components/FinerioAnimationContainer.vue'
 
 const router = useRouter()

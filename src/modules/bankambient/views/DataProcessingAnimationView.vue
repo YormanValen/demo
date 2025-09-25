@@ -122,59 +122,43 @@
                 <p>Revisamos ingresos, gastos y movimientos financieros para conocer mejor la situación del cliente.
                 </p>
               </div>
-              <div class="data-box" :class="{ active: animationStep >= 1 }">
-                <div class="box-icon">🏦</div>
-                <span>Conexión con su entidad financiera</span>
-              </div>
-              <div class="data-tags">
-                <div class="data-tag" :class="{ active: animationStep >= 1 }" style="--delay: 0s">Sus ingresos</div>
-                <div class="data-tag" :class="{ active: animationStep >= 1 }" style="--delay: 0.1s">Sus gastos</div>
-                <div class="data-tag" :class="{ active: animationStep >= 1 }" style="--delay: 0.2s">Sus ahorros</div>
-                <div class="data-tag" :class="{ active: animationStep >= 1 }" style="--delay: 0.3s">Su historial</div>
-              </div>
             </div>
 
-            <!-- Center section: ML Processing -->
+            <!-- Center section: Analysis -->
             <div class="pipeline-section center-section">
-              <div class="processing-core" :class="{ active: animationStep >= 3 }">
-                <div class="ml-processor">
-                  <div class="processor-title">Análisis inteligente</div>
-                  <div class="processing-steps">
-                    <div class="process-step">Revisión de datos</div>
-                    <div class="process-step">Evaluación de riesgo</div>
-                    <div class="process-step">Cálculo de opciones</div>
-                  </div>
-                </div>
-
-                <!-- Better analysis visualization -->
-                <div class="analysis-visual" :class="{ active: animationStep >= 3 }">
-                  <div class="analysis-bars">
-                    <div class="bar" v-for="i in 14" :key="i" :style="{ '--i': i }"></div>
-                  </div>
-                  <div class="scan-overlay"></div>
-                </div>
+              <div class="section-header">
+                <h3>Análisis Inteligente</h3>
+                <p>Aplicamos modelos de análisis y riesgo para generar insights confiables.</p>
+              </div>
+              <div class="section-header">
+                <h3>Trusso</h3>
+                <p>Nuestro motor especializado</p>
               </div>
             </div>
 
             <!-- Right section: Output -->
             <div class="pipeline-section right-section">
               <div class="section-header">
-                <h3>Sus opciones crediticias</h3>
-                <p>Basado en su perfil financiero, estas son las mejores opciones de crédito disponibles para usted.</p>
+                <h3>Insumos estratégicos</h3>
+                <p>Generamos outputs de valor (scores, segmentación, montos referenciales) para habilitar la toma de decisiones.</p>
               </div>
-              <div class="output-categories">
-                <div class="output-item demo-blur" :class="{ active: animationStep >= 5 }" style="--delay: 0s">
-                  <div class="output-icon">💳</div>
-                  <span>Tarjetas de crédito</span>
-                </div>
-                <div class="output-item demo-blur" :class="{ active: animationStep >= 5 }" style="--delay: 0.2s">
-                  <div class="output-icon">🏠</div>
-                  <span>Crédito hipotecario</span>
-                </div>
-                <div class="output-item demo-blur" :class="{ active: animationStep >= 5 }" style="--delay: 0.4s">
-                  <div class="output-icon">🚗</div>
-                  <span>Crédito vehicular</span>
-                </div>
+              <div class="section-subitem">
+                <h4>Score de riesgo crediticio transaccional</h4>
+              </div>
+              <div class="section-subitem">
+                <h4>Nivel de capacidad de pago</h4>
+                <p>Estimación de la relación entre ingresos, gastos y obligaciones.</p>
+              </div>
+              <div class="section-subitem">
+                <h4>Valores preaprobados</h4>
+                <p>Montos referenciales de crédito calculados según el perfil financiero.</p>
+              </div>
+              <div class="section-subitem">
+                <h4>Alertas e insights transaccionales</h4>
+                <p>Patrones de gasto, ingresos recurrentes, estacionalidad y señales de riesgo.</p>
+              </div>
+              <div class="section-subitem">
+                <h4>Segmentación del cliente</h4>
               </div>
             </div>
           </div>
@@ -935,9 +919,27 @@ const handleContinue = () => {
 
 .section-header p {
   color: #64748b;
-  font-size: 11px;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.section-subitem h4 {
+  color: #001340;
+  font-size: 0.9rem;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.section-subitem p {
+  color: #64748b;
+  font-size: 12px;
   line-height: 1.3;
   margin: 0;
+}
+
+.section-subitem {
+  margin-bottom: 12px;
 }
 
 .data-box {
