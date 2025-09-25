@@ -21,10 +21,12 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useInstitutionsStore } from '../../financial/stores/institutions.store'
 
 const router = useRouter()
 const route = useRoute()
 const countdown = ref(10)
+const institutionsStore = useInstitutionsStore()
 
 
 const bankInitials = computed(() => {
@@ -36,6 +38,29 @@ const bankColor = computed(() => {
 })
 
 onMounted(() => {
+  // Save the connected institution to store
+  const institutionData = {
+    id: Date.now(), // Use timestamp as unique ID
+    name: route.query.bankName as string || 'Entidad Financiera',
+    logo: route.query.bankLogo as string || '',
+    status: 'CONECTADO',
+    connected: true,
+    initialDate: new Date().toLocaleDateString('es-ES', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    }),
+    expirationDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toLocaleDateString('es-ES', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    }),
+    bankInitials: bankInitials.value,
+    bankColor: bankColor.value
+  }
+  
+  institutionsStore.addInstitution(institutionData)
+
   const timer = setInterval(() => {
     countdown.value--
     if (countdown.value <= 0) {

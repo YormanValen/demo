@@ -45,10 +45,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useInstitutionsStore } from '../../financial/stores/institutions.store'
 import FinerioFlowVisualization from '../components/FinerioFlowVisualization.vue'
 import FinancialAnimationContainer from '../components/FinerioAnimationContainer.vue'
 
 const router = useRouter()
+const institutionsStore = useInstitutionsStore()
 
 const showAnimationContainer = ref(true)
 const isAnimationOpen = ref(false)
@@ -74,7 +76,12 @@ onMounted(() => {
 
 const handleNextClick = () => {
   isAnimationOpen.value = false
-  router.push('/financial/connect-stage1')
+  // Check if there are connected institutions to determine next route
+  if (institutionsStore.hasConnectedInstitutions()) {
+    router.push('/financial/connected-accounts')
+  } else {
+    router.push('/financial/connect-stage1')
+  }
 }
 
 const handleAnimationToggle = (isOpen: boolean) => {

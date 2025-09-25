@@ -172,11 +172,11 @@ const openAnimationContainer = () => {
     showFlow.value = true;
     console.log('showFlow activated:', showFlow.value);
 
-    // Show button after first flow animation cycle completes (3000 + 2000 = 5000ms)
+    // Show button after flow animation completes + extra delay (1000 + 3000 + 2000 + 1500 = 7500ms)
     setTimeout(() => {
       showProcessComplete.value = true;
       showNextButton.value = true;
-    }, 5000);
+    }, 7500);
   }, 300);
 };
 

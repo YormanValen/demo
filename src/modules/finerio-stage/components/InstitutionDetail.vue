@@ -7,33 +7,28 @@
         </button>
       </div>
 
-      <bank-details :bank="connectedBanks[0]" @disconnectBank="handleDisconnectBank" />
+      <bank-details 
+        v-if="institutionsStore.connectedInstitutions.value.length > 0" 
+        :bank="institutionsStore.connectedInstitutions.value[0]" 
+        @disconnectBank="() => handleDisconnectBank(institutionsStore.connectedInstitutions.value[0].id)" />
+      <div v-else class="no-institutions">
+        <p>No hay entidades conectadas</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useInstitutionsStore } from "../../financial/stores/institutions.store";
 import BankDetails from "../components/Bankdetails.vue";
 const router = useRouter();
-
-const showDisconnectModal = ref(false);
-const connectedBanks = ref([
-  {
-    id: 1,
-    name: "Bancolombia",
-    logo: "/src/assets/bancolombia-logo.png",
-    status: "CONECTADO",
-    connected: true,
-    initialDate: "18 de septiembre de 2025",
-    expirationDate: "18 de septiembre de 2026",
-  },
-]);
+const institutionsStore = useInstitutionsStore();
 
 
-const handleDisconnectBank = () => {
-  showDisconnectModal.value = true;
+const handleDisconnectBank = (bankId: number) => {
+  institutionsStore.removeInstitution(bankId);
+  router.push("/financial/connected-accounts");
 };
 
 const handleBack = () => {
@@ -94,5 +89,12 @@ const handleBack = () => {
   font-weight: 600;
   color: #001340;
   margin: 0;
+}
+
+.no-institutions {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+  font-size: 16px;
 }
 </style>

@@ -4,14 +4,14 @@
       <div class="bank-info">
         <div class="bank-logo">
           <div class="logo-placeholder">
-            <span class="logo-text">{{ bank.name.charAt(0) }}</span>
+            <span class="logo-text">{{ bank.name?.charAt(0) || '?' }}</span>
           </div>
         </div>
         
         <div class="bank-details">
-          <h3 class="bank-name">{{ bank.name }}</h3>
+          <h3 class="bank-name">{{ bank.name || 'Entidad Financiera' }}</h3>
           <span class="bank-status" :class="{ 'connected': bank.connected }">
-            {{ bank.status }}
+            {{ bank.status || 'DESCONOCIDO' }}
           </span>
         </div>
       </div>
@@ -33,7 +33,7 @@ interface Bank {
 }
 
 defineProps<{
-  banks: Bank[]
+  banks: readonly Bank[]
 }>()
 
 defineEmits<{

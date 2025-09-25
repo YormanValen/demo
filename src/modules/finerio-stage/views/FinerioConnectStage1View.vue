@@ -95,7 +95,7 @@
             <span class="btn-text">Conectar mi entidad</span>
           </button>
 
-          <button class="btn-view" @click="handleViewConnected">
+          <button v-if="hasConnectedInstitutions" class="btn-view" @click="handleViewConnected">
             Ver entidades conectadas
           </button>
         </div>
@@ -140,11 +140,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useInstitutionsStore } from '../../financial/stores/institutions.store'
 
 const router = useRouter()
 const showContent = ref(false)
+const institutionsStore = useInstitutionsStore()
+
+const hasConnectedInstitutions = computed(() => {
+  return institutionsStore.hasConnectedInstitutions()
+})
 
 onMounted(() => {
   setTimeout(() => {
