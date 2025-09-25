@@ -5,16 +5,17 @@
         <h3>Confirmar desconexión</h3>
         <button class="close-button" @click="$emit('close')">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M18 6L6 18M6 6L18 18" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 6L6 18M6 6L18 18" stroke="#6b7280" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
         </button>
       </div>
-      
+
       <div class="modal-body">
-        <p>¿Estás seguro de que deseas desconectar esta institución?</p>
+        <p>¿Estás seguro de que deseas desconectar esta entidad?</p>
         <p class="warning-text">Esta acción no se puede deshacer.</p>
       </div>
-      
+
       <div class="modal-footer">
         <button class="cancel-button" @click="$emit('close')">
           Cancelar

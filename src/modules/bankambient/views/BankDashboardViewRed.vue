@@ -5,102 +5,83 @@
         <div class="bank-logo">
           <div class="logo-container">
             <div class="bank-logo-circle">
-              <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
-              <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
-              <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+              <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank"
+                class="bank-logo-image" />
+              <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit"
+                class="bank-logo-image" />
+              <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia"
+                class="bank-logo-image" />
               <span v-else class="bank-initials">{{ bankName.substring(0, 2).toUpperCase() }}</span>
             </div>
             <span class="bank-name">{{ bankName }}</span>
           </div>
         </div>
-        
+
         <h1 class="main-title">Ingresa a tu Banca Virtual</h1>
-        
+
         <form @submit.prevent="handleLogin" class="login-form">
           <div class="form-group">
             <div class="input-wrapper">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="input-icon">
-                <path d="M16 7C16 3.13401 12.866 0 9 0C5.13401 0 2 3.13401 2 7C2 10.866 5.13401 14 9 14C12.866 14 16 10.866 16 7Z" stroke="#999" stroke-width="1.5"/>
-                <path d="M18 18L14 14" stroke="#999" stroke-width="1.5"/>
+                <path
+                  d="M16 7C16 3.13401 12.866 0 9 0C5.13401 0 2 3.13401 2 7C2 10.866 5.13401 14 9 14C12.866 14 16 10.866 16 7Z"
+                  stroke="#999" stroke-width="1.5" />
+                <path d="M18 18L14 14" stroke="#999" stroke-width="1.5" />
               </svg>
-              <input
-                type="text"
-                v-model="loginData.username"
-                class="form-input"
-                placeholder="Nombre de usuario"
-                required
-              />
+              <input type="text" v-model="loginData.username" class="form-input" placeholder="Nombre de usuario"
+                required />
             </div>
           </div>
-          
+
           <div class="form-group">
             <div class="input-wrapper">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="input-icon">
-                <rect x="3" y="8" width="14" height="9" rx="2" stroke="#999" stroke-width="1.5"/>
-                <path d="M7 8V6C7 3.79086 8.79086 2 11 2H9C11.2091 2 13 3.79086 13 6V8" stroke="#999" stroke-width="1.5"/>
+                <rect x="3" y="8" width="14" height="9" rx="2" stroke="#999" stroke-width="1.5" />
+                <path d="M7 8V6C7 3.79086 8.79086 2 11 2H9C11.2091 2 13 3.79086 13 6V8" stroke="#999"
+                  stroke-width="1.5" />
               </svg>
-              <input
-                :type="showPassword ? 'text' : 'password'"
-                v-model="loginData.password"
-                class="form-input"
-                placeholder="Contraseña"
-                required
-              />
-              <button 
-                type="button"
-                @click="togglePassword"
-                class="password-toggle"
-              >
+              <input :type="showPassword ? 'text' : 'password'" v-model="loginData.password" class="form-input"
+                placeholder="Contraseña" required />
+              <button type="button" @click="togglePassword" class="password-toggle">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 3C6.5 3 3.5 5.5 2 8.5C3.5 11.5 6.5 14 10 14C13.5 14 16.5 11.5 18 8.5C16.5 5.5 13.5 3 10 3Z" stroke="#999" stroke-width="1.5"/>
-                  <circle cx="10" cy="8.5" r="2.5" stroke="#999" stroke-width="1.5"/>
-                  <path v-if="!showPassword" d="M2 2L18 18" stroke="#999" stroke-width="1.5"/>
+                  <path
+                    d="M10 3C6.5 3 3.5 5.5 2 8.5C3.5 11.5 6.5 14 10 14C13.5 14 16.5 11.5 18 8.5C16.5 5.5 13.5 3 10 3Z"
+                    stroke="#999" stroke-width="1.5" />
+                  <circle cx="10" cy="8.5" r="2.5" stroke="#999" stroke-width="1.5" />
+                  <path v-if="!showPassword" d="M2 2L18 18" stroke="#999" stroke-width="1.5" />
                 </svg>
               </button>
             </div>
             <div class="forgot-password-wrapper">
-              <button 
-                type="button" 
-                class="forgot-password-link"
-                @click="handleForgotPassword"
-              >
+              <button type="button" class="forgot-password-link" @click="handleForgotPassword">
                 ¿Olvidaste tu usuario o contraseña?
               </button>
             </div>
           </div>
-          
+
           <div class="checkbox-group">
             <input type="checkbox" id="remember" v-model="rememberUser" class="checkbox-input" />
             <label for="remember" class="checkbox-label">Recordar mi nombre de usuario</label>
           </div>
-          
+
           <button type="submit" class="login-button" :disabled="!isFormValid || isLoggingIn">
             <div v-if="isLoggingIn" class="button-spinner">
               <svg width="20" height="20" viewBox="0 0 20 20" class="spinner">
-                <circle
-                  cx="10"
-                  cy="10"
-                  r="8"
-                  stroke="white"
-                  stroke-width="2"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-dasharray="25.1"
-                  stroke-dashoffset="25.1"
-                />
+                <circle cx="10" cy="10" r="8" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"
+                  stroke-dasharray="25.1" stroke-dashoffset="25.1" />
               </svg>
             </div>
             <span v-else>Ingresar</span>
           </button>
         </form>
-        
+
         <div class="footer-links">
           <span class="new-user-text">¿Eres nuevo con nosotros?</span>
           <button class="activate-user-link" @click="handleActivateUser">Activa tu usuario</button>
         </div>
       </div>
     </div>
-    
+
     <div class="right-section">
       <div class="background-image"></div>
     </div>
@@ -151,7 +132,7 @@ const handleActivateUser = () => {
 const handleLogin = () => {
   if (isFormValid.value && !isLoggingIn.value) {
     isLoggingIn.value = true
-    
+
     setTimeout(() => {
       router.push({
         path: '/bankambient/account-selection',
@@ -169,6 +150,7 @@ const handleLogin = () => {
 <style scoped>
 .portal-container {
   min-height: 100vh;
+  width: 100vw;
   display: flex;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -395,6 +377,7 @@ const handleLogin = () => {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -405,10 +388,12 @@ const handleLogin = () => {
     stroke-dasharray: 1, 50;
     stroke-dashoffset: 0;
   }
+
   50% {
     stroke-dasharray: 25, 50;
     stroke-dashoffset: -12.5;
   }
+
   100% {
     stroke-dasharray: 25, 50;
     stroke-dashoffset: -37.5;
@@ -463,28 +448,69 @@ const handleLogin = () => {
   .portal-container {
     flex-direction: column;
   }
-  
+
   .right-section {
     height: 200px;
     order: -1;
   }
-  
+
   .left-section {
     max-width: none;
     padding: 20px;
   }
-  
+
   .form-section {
     max-width: none;
   }
-  
+
   .main-title {
     font-size: 24px;
     text-align: center;
   }
-  
+
   .bank-logo {
     justify-content: center;
   }
+}
+
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.is-tablet .portal-container,
+.tablet .portal-container,
+.is-mobile .portal-container {
+  flex-direction: column;
+}
+
+.is-tablet .right-section,
+.tablet .right-section,
+.is-mobile .right-section {
+  height: 200px;
+  order: -1;
+}
+
+.is-tablet .left-section,
+.tablet .left-section,
+.is-mobile .left-section {
+  max-width: 500px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.is-tablet .form-section,
+.tablet .form-section,
+.is-mobile .form-section {
+  max-width: none;
+}
+
+.is-tablet .main-title,
+.tablet .main-title,
+.is-mobile .main-title {
+  font-size: 24px;
+  text-align: center;
+}
+
+.is-tablet .bank-logo,
+.tablet .bank-logo,
+.is-mobile .bank-logo {
+  justify-content: center;
 }
 </style>

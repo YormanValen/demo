@@ -1,22 +1,25 @@
 <template>
-  <div v-if="isVisible" class="animation-container" :class="{ 'is-open': isOpen }">
-    <div class="animation-header" @click="toggleContainer" :class="{ 'non-clickable': !clickableHeader }">
-      <slot name="header">
-        <span class="animation-title">Animaciones</span>
-      </slot>
-      <v-icon class="toggle-icon" :class="{ 'rotated': isOpen }">
-        mdi-chevron-up
-      </v-icon>
-    </div>
-
-    <transition name="slide-up">
-      <div v-if="isOpen" class="animation-content">
-        <slot>
-          <p>Contenido de animación aquí</p>
+  <!-- Teleport to body so it renders outside the device frame and fills viewport -->
+  <teleport to="body">
+    <div v-if="isVisible" class="animation-container" :class="{ 'is-open': isOpen }">
+      <div class="animation-header" @click="toggleContainer" :class="{ 'non-clickable': !clickableHeader }">
+        <slot name="header">
+          <span class="animation-title">Animaciones</span>
         </slot>
+        <v-icon class="toggle-icon" :class="{ 'rotated': isOpen }">
+          mdi-chevron-up
+        </v-icon>
       </div>
-    </transition>
-  </div>
+
+      <transition name="slide-up">
+        <div v-if="isOpen" class="animation-content">
+          <slot>
+            <p>Contenido de animación aquí</p>
+          </slot>
+        </div>
+      </transition>
+    </div>
+  </teleport>
 </template>
 
 <script setup lang="ts">
@@ -109,8 +112,9 @@ const toggleContainer = () => {
 }
 
 .animation-content {
-  height: 60vh;
-  max-height: 60vh;
+  /* Stop opening a bit below the screen half */
+  height: var(--sheet-content-height, 55vh);
+  max-height: var(--sheet-content-height, 55vh);
   overflow-y: auto;
   padding: 20px;
   background: white;

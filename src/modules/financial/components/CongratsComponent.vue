@@ -37,7 +37,7 @@ const handleContinue = () => {
           </div>
 
           <p class="open-finance-message">
-            Gracias a la conexión segura con tus bancos mediante Open Finance,
+            Gracias a la conexión segura con tus entidades financieras mediante Open Finance,
             pudimos evaluar tu perfil de forma ágil y justa.
           </p>
 

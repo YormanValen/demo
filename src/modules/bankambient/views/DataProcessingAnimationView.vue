@@ -26,7 +26,7 @@
             </div>
           </div>
           <!-- Moving data box -->
-          <div class="moving-data-box" :class="{ 
+          <div class="moving-data-box" :class="{
             visible: animationStep >= 1,
             moving: animationStep >= 2,
             disappeared: animationStep >= 3
@@ -35,7 +35,7 @@
               <div class="box-icon">📋</div>
               <span>Sus datos financieros</span>
             </div>
-            
+
             <!-- Data rain falling into the box -->
             <div class="data-rain" :class="{ active: animationStep >= 1 && animationStep < 2 }">
               <div v-for="i in 12" :key="i" class="data-drop" :style="getDataDropStyle(i)">
@@ -74,7 +74,7 @@
           </div>
 
           <!-- Output product box -->
-          <div class="output-product-box" :class="{ 
+          <div class="output-product-box" :class="{
             visible: animationStep >= 5,
             moving: animationStep >= 6,
             disappeared: animationStep >= 7
@@ -124,7 +124,7 @@
               </div>
               <div class="data-box" :class="{ active: animationStep >= 1 }">
                 <div class="box-icon">🏦</div>
-                <span>Conexión con su banco</span>
+                <span>Conexión con su entidad financiera</span>
               </div>
               <div class="data-tags">
                 <div class="data-tag" :class="{ active: animationStep >= 1 }" style="--delay: 0s">Sus ingresos</div>
@@ -293,7 +293,7 @@ const getDataDropStyle = (index: number) => {
   const leftPosition = 20 + (index * 8) % 60 // Distribute across the box width
   const delay = Math.random() * 4
   const duration = 3 + Math.random() * 2 // Slower duration: 3-5 seconds
-  
+
   return {
     left: `${leftPosition}%`,
     animationDelay: `${delay}s`,
@@ -317,6 +317,7 @@ const handleContinue = () => {
 <style scoped>
 .data-processing-animation {
   height: 100vh;
+  width: 100vw;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   display: flex;
   align-items: center;
@@ -437,7 +438,9 @@ const handleContinue = () => {
   transition: opacity 0.3s ease;
 }
 
-.progress-wrapper.done { opacity: 0; }
+.progress-wrapper.done {
+  opacity: 0;
+}
 
 .progress-header {
   display: flex;
@@ -467,7 +470,7 @@ const handleContinue = () => {
   border: 1px solid rgba(0, 19, 64, 0.15);
   border-radius: 999px;
   overflow: hidden;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .progress-fill {
@@ -635,14 +638,17 @@ const handleContinue = () => {
     opacity: 0;
     transform: translateY(0) scale(0.8);
   }
+
   5% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+
   95% {
     opacity: 1;
     transform: translateY(80px) scale(1);
   }
+
   100% {
     top: 80px;
     opacity: 0;
@@ -1072,26 +1078,45 @@ const handleContinue = () => {
   opacity: 0.95;
 }
 
-.analysis-bars .bar:nth-child(3n) { --h: 70%; }
-.analysis-bars .bar:nth-child(3n+1) { --h: 85%; }
-.analysis-bars .bar:nth-child(3n+2) { --h: 60%; }
-.analysis-bars .bar:nth-child(5n) { --h: 95%; }
+.analysis-bars .bar:nth-child(3n) {
+  --h: 70%;
+}
+
+.analysis-bars .bar:nth-child(3n+1) {
+  --h: 85%;
+}
+
+.analysis-bars .bar:nth-child(3n+2) {
+  --h: 60%;
+}
+
+.analysis-bars .bar:nth-child(5n) {
+  --h: 95%;
+}
 
 @keyframes barPulse {
-  0% { height: 20%; }
-  50% { height: var(--h, 80%); }
-  100% { height: 20%; }
+  0% {
+    height: 20%;
+  }
+
+  50% {
+    height: var(--h, 80%);
+  }
+
+  100% {
+    height: 20%;
+  }
 }
 
 .scan-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(29, 78, 216, 0.10) 35%,
-    rgba(29, 78, 216, 0.28) 50%,
-    rgba(29, 78, 216, 0.10) 65%,
-    transparent 100%);
+      transparent 0%,
+      rgba(29, 78, 216, 0.10) 35%,
+      rgba(29, 78, 216, 0.28) 50%,
+      rgba(29, 78, 216, 0.10) 65%,
+      transparent 100%);
   transform: translateX(-100%);
   animation: scanMove 2.6s linear infinite;
   mix-blend-mode: multiply;
@@ -1099,8 +1124,13 @@ const handleContinue = () => {
 }
 
 @keyframes scanMove {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Removed algo-visualization styles */

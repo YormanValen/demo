@@ -21,7 +21,7 @@ const benefits = ref([
   {
     id: 'dataSharing',
     title: 'Compartir tu información entre entidades de forma segura',
-    description: 'Autoriza que tus datos se conecten entre bancos y aliados para que tus trámites sean más ágiles.',
+    description: 'Autoriza que tus datos se conecten entre entidades financieras y aliados para que tus trámites sean más ágiles.',
     icon: 'mdi-link-variant',
     checked: false
   },
@@ -48,16 +48,14 @@ const emit = defineEmits(['trigger-animation']);
 
 // Computed para validar si se puede continuar
 const canContinue = computed(() => {
-  // Buscar el consentimiento obligatorio (tratamiento de datos)
-  const dataProcessingConsent = benefits.value.find(benefit => benefit.id === 'dataProcessing');
-  
-  // Requiere: captcha marcado Y consentimiento de tratamiento de datos marcado
-  return captchaChecked.value && dataProcessingConsent?.checked;
+  // Solo requiere que el captcha esté marcado
+  // Los checkboxes de consentimientos son opcionales
+  return captchaChecked.value;
 });
 
 const handleNextClick = () => {
   if (!canContinue.value) return;
-  
+
   // Emitir evento para que el RegistrationForm active su animación
   emit('trigger-animation');
 };
@@ -77,35 +75,27 @@ const handleNextClick = () => {
         <div class="benefit-content">
           <h3 class="benefit-title">
             {{ benefit.title }}
-            <a v-if="benefit.hasDocument" :href="benefit.documentUrl" target="_blank" class="document-link">Ver documento</a>
+            <a v-if="benefit.hasDocument" :href="benefit.documentUrl" target="_blank" class="document-link">Ver
+              documento</a>
           </h3>
           <p class="benefit-description">{{ benefit.description }}</p>
         </div>
-        <v-checkbox
-          v-model="benefit.checked"
-          color="#982881"
-          hide-details
-          :ripple="false"
-          class="benefit-checkbox"
-          density="compact"
-        ></v-checkbox>
+        <v-checkbox v-model="benefit.checked" color="#982881" hide-details :ripple="false" class="benefit-checkbox"
+          density="compact"></v-checkbox>
       </div>
 
       <!-- Captcha -->
       <div class="captcha-container">
         <div class="captcha-box">
-          <v-checkbox
-            v-model="captchaChecked"
-            color="#982881"
-            hide-details
-            density="compact"
-          >
+          <v-checkbox v-model="captchaChecked" color="#982881" hide-details density="compact">
             <template #label>
               <span class="captcha-text">No soy un robot</span>
             </template>
           </v-checkbox>
           <div class="recaptcha-logo">
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDNi40NzcgMjIgMiAxNy41MjMgMiAxMlM2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTAtMmE4IDggMCAxIDAgMC0xNiA4IDggMCAwIDAgMCAxNnoiIGZpbGw9IiMwMEMzRTYiLz48L3N2Zz4=" alt="reCAPTCHA" class="recaptcha-icon" />
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDNi40NzcgMjIgMiAxNy41MjMgMiAxMlM2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTAtMmE4IDggMCAxIDAgMC0xNiA4IDggMCAwIDAgMCAxNnoiIGZpbGw9IiMwMEMzRTYiLz48L3N2Zz4="
+              alt="reCAPTCHA" class="recaptcha-icon" />
             <span class="recaptcha-text">reCAPTCHA</span>
             <span class="recaptcha-info">Privacidad - Términos</span>
           </div>
@@ -120,12 +110,8 @@ const handleNextClick = () => {
 
     <!-- Botón Continuar -->
     <div class="button-container">
-      <button 
-        @click="handleNextClick" 
-        class="continue-button" 
-        :disabled="!canContinue"
-        :class="{ 'disabled': !canContinue }"
-      >
+      <button @click="handleNextClick" class="continue-button" :disabled="!canContinue"
+        :class="{ 'disabled': !canContinue }">
         Continuar
       </button>
     </div>
@@ -141,12 +127,9 @@ const handleNextClick = () => {
 }
 
 .form-header {
-  background: linear-gradient(
-      21deg,
+  background: linear-gradient(21deg,
       rgb(97, 40, 120) 0%,
-      rgb(186, 45, 125) 100%
-    )
-    0% 0% no-repeat padding-box padding-box transparent;
+      rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -366,5 +349,77 @@ const handleNextClick = () => {
 
 :deep(.v-selection-control-group) {
   gap: 0;
+}
+</style>
+
+<style>
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.is-tablet .consent-form,
+.tablet .consent-form {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.is-mobile .consent-form {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.is-tablet .form-header h2,
+.tablet .form-header h2,
+.is-mobile .form-header h2 {
+  font-size: 16px;
+}
+
+.is-tablet .benefits-container,
+.tablet .benefits-container,
+.is-mobile .benefits-container {
+  padding: 14px;
+  gap: 14px;
+}
+
+.is-mobile .benefit-item {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.is-tablet .benefit-title,
+.tablet .benefit-title,
+.is-mobile .benefit-title {
+  font-size: 13px;
+}
+
+.is-tablet .benefit-description,
+.tablet .benefit-description,
+.is-mobile .benefit-description {
+  font-size: 12px;
+}
+
+.is-tablet .captcha-box,
+.tablet .captcha-box,
+.is-mobile .captcha-box {
+  gap: 10px;
+  padding: 8px;
+}
+
+.is-mobile .captcha-box {
+  flex-wrap: wrap;
+}
+
+.is-tablet .recaptcha-logo,
+.tablet .recaptcha-logo,
+.is-mobile .recaptcha-logo {
+  border-left: none;
+  padding-left: 0;
+}
+
+.is-tablet .continue-button,
+.tablet .continue-button,
+.is-mobile .continue-button {
+  padding: 8px 28px;
+  font-size: 13px;
 }
 </style>
