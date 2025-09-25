@@ -2,239 +2,224 @@
   <div class="portal-container">
     <div class="main-container">
       <div class="left-section">
-      <div class="form-section">
-        <div class="header-section">
-          <div class="shield-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L3 7L12 12L21 7L12 2Z" fill="#ff8c00"/>
-              <path d="M3 7V13C3 17.97 7.03 22 12 22C16.97 22 21 17.97 21 13V7" stroke="#ff8c00" stroke-width="1.5"/>
-            </svg>
-          </div>
-          
-          <div class="welcome-text">
-            <h1 class="welcome-title">Bienvenido a</h1>
-            <div class="bank-logo">
-              <div class="bank-logo-circle">
-                <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
-                <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
-                <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
-                <span v-else class="bank-initials">{{ bankName.substring(0, 2).toUpperCase() }}</span>
+        <div class="form-section">
+          <div class="header-section">
+            <div class="shield-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L3 7L12 12L21 7L12 2Z" fill="#ff8c00" />
+                <path d="M3 7V13C3 17.97 7.03 22 12 22C16.97 22 21 17.97 21 13V7" stroke="#ff8c00" stroke-width="1.5" />
+              </svg>
+            </div>
+
+            <div class="welcome-text">
+              <h1 class="welcome-title">Bienvenido a</h1>
+              <div class="bank-logo">
+                <div class="bank-logo-circle">
+                  <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png"
+                    alt="Neodigi Bank" class="bank-logo-image" />
+                  <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit"
+                    class="bank-logo-image" />
+                  <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia"
+                    class="bank-logo-image" />
+                  <span v-else class="bank-initials">{{ bankName.substring(0, 2).toUpperCase() }}</span>
+                </div>
+                <span class="bank-name">{{ bankName }}</span>
               </div>
-              <span class="bank-name">{{ bankName }}</span>
             </div>
           </div>
-        </div>
-        
-        <form @submit.prevent="handleLogin" class="login-form">
-          <div v-if="!showPasswordStep" class="form-group">
-            <label class="form-label">Tipo de documento</label>
-            <div class="select-wrapper">
-              <select v-model="documentType" class="form-select" required>
-                <option value="">Seleccionar tipo</option>
-                <option value="CC">Cédula de Ciudadanía</option>
-                <option value="CE">Cédula de Extranjería</option>
-                <option value="TI">Tarjeta de Identidad</option>
-                <option value="PP">Pasaporte</option>
-              </select>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="select-arrow">
-                <path d="M4 6L8 10L12 6" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-          
-          <div v-if="!showPasswordStep" class="form-group">
-            <label class="form-label">Número de documento</label>
-            <input
-              type="text"
-              v-model="loginData.username"
-              class="form-input"
-              required
-            />
-          </div>
-          
-          <div v-if="showPasswordStep" class="form-group">
-            <label class="form-label">Contraseña</label>
-            <div class="password-input-wrapper">
-              <input
-                :type="showPassword ? 'text' : 'password'"
-                v-model="loginData.password"
-                class="form-input"
-                placeholder="Ingresa tu contraseña"
-                required
-              />
-              <button 
-                type="button"
-                @click="togglePassword"
-                class="password-toggle"
-              >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 3C6.5 3 3.5 5.5 2 8.5C3.5 11.5 6.5 14 10 14C13.5 14 16.5 11.5 18 8.5C16.5 5.5 13.5 3 10 3Z" stroke="#999" stroke-width="1.5"/>
-                  <circle cx="10" cy="8.5" r="2.5" stroke="#999" stroke-width="1.5"/>
-                  <path v-if="!showPassword" d="M2 2L18 18" stroke="#999" stroke-width="1.5"/>
+
+          <form @submit.prevent="handleLogin" class="login-form">
+            <div v-if="!showPasswordStep" class="form-group">
+              <label class="form-label">Tipo de documento</label>
+              <div class="select-wrapper">
+                <select v-model="documentType" class="form-select" required>
+                  <option value="">Seleccionar tipo</option>
+                  <option value="CC">Cédula de Ciudadanía</option>
+                  <option value="CE">Cédula de Extranjería</option>
+                  <option value="TI">Tarjeta de Identidad</option>
+                  <option value="PP">Pasaporte</option>
+                </select>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="select-arrow">
+                  <path d="M4 6L8 10L12 6" stroke="#666" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
                 </svg>
-              </button>
+              </div>
             </div>
-          </div>
-          
-          <div v-if="!showPasswordStep" class="checkbox-group">
-            <input type="checkbox" id="remember" v-model="rememberDocument" class="checkbox-input" />
-            <label for="remember" class="checkbox-label">Recordar tipo y número de documento</label>
-          </div>
-          
-          <button v-if="!showPasswordStep" type="button" class="continue-button" :disabled="!isDocumentFormValid" @click="handleContinue">
-            Continuar
-          </button>
-          
-          <button v-else type="submit" class="continue-button" :disabled="!isLoginFormValid || isLoggingIn">
-            <div v-if="isLoggingIn" class="button-spinner">
-              <svg width="20" height="20" viewBox="0 0 20 20" class="spinner">
-                <circle
-                  cx="10"
-                  cy="10"
-                  r="8"
-                  stroke="white"
-                  stroke-width="2"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-dasharray="25.1"
-                  stroke-dashoffset="25.1"
-                />
-              </svg>
+
+            <div v-if="!showPasswordStep" class="form-group">
+              <label class="form-label">Número de documento</label>
+              <input type="text" v-model="loginData.username" class="form-input" required />
             </div>
-            <span v-else>Iniciar sesión</span>
-          </button>
-        </form>
-        
-        <div class="footer-links">
-          <span class="new-user-text">¿No eres usuario?</span>
-          <button class="register-link" @click="handleRegister">Regístrate aquí</button>
-        </div>
-        
-        <div class="security-footer">
-          <span class="security-text">Protegido por reCAPTCHA |</span>
-          <button class="privacy-link" @click="handlePrivacy">Privacidad</button>
-          <span> - </span>
-          <button class="terms-link" @click="handleTerms">Condiciones</button>
+
+            <div v-if="showPasswordStep" class="form-group">
+              <label class="form-label">Contraseña</label>
+              <div class="password-input-wrapper">
+                <input :type="showPassword ? 'text' : 'password'" v-model="loginData.password" class="form-input"
+                  placeholder="Ingresa tu contraseña" required />
+                <button type="button" @click="togglePassword" class="password-toggle">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M10 3C6.5 3 3.5 5.5 2 8.5C3.5 11.5 6.5 14 10 14C13.5 14 16.5 11.5 18 8.5C16.5 5.5 13.5 3 10 3Z"
+                      stroke="#999" stroke-width="1.5" />
+                    <circle cx="10" cy="8.5" r="2.5" stroke="#999" stroke-width="1.5" />
+                    <path v-if="!showPassword" d="M2 2L18 18" stroke="#999" stroke-width="1.5" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div v-if="!showPasswordStep" class="checkbox-group">
+              <input type="checkbox" id="remember" v-model="rememberDocument" class="checkbox-input" />
+              <label for="remember" class="checkbox-label">Recordar tipo y número de documento</label>
+            </div>
+
+            <button v-if="!showPasswordStep" type="button" class="continue-button" :disabled="!isDocumentFormValid"
+              @click="handleContinue">
+              Continuar
+            </button>
+
+            <button v-else type="submit" class="continue-button" :disabled="!isLoginFormValid || isLoggingIn">
+              <div v-if="isLoggingIn" class="button-spinner">
+                <svg width="20" height="20" viewBox="0 0 20 20" class="spinner">
+                  <circle cx="10" cy="10" r="8" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"
+                    stroke-dasharray="25.1" stroke-dashoffset="25.1" />
+                </svg>
+              </div>
+              <span v-else>Iniciar sesión</span>
+            </button>
+          </form>
+
+          <div class="footer-links">
+            <span class="new-user-text">¿No eres usuario?</span>
+            <button class="register-link" @click="handleRegister">Regístrate aquí</button>
+          </div>
+
+          <div class="security-footer">
+            <span class="security-text">Protegido por reCAPTCHA |</span>
+            <button class="privacy-link" @click="handlePrivacy">Privacidad</button>
+            <span> - </span>
+            <button class="terms-link" @click="handleTerms">Condiciones</button>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <div class="right-section">
-      <div class="content-area">
-        <div class="main-image">
-          <div class="person-image"></div>
-          <div class="decorative-shapes">
-            <div class="shape shape-yellow-1"></div>
-            <div class="shape shape-yellow-2"></div>
-            <div class="shape shape-green-1"></div>
-            <div class="shape shape-green-2"></div>
-          </div>
-        </div>
-        
-        <div class="info-section">
-          <div class="bank-logo-small">
-            <div class="bank-logo-circle-small">
-              <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image-small" />
-              <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image-small" />
-              <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image-small" />
-              <span v-else class="bank-initials-small">{{ bankName.substring(0, 2).toUpperCase() }}</span>
+
+      <div class="right-section">
+        <div class="content-area">
+          <div class="main-image">
+            <div class="person-image"></div>
+            <div class="decorative-shapes">
+              <div class="shape shape-yellow-1"></div>
+              <div class="shape shape-yellow-2"></div>
+              <div class="shape shape-green-1"></div>
+              <div class="shape shape-green-2"></div>
             </div>
-            <span class="bank-text">{{ bankName }}</span>
           </div>
-          
-          <div class="carousel-container">
-            <transition name="carousel-fade" mode="out-in">
-              <div :key="currentSlide" class="carousel-slide">
-                <div class="slide-icon">
-                  <!-- Transfer Icon -->
-                  <svg v-if="currentSlide === 0" width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <circle cx="24" cy="24" r="20" fill="#16a34a" opacity="0.1"/>
-                    <path d="M16 24h16m-8-8l8 8-8 8" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  
-                  <!-- Security Icon -->
-                  <svg v-else-if="currentSlide === 1" width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <circle cx="24" cy="24" r="20" fill="#16a34a" opacity="0.1"/>
-                    <path d="M24 8l8 4v8c0 6-8 12-8 12s-8-6-8-12v-8l8-4z" fill="#16a34a" opacity="0.2"/>
-                    <path d="M24 8l8 4v8c0 6-8 12-8 12s-8-6-8-12v-8l8-4z" stroke="#16a34a" stroke-width="2"/>
-                    <path d="M20 24l3 3 6-6" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  
-                  <!-- Mobile Icon -->
-                  <svg v-else-if="currentSlide === 2" width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <circle cx="24" cy="24" r="20" fill="#16a34a" opacity="0.1"/>
-                    <rect x="18" y="12" width="12" height="20" rx="2" fill="#16a34a" opacity="0.2"/>
-                    <rect x="18" y="12" width="12" height="20" rx="2" stroke="#16a34a" stroke-width="2"/>
-                    <circle cx="24" cy="28" r="1" fill="#16a34a"/>
-                    <path d="M20 16h8" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round"/>
-                  </svg>
-                  
-                  <!-- Support Icon -->
-                  <svg v-else width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <circle cx="24" cy="24" r="20" fill="#16a34a" opacity="0.1"/>
-                    <circle cx="24" cy="18" r="4" fill="#16a34a" opacity="0.2"/>
-                    <circle cx="24" cy="18" r="4" stroke="#16a34a" stroke-width="2"/>
-                    <path d="M16 32c0-4 3.5-8 8-8s8 4 8 8" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M30 26c2 0 4 1 4 3v3" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M18 26c-2 0-4 1-4 3v3" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
+
+          <div class="info-section">
+            <div class="bank-logo-small">
+              <div class="bank-logo-circle-small">
+                <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank"
+                  class="bank-logo-image-small" />
+                <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit"
+                  class="bank-logo-image-small" />
+                <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia"
+                  class="bank-logo-image-small" />
+                <span v-else class="bank-initials-small">{{ bankName.substring(0, 2).toUpperCase() }}</span>
+              </div>
+              <span class="bank-text">{{ bankName }}</span>
+            </div>
+
+            <div class="carousel-container">
+              <transition name="carousel-fade" mode="out-in">
+                <div :key="currentSlide" class="carousel-slide">
+                  <div class="slide-icon">
+                    <!-- Transfer Icon -->
+                    <svg v-if="currentSlide === 0" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <circle cx="24" cy="24" r="20" fill="#16a34a" opacity="0.1" />
+                      <path d="M16 24h16m-8-8l8 8-8 8" stroke="#16a34a" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+
+                    <!-- Security Icon -->
+                    <svg v-else-if="currentSlide === 1" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <circle cx="24" cy="24" r="20" fill="#16a34a" opacity="0.1" />
+                      <path d="M24 8l8 4v8c0 6-8 12-8 12s-8-6-8-12v-8l8-4z" fill="#16a34a" opacity="0.2" />
+                      <path d="M24 8l8 4v8c0 6-8 12-8 12s-8-6-8-12v-8l8-4z" stroke="#16a34a" stroke-width="2" />
+                      <path d="M20 24l3 3 6-6" stroke="#16a34a" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+
+                    <!-- Mobile Icon -->
+                    <svg v-else-if="currentSlide === 2" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <circle cx="24" cy="24" r="20" fill="#16a34a" opacity="0.1" />
+                      <rect x="18" y="12" width="12" height="20" rx="2" fill="#16a34a" opacity="0.2" />
+                      <rect x="18" y="12" width="12" height="20" rx="2" stroke="#16a34a" stroke-width="2" />
+                      <circle cx="24" cy="28" r="1" fill="#16a34a" />
+                      <path d="M20 16h8" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+
+                    <!-- Support Icon -->
+                    <svg v-else width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <circle cx="24" cy="24" r="20" fill="#16a34a" opacity="0.1" />
+                      <circle cx="24" cy="18" r="4" fill="#16a34a" opacity="0.2" />
+                      <circle cx="24" cy="18" r="4" stroke="#16a34a" stroke-width="2" />
+                      <path d="M16 32c0-4 3.5-8 8-8s8 4 8 8" stroke="#16a34a" stroke-width="2" stroke-linecap="round" />
+                      <path d="M30 26c2 0 4 1 4 3v3" stroke="#16a34a" stroke-width="2" stroke-linecap="round" />
+                      <path d="M18 26c-2 0-4 1-4 3v3" stroke="#16a34a" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                  </div>
+                  <h3 class="info-title">{{ carouselData[currentSlide].title }}</h3>
+                  <p class="info-description">{{ carouselData[currentSlide].description }}</p>
+                  <button class="more-info-btn">{{ carouselData[currentSlide].buttonText }}</button>
+                </div>
+              </transition>
+
+              <div class="carousel-indicators">
+                <div v-for="(_, index) in carouselData" :key="index"
+                  :class="['indicator', { active: currentSlide === index }]" @click="currentSlide = index"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="help-section">
+            <h4 class="help-title">¿Cómo podemos ayudarte?</h4>
+            <div class="help-options">
+              <div class="help-option">
+                <div class="help-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="3" width="20" height="14" rx="2" fill="#16a34a" opacity="0.2" />
+                    <rect x="2" y="3" width="20" height="14" rx="2" stroke="#16a34a" stroke-width="1.5" />
+                    <path d="M2 7h20" stroke="#16a34a" stroke-width="1.5" />
                   </svg>
                 </div>
-                <h3 class="info-title">{{ carouselData[currentSlide].title }}</h3>
-                <p class="info-description">{{ carouselData[currentSlide].description }}</p>
-                <button class="more-info-btn">{{ carouselData[currentSlide].buttonText }}</button>
+                <span class="help-text">Solicitar productos</span>
               </div>
-            </transition>
-            
-            <div class="carousel-indicators">
-              <div 
-                v-for="(_, index) in carouselData" 
-                :key="index"
-                :class="['indicator', { active: currentSlide === index }]"
-                @click="currentSlide = index"
-              ></div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="help-section">
-          <h4 class="help-title">¿Cómo podemos ayudarte?</h4>
-          <div class="help-options">
-            <div class="help-option">
-              <div class="help-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <rect x="2" y="3" width="20" height="14" rx="2" fill="#16a34a" opacity="0.2"/>
-                  <rect x="2" y="3" width="20" height="14" rx="2" stroke="#16a34a" stroke-width="1.5"/>
-                  <path d="M2 7h20" stroke="#16a34a" stroke-width="1.5"/>
-                </svg>
+              <div class="help-option">
+                <div class="help-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" fill="#16a34a" opacity="0.2" />
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" stroke="#16a34a" stroke-width="1.5" />
+                    <circle cx="12" cy="10" r="3" stroke="#16a34a" stroke-width="1.5" />
+                  </svg>
+                </div>
+                <span class="help-text">Contáctanos</span>
               </div>
-              <span class="help-text">Solicitar productos</span>
-            </div>
-            <div class="help-option">
-              <div class="help-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" fill="#16a34a" opacity="0.2"/>
-                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" stroke="#16a34a" stroke-width="1.5"/>
-                  <circle cx="12" cy="10" r="3" stroke="#16a34a" stroke-width="1.5"/>
-                </svg>
+              <div class="help-option">
+                <div class="help-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#16a34a" opacity="0.2" />
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="#16a34a" stroke-width="1.5" />
+                    <circle cx="12" cy="10" r="3" stroke="#16a34a" stroke-width="1.5" />
+                  </svg>
+                </div>
+                <span class="help-text">Visítanos</span>
               </div>
-              <span class="help-text">Contáctanos</span>
-            </div>
-            <div class="help-option">
-              <div class="help-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#16a34a" opacity="0.2"/>
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="#16a34a" stroke-width="1.5"/>
-                  <circle cx="12" cy="10" r="3" stroke="#16a34a" stroke-width="1.5"/>
-                </svg>
-              </div>
-              <span class="help-text">Visítanos</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script setup lang="ts">
@@ -346,7 +331,7 @@ const handleTerms = () => {
 const handleLogin = () => {
   if (isLoginFormValid.value && !isLoggingIn.value) {
     isLoggingIn.value = true
-    
+
     setTimeout(() => {
       router.push({
         path: '/bankambient/account-selection',
@@ -364,6 +349,7 @@ const handleLogin = () => {
 <style scoped>
 .portal-container {
   min-height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -621,14 +607,30 @@ const handleLogin = () => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes dash {
-  0% { stroke-dasharray: 1, 50; stroke-dashoffset: 0; }
-  50% { stroke-dasharray: 25, 50; stroke-dashoffset: -12.5; }
-  100% { stroke-dasharray: 25, 50; stroke-dashoffset: -37.5; }
+  0% {
+    stroke-dasharray: 1, 50;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 25, 50;
+    stroke-dashoffset: -12.5;
+  }
+
+  100% {
+    stroke-dasharray: 25, 50;
+    stroke-dashoffset: -37.5;
+  }
 }
 
 .footer-links {
@@ -668,7 +670,8 @@ const handleLogin = () => {
   color: #999;
 }
 
-.privacy-link, .terms-link {
+.privacy-link,
+.terms-link {
   background: none;
   border: none;
   color: #ff8c00;
@@ -677,7 +680,8 @@ const handleLogin = () => {
   text-decoration: none;
 }
 
-.privacy-link:hover, .terms-link:hover {
+.privacy-link:hover,
+.terms-link:hover {
   text-decoration: underline;
 }
 
@@ -956,33 +960,86 @@ const handleLogin = () => {
   .portal-container {
     padding: 10px;
   }
-  
+
   .main-container {
     flex-direction: column;
     height: auto;
     min-height: 500px;
   }
-  
+
   .left-section {
     flex: none;
     padding: 20px;
   }
-  
+
   .content-area {
     padding: 20px;
   }
-  
+
   .help-options {
     gap: 20px;
   }
-  
+
   .main-image {
     min-height: 200px;
   }
-  
+
   .person-image {
     width: 150px;
     height: 150px;
   }
+}
+
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.is-tablet .portal-container,
+.tablet .portal-container,
+.is-mobile .portal-container {
+  padding: 10px;
+}
+
+.is-tablet .main-container,
+.tablet .main-container,
+.is-mobile .main-container {
+  flex-direction: column;
+  height: auto;
+  min-height: 500px;
+}
+
+.is-tablet .left-section,
+.tablet .left-section,
+.is-mobile .left-section {
+  flex: none;
+  padding: 20px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.is-tablet .content-area,
+.tablet .content-area,
+.is-mobile .content-area {
+  padding: 20px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.is-tablet .help-options,
+.tablet .help-options,
+.is-mobile .help-options {
+  gap: 20px;
+}
+
+.is-tablet .main-image,
+.tablet .main-image,
+.is-mobile .main-image {
+  min-height: 200px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.is-tablet .person-image,
+.tablet .person-image,
+.is-mobile .person-image {
+  width: 150px;
+  height: 150px;
 }
 </style>

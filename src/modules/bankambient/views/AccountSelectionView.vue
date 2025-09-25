@@ -3,9 +3,12 @@
     <div class="header-section">
       <div class="bank-logo-header">
         <div class="bank-logo-circle">
-          <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
-          <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
-          <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+          <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank"
+            class="bank-logo-image" />
+          <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit"
+            class="bank-logo-image" />
+          <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia"
+            class="bank-logo-image" />
           <span v-else class="bank-initials">{{ bankInitials }}</span>
         </div>
         <span class="bank-name">{{ bankName }}</span>
@@ -31,7 +34,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="accounts-grid">
           <div v-for="account in accounts" :key="account.id" class="account-item">
             <div class="account-info">
@@ -41,33 +44,38 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Información sobre credenciales bancarias -->
         <div class="credentials-info">
           <div class="credentials-header">
-            <h3 class="credentials-title">Conexión segura con tu banco</h3>
-            <p class="credentials-subtitle">Para validar tu identidad y traer tu información, te pediremos tus credenciales bancarias.</p>
+            <h3 class="credentials-title">Conexión segura con tu entidad financiera</h3>
+            <p class="credentials-subtitle">Para validar tu identidad y traer tu información, te pediremos tus
+              credenciales bancarias.</p>
           </div>
-          
+
           <div class="credentials-points">
             <div class="credential-point">
               <div class="point-icon">🔒</div>
               <div class="point-content">
-                <strong>Seguridad garantizada:</strong> ingresas tus datos en la pasarela oficial del banco, no en nuestra plataforma.
+                <strong>Seguridad garantizada:</strong> ingresas tus datos en la pasarela oficial de la entidad
+                financiera, no en
+                nuestra plataforma.
               </div>
             </div>
-            
+
             <div class="credential-point">
               <div class="point-icon">⏳</div>
               <div class="point-content">
-                <strong>Uso único:</strong> tus credenciales solo se usan para autenticarte en este momento, no quedan guardadas.
+                <strong>Uso único:</strong> tus credenciales solo se usan para autenticarte en este momento, no quedan
+                guardadas.
               </div>
             </div>
-            
+
             <div class="credential-point">
               <div class="point-icon">📈</div>
               <div class="point-content">
-                <strong>Propósito claro:</strong> esta conexión nos permite consultar tus ingresos y movimientos autorizados para ofrecerte una solución ajustada a tu perfil.
+                <strong>Propósito claro:</strong> esta conexión nos permite consultar tus ingresos y movimientos
+                autorizados para ofrecerte una solución ajustada a tu perfil.
               </div>
             </div>
           </div>
@@ -101,7 +109,7 @@
               <div v-if="showAccounts" class="info-content">
                 <p>Nombre de tu cuenta, apodo, código de clasificación, número de cuenta, moneda, IBAN, número de
                   registro (para cuentas de Building Society), y Número de Cuenta Principal (PAN), enmascarado o no,
-                  dependiendo de cómo tu banco muestre esta información en línea.</p>
+                  dependiendo de cómo tu entidad financiera muestre esta información en línea.</p>
               </div>
             </transition>
           </div>
@@ -266,6 +274,7 @@ const handleConfirm = () => {
 <style scoped>
 .account-selection {
   min-height: 100vh;
+  width: 100vw;
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
@@ -685,5 +694,53 @@ const handleConfirm = () => {
   font-weight: 700;
   font-size: 12px;
 }
+</style>
 
+<style>
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.is-tablet .header-section,
+.tablet .header-section,
+.is-mobile .header-section {
+  padding: 24px 20px;
+}
+
+.is-tablet .page-title,
+.tablet .page-title,
+.is-mobile .page-title {
+  font-size: 22px;
+}
+
+.is-tablet .content-section,
+.tablet .content-section {
+  padding: 24px 20px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.is-mobile .content-section {
+  padding: 24px 16px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.is-tablet .accounts-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.is-mobile .accounts-grid {
+  grid-template-columns: 1fr;
+}
+
+.is-tablet .instructions,
+.tablet .instructions,
+.is-mobile .instructions {
+  font-size: 16px;
+}
+
+.is-tablet .confirm-button,
+.tablet .confirm-button,
+.is-mobile .confirm-button {
+  padding: 10px 18px;
+  font-size: 14px;
+}
 </style>

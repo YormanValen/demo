@@ -172,11 +172,11 @@ const openAnimationContainer = () => {
     showFlow.value = true;
     console.log('showFlow activated:', showFlow.value);
 
-    // Show button after first flow animation cycle completes (3000 + 2000 = 5000ms)
+    // Show button after flow animation completes + extra delay (1000 + 3000 + 2000 + 1500 = 7500ms)
     setTimeout(() => {
       showProcessComplete.value = true;
       showNextButton.value = true;
-    }, 5000);
+    }, 7500);
   }, 300);
 };
 
@@ -712,6 +712,52 @@ const handleConsentAnimation = () => {
   color: #4CAF50;
   text-align: center;
   font-weight: 600;
+}
+</style>
+
+<style>
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.is-tablet .registration-container,
+.tablet .registration-container {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.is-mobile .registration-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.is-tablet .form-header h2,
+.tablet .form-header h2,
+.is-mobile .form-header h2 {
+  font-size: 16px;
+}
+
+.is-mobile .sms-text,
+.is-mobile .switch-text,
+.is-mobile .checkbox-text {
+  font-size: 12px;
+  white-space: normal;
+}
+
+.is-mobile .error-message {
+  font-size: 11px;
+  margin-left: 0;
+  position: static;
+}
+
+.is-tablet .next-button,
+.tablet .next-button,
+.is-mobile .next-button,
+.is-tablet .form-submit,
+.tablet .form-submit,
+.is-mobile .form-submit {
+  width: 150px;
+  height: 34px;
+  font-size: 13px;
 }
 </style>
 

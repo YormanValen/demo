@@ -11,18 +11,20 @@
         <span>Validando...</span>
       </template>
       <div style="display: flex; flex-direction: column; min-height: 300px;">
-        
+
         <!-- Flow visualization -->
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
           <FinerioFlowVisualization v-if="showFlowVisualization" :is-visible="true" :validation-time="2500"
             :processing-time="2500" />
-          
+
           <!-- Process disclaimer -->
           <div v-if="showFlowVisualization" class="process-disclaimer">
-            <p>Este proceso se realiza en milisegundos, pero te mostramos la animación para que visualices el recorrido de tus datos.</p>
+            <p>Este proceso se realiza en milisegundos, pero te mostramos la animación para que visualices el recorrido
+              de tus
+              datos.</p>
           </div>
         </div>
-        
+
         <!-- Next button at the bottom -->
         <transition name="fade-slide-up">
           <div v-if="showNextButton" style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
@@ -43,10 +45,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useInstitutionsStore } from '../../financial/stores/institutions.store'
 import FinerioFlowVisualization from '../components/FinerioFlowVisualization.vue'
 import FinancialAnimationContainer from '../components/FinerioAnimationContainer.vue'
 
 const router = useRouter()
+const institutionsStore = useInstitutionsStore()
 
 const showAnimationContainer = ref(true)
 const isAnimationOpen = ref(false)
@@ -61,7 +65,7 @@ onMounted(() => {
     isAnimationOpen.value = true
     showContainerLoader.value = true
     showFlowVisualization.value = true
-    
+
     // Mostrar botón después del primer ciclo (5 segundos)
     setTimeout(() => {
       showProcessComplete.value = true
@@ -72,7 +76,12 @@ onMounted(() => {
 
 const handleNextClick = () => {
   isAnimationOpen.value = false
-  router.push('/financial/connect-stage1')
+  // Check if there are connected institutions to determine next route
+  if (institutionsStore.hasConnectedInstitutions()) {
+    router.push('/financial/connected-accounts')
+  } else {
+    router.push('/financial/connect-stage1')
+  }
 }
 
 const handleAnimationToggle = (isOpen: boolean) => {
@@ -89,6 +98,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 <style scoped>
 .financial-process {
   min-height: 100vh;
+  width: 100vw;
   background: #ffffff;
   display: flex;
   justify-content: center;

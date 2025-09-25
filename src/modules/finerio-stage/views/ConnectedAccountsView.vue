@@ -5,37 +5,33 @@
         <button class="back-button" @click="handleBack">
           <v-icon size="24" color="#001340">mdi-arrow-left</v-icon>
         </button>
-        
-        <h1 class="page-title">Mis instituciones conectadas</h1>
+
+        <h1 class="page-title">Mis entidades conectadas</h1>
       </div>
-      
+
       <SearchBar @search="handleSearch" />
-      
+
       <SecurityMessage />
-      
-      <ConnectedBanksList :banks="connectedBanks" @manage="handleManageBank" />
+
+      <ConnectedBanksList :banks="connectedBanks.value" @manage="handleManageBank" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useInstitutionsStore } from '../../financial/stores/institutions.store'
 import SearchBar from '../components/SearchBar.vue'
 import SecurityMessage from '../components/SecurityMessage.vue'
 import ConnectedBanksList from '../components/ConnectedBanksList.vue'
 
 const router = useRouter()
+const institutionsStore = useInstitutionsStore()
 
-const connectedBanks = ref([
-  {
-    id: 1,
-    name: 'Bancolombia',
-    logo: '/src/assets/bancolombia-logo.png',
-    status: 'CONECTADO',
-    connected: true
-  }
-])
+const connectedBanks = computed(() => {
+  return institutionsStore.connectedInstitutions
+})
 
 const handleSearch = (query: string) => {
   console.log('Buscar:', query)
@@ -54,6 +50,7 @@ const handleManageBank = (bank: any) => {
 <style scoped>
 .connected-accounts {
   min-height: 100vh;
+  width: 100vw;
   background: #f8fafc;
   display: flex;
   justify-content: center;

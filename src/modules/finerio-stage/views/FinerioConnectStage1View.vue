@@ -23,7 +23,8 @@
         <!-- Título principal más amigable -->
         <div class="title-section">
           <h1 class="main-title">Usa el poder de tus datos a través de Open Finance para obtener un mejor crédito</h1>
-          <p class="subtitle">Conecta tu banco de forma fácil y segura para acceder a mejores opciones financieras</p>
+          <p class="subtitle">Conecta tu entidad financiera de forma fácil y segura para acceder a mejores opciones
+            financieras</p>
         </div>
 
         <!-- Lista de beneficios mejorada -->
@@ -94,7 +95,7 @@
             <span class="btn-text">Conectar mi entidad</span>
           </button>
 
-          <button class="btn-view" @click="handleViewConnected">
+          <button v-if="hasConnectedInstitutions" class="btn-view" @click="handleViewConnected">
             Ver entidades conectadas
           </button>
         </div>
@@ -139,11 +140,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useInstitutionsStore } from '../../financial/stores/institutions.store'
 
 const router = useRouter()
 const showContent = ref(false)
+const institutionsStore = useInstitutionsStore()
+
+const hasConnectedInstitutions = computed(() => {
+  return institutionsStore.hasConnectedInstitutions()
+})
 
 onMounted(() => {
   setTimeout(() => {
@@ -164,8 +171,9 @@ const handleViewConnected = () => {
 <style scoped>
 .financial-connect-stage1 {
   min-height: 100vh;
+  width: 100vw;
   background: #f8fafc;
-  position: relative;
+  position: fixed;
   overflow: hidden;
   display: flex;
   align-items: center;
