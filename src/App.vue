@@ -5,7 +5,7 @@ import AppLayout from './shared/layouts/AppLayout.vue'
 import LoadingScreen from './shared/components/LoadingScreen.vue'
 import DeviceFrame from './components/frame/DeviceFrame.vue'
 
-type DeviceKind = 'full' | 'desktop' | 'tablet' | 'mobile'
+type DeviceKind = 'full' | 'desktop' | 'tablet'
 
 const showContent = ref(false)
 // Abrir por defecto en Escritorio
@@ -21,7 +21,6 @@ const deviceOptions: { key: DeviceKind; label: string }[] = [
   { key: 'full', label: 'Pantalla completa' },
   { key: 'desktop', label: 'Escritorio' },
   { key: 'tablet', label: 'Tableta' },
-  { key: 'mobile', label: 'Móvil' },
 ]
 
 const router = useRouter()
@@ -32,7 +31,7 @@ const goHome = () => router.push('/')
   <div :class="['app-container', { 'full-mode': currentDevice === 'full' }]">
     <!-- Loading screen outside the frame -->
     <LoadingScreen :show="!showContent" />
-    
+
     <!-- Content with device frame -->
     <Transition name="slide-fade">
       <div v-if="showContent" :class="['frame-container', { 'full-mode': currentDevice === 'full' }]">
@@ -52,16 +51,12 @@ const goHome = () => router.push('/')
         </template>
       </div>
     </Transition>
-    
-    
+
+
     <!-- Floating device selector -->
     <div class="device-controls">
-      <button
-        v-for="opt in deviceOptions"
-        :key="opt.key"
-        :class="['device-btn', { active: currentDevice === opt.key }]"
-        @click="currentDevice = opt.key"
-      >
+      <button v-for="opt in deviceOptions" :key="opt.key" :class="['device-btn', { active: currentDevice === opt.key }]"
+        @click="currentDevice = opt.key">
         {{ opt.label }}
       </button>
     </div>
@@ -90,10 +85,14 @@ const goHome = () => router.push('/')
 }
 
 .app-container.full-mode {
-  padding: 0;            /* remove outer padding for true full */
-  align-items: stretch;  /* let inner container fill width */
-  overflow: hidden;      /* no scroll on wrapper; inner controls scroll */
-  height: 100vh;         /* fixed height for full mode */
+  padding: 0;
+  /* remove outer padding for true full */
+  align-items: stretch;
+  /* let inner container fill width */
+  overflow: hidden;
+  /* no scroll on wrapper; inner controls scroll */
+  height: 100vh;
+  /* fixed height for full mode */
 }
 
 .device-controls {
@@ -118,8 +117,8 @@ const goHome = () => router.push('/')
   left: 20px;
   z-index: 10000;
   backdrop-filter: blur(10px);
+  padding: 10px;
   border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .device-btn {
@@ -172,31 +171,37 @@ const goHome = () => router.push('/')
 
 .frame-container {
   display: flex;
-  justify-content: center;  /* center horizontally */
-  align-items: center;       /* center vertically */
+  justify-content: center;
+  /* center horizontally */
+  align-items: center;
+  /* center vertically */
   width: 100%;
   height: 100%;
-  min-height: calc(100vh - 40px);  /* full height minus padding */
+  min-height: calc(100vh - 40px);
+  /* full height minus padding */
 }
 
 .frame-container.full-mode {
   position: fixed;
-  inset: 0;       /* top:0; right:0; bottom:0; left:0 */
+  inset: 0;
+  /* top:0; right:0; bottom:0; left:0 */
   width: 100vw;
   height: 100vh;
   justify-content: flex-start;
   align-items: stretch;
-  overflow: auto; /* allow scroll in full mode */
+  overflow: auto;
+  /* allow scroll in full mode */
 }
 
 /* Keep device selector visible in full mode */
 
 /* Make AppLayout truly edge-to-edge in full mode */
-.app-container.full-mode .app-layout { 
-  min-height: 100vh; 
-  width: 100vw; 
+.app-container.full-mode .app-layout {
+  min-height: 100vh;
+  width: 100vw;
 }
-.app-container.full-mode .app-layout__content { 
+
+.app-container.full-mode .app-layout__content {
   padding: 0;
 }
 
@@ -232,26 +237,26 @@ const goHome = () => router.push('/')
   .app-container {
     padding: 10px;
   }
-  
+
   .device-controls {
     bottom: 15px;
     right: 15px;
     padding: 8px;
     gap: 6px;
   }
-  
+
   .device-btn {
     padding: 8px 10px;
     font-size: 11px;
     min-width: 60px;
   }
-  
+
   .home-control {
     top: 15px;
     left: 15px;
     padding: 8px;
   }
-  
+
   .home-btn {
     padding: 8px 10px;
     font-size: 11px;
@@ -263,26 +268,26 @@ const goHome = () => router.push('/')
   .app-container {
     padding: 5px;
   }
-  
+
   .device-controls {
     bottom: 10px;
     right: 10px;
     padding: 6px;
     gap: 4px;
   }
-  
+
   .device-btn {
     padding: 6px 8px;
     font-size: 10px;
     min-width: 50px;
   }
-  
+
   .home-control {
     top: 10px;
     left: 10px;
     padding: 6px;
   }
-  
+
   .home-btn {
     padding: 6px 8px;
     font-size: 10px;

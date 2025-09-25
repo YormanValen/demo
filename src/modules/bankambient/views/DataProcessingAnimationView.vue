@@ -118,8 +118,8 @@
             <!-- Left section: Raw Data -->
             <div class="pipeline-section left-section">
               <div class="section-header">
-                <h3>Su información bancaria</h3>
-                <p>Revisamos sus ingresos, gastos y movimientos bancarios para conocer mejor su situación financiera.
+                <h3>Información transaccional</h3>
+                <p>Revisamos ingresos, gastos y movimientos financieros para conocer mejor la situación del cliente.
                 </p>
               </div>
               <div class="data-box" :class="{ active: animationStep >= 1 }">

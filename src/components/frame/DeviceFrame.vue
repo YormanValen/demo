@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import TabletFrame from './TabletFrame.vue'
 
-type DeviceKind = 'desktop' | 'tablet' | 'mobile'
+type DeviceKind = 'desktop' | 'tablet'
 
 const props = withDefaults(defineProps<{
   device: DeviceKind
@@ -18,14 +18,12 @@ const scale = computed(() => props.scale ?? 1)
 const deviceClass = computed(() => ({
   'is-desktop': props.device === 'desktop',
   'is-tablet': props.device === 'tablet',
-  'is-mobile': props.device === 'mobile',
 }))
 
 const containerStyle = computed(() => {
   const defaultHeights: Record<DeviceKind, number> = {
     desktop: 800,
     tablet: 900,
-    mobile: 820,
   }
   const h = props.heightPx ?? defaultHeights[props.device]
   return {
@@ -43,8 +41,7 @@ const containerStyle = computed(() => {
 
   <div v-else class="frame" :class="deviceClass" :style="containerStyle">
     <!-- Notches / camera -->
-    <div v-if="deviceClass['is-mobile']" class="frame__notch" />
-    <div v-else-if="deviceClass['is-tablet']" class="frame__notch frame__notch--tablet" />
+    <div v-if="deviceClass['is-tablet']" class="frame__notch frame__notch--tablet" />
     <div v-else-if="deviceClass['is-desktop']" class="frame__camera" aria-hidden="true" />
 
     <!-- Screen -->
@@ -192,20 +189,12 @@ const containerStyle = computed(() => {
   --screen-radius: 16px;
 }
 
-.is-mobile {
-  --aspect: 9 / 19.5;
-  --bezel: 12px;
-  --bezel-border: 10px;
-  --radius: 28px;
-  --screen-radius: 20px;
-}
-
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .frame {
     height: min(var(--h, 600px), 90vh);
   }
-  
+
   .is-desktop {
     --bezel: 16px;
     --bezel-border: 6px;
@@ -217,21 +206,17 @@ const containerStyle = computed(() => {
     height: min(var(--h, 500px), 85vh);
     max-width: calc(100vw - 40px);
   }
-  
+
   .is-desktop {
     --bezel: 12px;
     --bezel-border: 4px;
   }
-  
+
   .is-tablet {
     --bezel: 12px;
     --bezel-border: 8px;
   }
-  
-  .is-mobile {
-    --bezel: 8px;
-    --bezel-border: 6px;
-  }
+
 }
 
 @media (max-width: 480px) {
@@ -239,21 +224,17 @@ const containerStyle = computed(() => {
     height: min(var(--h, 400px), 80vh);
     max-width: calc(100vw - 20px);
   }
-  
+
   .is-desktop {
     --bezel: 8px;
     --bezel-border: 3px;
   }
-  
+
   .is-tablet {
     --bezel: 8px;
     --bezel-border: 6px;
   }
-  
-  .is-mobile {
-    --bezel: 6px;
-    --bezel-border: 4px;
-  }
+
 }
 
 /* Monitor stand (desktop only) */
