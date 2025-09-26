@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useFinancialStore } from "../stores/financial.store";
 
 const router = useRouter();
 const showCard = ref(false);
+const financialStore = useFinancialStore();
+
+const displayAmount = computed(() => {
+  const amount = financialStore.getCreditAmount();
+  return amount || "$50'000.000";
+});
 
 onMounted(() => {
   setTimeout(() => {
@@ -30,7 +37,7 @@ const handleContinue = () => {
 
           <div class="credit-details">
             <p>
-              Por un monto de <span class="highlight">$50'000.000</span> con una
+              Por un monto de <span class="highlight">{{ displayAmount }}</span> con una
               tasa del <span class="highlight">14%</span> y un plazo de
               <span class="highlight">36 meses</span>
             </p>
