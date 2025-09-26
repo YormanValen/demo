@@ -44,7 +44,7 @@ const benefits = ref([
 ]);
 
 
-const emit = defineEmits(['trigger-animation']);
+const emit = defineEmits(['trigger-animation', 'view-document']);
 
 // Computed para validar si se puede continuar
 const canContinue = computed(() => {
@@ -75,8 +75,14 @@ const handleNextClick = () => {
         <div class="benefit-content">
           <h3 class="benefit-title">
             {{ benefit.title }}
-            <a v-if="benefit.hasDocument" :href="benefit.documentUrl" target="_blank" class="document-link">Ver
-              documento</a>
+            <a
+              v-if="benefit.hasDocument"
+              href="#"
+              class="document-link"
+              @click.prevent="emit('view-document', benefit.documentUrl)"
+            >
+              Ver documento
+            </a>
           </h3>
           <p class="benefit-description">{{ benefit.description }}</p>
         </div>

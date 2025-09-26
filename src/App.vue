@@ -116,7 +116,6 @@ const goHome = () => router.push('/')
   top: 20px;
   left: 20px;
   z-index: 10000;
-  backdrop-filter: blur(10px);
   padding: 10px;
   border-radius: 16px;
 }
@@ -215,11 +214,15 @@ const goHome = () => router.push('/')
 /* Make views that use viewport units adapt inside frames */
 .frame__content .financial-connect-stage1,
 .tablet__content .financial-connect-stage1 {
-  position: relative !important; /* override fixed */
-  width: 100% !important;        /* override 100vw */
-  min-height: 100% !important;   /* override 100vh */
+  position: relative !important;
+  /* override fixed */
+  width: 100% !important;
+  /* override 100vw */
+  min-height: 100% !important;
+  /* override 100vh */
   height: auto !important;
-  overflow: visible !important;  /* avoid clipping within frame */
+  overflow: visible !important;
+  /* avoid clipping within frame */
 }
 
 /* Apply same adaptation for ConnectInstitutions root */
@@ -361,7 +364,8 @@ const goHome = () => router.push('/')
 }
 
 .tablet .data-processing-animation {
-  padding-bottom: 24px !important; /* ensure extra space at bottom */
+  padding-bottom: 24px !important;
+  /* ensure extra space at bottom */
 }
 
 /* Adapt Finerio process screen inside frames */
