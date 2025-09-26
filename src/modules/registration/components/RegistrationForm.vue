@@ -9,6 +9,7 @@ import FlowVisualization from "./FlowVisualization.vue";
 import AnimationContainer from "../../financial/components/AnimationContainer.vue";
 import ConsentForm from "../../consent/components/ConsentForm.vue";
 const router = useRouter();
+const emit = defineEmits(["view-document"] as const);
 const store = useRegistrationStore();
 const {
   tipoOptions,
@@ -383,7 +384,10 @@ const handleConsentAnimation = () => {
 
       <!-- Consent Form Section -->
       <div class="consent-section">
-        <ConsentForm @trigger-animation="handleConsentAnimation" />
+        <ConsentForm
+          @trigger-animation="handleConsentAnimation"
+          @view-document="(url: string) => emit('view-document', url)"
+        />
       </div>
     </div>
 
