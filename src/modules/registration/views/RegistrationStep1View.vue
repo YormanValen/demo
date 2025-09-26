@@ -87,9 +87,10 @@ const registerCanvas = (page: number) => (el: any) => {
 
 const pageNumbers = computed(() => Array.from({ length: pageCount.value }, (_, i) => i + 1))
 
-async function openPdf(url: string) {
-  pdfUrl.value = url
-  pdfTitle.value = extractFileName(url)
+async function openPdf(input: string | File) {
+  let arrayBuffer: ArrayBuffer
+  let fileName = 'Documento'
+  
   // Detect if running inside tablet frame
   try {
     const root = rootRef.value
@@ -101,21 +102,70 @@ async function openPdf(url: string) {
     isTabletEnv.value = false
     isFullEnv.value = false
   }
+  
   showPdfModal.value = true
   isLoading.value = true
   scale.value = 1.0
+  
   try {
-    // Load PDF
-    const loadingTask = pdfjsLib.getDocument(pdfUrl.value)
+    if (input instanceof File) {
+      // Handle File input
+      fileName = input.name
+      arrayBuffer = await input.arrayBuffer()
+      console.log('Loading PDF from File:', fileName, 'Size:', arrayBuffer.byteLength)
+    } else {
+      // Handle URL input - Load as ArrayBuffer directly without fetch issues
+      pdfUrl.value = input
+      fileName = extractFileName(input)
+      console.log('Loading PDF from static asset:', input)
+      
+      // Load PDF directly using PDF.js with the URL
+      // This avoids fetch issues and CORS problems with static assets
+      const loadingTask = pdfjsLib.getDocument({
+        url: input,
+        cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
+        cMapPacked: true,
+        standardFontDataUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/standard_fonts/',
+        verbosity: 0 // Reduce logging
+      })
+      
+      pdfDoc = await loadingTask.promise
+      pageCount.value = pdfDoc.numPages || 0
+      pdfTitle.value = fileName
+      console.log('PDF loaded successfully from asset, pages:', pageCount.value)
+      await nextTick()
+      await maybeRenderInitialPages()
+      return // Exit early on success
+    }
+    
+    // File processing path
+    pdfTitle.value = fileName
+    
+    // Validate PDF header for file input
+    const uint8Array = new Uint8Array(arrayBuffer)
+    const pdfHeader = String.fromCharCode(...uint8Array.slice(0, 5))
+    console.log('PDF header:', pdfHeader)
+    
+    if (!pdfHeader.startsWith('%PDF-')) {
+      throw new Error('Invalid PDF file: Missing PDF header')
+    }
+    
+    const loadingTask = pdfjsLib.getDocument({
+      data: arrayBuffer,
+      cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
+      cMapPacked: true,
+      standardFontDataUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/standard_fonts/',
+      verbosity: 0
+    })
+    
     pdfDoc = await loadingTask.promise
     pageCount.value = pdfDoc.numPages || 0
+    console.log('PDF loaded successfully from file, pages:', pageCount.value)
     await nextTick()
     await maybeRenderInitialPages()
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error('Error loading PDF:', err)
-  } finally {
-    // Keep loading spinner until first render after overlay enter
+    alert('Error al cargar el documento PDF. Verifica que el archivo sea válido.')
   }
 }
 

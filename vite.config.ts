@@ -14,5 +14,18 @@ export default defineConfig({
     alias: {
       '@': path.resolve(process.cwd(), 'src')
     }
+  },
+  assetsInclude: ['**/*.pdf'],
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name && assetInfo.name.endsWith('.pdf')) {
+            return 'assets/[name]-[hash][extname]'
+          }
+          return 'assets/[name]-[hash][extname]'
+        }
+      }
+    }
   }
 })

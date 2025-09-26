@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import pdfAsset from '@/assets/autorizacion_obligatoria_v14.pdf?url';
 
 const captchaChecked = ref(false);
 
-const benefits = ref([
+interface Benefit {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  checked: boolean;
+  hasDocument?: boolean;
+  documentUrl?: string;
+}
+
+const benefits = ref<Benefit[]>([
   {
     id: 'creditAccess',
     title: 'Usar tus datos para darte acceso al crédito',
@@ -39,7 +50,7 @@ const benefits = ref([
     icon: 'mdi-file-document-outline',
     checked: false,
     hasDocument: true,
-    documentUrl: '/autorizacion_obligatoria_v14.pdf'
+    documentUrl: pdfAsset
   }
 ]);
 

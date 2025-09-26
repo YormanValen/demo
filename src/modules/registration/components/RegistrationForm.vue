@@ -875,7 +875,7 @@ const handleConsentAnimation = () => {
   font-size: 12px;
   margin-top: -15px;
   margin-left: calc(19px + 1vw);
-  position: absolute;
+  position: relative;
   z-index: 10;
 }
 
