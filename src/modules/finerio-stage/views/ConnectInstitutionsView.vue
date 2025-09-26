@@ -4,7 +4,7 @@
     <div class="main-container">
       <div class="left-panel" :class="{ 'animate': showContent }">
         <div class="panel-header">
-          <h1 class="panel-title">Selecciona tu entidad bancaria</h1>
+          <h1 class="panel-title">Selecciona tu entidad financiera</h1>
         </div>
 
         <div class="search-section">
@@ -14,7 +14,7 @@
               <path d="M21 21L16.65 16.65" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
-            <input type="text" v-model="searchQuery" placeholder="Busca tu " class="search-field" />
+            <input type="text" v-model="searchQuery" placeholder="Busca tu entidad financiera" class="search-field" />
           </div>
         </div>
 
