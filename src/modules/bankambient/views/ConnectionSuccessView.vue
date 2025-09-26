@@ -25,7 +25,7 @@ import { useInstitutionsStore } from '../../financial/stores/institutions.store'
 
 const router = useRouter()
 const route = useRoute()
-const countdown = ref(10)
+const countdown = ref(5)
 const institutionsStore = useInstitutionsStore()
 
 

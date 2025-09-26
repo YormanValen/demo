@@ -212,6 +212,178 @@ const goHome = () => router.push('/')
   min-height: auto;
 }
 
+/* Make views that use viewport units adapt inside frames */
+.frame__content .financial-connect-stage1,
+.tablet__content .financial-connect-stage1 {
+  position: relative !important; /* override fixed */
+  width: 100% !important;        /* override 100vw */
+  min-height: 100% !important;   /* override 100vh */
+  height: auto !important;
+  overflow: visible !important;  /* avoid clipping within frame */
+}
+
+/* Apply same adaptation for ConnectInstitutions root */
+.frame__content .connect-institutions,
+.tablet__content .connect-institutions {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Adapt Validation view inside device frames */
+.frame__content .validation-view,
+.tablet__content .validation-view {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Adapt Bank dashboard (blue) root inside device frames */
+.frame__content .portal-container,
+.tablet__content .portal-container {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Adapt AccountSelection view inside device frames */
+.frame__content .account-selection,
+.tablet__content .account-selection {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Adapt connection loading/success screens inside frames */
+.frame__content .connection-loading,
+.tablet__content .connection-loading,
+.frame__content .connection-success,
+.tablet__content .connection-success {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Adapt ThankYou view inside device frames */
+.frame__content .thank-you,
+.tablet__content .thank-you {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Adapt DataProcessingAnimation view inside device frames */
+.frame__content .data-processing-animation,
+.tablet__content .data-processing-animation {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Tablet-specific layout for FinerioConnectStage1 (simulate <=1024px) */
+.tablet .financial-connect-stage1 {
+  padding: 20px !important;
+}
+
+.tablet .financial-connect-stage1 .main-container {
+  grid-template-columns: 1fr !important;
+  grid-template-rows: auto auto !important;
+  max-width: 800px !important;
+}
+
+.tablet .financial-connect-stage1 .left-panel,
+.tablet .financial-connect-stage1 .right-panel {
+  padding: 40px 30px !important;
+  justify-content: flex-start !important;
+}
+
+.tablet .financial-connect-stage1 .right-panel {
+  overflow-y: visible !important;
+}
+
+.tablet .financial-connect-stage1 .main-title {
+  font-size: 18px !important;
+}
+
+.tablet .financial-connect-stage1 .subtitle {
+  font-size: 13px !important;
+}
+
+/* Tablet-specific layout for ConnectInstitutions (simulate <=1024px) */
+.tablet .connect-institutions {
+  padding: 20px !important;
+}
+
+.tablet .connect-institutions .main-container {
+  grid-template-columns: 1fr !important;
+  grid-template-rows: auto auto !important;
+  max-width: 800px !important;
+}
+
+.tablet .connect-institutions .left-panel,
+.tablet .connect-institutions .right-panel {
+  padding: 40px 30px !important;
+  justify-content: flex-start !important;
+}
+
+.tablet .connect-institutions .right-panel {
+  overflow-y: visible !important;
+}
+
+.tablet .connect-institutions .panel-title {
+  font-size: 20px !important;
+}
+
+/* Tablet-specific fix: allow DataProcessingAnimation white card to grow */
+.tablet .data-processing-animation .main-container {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.tablet .data-processing-animation .pipeline-section {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.tablet .data-processing-animation {
+  padding-bottom: 24px !important; /* ensure extra space at bottom */
+}
+
+/* Adapt Finerio process screen inside frames */
+.frame__content .financial-process,
+.tablet__content .financial-process {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Adapt ConnectedAccounts view inside frames */
+.frame__content .connected-accounts,
+.tablet__content .connected-accounts {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
 /* Fix footer positioning in full mode */
 .app-container.full-mode .app-layout__footer {
   padding: 15px 40px;
