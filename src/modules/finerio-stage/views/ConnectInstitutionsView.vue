@@ -4,7 +4,7 @@
     <div class="main-container">
       <div class="left-panel" :class="{ 'animate': showContent }">
         <div class="panel-header">
-          <h1 class="panel-title">Selecciona tu entidad bancaria</h1>
+          <h1 class="panel-title">Selecciona tu entidad financiera</h1>
         </div>
 
         <div class="search-section">
