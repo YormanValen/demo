@@ -97,20 +97,23 @@ const handleAnimationToggle = (isOpen: boolean) => {
 
 <style scoped>
 .financial-process {
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
   background: #ffffff;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .process-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 110px;
+  gap: 30px;
   text-align: center;
+  z-index: 10;
 }
 
 .spinner {

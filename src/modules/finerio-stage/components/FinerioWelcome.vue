@@ -16,8 +16,6 @@ const showNextButton = ref(false);
 const showProcessComplete = ref(false);
 
 const handleContinue = () => {
-  showLoader.value = true;
-
   // Mostrar header inmediatamente pero esperar un poco para abrir
   setTimeout(() => {
     isAnimationOpen.value = true;
@@ -33,7 +31,6 @@ const handleContinue = () => {
 };
 
 const handleNextClick = () => {
-  showLoader.value = false;
   isAnimationOpen.value = false;
   // Navegar a la nueva vista de procesamiento
   router.push("/financial/process");
