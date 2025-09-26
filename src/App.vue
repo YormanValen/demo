@@ -294,6 +294,60 @@ const goHome = () => router.push('/')
   overflow: visible !important;
 }
 
+/* Tablet-specific layout for FinerioConnectStage1 (simulate <=1024px) */
+.tablet .financial-connect-stage1 {
+  padding: 20px !important;
+}
+
+.tablet .financial-connect-stage1 .main-container {
+  grid-template-columns: 1fr !important;
+  grid-template-rows: auto auto !important;
+  max-width: 800px !important;
+}
+
+.tablet .financial-connect-stage1 .left-panel,
+.tablet .financial-connect-stage1 .right-panel {
+  padding: 40px 30px !important;
+  justify-content: flex-start !important;
+}
+
+.tablet .financial-connect-stage1 .right-panel {
+  overflow-y: visible !important;
+}
+
+.tablet .financial-connect-stage1 .main-title {
+  font-size: 18px !important;
+}
+
+.tablet .financial-connect-stage1 .subtitle {
+  font-size: 13px !important;
+}
+
+/* Tablet-specific layout for ConnectInstitutions (simulate <=1024px) */
+.tablet .connect-institutions {
+  padding: 20px !important;
+}
+
+.tablet .connect-institutions .main-container {
+  grid-template-columns: 1fr !important;
+  grid-template-rows: auto auto !important;
+  max-width: 800px !important;
+}
+
+.tablet .connect-institutions .left-panel,
+.tablet .connect-institutions .right-panel {
+  padding: 40px 30px !important;
+  justify-content: flex-start !important;
+}
+
+.tablet .connect-institutions .right-panel {
+  overflow-y: visible !important;
+}
+
+.tablet .connect-institutions .panel-title {
+  font-size: 20px !important;
+}
+
 /* Adapt Finerio process screen inside frames */
 .frame__content .financial-process,
 .tablet__content .financial-process {
