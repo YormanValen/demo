@@ -81,7 +81,7 @@
           }">
             <div class="product-box-content">
               <div class="product-icon">📦</div>
-              <span>Productos</span>
+              <span>Resultados</span>
             </div>
           </div>
 
@@ -140,22 +140,20 @@
             <div class="pipeline-section right-section">
               <div class="section-header">
                 <h3>Insumos estratégicos</h3>
-                <p>Generamos outputs de valor (scores, segmentación, montos referenciales) para habilitar la toma de decisiones.</p>
+                <p>Generamos outputs de valor (scores, segmentación, montos referenciales) para habilitar la toma de
+                  decisiones.</p>
               </div>
               <div class="section-subitem">
                 <h4>Score de riesgo crediticio transaccional</h4>
               </div>
               <div class="section-subitem">
                 <h4>Nivel de capacidad de pago</h4>
-                <p>Estimación de la relación entre ingresos, gastos y obligaciones.</p>
               </div>
               <div class="section-subitem">
                 <h4>Valores preaprobados</h4>
-                <p>Montos referenciales de crédito calculados según el perfil financiero.</p>
               </div>
               <div class="section-subitem">
                 <h4>Alertas e insights transaccionales</h4>
-                <p>Patrones de gasto, ingresos recurrentes, estacionalidad y señales de riesgo.</p>
               </div>
               <div class="section-subitem">
                 <h4>Segmentación del cliente</h4>
@@ -927,7 +925,7 @@ const handleContinue = () => {
 .section-subitem h4 {
   color: #001340;
   font-size: 0.9rem;
-  margin: 0 0 4px 0;
+  margin: 0 0 -5px 0;
   font-weight: 600;
 }
 
