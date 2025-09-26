@@ -182,6 +182,7 @@ import { computed, reactive, ref } from "vue";
 import type { FinancialFormData } from "../types/financial.types";
 import { useRouter } from "vue-router";
 import { useRegistrationStore } from "../../registration/stores/registration.store";
+import { useFinancialStore } from "../stores/financial.store";
 import OtpModal from "../../registration/components/OtpModal.vue";
 import ValidationLoader from "./ValidationLoader.vue";
 import AnimationContainer from "./AnimationContainer.vue";
@@ -190,6 +191,7 @@ import CompleteFlowVisualization from "./CompleteFlowVisualization.vue";
 const router = useRouter();
 const store = useRegistrationStore();
 const { userPhoneNumber } = store;
+const financialStore = useFinancialStore();
 const showOtpModal = ref(false);
 const showValidationLoader = ref(false);
 const showAnimationContainer = ref(true);
@@ -275,6 +277,9 @@ const handleSubmit = () => {
   if (!isFormValid.value) {
     return;
   }
+
+  // Store the financial data in the store
+  financialStore.setFinancialData(form);
 
   openAnimationContainer();
   showContainerLoader.value = true;
