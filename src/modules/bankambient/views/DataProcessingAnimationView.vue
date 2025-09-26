@@ -122,6 +122,20 @@
                 <p>Revisamos ingresos, gastos y movimientos financieros para conocer mejor la situación del cliente.
                 </p>
               </div>
+
+              <!-- Bank Connection Card -->
+              <div class="bank-connection-card">
+                <div class="bank-icon">🏦</div>
+                <span>Conexión con su banco</span>
+              </div>
+
+              <!-- Financial Data Chips -->
+              <div class="financial-data-chips">
+                <div class="financial-chip">Sus ingresos</div>
+                <div class="financial-chip">Sus gastos</div>
+                <div class="financial-chip">Sus ahorros</div>
+                <div class="financial-chip">Su historial</div>
+              </div>
             </div>
 
             <!-- Center section: Analysis -->
@@ -133,6 +147,13 @@
               <div class="section-header">
                 <h3>Trusso</h3>
                 <p>Nuestro motor especializado</p>
+              </div>
+              
+              <!-- Trusso Process Steps -->
+              <div class="trusso-steps">
+                <div class="trusso-step">Revisión de datos</div>
+                <div class="trusso-step">Evaluación de riesgo</div>
+                <div class="trusso-step">Cálculo de opciones</div>
               </div>
             </div>
 
@@ -904,7 +925,7 @@ const handleContinue = () => {
   border: 1px solid rgba(0, 19, 64, 0.1);
   box-shadow: 0 4px 16px rgba(0, 19, 64, 0.05);
   min-height: 200px;
-  max-height: 280px;
+  max-height: 350px;
   overflow: hidden;
 }
 
@@ -1131,6 +1152,82 @@ const handleContinue = () => {
   100% {
     transform: translateX(100%);
   }
+}
+
+/* Bank Connection Card Styles */
+.bank-connection-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 19, 64, 0.05);
+  border: 2px solid rgba(0, 19, 64, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: -5px;
+}
+
+.bank-icon {
+  font-size: 1.5rem;
+  background: rgba(0, 19, 64, 0.1);
+  padding: 8px;
+  border-radius: 8px;
+  border: 2px solid rgba(0, 19, 64, 0.2);
+}
+
+.bank-connection-card span {
+  color: #001340;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.financial-data-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.financial-chip {
+  background: rgba(0, 19, 64, 0.03);
+  border: 1px solid rgba(0, 19, 64, 0.15);
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: #001340;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.financial-chip:hover {
+  background: rgba(0, 19, 64, 0.08);
+  border-color: rgba(0, 19, 64, 0.25);
+}
+
+/* Trusso Steps Styles */
+.trusso-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.trusso-step {
+  background: rgba(0, 19, 64, 0.03);
+  border: 1px solid rgba(0, 19, 64, 0.15);
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: #001340;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.trusso-step:hover {
+  background: rgba(0, 19, 64, 0.08);
+  border-color: rgba(0, 19, 64, 0.25);
 }
 
 /* Removed algo-visualization styles */
@@ -1370,6 +1467,15 @@ const handleContinue = () => {
 
   .process-indicators {
     grid-template-columns: 1fr;
+  }
+
+  .financial-data-chips {
+    gap: 6px;
+  }
+
+  .financial-chip {
+    padding: 6px 12px;
+    font-size: 10px;
   }
 }
 </style>

@@ -348,6 +348,22 @@ const goHome = () => router.push('/')
   font-size: 20px !important;
 }
 
+/* Tablet-specific fix: allow DataProcessingAnimation white card to grow */
+.tablet .data-processing-animation .main-container {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.tablet .data-processing-animation .pipeline-section {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.tablet .data-processing-animation {
+  padding-bottom: 24px !important; /* ensure extra space at bottom */
+}
+
 /* Adapt Finerio process screen inside frames */
 .frame__content .financial-process,
 .tablet__content .financial-process {

@@ -5,7 +5,6 @@
       <div class="left-panel" :class="{ 'animate': showContent }">
         <div class="panel-header">
           <h1 class="panel-title">Selecciona tu entidad bancaria</h1>
-          <p class="panel-subtitle">en el que tienes domiciliada tu nómina o pensión</p>
         </div>
 
         <div class="search-section">
