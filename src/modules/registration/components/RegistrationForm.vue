@@ -3,11 +3,11 @@ import { computed, onMounted, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useRegistrationStore } from "../stores/registration.store";
 import type { RegistrationFormData } from "../types/registration.types";
-import OtpModal from "./OtpModal.vue";
-import ValidationLoader from "./ValidationLoader.vue";
+import ValidationLoader from "../../financial/components/ValidationLoader.vue";
 import FinancialLoader from "./FinancialLoader.vue";
 import FlowVisualization from "./FlowVisualization.vue";
-import AnimationContainer from "./AnimationContainer.vue";
+import AnimationContainer from "../../financial/components/AnimationContainer.vue";
+import ConsentForm from "../../consent/components/ConsentForm.vue";
 const router = useRouter();
 const store = useRegistrationStore();
 const {
@@ -17,18 +17,18 @@ const {
   departamentoOptions,
   ciudadOptions,
   updateCiudadesByDepartamento,
+  setPhoneNumber,
 } = store;
 
-const showOtpModal = ref(false);
 const showValidationLoader = ref(false);
 const showFinancialLoader = ref(false);
 const showDatePicker = ref(false);
 const showFlow = ref(false);
 const showAnimationContainer = ref(true);
 const isAnimationOpen = ref(false);
-
-const VALIDATION_TIME = 5000; // 5 segundos para la validación
-const PROCESSING_TIME = 3000; // 3 segundos para el procesamiento
+const showContainerLoader = ref(false);
+const showNextButton = ref(false);
+const showProcessComplete = ref(false);
 
 const form = reactive<RegistrationFormData>({
   nombres: "",
@@ -42,8 +42,6 @@ const form = reactive<RegistrationFormData>({
   celular: "",
   correo: "",
   esPEP: false,
-  autorizaTratamientoDatos: false,
-  autorizaFinesComerciales: false,
 });
 
 onMounted(() => {
@@ -80,7 +78,6 @@ const fieldErrors = reactive({
   ciudadExpedicion: "",
   celular: "",
   correo: "",
-  autorizaTratamientoDatos: "",
 });
 
 const validateField = (fieldName: keyof typeof fieldErrors) => {
@@ -134,11 +131,6 @@ const validateField = (fieldName: keyof typeof fieldErrors) => {
         fieldErrors.correo = "";
       }
       break;
-    case "autorizaTratamientoDatos":
-      fieldErrors.autorizaTratamientoDatos = !form.autorizaTratamientoDatos
-        ? "Debe autorizar el tratamiento de datos"
-        : "";
-      break;
   }
 };
 
@@ -152,8 +144,7 @@ const isFormValid = computed(() => {
     !!form.fechaExpedicionDocumento &&
     !!form.departamentoExpedicion &&
     !!form.ciudadExpedicion &&
-    !!form.celular.trim() &&
-    form.autorizaTratamientoDatos
+    !!form.celular.trim()
   );
 });
 
@@ -166,38 +157,26 @@ const handleSubmit = async () => {
     return;
   }
 
+  setPhoneNumber(form.celular);
+
   openAnimationContainer();
-  showValidationLoader.value = true;
-
-  setTimeout(() => {
-    showValidationLoader.value = false;
-    isAnimationOpen.value = false;
-    showFlow.value = false;
-    showOtpModal.value = true;
-  }, VALIDATION_TIME);
-};
-
-const handleOtpVerified = async () => {
-  showOtpModal.value = false;
-  showFinancialLoader.value = true;
-
-  setTimeout(() => {
-    showFinancialLoader.value = false;
-    router.push("/registration/financial-information");
-  }, PROCESSING_TIME);
-};
-
-const handleOtpClose = () => {
-  showOtpModal.value = false;
 };
 
 
 const openAnimationContainer = () => {
   // Programmatically open the container through reactive state
   isAnimationOpen.value = true;
+  showContainerLoader.value = true;
+
   setTimeout(() => {
     showFlow.value = true;
     console.log('showFlow activated:', showFlow.value);
+
+    // Show button after flow animation completes + extra delay (1000 + 3000 + 2000 + 1500 = 7500ms)
+    setTimeout(() => {
+      showProcessComplete.value = true;
+      showNextButton.value = true;
+    }, 7500);
   }, 300);
 };
 
@@ -212,6 +191,15 @@ const handleAnimationToggle = (isOpen: boolean) => {
     console.log('showFlow deactivated:', showFlow.value);
   }
 };
+
+const handleNextClick = () => {
+  router.push("/registration/financial-information");
+};
+
+const handleConsentAnimation = () => {
+  // Activar la animación cuando ConsentForm emite el evento
+  openAnimationContainer();
+};
 </script>
 
 <template>
@@ -221,7 +209,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
         <h2>INFORMACIÓN BÁSICA</h2>
       </div>
 
-      <form class="form-body" @submit.prevent="handleSubmit">
+      <form class="form-body" @submit.prevent="handleSubmit" novalidate>
         <v-row class="form_row">
           <v-col cols="12" md="4">
             <div class="form-ctn">
@@ -251,6 +239,10 @@ const handleAnimationToggle = (isOpen: boolean) => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-card-account-details</v-icon>
+              <v-tooltip activator="parent" location="bottom" class="custom-tooltip" transition="fade-transition"
+                :open-delay="200" :offset="0">
+                <span>Selecciona el tipo de documento de identidad (CC, CE, Pasaporte, etc.)</span>
+              </v-tooltip>
               <v-select variant="outlined" v-model="form.tipoDocumento" :items="tipoOptions" label="Tipo de documento"
                 item-title="label" item-value="value" required @blur="validateField('tipoDocumento')" />
             </div>
@@ -261,8 +253,15 @@ const handleAnimationToggle = (isOpen: boolean) => {
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field variant="underlined" v-model="form.numeroIdentificacion" label="Número de identificación"
-              class="form-field" required @blur="validateField('numeroIdentificacion')" />
+            <v-tooltip location="bottom" class="custom-tooltip" transition="fade-transition" :open-delay="200"
+              :offset="0">
+              <template v-slot:activator="{ props }">
+                <v-text-field v-bind="props" variant="underlined" v-model="form.numeroIdentificacion"
+                  label="Número de identificación" class="form-field" required
+                  @blur="validateField('numeroIdentificacion')" />
+              </template>
+              <span>Ingresa el número de tu documento de identidad sin puntos ni espacios</span>
+            </v-tooltip>
             <transition name="slide-down">
               <div v-if="fieldErrors.numeroIdentificacion" class="error-message">
                 {{ fieldErrors.numeroIdentificacion }}
@@ -273,11 +272,13 @@ const handleAnimationToggle = (isOpen: boolean) => {
             <v-text-field variant="underlined" :model-value="formattedDate" label="Fecha de expedición de documento"
               readonly append-inner-icon="mdi-calendar" @click="showDatePicker = true" required class="form-field"
               @blur="validateField('fechaExpedicionDocumento')" />
-            <v-dialog v-model="showDatePicker" width="auto">
-              <v-date-picker show-adjacent-months v-model="form.fechaExpedicionDocumento" @update:model-value="
-                showDatePicker = false;
-              validateField('fechaExpedicionDocumento');
-              " color="#982881" />
+            <v-dialog v-model="showDatePicker" width="auto" :scrim="false">
+              <v-card>
+                <v-date-picker show-adjacent-months v-model="form.fechaExpedicionDocumento" @update:model-value="
+                  showDatePicker = false;
+                validateField('fechaExpedicionDocumento');
+                " color="#982881" />
+              </v-card>
             </v-dialog>
             <transition name="slide-down">
               <div v-if="fieldErrors.fechaExpedicionDocumento" class="error-message">
@@ -322,6 +323,10 @@ const handleAnimationToggle = (isOpen: boolean) => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-phone</v-icon>
+              <v-tooltip activator="parent" location="bottom" class="custom-tooltip" transition="fade-transition"
+                :open-delay="200" :offset="0">
+                <span>Ingresa tu número de celular para recibir el código de verificación vía SMS</span>
+              </v-tooltip>
               <v-text-field variant="underlined" v-model="form.celular" label="Celular" class="form-field" required
                 @blur="validateField('celular')" />
             </div>
@@ -345,6 +350,10 @@ const handleAnimationToggle = (isOpen: boolean) => {
           <v-col cols="12" md="4">
             <div class="form-ctn">
               <v-icon class="form-icon">mdi-email</v-icon>
+              <v-tooltip activator="parent" location="bottom" class="custom-tooltip" transition="fade-transition"
+                :open-delay="200" :offset="0">
+                <span>Ingresa tu correo electrónico para recibir información sobre tu solicitud</span>
+              </v-tooltip>
               <v-text-field variant="underlined" v-model="form.correo" label="Correo" class="form-field" required
                 @blur="validateField('correo')" />
             </div>
@@ -356,45 +365,26 @@ const handleAnimationToggle = (isOpen: boolean) => {
           </v-col>
         </v-row>
 
-        <v-row>
+        <!-- PEP Switch before consent form -->
+        <v-row class="pep-section">
           <v-col cols="12" class="switch-container">
             <v-switch v-model="form.esPEP" color="#982881" density="compact" hide-details inline />
-            <span class="switch-text">Soy una persona expuesta públicamente (PEP)</span>
+            <v-tooltip location="bottom" class="custom-tooltip" transition="fade-transition" :open-delay="200"
+              :offset="0">
+              <template v-slot:activator="{ props }">
+                <span v-bind="props" class="switch-text">Soy una persona expuesta públicamente (PEP)</span>
+              </template>
+              <span>Las PEP son personas que ejercen funciones públicas prominentes or han estado relacionadas con
+                ellas</span>
+            </v-tooltip>
           </v-col>
         </v-row>
-
-        <v-row>
-          <v-col cols="12" class="checkbox-container">
-            <v-checkbox v-model="form.autorizaTratamientoDatos" color="#982881" density="compact" hide-details
-              @change="validateField('autorizaTratamientoDatos')" />
-            <span class="checkbox-text">
-              Autorizo el tratamiento de mis datos para fines de inclusión
-              financiera y mayor acceso al crédito
-              <a href="#" class="document-link">Ver documento</a>
-            </span>
-          </v-col>
-          <v-col v-if="fieldErrors.autorizaTratamientoDatos" cols="12">
-            <transition name="slide-down">
-              <div class="error-message">
-                {{ fieldErrors.autorizaTratamientoDatos }}
-              </div>
-            </transition>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols="12" class="checkbox-container">
-            <v-checkbox v-model="form.autorizaFinesComerciales" color="#982881" density="compact" hide-details />
-            <span class="checkbox-text">
-              Autorización para fines comerciales
-            </span>
-          </v-col>
-        </v-row>
-
-        <button type="submit" class="form-submit" :disabled="!isFormValid || isSubmitting">
-          {{ isSubmitting ? "Enviando..." : "Continuar" }}
-        </button>
       </form>
+
+      <!-- Consent Form Section -->
+      <div class="consent-section">
+        <ConsentForm @trigger-animation="handleConsentAnimation" />
+      </div>
     </div>
 
     <p v-if="feedbackMessage" class="registration-form__feedback">
@@ -404,19 +394,49 @@ const handleAnimationToggle = (isOpen: boolean) => {
     <ValidationLoader :show="showValidationLoader" />
     <FinancialLoader :show="showFinancialLoader" />
 
-    <OtpModal :show="showOtpModal" :phone-number="form.celular" @close="handleOtpClose" @verified="handleOtpVerified" />
-
     <AnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen" :clickable-header="false"
       @toggle="handleAnimationToggle">
       <template #header>
         <span>Flujo de Proceso</span>
       </template>
-      <div style="display: flex; justify-content: center; min-height: 120px; align-items: center;">
-        <div v-if="!showFlow" class="flow-spinner">
-          <v-progress-circular :size="50" :width="4" color="#982881" indeterminate />
-          <p style="margin-top: 12px; color: #666; font-size: 14px;">Cargando flujo de proceso...</p>
+      <div style="display: flex; flex-direction: column; min-height: 300px;">
+        <!-- Loading animation at the top -->
+        <div v-if="showContainerLoader"
+          style="display: flex; justify-content: center; align-items: center; padding: 20px 0;">
+          <div class="container-loader">
+            <div style="display: flex; justify-content: center; align-items: center;">
+            </div>
+          </div>
         </div>
-        <FlowVisualization v-else :is-visible="true" :validation-time="3000" :processing-time="2000" />
+
+        <!-- Flow visualization -->
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div v-if="!showFlow && !showContainerLoader" class="flow-spinner">
+            <v-progress-circular :size="50" :width="4" color="#982881" indeterminate />
+            <p style="margin-top: 12px; color: #666; font-size: 14px;">Cargando flujo de proceso...</p>
+          </div>
+          <FlowVisualization v-else-if="showFlow" :is-visible="true" :validation-time="3000" :processing-time="2000" />
+
+          <!-- Process disclaimer -->
+          <div v-if="showFlow" class="process-disclaimer">
+            <p>Este proceso se realiza en milisegundos, pero te mostramos la animación para que visualices el recorrido
+              de
+              tus datos.</p>
+          </div>
+        </div>
+
+        <!-- Next button at the bottom -->
+        <transition name="fade-slide-up">
+          <div v-if="showNextButton" style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+            <!-- Next instruction disclaimer -->
+            <div class="next-disclaimer">
+              <p>Haz click en "Siguiente" para continuar al siguiente paso</p>
+            </div>
+            <button @click="handleNextClick" class="next-button">
+              Siguiente
+            </button>
+          </div>
+        </transition>
       </div>
     </AnimationContainer>
   </div>
@@ -547,6 +567,198 @@ const handleAnimationToggle = (isOpen: boolean) => {
   justify-content: center;
   text-align: center;
 }
+
+.container-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.next-button {
+  width: 160px;
+  height: 36px;
+  background: linear-gradient(21deg, rgb(97, 40, 120), rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+}
+
+.next-button:hover {
+  opacity: 0.9;
+}
+
+.loader-logo {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  background: none !important;
+  background-color: transparent !important;
+  filter: brightness(1.2) contrast(1.1);
+  mix-blend-mode: darken;
+}
+
+/* Animación para el botón "Siguiente" */
+.fade-slide-up-enter-active {
+  transition: all 0.6s ease-out;
+}
+
+.fade-slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-slide-up-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animación spinner a check */
+.spinner-to-check-enter-active,
+.spinner-to-check-leave-active {
+  transition: all 0.4s ease-in-out;
+}
+
+.spinner-to-check-enter-from {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.spinner-to-check-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.spinner-to-check-enter-to,
+.spinner-to-check-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Animación del texto */
+.text-fade-enter-active,
+.text-fade-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.text-fade-enter-from,
+.text-fade-leave-to {
+  opacity: 0;
+}
+
+.text-fade-enter-to,
+.text-fade-leave-from {
+  opacity: 1;
+}
+
+/* Estilo del check icon */
+.check-icon {
+  animation: checkPulse 0.6s ease-out;
+}
+
+@keyframes checkPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Disclaimers */
+.process-disclaimer {
+  margin-top: 20px;
+  padding: 18px 30px;
+  background-color: rgba(152, 40, 129, 0.1);
+  border-radius: 10px;
+  border-left: 5px solid #982881;
+  max-width: 600px;
+  text-align: center;
+}
+
+.process-disclaimer p {
+  margin: 0;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.next-disclaimer {
+  margin-bottom: 20px;
+  padding: 16px 24px;
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: 8px;
+  border: 2px solid rgba(76, 175, 80, 0.3);
+}
+
+.next-disclaimer p {
+  margin: 0;
+  font-size: 15px;
+  color: #4CAF50;
+  text-align: center;
+  font-weight: 600;
+}
+</style>
+
+<style>
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.is-tablet .registration-container,
+.tablet .registration-container {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.is-mobile .registration-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.is-tablet .form-header h2,
+.tablet .form-header h2,
+.is-mobile .form-header h2 {
+  font-size: 16px;
+}
+
+.is-mobile .sms-text,
+.is-mobile .switch-text,
+.is-mobile .checkbox-text {
+  font-size: 12px;
+  white-space: normal;
+}
+
+.is-mobile .error-message {
+  font-size: 11px;
+  margin-left: 0;
+  position: static;
+}
+
+.is-tablet .next-button,
+.tablet .next-button,
+.is-mobile .next-button,
+.is-tablet .form-submit,
+.tablet .form-submit,
+.is-mobile .form-submit {
+  width: 150px;
+  height: 34px;
+  font-size: 13px;
+}
 </style>
 
 <style>
@@ -554,7 +766,10 @@ const handleAnimationToggle = (isOpen: boolean) => {
   padding-bottom: 1vw;
   padding-top: 30px;
   font-size: 16px;
+  background-color: transparent;
 }
+
+
 
 .v-field--variant-underlined,
 .v-field--variant-underlined *,
@@ -597,9 +812,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
   color: black;
 }
 
-.v-label {
-  background-color: white;
-}
+
 
 .v-select__content .v-list-item:hover {
   background-color: rgba(152, 40, 129, 0.06) !important;
@@ -679,5 +892,248 @@ const handleAnimationToggle = (isOpen: boolean) => {
 .slide-down-leave-to {
   transform: translateY(5px);
   opacity: 0;
+}
+
+/* Custom tooltip styles */
+.custom-tooltip .v-overlay__content {
+  background-color: #767676 !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  max-width: 250px !important;
+  min-width: 200px !important;
+  font-size: 12px !important;
+  line-height: 1.3 !important;
+  color: white !important;
+  text-align: center !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}
+
+.custom-tooltip .v-overlay__content::before {
+  display: none !important;
+}
+
+/* Fade transition for tooltips */
+.fade-transition-enter-active,
+.fade-transition-leave-active {
+  transition: opacity 0.4s ease !important;
+}
+
+.fade-transition-enter-from,
+.fade-transition-leave-to {
+  opacity: 0 !important;
+}
+
+.fade-transition-enter-to,
+.fade-transition-leave-from {
+  opacity: 1 !important;
+}
+
+/* Open Finance Message - keeping for potential future use */
+.open-finance-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  background: linear-gradient(
+    135deg,
+    rgba(97, 40, 120, 0.08) 0%,
+    rgba(186, 45, 125, 0.08) 100%
+  );
+  border-radius: 12px;
+  border-left: 4px solid #612878;
+  position: relative;
+  overflow: hidden;
+}
+
+.open-finance-message::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(97, 40, 120, 0.05) 100%
+  );
+  pointer-events: none;
+}
+
+.finance-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #612878 0%, #ba2d7d 100%);
+  border-radius: 50%;
+  color: white;
+  flex-shrink: 0;
+}
+
+.open-finance-message p {
+  margin: 0;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.open-finance-message strong {
+  color: #612878;
+  font-weight: 700;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .registration-container {
+    width: 90vw;
+    padding: 0 10px;
+  }
+  
+  .form-header h2 {
+    font-size: 16px;
+  }
+  
+  .sms-container {
+    max-width: calc(100vw - 80px);
+  }
+  
+  .sms-text {
+    font-size: 12px;
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+  }
+  
+  .switch-text {
+    font-size: 12px;
+    white-space: normal;
+  }
+  
+  .checkbox-text {
+    font-size: 12px;
+    white-space: normal;
+  }
+  
+  .form-body .form-ctn {
+    gap: 2vw;
+  }
+  
+  .sms-container {
+    margin-left: calc(19px + 2vw);
+  }
+  
+  .switch-container {
+    margin-left: calc(19px + 2vw);
+    white-space: normal;
+  }
+  
+  .checkbox-container {
+    margin-left: calc(19px + 2vw);
+  }
+  
+  .error-message {
+    margin-left: calc(19px + 2vw);
+    font-size: 11px;
+  }
+  
+  .process-disclaimer p {
+    font-size: 14px;
+  }
+  
+  .next-disclaimer p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .registration-container {
+    width: 95vw;
+    padding: 0 5px;
+  }
+  
+  .form-header h2 {
+    font-size: 14px;
+    padding: 10px;
+  }
+  
+  
+  .switch-text {
+    font-size: 11px;
+  }
+  
+  .checkbox-text {
+    font-size: 11px;
+  }
+  
+  .form-body .form-ctn {
+    gap: 3vw;
+  }
+  
+  .sms-container {
+    margin-left: calc(19px + 3vw);
+    max-width: calc(100vw - 60px);
+  }
+  
+  .sms-text {
+    font-size: 11px;
+    word-wrap: break-word;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+  }
+  
+  .switch-container {
+    margin-left: calc(19px + 3vw);
+    flex-wrap: wrap;
+  }
+  
+  .checkbox-container {
+    margin-left: calc(19px + 3vw);
+  }
+  
+  .error-message {
+    margin-left: calc(19px + 3vw);
+    font-size: 10px;
+  }
+  
+  .process-disclaimer {
+    padding: 12px 20px;
+  }
+  
+  .process-disclaimer p {
+    font-size: 12px;
+  }
+  
+  .next-disclaimer {
+    padding: 12px 16px;
+  }
+  
+  .next-disclaimer p {
+    font-size: 12px;
+  }
+  
+  .next-button {
+    width: 140px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .custom-tooltip .v-overlay__content {
+    max-width: 200px !important;
+    min-width: 150px !important;
+    font-size: 10px !important;
+  }
+}
+
+/* Consent section spacing */
+.consent-section {
+  margin-top: 30px;
+  clear: both;
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-  <div class="app-layout">
+  <div v-if="hideLayout">
+    <slot />
+  </div>
+  <div v-else class="app-layout">
     <header class="app-layout__header">
       <div class="header-content">
         <span class="header-tagline">"Evolucionando el camino de ser digital"</span>
@@ -16,8 +19,8 @@
     <div class="divider"></div>
     <footer class="app-layout__footer">
       <div class="footer-content">
-        <span class="footer-text">Open Finance 2025.</span>
-        <img src="/src/assets/logo.png" alt="Open Finance Demo" class="footer-logo" />
+        <span class="footer-text">Experiencia Open Finance 2025.</span>
+        <img src="/src/assets/logo.png" alt="Experiencia Open Finance" class="footer-logo" />
       </div>
     </footer>
   </div>
@@ -30,14 +33,18 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const showProgressBar = computed(() => {
-  return route.path === '/registration/financial-information' || route.path === '/registration/finerio-information'
+  return route.path === '/registration/financial-information' || route.path === '/registration/financial-verification' || route.path === '/consent'
+})
+
+const hideLayout = computed(() => {
+  return route.meta?.hideLayout === true
 })
 </script>
 
 <style scoped>
 .app-layout {
-  min-height: 100vh;
-  background: #ffffff;
+  display: block;
+  background: #f3f2f2;
   color: var(--text-primary);
 }
 
@@ -93,7 +100,7 @@ const showProgressBar = computed(() => {
 
 .app-layout__footer {
   padding: 20px 40px;
-  background: #ffffff;
+  background: #f3f2f2;
 }
 
 .footer-content {
@@ -112,8 +119,8 @@ const showProgressBar = computed(() => {
 }
 
 .footer-logo {
-  margin-top: -50px;
-  height: 250px;
+  margin-top: -30px;
+  height: 100px;
   width: auto;
   object-fit: contain;
 }
@@ -122,7 +129,7 @@ const showProgressBar = computed(() => {
   width: 100%;
   height: fit-content;
   padding: 10px 0;
-  background: #f9fafb;
+  background: transparent;
 }
 
 .progress-bar {
@@ -162,5 +169,64 @@ const showProgressBar = computed(() => {
   100% {
     transform: translateX(100%);
   }
+}
+
+/* Media queries for responsive header */
+@media (max-width: 768px) {
+  .app-layout__header {
+    height: 120px;
+    background-size: cover;
+  }
+  
+  .header-content {
+    padding: 0 20px;
+    justify-content: center;
+  }
+  
+  .header-tagline {
+    margin-right: 0;
+    margin-bottom: 20px;
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-layout__header {
+    height: 100px;
+  }
+  
+  .header-content {
+    padding: 0 15px;
+  }
+  
+  .header-tagline {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+}
+
+/* Forzar responsive dentro del selector de dispositivo (no afecta escritorio/full) */
+.tablet .app-layout__header,
+.is-mobile .app-layout__header {
+  height: 120px;
+  background-size: cover;
+}
+
+.tablet .header-content,
+.is-mobile .header-content {
+  padding: 0 20px;
+  justify-content: center;
+}
+
+.tablet .header-tagline,
+.is-mobile .header-tagline {
+  margin-right: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.is-mobile .header-tagline {
+  font-size: 14px;
 }
 </style>

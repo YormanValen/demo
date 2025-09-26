@@ -20,8 +20,6 @@ export interface RegistrationFormData {
   celular: string
   correo: string
   esPEP: boolean
-  autorizaTratamientoDatos: boolean
-  autorizaFinesComerciales: boolean
 }
 
 export interface RegistrationResponse {

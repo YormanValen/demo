@@ -3,11 +3,16 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/registration/basic-information'
+    redirect: '/registration/experience-selection'
   },
   {
     path: '/registration',
-    redirect: '/registration/basic-information'
+    redirect: '/registration/experience-selection'
+  },
+  {
+    path: '/registration/experience-selection',
+    name: 'experience-selection',
+    component: () => import('../modules/registration/views/ExperienceSelectionView.vue')
   },
   {
     path: '/registration/basic-information',
@@ -17,12 +22,120 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/registration/financial-information',
     name: 'registration-step2',
-    component: () => import('../modules/registration/views/RegistrationStep2View.vue')
+    component: () => import('../modules/financial/views/FinancialView.vue')
   },
   {
-    path: '/registration/finerio-information',
+    path: '/registration/financial-verification',
     name: 'registration-step3',
-    component: () => import('../modules/registration/views/RegistrationStep3View.vue')
+    component: () => import('../modules/finerio-stage/views/FinerioStageView.vue')
+  },
+  {
+    path: '/financial/process',
+    name: 'financial-process',
+    component: () => import('../modules/finerio-stage/views/FinerioProcessView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/financial/connect-stage1',
+    name: 'financial-connect-stage1',
+    component: () => import('../modules/finerio-stage/views/FinerioConnectStage1View.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/financial/data-access',
+    name: 'financial-data-access',
+    component: () => import('../modules/finerio-stage/views/DataAccessView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/financial/data-usage-mode',
+    name: 'financial-data-usage-mode',
+    component: () => import('../modules/finerio-stage/views/DataUsageModeView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/financial/connect-institutions',
+    name: 'financial-connect-institutions',
+    component: () => import('../modules/finerio-stage/views/ConnectInstitutionsView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/financial/validation',
+    name: 'financial-validation',
+    component: () => import('../modules/finerio-stage/views/ValidationView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/financial/connected-accounts',
+    name: 'financial-connected-accounts',
+    component: () => import('../modules/finerio-stage/views/ConnectedAccountsView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/dashboard/blue',
+    name: 'bankambient-dashboard-blue',
+    component: () => import('../modules/bankambient/views/BankDashboardViewBlue.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/dashboard/red',
+    name: 'bankambient-dashboard-red',
+    component: () => import('../modules/bankambient/views/BankDashboardViewRed.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/dashboard/green',
+    name: 'bankambient-dashboard-green',
+    component: () => import('../modules/bankambient/views/BankDashboardViewGreen.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/account-selection',
+    name: 'bankambient-account-selection',
+    component: () => import('../modules/bankambient/views/AccountSelectionView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/connection-loading',
+    name: 'bankambient-connection-loading',
+    component: () => import('../modules/bankambient/views/ConnectionLoadingView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/connection-success',
+    name: 'bankambient-connection-success',
+    component: () => import('../modules/bankambient/views/ConnectionSuccessView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/thank-you',
+    name: 'bankambient-thank-you',
+    component: () => import('../modules/bankambient/views/ThankYouView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/bankambient/data-processing',
+    name: 'bankambient-data-processing',
+    component: () => import('../modules/bankambient/views/DataProcessingAnimationView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/financial/institution-details',
+    name: 'financial-institution-details',
+    component: () => import('../modules/finerio-stage/views/IntitutionDetail.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/consent',
+    name: 'consent',
+    component: () => import('../modules/consent/views/consentView.vue'),
+    meta: { hideLayout: false }
+  },
+  {
+    path: '/financial/congrats',
+    name: 'financial-congrats',
+    component: () => import('../modules/financial/views/CongratsView.vue'),
+    meta: { hideLayout: false }
   }
 ]
 
