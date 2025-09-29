@@ -163,6 +163,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../modules/entity/views/AnalyticsView.vue')
       }
     ]
+  },
+  {
+    path: '/entity/login',
+    name: 'entity-login',
+    component: () => import('../modules/entity/views/EntityLoginView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 
