@@ -175,6 +175,12 @@ const routes: RouteRecordRaw[] = [
     name: 'entity-two-factor',
     component: () => import('../modules/entity/views/EntityTwoFactorView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights',
+    name: 'entity-transactional-insights',
+    component: () => import('../modules/transactional-insights/views/TransactionalInsightsIntroView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 

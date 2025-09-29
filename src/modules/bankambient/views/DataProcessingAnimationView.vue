@@ -145,8 +145,7 @@
                 <p>Aplicamos modelos de análisis y riesgo para generar insights confiables.</p>
               </div>
               <div class="section-header">
-                <h3>Trusso</h3>
-                <p>Nuestro motor especializado</p>
+                <h3>Transactional Insights</h3>
               </div>
 
               <!-- Trusso Process Steps -->
@@ -164,20 +163,13 @@
                 <p>Generamos outputs de valor (scores, segmentación, montos referenciales) para habilitar la toma de
                   decisiones.</p>
               </div>
-              <div class="section-subitem">
-                <h4>Score de riesgo crediticio transaccional</h4>
-              </div>
-              <div class="section-subitem">
-                <h4>Nivel de capacidad de pago</h4>
-              </div>
-              <div class="section-subitem">
-                <h4>Valores preaprobados</h4>
-              </div>
-              <div class="section-subitem">
-                <h4>Alertas e insights transaccionales</h4>
-              </div>
-              <div class="section-subitem">
-                <h4>Segmentación del cliente</h4>
+              <!-- Strategic Output Chips -->
+              <div class="strategic-output-chips">
+                <div class="strategic-chip">Score de riesgo crediticio transaccional</div>
+                <div class="strategic-chip">Nivel de capacidad de pago</div>
+                <div class="strategic-chip">Valores preaprobados</div>
+                <div class="strategic-chip">Alertas e insights transaccionales</div>
+                <div class="strategic-chip">Segmentación del cliente</div>
               </div>
             </div>
           </div>
@@ -1228,6 +1220,36 @@ const handleContinue = () => {
 .trusso-step:hover {
   background: rgba(0, 19, 64, 0.08);
   border-color: rgba(0, 19, 64, 0.25);
+}
+
+/* Strategic Output Chips Styles */
+.strategic-output-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.strategic-chip {
+  background: rgba(0, 19, 64, 0.08);
+  border: 1px solid rgba(0, 19, 64, 0.2);
+  border-radius: 20px;
+  padding: 8px 14px;
+  color: #001340;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.strategic-chip:hover {
+  background: rgba(0, 19, 64, 0.15);
+  border-color: rgba(0, 19, 64, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 19, 64, 0.15);
 }
 
 /* Removed algo-visualization styles */

@@ -22,11 +22,35 @@
         <span class="nav-text">{{ item.label }}</span>
       </router-link>
     </nav>
+    
+    <div class="sidebar-footer">
+      <button @click="handleTransactionalInsightsClick" class="insights-button">
+        Transactional Insights
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+
+const handleTransactionalInsightsClick = () => {
+  // If we're on the dashboard, trigger the animation
+  if (router.currentRoute.value.path === '/entity/dashboard') {
+    const dashboardAnimation = (window as any).triggerTransactionalInsightsAnimation
+    if (dashboardAnimation) {
+      dashboardAnimation()
+    } else {
+      // Fallback: direct navigation if animation function not available
+      router.push('/entity/transactional-insights')
+    }
+  } else {
+    // If not on dashboard, navigate directly
+    router.push('/entity/transactional-insights')
+  }
+}
 
 const menuItems = [
   {
@@ -136,6 +160,36 @@ const menuItems = [
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.insights-button {
+  display: block;
+  width: 100%;
+  background: #ec4899;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.insights-button:hover {
+  background: #db2777;
+  transform: translateY(-1px);
+}
+
+.insights-button:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 1024px) {
