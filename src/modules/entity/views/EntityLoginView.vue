@@ -54,9 +54,11 @@
                 <label class="floating-label" :class="{ 'active': loginData.captcha }">Ingrese las letras del
                   CAPTCHA</label>
               </div>
-              <div class="captcha-display captcha-clickable" @click="refreshCaptcha" role="button" aria-label="Cambiar captcha">
+              <div class="captcha-display captcha-clickable" @click="refreshCaptcha" role="button"
+                aria-label="Cambiar captcha">
                 <svg class="captcha-svg" viewBox="0 0 400 56" preserveAspectRatio="xMidYMid meet">
-                  <text x="200" y="38" text-anchor="middle" textLength="280" lengthAdjust="spacingAndGlyphs" class="captcha-vector-text">{{ captchaText }}</text>
+                  <text x="200" y="38" text-anchor="middle" textLength="280" lengthAdjust="spacingAndGlyphs"
+                    class="captcha-vector-text">{{ captchaText }}</text>
                 </svg>
                 <small class="captcha-hint">Click para cambiar</small>
               </div>
@@ -222,7 +224,6 @@ captchaText.value = generateCaptcha()
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(173, 20, 87, 0.05) 100%);
 }
 
 .right-section {
@@ -374,7 +375,9 @@ captchaText.value = generateCaptcha()
 }
 
 /* Replace plain text with SVG dot-matrix style */
-.captcha-text { display: none; }
+.captcha-text {
+  display: none;
+}
 
 .captcha-svg {
   width: 100%;
@@ -385,11 +388,14 @@ captchaText.value = generateCaptcha()
   font-family: 'Courier New', monospace;
   font-size: 24px;
   fill: none;
-  stroke: #4b5563; /* slightly softer */
+  stroke: #4b5563;
+  /* slightly softer */
   stroke-width: 1.8;
   stroke-linecap: round;
-  stroke-dasharray: 2 3; /* denser dots */
-  letter-spacing: 2px; /* tighter spacing */
+  stroke-dasharray: 2 3;
+  /* denser dots */
+  letter-spacing: 2px;
+  /* tighter spacing */
 }
 
 .captcha-hint {
@@ -594,7 +600,6 @@ captchaText.value = generateCaptcha()
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(173, 20, 87, 0.05) 100%);
   }
 
   .right-section {
@@ -647,10 +652,6 @@ captchaText.value = generateCaptcha()
     background-size: cover;
     background-position: center center;
   }
-
-  .background-image {
-    background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(173, 20, 87, 0.05) 100%);
-  }
 }
 </style>
 
@@ -682,11 +683,6 @@ captchaText.value = generateCaptcha()
   position: relative !important;
   overflow: hidden !important;
   order: 1 !important;
-}
-
-.app-container.full-mode .background-image,
-.frame-container.full-mode .background-image {
-  background: linear-gradient(135deg, rgba(233, 30, 99, 0.05) 0%, rgba(173, 20, 87, 0.05) 100%) !important;
 }
 
 .app-container.full-mode .right-section,
