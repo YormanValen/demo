@@ -1,17 +1,22 @@
 <template>
   <div class="account-selection">
     <div class="header-section">
-      <div class="bank-logo-header">
-        <div class="bank-logo-circle">
-          <img v-if="bankName === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank"
-            class="bank-logo-image" />
-          <img v-else-if="bankName === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit"
-            class="bank-logo-image" />
-          <img v-else-if="bankName === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia"
-            class="bank-logo-image" />
-          <span v-else class="bank-initials">{{ bankInitials }}</span>
+      <div class="connected-banks-header">
+        <div class="banks-logos-container">
+          <div v-for="bank in connectedBanks" :key="bank.id" class="bank-logo-item">
+            <div class="bank-logo-circle">
+              <img v-if="bank.name === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank"
+                class="bank-logo-image" />
+              <img v-else-if="bank.name === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit"
+                class="bank-logo-image" />
+              <img v-else-if="bank.name === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia"
+                class="bank-logo-image" />
+              <span v-else class="bank-initials" :style="{ backgroundColor: bank.color }">{{ bank.initials }}</span>
+            </div>
+            <span class="bank-name-small">{{ bank.name }}</span>
+          </div>
         </div>
-        <span class="bank-name">{{ bankName }}</span>
+        <p class="connected-summary">{{ connectedBanks.length }} entidad{{ connectedBanks.length > 1 ? 'es' : '' }} conectada{{ connectedBanks.length > 1 ? 's' : '' }}</p>
       </div>
 
       <h1 class="page-title">Solicitud de Información de Cuentas Colombia (AIS)</h1>
@@ -177,6 +182,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useBankQueueStore } from '../../financial/stores/bank-queue.store'
 
 interface Account {
   id: string
@@ -187,6 +193,7 @@ interface Account {
 
 const router = useRouter()
 const route = useRoute()
+const bankQueueStore = useBankQueueStore()
 
 const selectedAccounts = ref<string[]>([])
 const allAccountsSelected = ref(true)
@@ -214,6 +221,17 @@ const accounts = ref<Account[]>([
     type: 'Crédito libre inversión'
   }
 ])
+
+const connectedBanks = computed(() => {
+  // Obtener todos los bancos que han completado el login desde el store
+  const allBanks = bankQueueStore.selectedBanks.value
+  return allBanks.map(bank => ({
+    id: bank.id,
+    name: bank.name,
+    initials: bank.initials,
+    color: bank.color
+  }))
+})
 
 const bankName = computed(() => {
   return route.query.bankName as string || 'Neodigi Bank'
@@ -287,39 +305,71 @@ const handleConfirm = () => {
   border-bottom: 1px solid #e5e7eb;
 }
 
-.bank-logo-header {
+.connected-banks-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
   margin-bottom: 24px;
 }
 
+.banks-logos-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.bank-logo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
 .bank-logo-circle {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px solid #e5e7eb;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bank-initials {
   color: white;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
 }
 
 .bank-logo-image {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
-.bank-name {
-  font-size: 24px;
-  font-weight: 700;
+.bank-name-small {
+  font-size: 12px;
+  font-weight: 600;
   color: #001340;
+  text-align: center;
+  max-width: 80px;
+  line-height: 1.2;
+}
+
+.connected-summary {
+  font-size: 14px;
+  color: #059669;
+  font-weight: 600;
+  margin: 0;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .page-title {

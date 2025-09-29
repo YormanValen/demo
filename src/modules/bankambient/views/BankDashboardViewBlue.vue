@@ -90,6 +90,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useBankQueueStore } from '../../financial/stores/bank-queue.store'
 
 interface LoginData {
   username: string
@@ -98,6 +99,7 @@ interface LoginData {
 
 const router = useRouter()
 const route = useRoute()
+const bankQueueStore = useBankQueueStore()
 
 const bankName = computed(() => {
   return route.query.bankName as string || 'Neodigi Bank'
@@ -127,19 +129,36 @@ const handleRegister = () => {
   router.push('/financial/connect-institutions')
 }
 
-const handleLogin = () => {
+const handleLogin = async () => {
   if (isFormValid.value && !isLoggingIn.value) {
     isLoggingIn.value = true
 
-    setTimeout(() => {
+    setTimeout(async () => {
+      console.log('Login successful for:', bankName.value)
+      
+      // Verificar si hay más bancos en la cola
+      const nextBank = bankQueueStore.moveToNextBank()
+      
+      if (nextBank) {
+        console.log('Moving to next bank:', nextBank.name)
+        // Ir a ValidationView para el siguiente banco
+        router.push('/financial/validation')
+        isLoggingIn.value = false
+        return
+      }
+
+      console.log('No more banks, going to account selection')
+      // No hay más bancos, ir a account-selection
       router.push({
         path: '/bankambient/account-selection',
         query: {
-          bankName: 'Neodigi Bank',
-          bankInitials: 'ND',
-          bankColor: '#0066cc'
+          bankName: route.query.bankName || 'Neodigi Bank',
+          bankInitials: route.query.bankInitials || 'ND',
+          bankColor: route.query.bankColor || '#0066cc'
         }
       })
+      
+      isLoggingIn.value = false
     }, 2000)
   }
 }

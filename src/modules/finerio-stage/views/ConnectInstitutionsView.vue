@@ -5,6 +5,7 @@
       <div class="left-panel" :class="{ 'animate': showContent }">
         <div class="panel-header">
           <h1 class="panel-title">Selecciona tu entidad financiera</h1>
+          <p class="panel-subtitle">Puedes seleccionar una o múltiples entidades para conectar</p>
         </div>
 
         <div class="search-section">
@@ -18,10 +19,34 @@
           </div>
         </div>
 
+        <div class="selection-instructions">
+          <div class="instruction-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="instruction-icon">
+              <rect x="2" y="2" width="12" height="12" rx="2" stroke="rgb(97, 40, 120)" stroke-width="2"/>
+              <path d="M5 8L7 10L11 6" stroke="rgb(97, 40, 120)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="instruction-text">Selecciona las entidades que deseas conectar</span>
+          </div>
+        </div>
+
         <div class="institutions-list">
           <div v-for="(bank, index) in filteredBanks" :key="bank.id" class="institution-item"
-            :style="{ 'animation-delay': `${index * 100}ms` }" @click="handleConnectBank(bank)">
+            :style="{ 'animation-delay': `${index * 100}ms` }" 
+            :class="{ 'selected': isSelected(bank.id) }"
+            @click="toggleBankSelection(bank)">
             <div class="institution-info">
+              <div class="checkbox-container">
+                <input 
+                  type="checkbox" 
+                  :id="`institution-${bank.id}`"
+                  :checked="isSelected(bank.id)"
+                  @change="toggleBankSelection(bank)"
+                  @click.stop
+                  class="institution-checkbox"
+                >
+                <label :for="`institution-${bank.id}`" class="checkbox-label"></label>
+              </div>
+              
               <div class="institution-logo">
                 <div v-if="bank.name === 'Neodigi Bank'" class="custom-logo neodigi-logo">
                   <img src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="neodigi-logo-img" />
@@ -43,11 +68,28 @@
             <div v-if="bank.isConnected" class="connected-indicator">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <circle cx="8" cy="8" r="8" fill="#10b981" />
-                <path d="M5 8L7 10L11 6" stroke="white" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
               </svg>
             </div>
           </div>
+        </div>
+        
+        <div v-if="selectedBanks.length > 0" class="action-section">
+          <div class="selected-info">
+            <span class="selected-count">
+              {{ selectedBanks.length }} {{ selectedBanks.length === 1 ? 'entidad seleccionada' : 'entidades seleccionadas' }}
+            </span>
+          </div>
+          <button class="connect-selected-button" @click="handleConnectSelectedBanks" :disabled="isConnecting">
+            <template v-if="isConnecting && selectedBanks.length > 1">
+              Conectando {{ currentConnectingBank }}... ({{ connectingProgress.current }}/{{ connectingProgress.total }})
+            </template>
+            <template v-else-if="isConnecting">
+              Conectando...
+            </template>
+            <template v-else>
+              Conectar {{ selectedBanks.length === 1 ? 'entidad' : 'entidades' }} seleccionada{{ selectedBanks.length === 1 ? '' : 's' }}
+            </template>
+          </button>
         </div>
 
         <button class="back-button-bottom" @click="handleGoBack">
@@ -162,6 +204,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useBankQueueStore } from '../../financial/stores/bank-queue.store'
 
 interface Bank {
   id: string
@@ -172,8 +215,13 @@ interface Bank {
 }
 
 const router = useRouter()
+const bankQueueStore = useBankQueueStore()
 const searchQuery = ref('')
 const showContent = ref(false)
+const selectedBanks = ref<Bank[]>([])
+const isConnecting = ref(false)
+const currentConnectingBank = ref<string>('')
+const connectingProgress = ref<{ current: number; total: number }>({ current: 0, total: 0 })
 
 const banks = ref<Bank[]>([
   {
@@ -208,29 +256,62 @@ const filteredBanks = computed(() => {
   )
 })
 
+const isSelected = (bankId: string): boolean => {
+  return selectedBanks.value.some(bank => bank.id === bankId)
+}
+
+const toggleBankSelection = (bank: Bank) => {
+  if (bank.isConnected) return // No permitir selección de bancos ya conectados
+  
+  const index = selectedBanks.value.findIndex(b => b.id === bank.id)
+  if (index > -1) {
+    selectedBanks.value.splice(index, 1)
+  } else {
+    selectedBanks.value.push(bank)
+  }
+}
+
 const handleGoBack = () => {
   router.push('/financial/connect-stage1')
 }
+
+const handleConnectSelectedBanks = async () => {
+  if (selectedBanks.value.length === 0) return
+  
+  isConnecting.value = true
+  
+  try {
+    // Configurar la cola de bancos en el store
+    const bankQueue = selectedBanks.value.map(bank => ({
+      id: bank.id,
+      name: bank.name,
+      initials: bank.initials,
+      color: bank.color
+    }))
+    
+    bankQueueStore.setSelectedBanks(bankQueue)
+    
+    // Ir a ValidationView
+    await router.push('/financial/validation')
+    
+    // Limpiar selección
+    selectedBanks.value = []
+  } catch (error) {
+    console.error('Error durante la conexión:', error)
+  } finally {
+    isConnecting.value = false
+    currentConnectingBank.value = ''
+    connectingProgress.value = { current: 0, total: 0 }
+  }
+}
+
+
 
 onMounted(() => {
   setTimeout(() => {
     showContent.value = true
   }, 300)
 })
-
-
-const handleConnectBank = (bank: Bank) => {
-  if (!bank.isConnected) {
-    router.push({
-      path: '/financial/validation',
-      query: {
-        bankName: bank.name,
-        bankInitials: bank.initials,
-        bankColor: bank.color
-      }
-    })
-  }
-}
 </script>
 
 <style scoped>
@@ -338,6 +419,31 @@ const handleConnectBank = (bank: Bank) => {
   color: #9ca3af;
 }
 
+/* Instrucciones de selección */
+.selection-instructions {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: rgba(97, 40, 120, 0.05);
+  border: 1px solid rgba(97, 40, 120, 0.2);
+  border-radius: 8px;
+}
+
+.instruction-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.instruction-icon {
+  flex-shrink: 0;
+}
+
+.instruction-text {
+  font-size: 14px;
+  color: rgb(97, 40, 120);
+  font-weight: 500;
+}
+
 /* Lista de Instituciones */
 .institutions-list {
   display: flex;
@@ -391,6 +497,12 @@ const handleConnectBank = (bank: Bank) => {
   background: rgba(97, 40, 120, 0.02);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(97, 40, 120, 0.1);
+}
+
+.institution-item.selected {
+  border-color: rgb(97, 40, 120);
+  background: rgba(97, 40, 120, 0.05);
+  box-shadow: 0 4px 12px rgba(97, 40, 120, 0.15);
 }
 
 .institution-info {
@@ -669,5 +781,108 @@ const handleConnectBank = (bank: Bank) => {
     font-size: 20px;
   }
 
+}
+
+/* Estilos para checkboxes */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.institution-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkbox-label {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.institution-checkbox:checked + .checkbox-label {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  border-color: rgb(97, 40, 120);
+}
+
+.institution-checkbox:checked + .checkbox-label::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.checkbox-label:hover {
+  border-color: rgb(97, 40, 120);
+}
+
+/* Sección de acción */
+.action-section {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(97, 40, 120, 0.05) 0%, rgba(186, 45, 125, 0.05) 100%);
+  border: 1px solid rgba(97, 40, 120, 0.2);
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.selected-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.selected-count {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(97, 40, 120);
+}
+
+.connect-selected-button {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.connect-selected-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(97, 40, 120, 0.3);
+}
+
+.connect-selected-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .action-section {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  
+  .connect-selected-button {
+    width: 100%;
+  }
 }
 </style>

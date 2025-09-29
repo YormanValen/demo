@@ -225,6 +225,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useBankQueueStore } from '../../financial/stores/bank-queue.store'
 
 interface LoginData {
   username: string
@@ -233,6 +234,7 @@ interface LoginData {
 
 const router = useRouter()
 const route = useRoute()
+const bankQueueStore = useBankQueueStore()
 
 const bankName = computed(() => {
   return route.query.bankName as string || 'Flexfinia'
@@ -328,19 +330,37 @@ const handleTerms = () => {
   console.log('Terms clicked')
 }
 
-const handleLogin = () => {
+const handleLogin = async () => {
   if (isLoginFormValid.value && !isLoggingIn.value) {
     isLoggingIn.value = true
 
-    setTimeout(() => {
+    setTimeout(async () => {
+      console.log('Login successful for:', bankName.value)
+      
+      // Verificar si hay más bancos en la cola
+      const nextBank = bankQueueStore.moveToNextBank()
+      
+      if (nextBank) {
+        console.log('Moving to next bank:', nextBank.name)
+        // Ir a ValidationView para el siguiente banco
+        router.push('/financial/validation')
+        isLoggingIn.value = false
+        return
+      }
+
+      console.log('No more banks, going to account selection')
+
+      // Flujo normal o último banco del flujo múltiple
       router.push({
         path: '/bankambient/account-selection',
         query: {
-          bankName: 'Flexfinia',
-          bankInitials: 'FF',
-          bankColor: '#16a34a'
+          bankName: route.query.bankName || 'Flexfinia',
+          bankInitials: route.query.bankInitials || 'FF',
+          bankColor: route.query.bankColor || '#16a34a'
         }
       })
+      
+      isLoggingIn.value = false
     }, 2000)
   }
 }
