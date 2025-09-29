@@ -148,7 +148,7 @@
                 <h3>Trusso</h3>
                 <p>Nuestro motor especializado</p>
               </div>
-              
+
               <!-- Trusso Process Steps -->
               <div class="trusso-steps">
                 <div class="trusso-step">Revisión de datos</div>
@@ -1362,6 +1362,7 @@ const handleContinue = () => {
   background: #001340;
   color: white;
   border: none;
+  height: fit-content;
   padding: 16px 32px;
   border-radius: 5px;
   font-size: 16px;
@@ -1386,6 +1387,13 @@ const handleContinue = () => {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Tablet frame specific styles */
+.tablet .pipeline-container,
+.tablet__content .pipeline-container {
+  grid-template-columns: 1fr !important;
+  gap: 24px;
 }
 
 @media (max-width: 1024px) {

@@ -136,6 +136,33 @@ const routes: RouteRecordRaw[] = [
     name: 'financial-congrats',
     component: () => import('../modules/financial/views/CongratsView.vue'),
     meta: { hideLayout: false }
+  },
+  {
+    path: '/entity',
+    component: () => import('../modules/entity/layouts/EntityLayout.vue'),
+    meta: { hideLayout: false },
+    children: [
+      {
+        path: 'dashboard',
+        name: 'entity-dashboard',
+        component: () => import('../modules/entity/views/EntityDashboardView.vue')
+      },
+      {
+        path: 'consent-management',
+        name: 'entity-consent-management',
+        component: () => import('../modules/entity/views/ConsentManagementView.vue')
+      },
+      {
+        path: 'consent-revocation',
+        name: 'entity-consent-revocation',
+        component: () => import('../modules/entity/views/ConsentRevocationView.vue')
+      },
+      {
+        path: 'analytics',
+        name: 'entity-analytics',
+        component: () => import('../modules/entity/views/AnalyticsView.vue')
+      }
+    ]
   }
 ]
 
