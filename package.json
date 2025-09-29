@@ -11,6 +11,7 @@
   "dependencies": {
     "@fortawesome/vue-fontawesome": "^3.1.2",
     "@mdi/font": "^7.4.47",
+    "jspdf": "^3.0.3",
     "pdfjs-dist": "^3.11.174",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1",

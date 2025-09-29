@@ -105,7 +105,8 @@ async function openPdf(input: string | File) {
   
   showPdfModal.value = true
   isLoading.value = true
-  scale.value = 1.0
+  // Set 250% zoom for fullscreen mode, 100% for other modes
+  scale.value = isFullEnv.value ? 2.5 : 1.0
   
   try {
     if (input instanceof File) {

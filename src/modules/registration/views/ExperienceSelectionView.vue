@@ -98,8 +98,12 @@ const continueWithSelection = () => {
   // Guardar la selección en localStorage o store
   localStorage.setItem("selectedExperience", selectedExperience.value);
 
-  // Navegar al registro básico
-  router.push("/registration/basic-information");
+  // Navegar según la experiencia seleccionada
+  if (selectedExperience.value === "entity") {
+    router.push("/entity/dashboard");
+  } else {
+    router.push("/registration/basic-information");
+  }
 };
 </script>
 
