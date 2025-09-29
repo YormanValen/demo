@@ -169,6 +169,12 @@ const routes: RouteRecordRaw[] = [
     name: 'entity-login',
     component: () => import('../modules/entity/views/EntityLoginView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/two-factor',
+    name: 'entity-two-factor',
+    component: () => import('../modules/entity/views/EntityTwoFactorView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 
