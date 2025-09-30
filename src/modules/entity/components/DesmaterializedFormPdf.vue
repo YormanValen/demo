@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+// Store is optional: we try to import it at runtime if available
 import { QR_BASE64, FOOTER_LOGO_BASE64 } from '@/assets/images'
 import jsPDF from 'jspdf'
 
@@ -129,6 +130,23 @@ const props = defineProps<{
 }>()
 
 const isGenerating = ref(false)
+const generatedFecha = ref<{ dia: string; mes: string; anio: string } | null>(null)
+const generatedRadicacion = ref<string | null>(null)
+
+function getNowDateParts() {
+  const now = new Date()
+  const dia = String(now.getDate()).padStart(2, '0')
+  const mes = String(now.getMonth() + 1).padStart(2, '0')
+  const anio = String(now.getFullYear())
+  return { dia, mes, anio }
+}
+
+function generateRadicacion(len = 8) {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  let out = ''
+  for (let i = 0; i < len; i++) out += chars.charAt(Math.floor(Math.random() * chars.length))
+  return out
+}
 
 // Default template configuration
 const defaultTemplate: PDFTemplate = {
@@ -359,7 +377,20 @@ function drawStyledLabel(doc: jsPDF, text: string, position: Position, style: Te
   doc.text(text, position.x, position.y, { baseline: 'alphabetic' })
 }
 
-function drawStyledInputBox(doc: jsPDF, position: Position, size: Size, style: BoxStyle, value?: string) {
+function formatValueForPdf(value: any): string {
+  if (value === undefined || value === null) return ''
+  if (value instanceof Date) {
+    const d = value
+    const dd = String(d.getDate()).padStart(2, '0')
+    const mm = String(d.getMonth() + 1).padStart(2, '0')
+    const yyyy = String(d.getFullYear())
+    return `${dd}/${mm}/${yyyy}`
+  }
+  // If it's a string that serializes a Date, keep as-is
+  return String(value)
+}
+
+function drawStyledInputBox(doc: jsPDF, position: Position, size: Size, style: BoxStyle, value?: any) {
   applyBoxStyle(doc, style)
   if (style.radius && style.radius > 0) {
     doc.roundedRect(position.x, position.y, size.width, size.height, style.radius, style.radius, 'FD')
@@ -372,7 +403,8 @@ function drawStyledInputBox(doc: jsPDF, position: Position, size: Size, style: B
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(10)
     doc.setTextColor(0, 0, 0)
-    doc.text(value, position.x + 2, position.y + size.height - 2)
+    const text = formatValueForPdf(value)
+    doc.text(text, position.x + 2, position.y + size.height - 2)
   }
 }
 
@@ -487,44 +519,56 @@ async function addImageToFooter(doc: jsPDF, x = 160, y = 242, width = 35, height
   }
 }
 
+let cachedPdfStore: any | null = null
+async function ensurePdfStoreLoaded() {
+  if (cachedPdfStore) return
+  try {
+    const mod: any = await import('@/stores/formData')
+    cachedPdfStore = mod?.useFormDataStore ? mod.useFormDataStore() : null
+  } catch {
+    cachedPdfStore = null
+  }
+}
+
 function getFieldValue(fieldId: string): string {
+  const store = cachedPdfStore
   switch (fieldId) {
     case 'tipoDocumento':
-      return props.solicitante?.tipoDocumento || 'Cédula de Ciudadanía'
+      return store?.solicitante?.tipoDocumento || props.solicitante?.tipoDocumento || 'Cédula de Ciudadanía'
     case 'numeroIdentificacion':
-      return props.solicitante?.numeroIdentificacion || ''
+      return store?.solicitante?.numeroIdentificacion || props.solicitante?.numeroIdentificacion || ''
     case 'primerNombre':
-      return props.solicitante?.primerNombre || ''
+      return store?.solicitante?.primerNombre || props.solicitante?.primerNombre || ''
     case 'primerApellido':
-      return props.solicitante?.primerApellido || ''
+      return store?.solicitante?.primerApellido || props.solicitante?.primerApellido || ''
     case 'fechaExpedicion':
-      return props.solicitante?.fechaExpedicion || ''
+      return store?.solicitante?.fechaExpedicion || props.solicitante?.fechaExpedicion || ''
     case 'celular':
-      return props.solicitante?.celular || ''
+      return store?.solicitante?.celular || props.solicitante?.celular || ''
     case 'correo':
-      return props.solicitante?.correo || ''
+      return store?.solicitante?.correo || props.solicitante?.correo || ''
     case 'montoSolicitado':
-      return props.solicitud?.montoSolicitado || ''
+      return store?.solicitud?.montoSolicitado || props.solicitud?.montoSolicitado || ''
     case 'gastosMensuales':
-      return props.solicitud?.gastosMensuales || ''
+      return store?.solicitud?.gastosMensuales || props.solicitud?.gastosMensuales || ''
     case 'ingresosMensuales':
-      return props.solicitud?.ingresosMensuales || ''
+      return store?.solicitud?.ingresosMensuales || props.solicitud?.ingresosMensuales || ''
     case 'otrosIngresos':
-      return props.solicitud?.otrosIngresos || ''
+      return store?.solicitud?.otrosIngresos || props.solicitud?.otrosIngresos || ''
     case 'actividadEconomica':
-      return props.solicitud?.actividadEconomica || ''
+      return store?.solicitud?.actividadEconomica || props.solicitud?.actividadEconomica || ''
     case 'antiguedad':
-      return props.solicitud?.antiguedad || ''
+      return store?.solicitud?.antiguedad || props.solicitud?.antiguedad || ''
     case 'estadoCivil':
-      return props.solicitud?.estadoCivil || ''
+      return store?.solicitud?.estadoCivil || props.solicitud?.estadoCivil || ''
     case 'nivelEducativo':
-      return props.solicitud?.nivelEducativo || ''
+      return store?.solicitud?.nivelEducativo || props.solicitud?.nivelEducativo || ''
     case 'tipoCredito':
-      return props.solicitud?.tipoCredito || ''
+      return store?.solicitud?.tipoCredito || props.solicitud?.tipoCredito || ''
     case 'numeroRadicacion':
-      return props.solicitud?.numeroRadicacion || ''
+      return generatedRadicacion.value || store?.solicitud?.numeroRadicacion || props.solicitud?.numeroRadicacion || ''
     case 'fechaTramite':
-      const fecha = props.datosGenerales?.fechaTramite
+      const fecha = generatedFecha.value || store?.datosGenerales?.fechaTramite || props.datosGenerales?.fechaTramite
       return `${fecha?.dia || ''} ${fecha?.mes || ''} ${fecha?.anio || ''}`
     default:
       return ''
@@ -532,6 +576,10 @@ function getFieldValue(fieldId: string): string {
 }
 
 async function generarPDF(): Promise<Blob> {
+  // Try to load PDF store (optional) and generate current date + radicación
+  await ensurePdfStoreLoaded()
+  generatedFecha.value = getNowDateParts()
+  generatedRadicacion.value = generateRadicacion()
   isGenerating.value = true
   try {
     const template = props.template || defaultTemplate
@@ -558,7 +606,7 @@ async function generarPDF(): Promise<Blob> {
         // Handle special cases for date fields
         if (field.id === 'fechaTramite') {
           // Draw individual date components
-          const fecha = props.datosGenerales?.fechaTramite
+          const fecha = generatedFecha.value || getNowDateParts()
 
           // Día
           drawStyledLabel(doc, 'Día', { x: field.labelPosition.x, y: field.labelPosition.y + 4 }, field.labelStyle)
@@ -588,7 +636,9 @@ async function generarPDF(): Promise<Blob> {
           )
         } else {
           // Draw regular input box
-          const value = getFieldValue(field.id)
+          const value = field.id === 'numeroRadicacion'
+            ? (generatedRadicacion.value || generateRadicacion())
+            : getFieldValue(field.id)
           drawStyledInputBox(doc, field.inputPosition, field.inputSize, field.inputStyle, value)
         }
       })
