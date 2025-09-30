@@ -8,9 +8,9 @@
       </div>
 
       <bank-details 
-        v-if="institutionsStore.connectedInstitutions.value.length > 0" 
-        :bank="institutionsStore.connectedInstitutions.value[0]" 
-        @disconnectBank="() => handleDisconnectBank(institutionsStore.connectedInstitutions.value[0].id)" />
+        v-if="institutionsStore.connectedInstitutions.length > 0" 
+        :bank="institutionsStore.connectedInstitutions[0]" 
+        @disconnectBank="() => handleDisconnectBank(institutionsStore.connectedInstitutions[0].id)" />
       <div v-else class="no-institutions">
         <p>No hay entidades conectadas</p>
       </div>

@@ -140,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useInstitutionsStore } from '../../financial/stores/institutions.store'
 
@@ -148,10 +148,7 @@ const router = useRouter()
 const showContent = ref(false)
 const institutionsStore = useInstitutionsStore()
 
-const hasConnectedInstitutions = computed(() => {
-  return institutionsStore.hasConnectedInstitutions()
-})
-
+const hasConnectedInstitutions = institutionsStore.hasConnectedInstitutions
 onMounted(() => {
   setTimeout(() => {
     showContent.value = true

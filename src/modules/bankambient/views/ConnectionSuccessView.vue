@@ -88,8 +88,6 @@ onMounted(() => {
   // Limpiar la cola de bancos ya que todos fueron procesados exitosamente
   bankQueueStore.reset()
 
-  console.log('All banks saved. Total connected institutions:', institutionsStore.connectedInstitutions.value.length)
-
   const timer = setInterval(() => {
     countdown.value--
     if (countdown.value <= 0) {
