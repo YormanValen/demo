@@ -444,7 +444,7 @@
             </div>
 
             <div class="info-item">
-              <button class="download-btn">✍️ Firma electrónica</button>
+              <button class="download-btn" @click="openSignatureModal">✍️ Firma electrónica</button>
             </div>
 
             <div class="info-item">
@@ -462,7 +462,7 @@
       <div v-if="showSignatureModal" class="modal-overlay" @click="closeSignatureModal">
         <div class="modal-content" @click.stop>
           <div class="modal-header">
-            <h3>ReporteFirma_Electronica</h3>
+            <h3>Reporte Firma Electrónica</h3>
             <button class="modal-close" @click="closeSignatureModal">✕</button>
           </div>
           <div class="modal-body">
@@ -506,7 +506,8 @@
             </div>
             <div v-else class="pages" ref="pagesRef">
               <div v-for="page in pageNumbers" :key="page" class="page-wrapper">
-                <canvas :ref="registerCanvas(page)" class="pdf-canvas"></canvas>
+                <canvas :ref="registerCanvas(page)" class="pdf-canvas"
+                  style="width: 100%; height: auto; display: block;"></canvas>
                 <div class="page-index">Página {{ page }} / {{ pageCount }}</div>
               </div>
             </div>
@@ -519,6 +520,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import { useRouter } from 'vue-router'
 import * as pdfjsLib from 'pdfjs-dist'
 // Use worker via URL so Vite resolves it correctly
@@ -553,32 +555,77 @@ const entityRootRef = ref<HTMLElement | null>(null)
 const isTabletEnv = ref(false)
 const isFullEnv = ref(false)
 const overlayEntered = ref(false)
-const registerCanvas = (page: number) => (el: any) => {
-  const canvas = el as HTMLCanvasElement | null
-  if (canvas) canvasMap.set(page, canvas)
-  else canvasMap.delete(page)
+const registerCanvas = (page: number) => {
+  return (el: Element | ComponentPublicInstance | null) => {
+    // Only handle HTMLCanvasElement
+    if (el instanceof HTMLCanvasElement) {
+      canvasMap.set(page, el)
+      console.log(`Canvas registered for page ${page}`, canvasMap.size)
+    } else if (el === null) {
+      canvasMap.delete(page)
+      console.log(`Canvas removed for page ${page}`, canvasMap.size)
+    }
+    // Ignore other types (e.g., Vue component instances)
+  }
 }
 
 const pageNumbers = computed(() => Array.from({ length: pageCount.value }, (_, i) => i + 1))
 
 async function renderPage(pageNumber: number) {
   if (!pdfDoc) return
+  
+  console.log(`Rendering page ${pageNumber}...`)
   const page = await pdfDoc.getPage(pageNumber)
   const viewport = page.getViewport({ scale: scale.value })
   const canvas = canvasMap.get(pageNumber)
-  if (!canvas) return
+  
+  if (!canvas) {
+    console.warn(`Canvas not found for page ${pageNumber}`)
+    return
+  }
+  
   const context = canvas.getContext('2d')
-  if (!context) return
-  const dpr = window.devicePixelRatio || 1
-  // Ajustar tamaño interno (buffer) y tamaño visible CSS
-  canvas.width = Math.max(1, Math.floor(viewport.width * dpr))
-  canvas.height = Math.max(1, Math.floor(viewport.height * dpr))
-  canvas.style.width = `${Math.max(1, Math.floor(viewport.width))}px`
-  canvas.style.height = `${Math.max(1, Math.floor(viewport.height))}px`
+  if (!context) {
+    console.warn(`Context not found for page ${pageNumber}`)
+    return
+  }
+
+  // Handle HiDPI displays and ensure canvas has visible size
+  const dpr = (window.devicePixelRatio || 1)
+  
+  // Set pixel buffer size for crisp rendering
+  const scaledWidth = Math.floor(viewport.width * dpr)
+  const scaledHeight = Math.floor(viewport.height * dpr)
+  
+  console.log(`Page ${pageNumber} dimensions: ${scaledWidth}x${scaledHeight} (dpr: ${dpr})`)
+  
+  canvas.width = scaledWidth
+  canvas.height = scaledHeight
+  
+  // Ensure canvas is visible
+  canvas.style.width = Math.floor(viewport.width) + 'px'
+  canvas.style.height = Math.floor(viewport.height) + 'px'
+  
+  // Reset any transform and clear before rendering
   context.setTransform(1, 0, 0, 1, 0, 0)
   context.clearRect(0, 0, canvas.width, canvas.height)
-  const renderContext = { canvasContext: context, viewport, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : undefined }
-  await page.render(renderContext).promise
+  
+  // Set white background
+  context.fillStyle = '#ffffff'
+  context.fillRect(0, 0, canvas.width, canvas.height)
+
+  const renderContext = {
+    canvasContext: context,
+    viewport,
+    transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : undefined,
+  }
+  
+  try {
+    await page.render(renderContext).promise
+    console.log(`Page ${pageNumber} rendered successfully`)
+  } catch (error) {
+    console.error(`Error rendering page ${pageNumber}:`, error)
+  }
 }
 
 async function renderAllPages() {
@@ -599,8 +646,8 @@ async function onPdfReady(payload: { blob: Blob, url: string, nombre: string }) 
       isTabletEnv.value = !!root?.closest('.tablet, .tablet__content, .is-tablet')
       isFullEnv.value = !!document.querySelector('.frame-container.full-mode, .app-container.full-mode')
     } catch { }
-    // Escala inicial por defecto: 250%
-    scale.value = 2.5
+    // Escala inicial por defecto: 160%
+    scale.value = 1.6
 
     const arrayBuffer = await payload.blob.arrayBuffer()
     const loadingTask = pdfjsLib.getDocument({
@@ -613,33 +660,89 @@ async function onPdfReady(payload: { blob: Blob, url: string, nombre: string }) 
     pdfDoc = await loadingTask.promise
     pageCount.value = pdfDoc.numPages || 0
     // Esperar a que el DOM pinte canvases
-    const waitForCanvasRefs = async (tries = 10) => {
+    const waitForCanvasRefs = async (tries = 30) => {
       for (let i = 0; i < tries; i++) {
         await nextTick()
         await new Promise((r) => requestAnimationFrame(() => r(undefined)))
-        if (canvasMap.size >= pageCount.value) break
+        
+        console.log(`Try ${i + 1}: canvasMap size: ${canvasMap.size}, pageCount: ${pageCount.value}`)
+
+        // Buscar canvas directamente en el DOM cada vez
+        const canvasElements = pagesRef.value?.querySelectorAll('canvas')
+        console.log('Found canvas elements in DOM:', canvasElements?.length)
+        
+        if (canvasElements && canvasElements.length > 0) {
+          canvasElements.forEach((canvas, index) => {
+            const pageNum = index + 1
+            if (!canvasMap.has(pageNum)) {
+              canvasMap.set(pageNum, canvas as HTMLCanvasElement)
+              console.log(`Manually registered canvas for page ${pageNum}`)
+            }
+          })
+        }
+
+        // Verificar si tenemos todos los canvas necesarios
+        if (canvasMap.size >= pageCount.value) {
+          console.log('All canvas elements found!')
+          break
+        }
+        
+        // Esperar progresivamente más tiempo
+        const delay = Math.min(100, 20 + i * 5)
+        await new Promise(r => setTimeout(r, delay))
+      }
+      
+      if (canvasMap.size < pageCount.value) {
+        console.warn(`Still missing canvas elements: ${canvasMap.size}/${pageCount.value}`)
       }
     }
+    // Primero terminar la carga para que aparezcan los canvas
+    pdfIsLoading.value = false
+    
+    // Ahora esperar a que los canvas aparezcan y se registren
+    await nextTick()
+    await new Promise(r => setTimeout(r, 100))
     overlayEntered.value = true
+    
     await waitForCanvasRefs()
+    console.log('After waitForCanvasRefs, canvasMap size:', canvasMap.size)
     await maybeRenderInitialPages()
   } finally {
-    pdfIsLoading.value = false
+    // Ya se estableció arriba
   }
 }
 
 async function zoomIn() { if (scale.value < maxScale) { scale.value = +(Math.min(maxScale, scale.value + 0.1).toFixed(2)); await renderAllPages() } }
 async function zoomOut() { if (scale.value > minScale) { scale.value = +(Math.max(minScale, scale.value - 0.1).toFixed(2)); await renderAllPages() } }
-function closePdfModal() { showPdfModal.value = false; pdfDoc = null; canvasMap.clear(); pageCount.value = 0 }
+function closePdfModal() {
+  showPdfModal.value = false
+  overlayEntered.value = false
+  pdfDoc = null
+  canvasMap.clear()
+  pageCount.value = 0
+  console.log('PDF modal closed, canvasMap cleared')
+}
 
 
 async function maybeRenderInitialPages() {
   if (!overlayEntered.value || !pdfDoc) return
+
+  console.log('Starting render with canvasMap size:', canvasMap.size, 'pageCount:', pageCount.value)
+  
+  if (canvasMap.size === 0) {
+    console.warn('No canvas available for rendering, aborting')
+    return
+  }
+
   await nextTick()
+  console.log('About to render all pages...')
   await renderAllPages()
-  // Segundo pase para asegurar nitidez tras layout
+  console.log('First render pass complete')
+  
+  // Second pass for sharpness after layout
   await new Promise((r) => requestAnimationFrame(() => r(undefined)))
   await renderAllPages()
+  console.log('Second render pass complete')
 }
 
 function handleResize() {
@@ -786,6 +889,10 @@ const toggleConsentSelection = (id: number) => {
 }
 
 const viewConsentDetails = () => {
+  showSignatureModal.value = true
+}
+
+const openSignatureModal = () => {
   showSignatureModal.value = true
 }
 

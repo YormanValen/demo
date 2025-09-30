@@ -53,7 +53,7 @@ const transactionalIntro = ref()
 const handleTransactionalInsightsClick = async () => {
   // Navigate to dashboard first
   await router.push('/entity/dashboard')
-  
+
   // Wait a bit for the component to mount and register the global function
   setTimeout(() => {
     const triggerFunction = (window as any).triggerTransactionalInsightsAnimation
@@ -76,7 +76,7 @@ const menuItems = [
   },
   {
     path: '/entity/analytics',
-    label: 'Dashboard de control',
+    label: 'Estadísticas',
     icon: 'AnalyticsIcon'
   },
   {
