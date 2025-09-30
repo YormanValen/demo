@@ -14,42 +14,53 @@
     </div>
 
     <nav class="sidebar-nav">
-      <router-link v-for="item in menuItems" :key="item.path" :to="item.path" class="nav-item"
-        :class="{ active: $route.path === item.path }">
-        <div class="nav-icon">
-          <component :is="item.icon" />
-        </div>
-        <span class="nav-text">{{ item.label }}</span>
-      </router-link>
+      <template v-for="item in menuItems" :key="item.path">
+        <router-link v-if="!item.isSpecial" :to="item.path" class="nav-item"
+          :class="{ active: $route.path === item.path }">
+          <div class="nav-icon">
+            <component :is="item.icon" />
+          </div>
+          <span class="nav-text">{{ item.label }}</span>
+        </router-link>
+
+        <button v-else @click="handleTransactionalInsightsClick" class="nav-item special-item"
+          :class="{ active: $route.path === item.path }">
+          <div class="nav-icon">
+            <component :is="item.icon" />
+          </div>
+          <span class="nav-text">{{ item.label }}</span>
+        </button>
+      </template>
     </nav>
-    
+
     <div class="sidebar-footer">
-      <button @click="handleTransactionalInsightsClick" class="insights-button">
-        Transactional Insights
-      </button>
+      <!-- Footer content if needed -->
     </div>
+
+    <!-- Transactional Insights Intro Animation -->
+    <TransactionalInsightsIntro ref="transactionalIntro" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import TransactionalInsightsIntro from './TransactionalInsightsIntro.vue'
 
 const router = useRouter()
+const transactionalIntro = ref()
 
-const handleTransactionalInsightsClick = () => {
-  // If we're on the dashboard, trigger the animation
-  if (router.currentRoute.value.path === '/entity/dashboard') {
-    const dashboardAnimation = (window as any).triggerTransactionalInsightsAnimation
-    if (dashboardAnimation) {
-      dashboardAnimation()
-    } else {
-      // Fallback: direct navigation if animation function not available
-      router.push('/entity/transactional-insights')
+const handleTransactionalInsightsClick = async () => {
+  // Navigate to dashboard first
+  await router.push('/entity/dashboard')
+  
+  // Wait a bit for the component to mount and register the global function
+  setTimeout(() => {
+    const triggerFunction = (window as any).triggerTransactionalInsightsAnimation
+    if (triggerFunction) {
+      triggerFunction()
     }
-  } else {
-    // If not on dashboard, navigate directly
-    router.push('/entity/transactional-insights')
-  }
+  }, 100)
 }
 
 const menuItems = [
@@ -67,6 +78,12 @@ const menuItems = [
     path: '/entity/analytics',
     label: 'Dashboard de control',
     icon: 'AnalyticsIcon'
+  },
+  {
+    path: '/entity/transactional-insights',
+    label: 'Transactional Insights',
+    icon: 'InsightsIcon',
+    isSpecial: true
   }
 ]
 </script>
@@ -83,7 +100,7 @@ const menuItems = [
   top: 0;
   left: 0;
   z-index: 10;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .sidebar-header {
@@ -145,6 +162,28 @@ const menuItems = [
   border-left-color: rgb(97, 40, 120);
 }
 
+button.nav-item.special-item {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  color: white;
+  border-left-color: transparent;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+button.nav-item.special-item:hover {
+  background: linear-gradient(21deg, rgb(77, 30, 100) 0%, rgb(166, 25, 105) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  color: white;
+}
+
+button.nav-item.special-item.active {
+  background: linear-gradient(21deg, rgb(77, 30, 100) 0%, rgb(166, 25, 105) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  color: white;
+  border-left-color: transparent;
+}
+
 .nav-icon {
   width: 20px;
   height: 20px;
@@ -165,31 +204,6 @@ const menuItems = [
 .sidebar-footer {
   padding: 20px;
   border-top: 1px solid #e5e7eb;
-}
-
-.insights-button {
-  display: block;
-  width: 100%;
-  background: #ec4899;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.insights-button:hover {
-  background: #db2777;
-  transform: translateY(-1px);
-}
-
-.insights-button:active {
-  transform: translateY(0);
 }
 
 @media (max-width: 1024px) {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { RouterView, useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { RouterView, useRouter, useRoute } from 'vue-router'
+import { ref, onMounted, computed } from 'vue'
 import AppLayout from './shared/layouts/AppLayout.vue'
 import LoadingScreen from './shared/components/LoadingScreen.vue'
 import DeviceFrame from './components/frame/DeviceFrame.vue'
@@ -24,7 +24,14 @@ const deviceOptions: { key: DeviceKind; label: string }[] = [
 ]
 
 const router = useRouter()
+const route = useRoute()
 const goHome = () => router.push('/')
+
+// Computed property to check if we're in full screen mode and on entity routes
+const isFullScreenEntityDashboard = computed(() => {
+  const entityRoutes = ['/entity/dashboard', '/entity/consent-revocation', '/entity/analytics']
+  return currentDevice.value === 'full' && entityRoutes.includes(route.path)
+})
 </script>
 
 <template>
@@ -62,7 +69,7 @@ const goHome = () => router.push('/')
     </div>
 
     <!-- Floating Home control (top-left) -->
-    <div class="home-control">
+    <div class="home-control" :class="{ 'entity-dashboard-position': isFullScreenEntityDashboard }">
       <button class="home-btn" @click="goHome">
         <v-icon size="18">mdi-home</v-icon>
         <span>Volver al inicio</span>
@@ -118,6 +125,13 @@ const goHome = () => router.push('/')
   z-index: 10000;
   padding: 10px;
   border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.home-control.entity-dashboard-position {
+  top: 20px;
+  right: 20px;
+  left: auto;
 }
 
 .device-btn {
@@ -433,6 +447,12 @@ const goHome = () => router.push('/')
     padding: 8px;
   }
 
+  .home-control.entity-dashboard-position {
+    top: 15px;
+    right: 15px;
+    left: auto;
+  }
+
   .home-btn {
     padding: 8px 10px;
     font-size: 11px;
@@ -462,6 +482,12 @@ const goHome = () => router.push('/')
     top: 10px;
     left: 10px;
     padding: 6px;
+  }
+
+  .home-control.entity-dashboard-position {
+    top: 10px;
+    right: 10px;
+    left: auto;
   }
 
   .home-btn {

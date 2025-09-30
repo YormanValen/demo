@@ -59,6 +59,55 @@ watch(
   }
 );
 
+// Sincroniza los datos relevantes al store del PDF (si Pinia está activa)
+async function syncPdfStoreFromForm() {
+  try {
+    const piniaMod: any = await import('pinia')
+    if (piniaMod?.getActivePinia && piniaMod.getActivePinia()) {
+      const mod: any = await import('@/stores/formData')
+      const store = mod?.useFormDataStore ? mod.useFormDataStore() : null
+      if (!store) return
+      const primerNombre = (form.nombres || '').trim().split(/\s+/)[0] || ''
+      // Formatea fecha a DD/MM/YYYY si viene como string de fecha o Date
+      let fechaStr: string | undefined = undefined
+      if (form.fechaExpedicionDocumento) {
+        const d = new Date(form.fechaExpedicionDocumento as any)
+        if (!isNaN(d.getTime())) {
+          const dd = String(d.getDate()).padStart(2, '0')
+          const mm = String(d.getMonth() + 1).padStart(2, '0')
+          const yyyy = String(d.getFullYear())
+          fechaStr = `${dd}/${mm}/${yyyy}`
+        } else {
+          fechaStr = String(form.fechaExpedicionDocumento)
+        }
+      }
+      store.setFromRegistrationStep1({
+        tipoDocumento: form.tipoDocumento,
+        numeroIdentificacion: form.numeroIdentificacion,
+        primerNombre,
+        primerApellido: form.primerApellido,
+        fechaExpedicion: fechaStr,
+        celular: form.celular,
+        correo: form.correo,
+      })
+    }
+  } catch {}
+}
+
+watch(
+  () => ({
+    nombres: form.nombres,
+    primerApellido: form.primerApellido,
+    tipoDocumento: form.tipoDocumento,
+    numeroIdentificacion: form.numeroIdentificacion,
+    fechaExpedicionDocumento: form.fechaExpedicionDocumento,
+    celular: form.celular,
+    correo: form.correo,
+  }),
+  () => { syncPdfStoreFromForm() },
+  { deep: true }
+)
+
 const formattedDate = computed(() => {
   if (!form.fechaExpedicionDocumento) return "";
   const date = new Date(form.fechaExpedicionDocumento);
@@ -1141,3 +1190,28 @@ const handleConsentAnimation = () => {
   clear: both;
 }
 </style>
+// Mantener el store del PDF sincronizado con los campos relevantes
+watch(
+  () => ({
+    nombres: form.nombres,
+    primerApellido: form.primerApellido,
+    tipoDocumento: form.tipoDocumento,
+    numeroIdentificacion: form.numeroIdentificacion,
+    fechaExpedicionDocumento: form.fechaExpedicionDocumento,
+    celular: form.celular,
+    correo: form.correo,
+  }),
+  () => {
+    const primerNombre = (form.nombres || '').trim().split(/\s+/)[0] || ''
+    pdfFormStore.setFromRegistrationStep1({
+      tipoDocumento: form.tipoDocumento,
+      numeroIdentificacion: form.numeroIdentificacion,
+      primerNombre,
+      primerApellido: form.primerApellido,
+      fechaExpedicion: form.fechaExpedicionDocumento as unknown as string,
+      celular: form.celular,
+      correo: form.correo,
+    })
+  },
+  { deep: true }
+)
