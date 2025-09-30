@@ -129,6 +129,10 @@ const props = defineProps<{
   template?: PDFTemplate // Optional custom template
 }>()
 
+const emit = defineEmits<{
+  (e: 'pdf-ready', payload: { blob: Blob; url: string; nombre: string }): void
+}>()
+
 const isGenerating = ref(false)
 const generatedFecha = ref<{ dia: string; mes: string; anio: string } | null>(null)
 const generatedRadicacion = ref<string | null>(null)
@@ -699,16 +703,11 @@ async function generarPDF(): Promise<Blob> {
       )
     }
 
-    const blob = doc.output('blob')
+    const blob = doc.output('blob') as Blob
     const nombre = props.descargarNombre ?? 'FormularioDesmaterializado.pdf'
     const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = nombre
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
-    URL.revokeObjectURL(url)
+    // Emitimos para que el visor del proyecto lo consuma
+    emit('pdf-ready', { blob, url, nombre })
     return blob
   } finally {
     isGenerating.value = false
