@@ -8,142 +8,6 @@
         <div class="floating-element dollar-sign">$</div>
         <div class="floating-element peso-sign">$</div>
         <div class="floating-element euro-sign">€</div>
-        
-        <!-- Data charts and graphs -->
-        <div class="floating-element chart-bar">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="16" width="4" height="5" fill="currentColor" />
-            <rect x="8" y="12" width="4" height="9" fill="currentColor" />
-            <rect x="13" y="8" width="4" height="13" fill="currentColor" />
-            <rect x="18" y="4" width="4" height="17" fill="currentColor" />
-          </svg>
-        </div>
-        
-        <div class="floating-element trend-up">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M3 17L9 11L13 15L21 7" stroke="currentColor" stroke-width="2" />
-            <path d="M14 7H21V14" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <div class="floating-element pie-chart">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" />
-            <path d="M12 4V12L18 18" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <!-- Transaction symbols -->
-        <div class="floating-element card-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2" />
-            <path d="M3 10H21" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <div class="floating-element transfer-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M7 17L17 7" stroke="currentColor" stroke-width="2" />
-            <path d="M17 17H17.01" stroke="currentColor" stroke-width="2" />
-            <path d="M7 7H7.01" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <!-- Data points and analytics -->
-        <div class="floating-element data-point">●</div>
-        <div class="floating-element data-point">●</div>
-        <div class="floating-element data-point">●</div>
-        <div class="floating-element data-point">●</div>
-        
-        <!-- Numbers representing data -->
-        <div class="floating-element number">42%</div>
-        <div class="floating-element number">1.2M</div>
-        <div class="floating-element number">+15%</div>
-        <div class="floating-element number">87K</div>
-        <div class="floating-element number">-8%</div>
-        <div class="floating-element number">2.4K</div>
-        <div class="floating-element number">+23%</div>
-        <div class="floating-element number">156</div>
-        
-        <!-- More financial and data icons -->
-        <div class="floating-element bank-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L22 8V10H2V8L12 2Z" stroke="currentColor" stroke-width="2" />
-            <path d="M5 10V20H8V10" stroke="currentColor" stroke-width="2" />
-            <path d="M10 10V20H14V10" stroke="currentColor" stroke-width="2" />
-            <path d="M16 10V20H19V10" stroke="currentColor" stroke-width="2" />
-            <path d="M3 20H21V22H3V20Z" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <div class="floating-element wallet-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2" />
-            <path d="M18 10H20V14H18" stroke="currentColor" stroke-width="2" />
-            <circle cx="18" cy="12" r="1" fill="currentColor" />
-          </svg>
-        </div>
-        
-        <div class="floating-element analytics-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M3 3V21H21" stroke="currentColor" stroke-width="2" />
-            <path d="M7 12L12 7L16 11L21 6" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <div class="floating-element money-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" />
-            <path d="M12 8V16" stroke="currentColor" stroke-width="2" />
-            <path d="M8 12H16" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <div class="floating-element shield-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L22 5V12C22 18 12 22 12 22S2 18 2 12V5L12 2Z" stroke="currentColor" stroke-width="2" />
-            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <div class="floating-element lock-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2" />
-            <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <div class="floating-element target-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-            <circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2" />
-            <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <div class="floating-element users-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M17 21V19C17 16.7909 15.2091 15 13 15H5C2.79086 15 1 16.7909 1 19V21" stroke="currentColor" stroke-width="2" />
-            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" />
-            <path d="M23 21V19C23 17.1362 21.7252 15.5701 20 15.126" stroke="currentColor" stroke-width="2" />
-            <path d="M16 3.12598C17.7252 3.56992 19 5.13616 19 7C19 8.86384 17.7252 10.4301 16 10.874" stroke="currentColor" stroke-width="2" />
-          </svg>
-        </div>
-        
-        <!-- More data symbols -->
-        <div class="floating-element data-point">●</div>
-        <div class="floating-element data-point">●</div>
-        <div class="floating-element data-point">●</div>
-        <div class="floating-element data-point">●</div>
-        <div class="floating-element data-point">●</div>
-        <div class="floating-element data-point">●</div>
-      </div>
-      <!-- Animated background elements -->
-      <div class="background-elements">
-        <!-- Financial symbols -->
-        <div class="floating-element dollar-sign">$</div>
-        <div class="floating-element peso-sign">$</div>
-        <div class="floating-element euro-sign">€</div>
 
         <!-- Data charts and graphs -->
         <div class="floating-element chart-bar">
@@ -269,7 +133,162 @@
           </svg>
         </div>
 
+        <!-- New financial icons -->
+        <div class="floating-element bitcoin-icon">₿</div>
+        <div class="floating-element percentage-icon">%</div>
+        
+        <!-- New chart icons -->
+        <div class="floating-element line-chart">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 20L9 14L13 18L21 10" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <div class="floating-element calculator-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+            <rect x="8" y="6" width="8" height="2" fill="currentColor"/>
+            <rect x="8" y="10" width="2" height="2" fill="currentColor"/>
+            <rect x="12" y="10" width="2" height="2" fill="currentColor"/>
+            <rect x="8" y="14" width="2" height="2" fill="currentColor"/>
+            <rect x="12" y="14" width="2" height="2" fill="currentColor"/>
+          </svg>
+        </div>
+        
+        <!-- New diverse financial icons -->
+        <div class="floating-element yen-icon">¥</div>
+        <div class="floating-element pound-icon">£</div>
+        <div class="floating-element crypto-icon">₹</div>
+        
+        <!-- Tech and digital icons -->
+        <div class="floating-element blockchain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="6" height="6" stroke="currentColor" stroke-width="2"/>
+            <rect x="15" y="3" width="6" height="6" stroke="currentColor" stroke-width="2"/>
+            <rect x="3" y="15" width="6" height="6" stroke="currentColor" stroke-width="2"/>
+            <rect x="15" y="15" width="6" height="6" stroke="currentColor" stroke-width="2"/>
+            <path d="M9 6H15M9 18H15M6 9V15M18 9V15" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <div class="floating-element network-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="5" r="3" stroke="currentColor" stroke-width="2"/>
+            <circle cx="6" cy="19" r="3" stroke="currentColor" stroke-width="2"/>
+            <circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2"/>
+            <path d="M9 7L7 17M15 7L17 17" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <div class="floating-element database-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" stroke-width="2"/>
+            <path d="M21 12C21 13.66 16.97 15 12 15S3 13.66 3 12" stroke="currentColor" stroke-width="2"/>
+            <path d="M3 5V19C3 20.66 7.03 22 12 22S21 20.66 21 19V5" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <!-- Investment and growth icons -->
+        <div class="floating-element growth-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <div class="floating-element diamond-icon">◆</div>
+        <div class="floating-element star-icon">★</div>
+        <div class="floating-element plus-icon">+</div>
+        
+        <!-- Economic symbols -->
+        <div class="floating-element infinity-icon">∞</div>
+        <div class="floating-element delta-icon">Δ</div>
+        <div class="floating-element sigma-icon">Σ</div>
+        
+        <!-- More currency symbols -->
+        <div class="floating-element won-icon">₩</div>
+        <div class="floating-element franc-icon">₣</div>
+        <div class="floating-element lira-icon">₺</div>
+        <div class="floating-element ruble-icon">₽</div>
+        
+        <!-- Business and finance icons -->
+        <div class="floating-element briefcase-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="8" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M8 8V6C8 4.9 8.9 4 10 4H14C15.1 4 16 4.9 16 6V8" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <div class="floating-element chart-line-up">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M7 18L12 13L16 17L21 12" stroke="currentColor" stroke-width="2"/>
+            <path d="M17 12H21V16" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <div class="floating-element coins-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
+            <path d="M16 8C18.21 8 20 9.79 20 12S18.21 16 16 16" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <!-- Geometric and mathematical symbols -->
+        <div class="floating-element triangle-icon">▲</div>
+        <div class="floating-element square-icon">■</div>
+        <div class="floating-element circle-icon">●</div>
+        <div class="floating-element hexagon-icon">⬡</div>
+        <div class="floating-element arrow-up">↗</div>
+        <div class="floating-element arrow-down">↘</div>
+        <div class="floating-element equals-icon">=</div>
+        <div class="floating-element hash-icon">#</div>
+        
+        <!-- Tech symbols -->
+        <div class="floating-element api-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="6" width="4" height="12" stroke="currentColor" stroke-width="2"/>
+            <rect x="10" y="2" width="4" height="20" stroke="currentColor" stroke-width="2"/>
+            <rect x="18" y="8" width="4" height="8" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <div class="floating-element server-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="4" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2"/>
+            <rect x="2" y="10" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2"/>
+            <rect x="2" y="16" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2"/>
+            <circle cx="6" cy="6" r="1" fill="currentColor"/>
+            <circle cx="6" cy="12" r="1" fill="currentColor"/>
+            <circle cx="6" cy="18" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        
+        <div class="floating-element cloud-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M17.5 19H9C6.79 19 5 17.21 5 15C5 13.07 6.5 11.45 8.5 11.1C9.24 8.35 11.92 6.5 15 6.5C18.59 6.5 21.5 9.41 21.5 13C21.5 13.28 21.45 13.54 21.39 13.8C22.32 14.36 23 15.35 23 16.5C23 18.43 21.43 20 19.5 20H17.5" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        
+        <!-- More numbers and percentages -->
+        <div class="floating-element number">3.7K</div>
+        <div class="floating-element number">99%</div>
+        <div class="floating-element number">+45K</div>
+        <div class="floating-element number">-12%</div>
+        <div class="floating-element number">890</div>
+        <div class="floating-element number">+78%</div>
+        <div class="floating-element number">12.3M</div>
+        <div class="floating-element number">-5.2%</div>
+        <div class="floating-element number">456K</div>
+        <div class="floating-element number">+99%</div>
+        
         <!-- More data symbols -->
+        <div class="floating-element data-point">●</div>
+        <div class="floating-element data-point">●</div>
+        <div class="floating-element data-point">●</div>
+        <div class="floating-element data-point">●</div>
+        <div class="floating-element data-point">●</div>
+        <div class="floating-element data-point">●</div>
         <div class="floating-element data-point">●</div>
         <div class="floating-element data-point">●</div>
         <div class="floating-element data-point">●</div>
@@ -385,10 +404,40 @@
           </div>
         </div>
 
+        <!-- Pagination -->
+        <div class="pagination-container">
+          <div class="pagination-wrapper">
+            <div class="pagination">
+              <button class="pagination-btn" @click="prevPage" :disabled="currentPage === 1">
+                ‹
+              </button>
+
+              <button v-for="page in getVisiblePages()" :key="page" class="pagination-btn"
+                :class="{ active: page === currentPage }" @click="goToPage(page)">
+                {{ page }}
+              </button>
+
+              <button class="pagination-btn" @click="nextPage" :disabled="currentPage === totalPages">
+                ›
+              </button>
+            </div>
+
+            <div class="pagination-info">
+              Página {{ currentPage }} de {{ totalPages }}
+            </div>
+          </div>
+        </div>
+
         <div class="action-buttons">
           <div class="info-buttons">
             <div class="info-item">
-              <button class="download-btn">📄 Formulario desmaterializado</button>
+              <DesmaterializedFormPdf
+                :datos-generales="datosGenerales"
+                :solicitante="solicitante"
+                :solicitud="solicitud"
+                :descargar-nombre="`FormularioDesmaterializado_${selectedConsent?.identificationNumber || ''}.pdf`"
+                label="📄 Formulario desmaterializado"
+              />
             </div>
 
             <div class="info-item">
@@ -443,13 +492,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import * as pdfjsLib from 'pdfjs-dist'
 // Use worker via URL so Vite resolves it correctly
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min?url'
+import DesmaterializedFormPdf from '../components/DesmaterializedFormPdf.vue'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker as unknown as string
 
@@ -461,6 +511,10 @@ const startDate = ref('2025-09-01')
 const endDate = ref('2025-09-26')
 const showSignatureModal = ref(false)
 const showMessage = ref(false)
+
+// Pagination variables
+const currentPage = ref(1)
+const totalPages = ref(4585)
 
 // Animation variables
 const showTitle = ref(false)
@@ -552,6 +606,36 @@ const consents = ref([
     updatedAt: '15/11/2024 14:19',
     status: 'Activo',
     selected: false
+  },
+  {
+    id: 3,
+    transactionNumber: '53891',
+    identificationNumber: '1234567890',
+    fullName: 'Maria Rodriguez',
+    createdAt: '10/03/2025 09:45',
+    updatedAt: '10/03/2025 09:50',
+    status: 'Activo',
+    selected: false
+  },
+  {
+    id: 4,
+    transactionNumber: '54102',
+    identificationNumber: '9876543210',
+    fullName: 'Carlos Mendoza',
+    createdAt: '05/02/2025 14:22',
+    updatedAt: '05/02/2025 14:28',
+    status: 'Activo',
+    selected: false
+  },
+  {
+    id: 5,
+    transactionNumber: '54326',
+    identificationNumber: '5555666777',
+    fullName: 'Ana Gutierrez',
+    createdAt: '18/01/2025 11:15',
+    updatedAt: '18/01/2025 11:20',
+    status: 'Activo',
+    selected: false
   }
 ])
 
@@ -574,11 +658,84 @@ const closeSignatureModal = () => {
   showSignatureModal.value = false
 }
 
+// Pagination functions
+const goToPage = (page: number) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+  }
+}
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++
+  }
+}
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--
+  }
+}
+
+const getVisiblePages = () => {
+  const pages = []
+  const start = Math.max(1, currentPage.value - 2)
+  const end = Math.min(totalPages.value, start + 4)
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i)
+  }
+
+  return pages
+}
+
 
 
 onMounted(() => {
   startDate.value = '2025-09-01'
   endDate.value = '2025-09-26'
+})
+// Datos mínimos para el PDF
+const selectedConsent = computed(() => {
+  return consents.value.find(c => c.selected) ?? consents.value[0]
+})
+
+const datosGenerales = computed(() => {
+  const createdAt = selectedConsent.value?.createdAt ?? ''
+  const datePart = createdAt.split(' ')[0] ?? ''
+  const [dia, mes, anio] = (datePart || '').split('/')
+  return { fechaTramite: { dia, mes, anio } }
+})
+
+const solicitante = computed(() => {
+  const fullName = (selectedConsent.value?.fullName ?? '').trim()
+  const parts = fullName.split(/\s+/)
+  const primerNombre = parts[0] || ''
+  const primerApellido = parts[1] || ''
+  return {
+    tipoDocumento: undefined,
+    numeroIdentificacion: selectedConsent.value?.identificationNumber,
+    primerNombre,
+    primerApellido,
+    fechaExpedicion: undefined,
+    celular: undefined,
+    correo: undefined
+  }
+})
+
+const solicitud = computed(() => {
+  return {
+    tipoCredito: undefined,
+    ingresosMensuales: undefined,
+    otrosIngresos: undefined,
+    montoSolicitado: undefined,
+    actividadEconomica: undefined,
+    antiguedad: undefined,
+    estadoCivil: undefined,
+    nivelEducativo: undefined,
+    gastosMensuales: undefined,
+    numeroRadicacion: selectedConsent.value?.transactionNumber
+  }
 })
 </script>
 
@@ -648,42 +805,42 @@ onMounted(() => {
 /* Financial symbols */
 .dollar-sign {
   font-size: 3rem;
-  top: 15%;
-  left: 10%;
+  top: 5%;
+  left: 5%;
   animation-delay: -2s;
 }
 
 .peso-sign {
   font-size: 2.5rem;
-  top: 70%;
-  left: 85%;
+  top: 85%;
+  left: 95%;
   animation-delay: -8s;
 }
 
 .euro-sign {
   font-size: 2.8rem;
-  top: 25%;
-  left: 80%;
+  top: 5%;
+  left: 95%;
   animation-delay: -15s;
 }
 
 /* Data visualization elements */
 .chart-bar {
-  top: 60%;
-  left: 15%;
+  top: 85%;
+  left: 25%;
   animation-delay: -5s;
   font-size: 1.5rem;
 }
 
 .trend-up {
-  top: 20%;
-  left: 70%;
+  top: 25%;
+  left: 50%;
   animation-delay: -12s;
   font-size: 1.8rem;
 }
 
 .pie-chart {
-  top: 75%;
+  top: 85%;
   left: 75%;
   animation-delay: -18s;
   font-size: 1.6rem;
@@ -691,15 +848,15 @@ onMounted(() => {
 
 /* Transaction elements */
 .card-icon {
-  top: 40%;
+  top: 65%;
   left: 5%;
   animation-delay: -3s;
   font-size: 1.4rem;
 }
 
 .transfer-icon {
-  top: 80%;
-  left: 20%;
+  top: 85%;
+  left: 50%;
   animation-delay: -10s;
   font-size: 1.3rem;
 }
@@ -710,26 +867,26 @@ onMounted(() => {
 }
 
 .data-point:nth-child(10) {
-  top: 30%;
+  top: 45%;
   left: 25%;
   animation-delay: -1s;
 }
 
 .data-point:nth-child(11) {
-  top: 55%;
-  left: 90%;
+  top: 65%;
+  left: 75%;
   animation-delay: -7s;
 }
 
 .data-point:nth-child(12) {
-  top: 85%;
-  left: 50%;
+  top: 65%;
+  left: 95%;
   animation-delay: -14s;
 }
 
 .data-point:nth-child(13) {
-  top: 10%;
-  left: 45%;
+  top: 25%;
+  left: 25%;
   animation-delay: -9s;
 }
 
@@ -741,49 +898,49 @@ onMounted(() => {
 
 .number:nth-child(14) {
   top: 45%;
-  left: 92%;
+  left: 75%;
   animation-delay: -4s;
 }
 
 .number:nth-child(15) {
-  top: 65%;
-  left: 8%;
+  top: 45%;
+  left: 5%;
   animation-delay: -11s;
 }
 
 .number:nth-child(16) {
-  top: 15%;
-  left: 55%;
+  top: 5%;
+  left: 75%;
   animation-delay: -16s;
 }
 
 .number:nth-child(17) {
-  top: 90%;
-  left: 65%;
+  top: 65%;
+  left: 50%;
   animation-delay: -6s;
 }
 
 .number:nth-child(18) {
-  top: 35%;
-  left: 88%;
+  top: 25%;
+  left: 75%;
   animation-delay: -13s;
 }
 
 .number:nth-child(19) {
-  top: 50%;
-  left: 3%;
+  top: 45%;
+  left: 95%;
   animation-delay: -2s;
 }
 
 .number:nth-child(20) {
   top: 5%;
-  left: 30%;
+  left: 25%;
   animation-delay: -17s;
 }
 
 .number:nth-child(21) {
-  top: 95%;
-  left: 40%;
+  top: 65%;
+  left: 25%;
   animation-delay: -9s;
 }
 
@@ -796,15 +953,15 @@ onMounted(() => {
 }
 
 .wallet-icon {
-  top: 65%;
-  left: 95%;
+  top: 45%;
+  left: 50%;
   animation-delay: -11s;
   font-size: 1.4rem;
 }
 
 .analytics-icon {
-  top: 45%;
-  left: 75%;
+  top: 25%;
+  left: 95%;
   animation-delay: -7s;
   font-size: 1.6rem;
 }
@@ -817,29 +974,29 @@ onMounted(() => {
 }
 
 .shield-icon {
-  top: 10%;
-  left: 75%;
+  top: 5%;
+  left: 50%;
   animation-delay: -1s;
   font-size: 1.4rem;
 }
 
 .lock-icon {
-  top: 35%;
-  left: 15%;
+  top: 65%;
+  left: 25%;
   animation-delay: -8s;
   font-size: 1.2rem;
 }
 
 .target-icon {
-  top: 75%;
-  left: 30%;
+  top: 65%;
+  left: 75%;
   animation-delay: -16s;
   font-size: 1.5rem;
 }
 
 .users-icon {
-  top: 55%;
-  left: 60%;
+  top: 25%;
+  left: 50%;
   animation-delay: -5s;
   font-size: 1.4rem;
 }
@@ -880,6 +1037,323 @@ onMounted(() => {
   left: 60%;
   animation-delay: -18s;
 }
+
+/* New financial and business icons */
+.bitcoin-icon {
+  font-size: 2rem;
+  top: 30%;
+  left: 92%;
+  animation-delay: -3s;
+}
+
+.percentage-icon {
+  font-size: 1.8rem;
+  top: 12%;
+  left: 25%;
+  animation-delay: -11s;
+}
+
+.line-chart {
+  top: 65%;
+  left: 68%;
+  animation-delay: -6s;
+  font-size: 1.4rem;
+}
+
+.calculator-icon {
+  top: 88%;
+  left: 12%;
+  animation-delay: -19s;
+  font-size: 1.3rem;
+}
+
+/* New diverse financial icons */
+.yen-icon {
+  font-size: 2.2rem;
+  top: 55%;
+  left: 2%;
+  animation-delay: -21s;
+}
+
+.pound-icon {
+  font-size: 2rem;
+  top: 8%;
+  left: 88%;
+  animation-delay: -15s;
+}
+
+.crypto-icon {
+  font-size: 1.9rem;
+  top: 92%;
+  left: 88%;
+  animation-delay: -5s;
+}
+
+/* Tech and digital icons */
+.blockchain-icon {
+  top: 38%;
+  left: 3%;
+  animation-delay: -17s;
+  font-size: 1.4rem;
+}
+
+.network-icon {
+  top: 15%;
+  left: 65%;
+  animation-delay: -23s;
+  font-size: 1.5rem;
+}
+
+.database-icon {
+  top: 78%;
+  left: 88%;
+  animation-delay: -12s;
+  font-size: 1.3rem;
+}
+
+/* Investment and growth icons */
+.growth-icon {
+  top: 25%;
+  left: 3%;
+  animation-delay: -18s;
+  font-size: 1.4rem;
+}
+
+/* Simple symbols */
+.diamond-icon {
+  font-size: 1.5rem;
+  top: 82%;
+  left: 35%;
+  animation-delay: -8s;
+}
+
+.star-icon {
+  font-size: 1.7rem;
+  top: 33%;
+  left: 68%;
+  animation-delay: -14s;
+}
+
+.plus-icon {
+  font-size: 2rem;
+  top: 62%;
+  left: 95%;
+  animation-delay: -22s;
+}
+
+/* Economic symbols */
+.infinity-icon {
+  font-size: 1.8rem;
+  top: 48%;
+  left: 2%;
+  animation-delay: -25s;
+}
+
+.delta-icon {
+  font-size: 1.6rem;
+  top: 18%;
+  left: 35%;
+  animation-delay: -16s;
+}
+
+.sigma-icon {
+  font-size: 1.9rem;
+  top: 85%;
+  left: 65%;
+  animation-delay: -24s;
+}
+
+/* More currency symbols */
+.won-icon {
+  font-size: 2.1rem;
+  top: 65%;
+  left: 5%;
+  animation-delay: -27s;
+}
+
+.franc-icon {
+  font-size: 1.8rem;
+  top: 85%;
+  left: 25%;
+  animation-delay: -31s;
+}
+
+.lira-icon {
+  font-size: 2rem;
+  top: 45%;
+  left: 75%;
+  animation-delay: -33s;
+}
+
+.ruble-icon {
+  font-size: 1.9rem;
+  top: 45%;
+  left: 25%;
+  animation-delay: -29s;
+}
+
+/* Business and finance icons */
+.briefcase-icon {
+  top: 17%;
+  left: 8%;
+  animation-delay: -35s;
+  font-size: 1.4rem;
+}
+
+.chart-line-up {
+  top: 73%;
+  left: 45%;
+  animation-delay: -28s;
+  font-size: 1.5rem;
+}
+
+.coins-icon {
+  top: 38%;
+  left: 25%;
+  animation-delay: -32s;
+  font-size: 1.3rem;
+}
+
+/* Geometric and mathematical symbols - using grid positions */
+.triangle-icon {
+  font-size: 1.6rem;
+  top: 5%;
+  left: 75%;
+  animation-delay: -30s;
+}
+
+.square-icon {
+  font-size: 1.4rem;
+  top: 65%;
+  left: 50%;
+  animation-delay: -34s;
+}
+
+.circle-icon {
+  font-size: 1.2rem;
+  top: 85%;
+  left: 95%;
+  animation-delay: -26s;
+}
+
+.hexagon-icon {
+  font-size: 1.7rem;
+  top: 25%;
+  left: 75%;
+  animation-delay: -36s;
+}
+
+.arrow-up {
+  font-size: 1.8rem;
+  top: 25%;
+  left: 25%;
+  animation-delay: -28s;
+}
+
+.arrow-down {
+  font-size: 1.8rem;
+  top: 85%;
+  left: 75%;
+  animation-delay: -37s;
+}
+
+.equals-icon {
+  font-size: 1.5rem;
+  top: 45%;
+  left: 50%;
+  animation-delay: -33s;
+}
+
+.hash-icon {
+  font-size: 1.6rem;
+  top: 85%;
+  left: 50%;
+  animation-delay: -29s;
+}
+
+/* Tech symbols */
+.api-icon {
+  top: 27%;
+  left: 18%;
+  animation-delay: -31s;
+  font-size: 1.4rem;
+}
+
+.server-icon {
+  top: 64%;
+  left: 72%;
+  animation-delay: -35s;
+  font-size: 1.3rem;
+}
+
+.cloud-icon {
+  top: 11%;
+  left: 38%;
+  animation-delay: -32s;
+  font-size: 1.5rem;
+}
+
+/* Additional numbers positioning */
+.number:nth-child(58) {
+  top: 19%;
+  left: 72%;
+  animation-delay: -38s;
+}
+
+.number:nth-child(59) {
+  top: 83%;
+  left: 52%;
+  animation-delay: -34s;
+}
+
+.number:nth-child(60) {
+  top: 47%;
+  left: 8%;
+  animation-delay: -31s;
+}
+
+.number:nth-child(61) {
+  top: 29%;
+  left: 62%;
+  animation-delay: -36s;
+}
+
+.number:nth-child(62) {
+  top: 71%;
+  left: 18%;
+  animation-delay: -33s;
+}
+
+.number:nth-child(63) {
+  top: 9%;
+  left: 45%;
+  animation-delay: -29s;
+}
+
+.number:nth-child(64) {
+  top: 89%;
+  left: 78%;
+  animation-delay: -35s;
+}
+
+.number:nth-child(65) {
+  top: 37%;
+  left: 5%;
+  animation-delay: -32s;
+}
+
+.number:nth-child(66) {
+  top: 61%;
+  left: 92%;
+  animation-delay: -37s;
+}
+
+.number:nth-child(67) {
+  top: 14%;
+  left: 28%;
+  animation-delay: -30s;
+}
+
 
 /* Float animation */
 @keyframes float {
@@ -973,7 +1447,7 @@ onMounted(() => {
 }
 
 .continue-button {
-  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -1135,7 +1609,7 @@ onMounted(() => {
 }
 
 .search-button {
-  background: linear-gradient(21deg, rgb(186, 45, 125) 0%, rgb(186, 45, 125) 100%);
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
   color: white;
   border: none;
   padding: 10px 24px;
@@ -1151,7 +1625,7 @@ onMounted(() => {
 }
 
 .results-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .results-table {
@@ -1211,6 +1685,67 @@ onMounted(() => {
   color: #374151;
 }
 
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 30px 0;
+  padding: 0 20px;
+}
+
+.pagination-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.pagination-btn:disabled {
+  background: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.pagination-btn.active {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border-color: rgb(97, 40, 120);
+}
+
+.pagination-info {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  text-align: center;
+}
+
 .action-buttons {
   margin-top: 30px;
 }
@@ -1223,7 +1758,7 @@ onMounted(() => {
 }
 
 .info-item {
-  background: linear-gradient(21deg, rgb(186, 45, 125) 0%, rgb(186, 45, 125) 100%);
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
   border-radius: 6px;
   padding: 2px;
 }
@@ -1324,7 +1859,7 @@ onMounted(() => {
 }
 
 .modal-button {
-  background: linear-gradient(21deg, rgb(186, 45, 125) 0%, rgb(186, 45, 125) 100%);
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -1348,7 +1883,7 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  background: linear-gradient(21deg, rgb(186, 45, 125) 0%, rgb(186, 45, 125) 100%);
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
   color: white;
   border-radius: 8px 8px 0 0;
 }
@@ -1430,7 +1965,7 @@ onMounted(() => {
   width: 36px;
   height: 36px;
   border: 4px solid #e5e7eb;
-  border-top: 4px solid rgb(186, 45, 125);
+  border-top: 4px solid rgb(97, 40, 120);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

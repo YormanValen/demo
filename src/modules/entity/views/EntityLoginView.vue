@@ -370,7 +370,7 @@ captchaText.value = generateCaptcha()
   background: #f7f7f7;
   border: none;
   border-radius: 0;
-  padding: 10px 12px;
+  padding: 16px 12px;
   margin-top: 8px;
 }
 
@@ -381,20 +381,20 @@ captchaText.value = generateCaptcha()
 
 .captcha-svg {
   width: 100%;
-  height: 36px;
+  height: 48px;
 }
 
 .captcha-vector-text {
   font-family: 'Courier New', monospace;
-  font-size: 24px;
+  font-size: 28px;
   fill: none;
   stroke: #4b5563;
   /* slightly softer */
-  stroke-width: 1.8;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-dasharray: 2 3;
   /* denser dots */
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   /* tighter spacing */
 }
 
