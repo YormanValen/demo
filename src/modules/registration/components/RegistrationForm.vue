@@ -865,6 +865,55 @@ const handleConsentAnimation = () => {
   color: black;
 }
 
+/* Estilos para elementos seleccionados en el date picker */
+.v-date-picker .v-btn--active {
+  background-color: #982881 !important;
+  color: white !important;
+}
+
+.v-date-picker .v-btn--active .v-btn__content {
+  color: white !important;
+}
+
+/* Estilos más específicos para el header del date picker */
+.v-date-picker .v-date-picker-header .v-btn--active {
+  background-color: #982881 !important;
+  color: white !important;
+}
+
+.v-date-picker .v-date-picker-header .v-btn--active .v-btn__content {
+  color: white !important;
+}
+
+/* Estilos para días seleccionados en el calendario */
+.v-date-picker .v-date-picker-month .v-btn--active {
+  background-color: #982881 !important;
+  color: white !important;
+}
+
+.v-date-picker .v-date-picker-month .v-btn--active .v-btn__content {
+  color: white !important;
+}
+
+/* Estilos para selectores de año */
+.v-date-picker .v-date-picker-years .v-btn--active {
+  background-color: #982881 !important;
+  color: white !important;
+}
+
+.v-date-picker .v-date-picker-years .v-btn--active .v-btn__content {
+  color: white !important;
+}
+
+/* Estilos globales para cualquier botón activo en date picker */
+.v-date-picker .v-btn.v-btn--active {
+  background-color: #982881 !important;
+}
+
+.v-date-picker .v-btn.v-btn--active .v-btn__content {
+  color: white !important;
+}
+
 
 
 .v-select__content .v-list-item:hover {
@@ -1188,6 +1237,66 @@ const handleConsentAnimation = () => {
 .consent-section {
   margin-top: 30px;
   clear: both;
+}
+</style>
+
+<style>
+/* Estilos globales para el date picker - sin scoped para mayor especificidad */
+.v-date-picker .v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker .v-btn--active .v-btn__content {
+  color: black !important;
+}
+
+.v-date-picker .v-btn--active .v-btn__overlay {
+  background-color: transparent !important;
+}
+
+.v-date-picker .v-btn--variant-text.v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker .v-btn--variant-text.v-btn--active .v-btn__content {
+  color: black !important;
+}
+
+/* Para el selector de mes y año */
+.v-date-picker-header .v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker-header .v-btn--active .v-btn__content {
+  color: black !important;
+}
+
+/* Para los días del calendario */
+.v-date-picker-month .v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker-month .v-btn--active .v-btn__content {
+  color: black !important;
+}
+
+/* Para el selector de años */
+.v-date-picker-years .v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker-years .v-btn--active .v-btn__content {
+  color: black !important;
 }
 </style>
 // Mantener el store del PDF sincronizado con los campos relevantes
