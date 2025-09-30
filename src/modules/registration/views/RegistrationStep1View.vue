@@ -283,8 +283,27 @@ function handleResize() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener('resize', handleResize)
+  // Seed basic applicant data into the PDF store if available and Pinia is active
+  try {
+    const piniaMod: any = await import('pinia')
+    if (piniaMod?.getActivePinia && piniaMod.getActivePinia()) {
+      const mod: any = await import('@/stores/formData')
+      const store = mod?.useFormDataStore ? mod.useFormDataStore() : null
+      const el: any = (window as any).selectedConsent || undefined
+      if (store && el) {
+        store.setFromRegistrationStep1({
+          tipoDocumento: el?.documentType,
+          numeroIdentificacion: el?.identificationNumber,
+          primerNombre: el?.firstName,
+          primerApellido: el?.lastName,
+          celular: el?.phone,
+          correo: el?.email,
+        })
+      }
+    }
+  } catch {}
 })
 
 onUnmounted(() => {

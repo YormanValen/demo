@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" ref="entityRootRef">
     <!-- Full Screen Animation -->
     <div class="full-screen-animation" :class="{ 'show': showMessage }">
       <!-- Animated background - always visible -->
@@ -136,104 +136,104 @@
         <!-- New financial icons -->
         <div class="floating-element bitcoin-icon">₿</div>
         <div class="floating-element percentage-icon">%</div>
-        
+
         <!-- New chart icons -->
         <div class="floating-element line-chart">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M3 20L9 14L13 18L21 10" stroke="currentColor" stroke-width="2"/>
+            <path d="M3 20L9 14L13 18L21 10" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <div class="floating-element calculator-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
-            <rect x="8" y="6" width="8" height="2" fill="currentColor"/>
-            <rect x="8" y="10" width="2" height="2" fill="currentColor"/>
-            <rect x="12" y="10" width="2" height="2" fill="currentColor"/>
-            <rect x="8" y="14" width="2" height="2" fill="currentColor"/>
-            <rect x="12" y="14" width="2" height="2" fill="currentColor"/>
+            <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2" />
+            <rect x="8" y="6" width="8" height="2" fill="currentColor" />
+            <rect x="8" y="10" width="2" height="2" fill="currentColor" />
+            <rect x="12" y="10" width="2" height="2" fill="currentColor" />
+            <rect x="8" y="14" width="2" height="2" fill="currentColor" />
+            <rect x="12" y="14" width="2" height="2" fill="currentColor" />
           </svg>
         </div>
-        
+
         <!-- New diverse financial icons -->
         <div class="floating-element yen-icon">¥</div>
         <div class="floating-element pound-icon">£</div>
         <div class="floating-element crypto-icon">₹</div>
-        
+
         <!-- Tech and digital icons -->
         <div class="floating-element blockchain-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="3" width="6" height="6" stroke="currentColor" stroke-width="2"/>
-            <rect x="15" y="3" width="6" height="6" stroke="currentColor" stroke-width="2"/>
-            <rect x="3" y="15" width="6" height="6" stroke="currentColor" stroke-width="2"/>
-            <rect x="15" y="15" width="6" height="6" stroke="currentColor" stroke-width="2"/>
-            <path d="M9 6H15M9 18H15M6 9V15M18 9V15" stroke="currentColor" stroke-width="2"/>
+            <rect x="3" y="3" width="6" height="6" stroke="currentColor" stroke-width="2" />
+            <rect x="15" y="3" width="6" height="6" stroke="currentColor" stroke-width="2" />
+            <rect x="3" y="15" width="6" height="6" stroke="currentColor" stroke-width="2" />
+            <rect x="15" y="15" width="6" height="6" stroke="currentColor" stroke-width="2" />
+            <path d="M9 6H15M9 18H15M6 9V15M18 9V15" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <div class="floating-element network-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="5" r="3" stroke="currentColor" stroke-width="2"/>
-            <circle cx="6" cy="19" r="3" stroke="currentColor" stroke-width="2"/>
-            <circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2"/>
-            <path d="M9 7L7 17M15 7L17 17" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="5" r="3" stroke="currentColor" stroke-width="2" />
+            <circle cx="6" cy="19" r="3" stroke="currentColor" stroke-width="2" />
+            <circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2" />
+            <path d="M9 7L7 17M15 7L17 17" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <div class="floating-element database-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" stroke-width="2"/>
-            <path d="M21 12C21 13.66 16.97 15 12 15S3 13.66 3 12" stroke="currentColor" stroke-width="2"/>
-            <path d="M3 5V19C3 20.66 7.03 22 12 22S21 20.66 21 19V5" stroke="currentColor" stroke-width="2"/>
+            <ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" stroke-width="2" />
+            <path d="M21 12C21 13.66 16.97 15 12 15S3 13.66 3 12" stroke="currentColor" stroke-width="2" />
+            <path d="M3 5V19C3 20.66 7.03 22 12 22S21 20.66 21 19V5" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <!-- Investment and growth icons -->
         <div class="floating-element growth-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" />
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" />
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <div class="floating-element diamond-icon">◆</div>
         <div class="floating-element star-icon">★</div>
         <div class="floating-element plus-icon">+</div>
-        
+
         <!-- Economic symbols -->
         <div class="floating-element infinity-icon">∞</div>
         <div class="floating-element delta-icon">Δ</div>
         <div class="floating-element sigma-icon">Σ</div>
-        
+
         <!-- More currency symbols -->
         <div class="floating-element won-icon">₩</div>
         <div class="floating-element franc-icon">₣</div>
         <div class="floating-element lira-icon">₺</div>
         <div class="floating-element ruble-icon">₽</div>
-        
+
         <!-- Business and finance icons -->
         <div class="floating-element briefcase-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="8" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
-            <path d="M8 8V6C8 4.9 8.9 4 10 4H14C15.1 4 16 4.9 16 6V8" stroke="currentColor" stroke-width="2"/>
+            <rect x="4" y="8" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2" />
+            <path d="M8 8V6C8 4.9 8.9 4 10 4H14C15.1 4 16 4.9 16 6V8" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <div class="floating-element chart-line-up">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M7 18L12 13L16 17L21 12" stroke="currentColor" stroke-width="2"/>
-            <path d="M17 12H21V16" stroke="currentColor" stroke-width="2"/>
+            <path d="M7 18L12 13L16 17L21 12" stroke="currentColor" stroke-width="2" />
+            <path d="M17 12H21V16" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <div class="floating-element coins-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
-            <path d="M16 8C18.21 8 20 9.79 20 12S18.21 16 16 16" stroke="currentColor" stroke-width="2"/>
+            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2" />
+            <path d="M16 8C18.21 8 20 9.79 20 12S18.21 16 16 16" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <!-- Geometric and mathematical symbols -->
         <div class="floating-element triangle-icon">▲</div>
         <div class="floating-element square-icon">■</div>
@@ -243,33 +243,35 @@
         <div class="floating-element arrow-down">↘</div>
         <div class="floating-element equals-icon">=</div>
         <div class="floating-element hash-icon">#</div>
-        
+
         <!-- Tech symbols -->
         <div class="floating-element api-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="6" width="4" height="12" stroke="currentColor" stroke-width="2"/>
-            <rect x="10" y="2" width="4" height="20" stroke="currentColor" stroke-width="2"/>
-            <rect x="18" y="8" width="4" height="8" stroke="currentColor" stroke-width="2"/>
+            <rect x="2" y="6" width="4" height="12" stroke="currentColor" stroke-width="2" />
+            <rect x="10" y="2" width="4" height="20" stroke="currentColor" stroke-width="2" />
+            <rect x="18" y="8" width="4" height="8" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <div class="floating-element server-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="4" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2"/>
-            <rect x="2" y="10" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2"/>
-            <rect x="2" y="16" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2"/>
-            <circle cx="6" cy="6" r="1" fill="currentColor"/>
-            <circle cx="6" cy="12" r="1" fill="currentColor"/>
-            <circle cx="6" cy="18" r="1" fill="currentColor"/>
+            <rect x="2" y="4" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2" />
+            <rect x="2" y="10" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2" />
+            <rect x="2" y="16" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2" />
+            <circle cx="6" cy="6" r="1" fill="currentColor" />
+            <circle cx="6" cy="12" r="1" fill="currentColor" />
+            <circle cx="6" cy="18" r="1" fill="currentColor" />
           </svg>
         </div>
-        
+
         <div class="floating-element cloud-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M17.5 19H9C6.79 19 5 17.21 5 15C5 13.07 6.5 11.45 8.5 11.1C9.24 8.35 11.92 6.5 15 6.5C18.59 6.5 21.5 9.41 21.5 13C21.5 13.28 21.45 13.54 21.39 13.8C22.32 14.36 23 15.35 23 16.5C23 18.43 21.43 20 19.5 20H17.5" stroke="currentColor" stroke-width="2"/>
+            <path
+              d="M17.5 19H9C6.79 19 5 17.21 5 15C5 13.07 6.5 11.45 8.5 11.1C9.24 8.35 11.92 6.5 15 6.5C18.59 6.5 21.5 9.41 21.5 13C21.5 13.28 21.45 13.54 21.39 13.8C22.32 14.36 23 15.35 23 16.5C23 18.43 21.43 20 19.5 20H17.5"
+              stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
-        
+
         <!-- More numbers and percentages -->
         <div class="floating-element number">3.7K</div>
         <div class="floating-element number">99%</div>
@@ -281,7 +283,7 @@
         <div class="floating-element number">-5.2%</div>
         <div class="floating-element number">456K</div>
         <div class="floating-element number">+99%</div>
-        
+
         <!-- More data symbols -->
         <div class="floating-element data-point">●</div>
         <div class="floating-element data-point">●</div>
@@ -431,13 +433,10 @@
         <div class="action-buttons">
           <div class="info-buttons">
             <div class="info-item">
-              <DesmaterializedFormPdf
-                :datos-generales="datosGenerales"
-                :solicitante="solicitante"
+              <DesmaterializedFormPdf :datos-generales="datosGenerales" :solicitante="solicitante"
                 :solicitud="solicitud"
                 :descargar-nombre="`FormularioDesmaterializado_${selectedConsent?.identificationNumber || ''}.pdf`"
-                label="📄 Formulario desmaterializado"
-              />
+                label="📄 Formulario desmaterializado" @pdf-ready="onPdfReady" />
             </div>
 
             <div class="info-item">
@@ -487,12 +486,39 @@
           </div>
         </div>
       </div>
+
+      <!-- PDF Preview Modal -->
+      <div v-if="showPdfModal" class="modal-overlay" @click="closePdfModal">
+        <div class="pdf-modal" @click.stop>
+          <div class="modal-header">
+            <h3>Formulario desmaterializado</h3>
+            <div class="zoom-controls">
+              <button class="zoom-btn" @click="zoomOut" :disabled="scale <= minScale">-</button>
+              <span class="zoom-label">{{ Math.round(scale * 100) }}%</span>
+              <button class="zoom-btn" @click="zoomIn" :disabled="scale >= maxScale">+</button>
+            </div>
+            <button class="modal-close" @click="closePdfModal">✕</button>
+          </div>
+          <div class="pdf-container">
+            <div v-if="pdfIsLoading" class="loading">
+              <div class="loading-spinner" />
+              <span>Cargando documento…</span>
+            </div>
+            <div v-else class="pages" ref="pagesRef">
+              <div v-for="page in pageNumbers" :key="page" class="page-wrapper">
+                <canvas :ref="registerCanvas(page)" class="pdf-canvas"></canvas>
+                <div class="page-index">Página {{ page }} / {{ pageCount }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import * as pdfjsLib from 'pdfjs-dist'
 // Use worker via URL so Vite resolves it correctly
@@ -511,6 +537,115 @@ const startDate = ref('2025-09-01')
 const endDate = ref('2025-09-26')
 const showSignatureModal = ref(false)
 const showMessage = ref(false)
+
+// PDF Viewer state
+const showPdfModal = ref(false)
+const pdfIsLoading = ref(false)
+const pageCount = ref(0)
+const scale = ref(1.0)
+const minScale = 0.6
+const maxScale = 3.0
+const pagesRef = ref<HTMLElement | null>(null)
+let pdfDoc: any = null
+const canvasMap = new Map<number, HTMLCanvasElement>()
+// Entorno del visor
+const entityRootRef = ref<HTMLElement | null>(null)
+const isTabletEnv = ref(false)
+const isFullEnv = ref(false)
+const overlayEntered = ref(false)
+const registerCanvas = (page: number) => (el: any) => {
+  const canvas = el as HTMLCanvasElement | null
+  if (canvas) canvasMap.set(page, canvas)
+  else canvasMap.delete(page)
+}
+
+const pageNumbers = computed(() => Array.from({ length: pageCount.value }, (_, i) => i + 1))
+
+async function renderPage(pageNumber: number) {
+  if (!pdfDoc) return
+  const page = await pdfDoc.getPage(pageNumber)
+  const viewport = page.getViewport({ scale: scale.value })
+  const canvas = canvasMap.get(pageNumber)
+  if (!canvas) return
+  const context = canvas.getContext('2d')
+  if (!context) return
+  const dpr = window.devicePixelRatio || 1
+  // Ajustar tamaño interno (buffer) y tamaño visible CSS
+  canvas.width = Math.max(1, Math.floor(viewport.width * dpr))
+  canvas.height = Math.max(1, Math.floor(viewport.height * dpr))
+  canvas.style.width = `${Math.max(1, Math.floor(viewport.width))}px`
+  canvas.style.height = `${Math.max(1, Math.floor(viewport.height))}px`
+  context.setTransform(1, 0, 0, 1, 0, 0)
+  context.clearRect(0, 0, canvas.width, canvas.height)
+  const renderContext = { canvasContext: context, viewport, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : undefined }
+  await page.render(renderContext).promise
+}
+
+async function renderAllPages() {
+  if (!pdfDoc) return
+  for (let p = 1; p <= pageCount.value; p++) {
+    // eslint-disable-next-line no-await-in-loop
+    await renderPage(p)
+  }
+}
+
+async function onPdfReady(payload: { blob: Blob, url: string, nombre: string }) {
+  showPdfModal.value = true
+  pdfIsLoading.value = true
+  try {
+    // Detectar entorno (por si se quiere usar luego), pero la escala por defecto será 250%
+    try {
+      const root = entityRootRef.value
+      isTabletEnv.value = !!root?.closest('.tablet, .tablet__content, .is-tablet')
+      isFullEnv.value = !!document.querySelector('.frame-container.full-mode, .app-container.full-mode')
+    } catch { }
+    // Escala inicial por defecto: 250%
+    scale.value = 2.5
+
+    const arrayBuffer = await payload.blob.arrayBuffer()
+    const loadingTask = pdfjsLib.getDocument({
+      data: arrayBuffer,
+      cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
+      cMapPacked: true,
+      standardFontDataUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/standard_fonts/',
+      verbosity: 0,
+    })
+    pdfDoc = await loadingTask.promise
+    pageCount.value = pdfDoc.numPages || 0
+    // Esperar a que el DOM pinte canvases
+    const waitForCanvasRefs = async (tries = 10) => {
+      for (let i = 0; i < tries; i++) {
+        await nextTick()
+        await new Promise((r) => requestAnimationFrame(() => r(undefined)))
+        if (canvasMap.size >= pageCount.value) break
+      }
+    }
+    overlayEntered.value = true
+    await waitForCanvasRefs()
+    await maybeRenderInitialPages()
+  } finally {
+    pdfIsLoading.value = false
+  }
+}
+
+async function zoomIn() { if (scale.value < maxScale) { scale.value = +(Math.min(maxScale, scale.value + 0.1).toFixed(2)); await renderAllPages() } }
+async function zoomOut() { if (scale.value > minScale) { scale.value = +(Math.max(minScale, scale.value - 0.1).toFixed(2)); await renderAllPages() } }
+function closePdfModal() { showPdfModal.value = false; pdfDoc = null; canvasMap.clear(); pageCount.value = 0 }
+
+
+async function maybeRenderInitialPages() {
+  if (!overlayEntered.value || !pdfDoc) return
+  await nextTick()
+  await renderAllPages()
+  // Segundo pase para asegurar nitidez tras layout
+  await new Promise((r) => requestAnimationFrame(() => r(undefined)))
+  await renderAllPages()
+}
+
+function handleResize() {
+  if (!showPdfModal.value) return
+  renderAllPages().catch(() => { })
+}
 
 // Pagination variables
 const currentPage = ref(1)
@@ -694,6 +829,10 @@ const getVisiblePages = () => {
 onMounted(() => {
   startDate.value = '2025-09-01'
   endDate.value = '2025-09-26'
+  window.addEventListener('resize', handleResize)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
 })
 // Datos mínimos para el PDF
 const selectedConsent = computed(() => {
@@ -1997,6 +2136,7 @@ const solicitud = computed(() => {
   width: 100%;
   height: auto;
   display: block;
+  background: #fff;
 }
 
 .page-index {
