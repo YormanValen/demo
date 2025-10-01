@@ -1,10 +1,9 @@
 <template>
   <div class="entity-dashboard">
-    <div class="content-header">
-      <h1 class="page-title">Revocación de Consentimientos</h1>
-    </div>
-
     <div class="dashboard-content">
+      <div class="content-header">
+        <h1 class="page-title">Revocación de Consentimientos</h1>
+      </div>
       <div class="pasarela-section">
         <div class="pasarela-selector">
           <label>Entidad:</label>
@@ -48,29 +47,29 @@
       <div class="results-section">
         <div class="results-table">
           <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Correo Electrónico</th>
-              <th>Fecha de Revocación</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="revocation in revocations" :key="revocation.id">
-              <td>{{ revocation.id }}</td>
-              <td>{{ revocation.name }}</td>
-              <td>{{ revocation.email }}</td>
-              <td>{{ revocation.revocationDate }}</td>
-              <td>
-                <button class="process-button" @click="processRevocation(revocation.id)">
-                  Procesar
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
+                <th>Fecha de Revocación</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="revocation in revocations" :key="revocation.id">
+                <td>{{ revocation.id }}</td>
+                <td>{{ revocation.name }}</td>
+                <td>{{ revocation.email }}</td>
+                <td>{{ revocation.revocationDate }}</td>
+                <td>
+                  <button class="process-button" @click="processRevocation(revocation.id)">
+                    Procesar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -97,7 +96,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -159,6 +157,12 @@ const revocations = ref([
     name: 'Santiago Ramos',
     email: 'santiago.ramos@example.com',
     revocationDate: '14/04/2024 15:07:41'
+  },
+  {
+    id: 1010,
+    name: 'Patricia Vargas',
+    email: 'patricia.vargas@example.com',
+    revocationDate: '14/04/2024 17:22:15'
   }
 ])
 
@@ -210,8 +214,8 @@ const getVisiblePages = () => {
 
 <style scoped>
 .entity-dashboard {
-  width: 100%;
-  max-width: 1400px;
+  width: 80%;
+  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -231,7 +235,7 @@ const getVisiblePages = () => {
   border-radius: 8px;
   padding: 30px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  max-width: 1400px;
+  max-width: 1000px;
   margin: 0 auto;
   width: 100%;
 }

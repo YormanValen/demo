@@ -317,11 +317,10 @@
     </div>
 
     <div class="entity-dashboard">
-      <div class="content-header">
-        <h1 class="page-title">Consent as a Service</h1>
-      </div>
-
       <div class="dashboard-content">
+        <div class="content-header">
+          <h1 class="page-title">Consent as a Service</h1>
+        </div>
         <div class="pasarela-section">
           <div class="pasarela-selector">
             <label>Entidad:</label>
@@ -457,9 +456,10 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Electronic Signature Modal -->
-      <div v-if="showSignatureModal" class="modal-overlay" @click="closeSignatureModal">
+    <!-- Electronic Signature Modal -->
+    <div v-if="showSignatureModal" class="modal-overlay" @click="closeSignatureModal">
         <div class="modal-content" @click.stop>
           <div class="modal-header">
             <h3>Reporte Firma Electrónica</h3>
@@ -514,7 +514,6 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -872,6 +871,56 @@ const consents = ref([
     fullName: 'Ana Gutierrez',
     createdAt: '18/01/2025 11:15',
     updatedAt: '18/01/2025 11:20',
+    status: 'Activo',
+    selected: false
+  },
+  {
+    id: 6,
+    transactionNumber: '54789',
+    identificationNumber: '7788991122',
+    fullName: 'Pedro Martinez',
+    createdAt: '22/01/2025 10:30',
+    updatedAt: '22/01/2025 10:35',
+    status: 'Activo',
+    selected: false
+  },
+  {
+    id: 7,
+    transactionNumber: '55012',
+    identificationNumber: '3344556677',
+    fullName: 'Laura Fernandez',
+    createdAt: '25/01/2025 14:45',
+    updatedAt: '25/01/2025 14:50',
+    status: 'Activo',
+    selected: false
+  },
+  {
+    id: 8,
+    transactionNumber: '55234',
+    identificationNumber: '9988776655',
+    fullName: 'Roberto Silva',
+    createdAt: '28/01/2025 09:15',
+    updatedAt: '28/01/2025 09:20',
+    status: 'Activo',
+    selected: false
+  },
+  {
+    id: 9,
+    transactionNumber: '55456',
+    identificationNumber: '1122334455',
+    fullName: 'Sofia Lopez',
+    createdAt: '30/01/2025 16:00',
+    updatedAt: '30/01/2025 16:05',
+    status: 'Activo',
+    selected: false
+  },
+  {
+    id: 10,
+    transactionNumber: '55678',
+    identificationNumber: '6677889900',
+    fullName: 'Miguel Torres',
+    createdAt: '02/02/2025 11:30',
+    updatedAt: '02/02/2025 11:35',
     status: 'Activo',
     selected: false
   }
@@ -1745,8 +1794,8 @@ const solicitud = computed(() => {
 
 
 .entity-dashboard {
-  width: 100%;
-  max-width: 1200px;
+  width: 90%;
+  max-width: 1000px;
   margin: 0 auto;
   position: relative;
 }
@@ -1768,9 +1817,9 @@ const solicitud = computed(() => {
   border-radius: 8px;
   padding: 30px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
-  width: 100%;
+  width: 90%;
 }
 
 .pasarela-section {

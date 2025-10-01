@@ -71,7 +71,7 @@ const hideLayout = computed(() => {
 }
 
 .header-tagline {
-  margin-bottom: 40px;
+  margin-bottom: 80px;
   margin-right: 140px;
   color: rgba(255, 255, 255, 0.822);
   font-size: 20px;
@@ -89,6 +89,13 @@ const hideLayout = computed(() => {
   padding: 10px var(--space-6);
   display: flex;
   justify-content: center;
+}
+
+/* Ensure proper centering in fullscreen mode */
+.full-mode .app-layout__content {
+  padding: 0;
+  align-items: center;
+  min-height: calc(100vh - 300px);
 }
 
 .divider {
@@ -177,12 +184,12 @@ const hideLayout = computed(() => {
     height: 120px;
     background-size: cover;
   }
-  
+
   .header-content {
     padding: 0 20px;
     justify-content: center;
   }
-  
+
   .header-tagline {
     margin-right: 0;
     margin-bottom: 20px;
@@ -195,11 +202,11 @@ const hideLayout = computed(() => {
   .app-layout__header {
     height: 100px;
   }
-  
+
   .header-content {
     padding: 0 15px;
   }
-  
+
   .header-tagline {
     font-size: 14px;
     margin-bottom: 15px;

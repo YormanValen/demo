@@ -221,4 +221,18 @@ const continueWithSelection = () => {
     font-size: 1.6rem;
   }
 }
+
+/* Fullscreen mode adjustments */
+.full-mode .experience-selection-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 300px);
+  padding: 40px 20px;
+}
+
+.full-mode .selection-container {
+  max-width: 800px;
+  width: 100%;
+}
 </style>

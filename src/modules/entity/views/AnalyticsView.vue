@@ -1,15 +1,14 @@
 <template>
   <div class="entity-dashboard">
-    <div class="content-header">
-      <h1 class="page-title">Estadísticas</h1>
-      <div class="date-range">
-        <span>Fecha inicial: 2025-09-01</span>
-        <span>Experian CaaS (EXPERIAN)</span>
-        <span>Fecha Final: 2025-09-26</span>
+    <div class="dashboard-content">
+      <div class="content-header">
+        <h1 class="page-title">Estadísticas</h1>
+        <div class="date-range">
+          <span>Fecha inicial: 2025-09-01</span>
+          <span>Experian CaaS (EXPERIAN)</span>
+          <span>Fecha Final: 2025-09-26</span>
+        </div>
       </div>
-    </div>
-      
-      <div class="dashboard-content">
         <div class="analytics-section">
           <h2 class="section-title">Estado final transacciones</h2>
           
@@ -315,7 +314,7 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
   </div>
 </template>
 
