@@ -277,13 +277,19 @@ const handleContinue = () => {
       })
       // Navegar cuando termina el cierre
       setTimeout(() => {
-        router.push({ name: 'entity-transactional-insights-bank-selection' })
+        router.push({ 
+          name: 'entity-transactional-insights-bank-selection',
+          query: { fromBankTable: 'true' }
+        })
         // limpiar estado por seguridad
         setTimeout(() => { reveal.value.active = false; exiting.value = false }, 50)
       }, 900)
     }, 180)
   } else {
-    router.push({ name: 'entity-transactional-insights-bank-selection' })
+    router.push({ 
+      name: 'entity-transactional-insights-bank-selection',
+      query: { fromBankTable: 'true' }
+    })
   }
 }
 
