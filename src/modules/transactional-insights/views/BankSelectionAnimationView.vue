@@ -41,8 +41,8 @@
       <!-- Banks Container -->
       <div ref="banksContainer" class="banks-container" :class="{ 'visible': showBanks, 'fusing': fusion.active }"
         v-if="banksLoaded">
-        <div v-for="bank in displayBanks" :key="bank.id" class="bank-item"
-          :ref="el => setBankItemRef(el, bank.id)" :class="{ expanding: expandingBankId === bank.id }">
+        <div v-for="bank in displayBanks" :key="bank.id" class="bank-item" :ref="el => setBankItemRef(el, bank.id)"
+          :class="{ expanding: expandingBankId === bank.id }">
           <!-- Viewed check badge -->
           <div v-if="isViewed(bank.id)" class="viewed-check" :style="{ color: bank.bankColor }" title="Visto">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -107,16 +107,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, nextTick, watch } from 'vue'
+import { ref, onMounted, computed, nextTick } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 // Logo imports
 import neodigiBankLogo from '@/assets/logos/neodigi-bank-logo.png'
 import tekcreditLogo from '@/assets/logos/tekcredit-logo.png'
 import flexfiniaLogo from '@/assets/logos/flexfinia-logo.png'
 
-// Router
+// Router and route
 const router = useRouter()
+const route = useRoute()
 
 // Animation variables
 const showBanks = ref(false)
@@ -192,21 +193,6 @@ const nextBankToView = computed(() => {
 // All banks viewed?
 const allViewed = computed(() => displayBanks.value.every(b => isViewed(b.id)))
 
-// Watchers to detect bank visibility changes in selection view
-watch(displayBanks, (newBanks) => {
-  console.log('🏪 SELECTION VIEW - Display banks changed:')
-  newBanks.forEach((bank, index) => {
-    console.log(`  ${index + 1}. ${bank.name} (ID: ${bank.id})`)
-  })
-}, { immediate: true })
-
-watch(banksLoaded, (isLoaded) => {
-  console.log('🎪 SELECTION VIEW - Banks loaded:', isLoaded)
-})
-
-watch(showBanks, (showing) => {
-  console.log('👀 SELECTION VIEW - Banks visible:', showing)
-})
 
 // Animation functions
 const showElements = async () => {
@@ -268,8 +254,8 @@ const startFusion = async () => {
     targetY = containerRect.top + containerRect.height / 2
   }
 
-  // Posición del resumen y núcleo en el punto de unión (banco central)
-  const fusionSummaryPos = { x: targetX, y: targetY }
+  // Posición del resumen y núcleo en el punto de unión (banco central) pero un poco más arriba
+  const fusionSummaryPos = { x: targetX, y: targetY - 40 }
   fusionXY.value = fusionSummaryPos
 
   // Mover cada item completo (logo + nombre + icono + check) hacia el centro y solapar
@@ -302,12 +288,14 @@ const startFusion = async () => {
   setTimeout(() => {
     fusion.value.showSummary = true
     showButton.value = true
+    // Mark fusion as completed in localStorage
+    localStorage.setItem('fusion_completed', 'true')
   }, 1180)
 }
 
 const handleContinue = () => {
-  console.log('🔄 SELECTION VIEW - Continue button clicked')
-  // Si ya se muestra el resumen, hacer zoom a HT y navegar a la vista de historial
+  ('🔄 SELECTION VIEW - Continue button clicked')
+  // Si ya se muestra el resumen, hacer zoom a HT y navegar a la console.logvista de historial
   if (fusion.value.showSummary) {
     navigateToHistoryWithReveal()
     return
@@ -328,15 +316,51 @@ const handleContinue = () => {
   }, 250)
 }
 
+// Check if we're returning from a table view (bank transaction or history)
+const isReturningFromTable = computed(() => {
+  // Check if we have fusion-related query params
+  const fromHistory = route.query.fromHistory === 'true'
+  const fromBankTable = route.query.fromBankTable === 'true'
+  return fromHistory || fromBankTable
+})
+
+// Check if fusion was already completed
+const isFusionCompleted = computed(() => {
+  return localStorage.getItem('fusion_completed') === 'true'
+})
+
 // Start animations when component mounts
 onMounted(async () => {
+  // Initialize fusion_completed to false by default
+  if (localStorage.getItem('fusion_completed') === null) {
+    localStorage.setItem('fusion_completed', 'false')
+  }
+
   // Load viewed banks state
   loadViewed()
 
   // Wait for next tick
   await nextTick()
 
-  // Mark banks as loaded (using default banks always)
+  // If returning from table view and fusion was already completed, show fusion state directly
+  if (isReturningFromTable.value && isFusionCompleted.value) {
+    banksLoaded.value = true
+    await nextTick()
+
+    // Show fusion state directly without animation
+    fusion.value.active = true
+    fusion.value.showSummary = true
+    showButton.value = true
+
+    // Position fusion summary higher up on screen (above center)
+    fusionXY.value = {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2 - 80 // Move 80px up from center
+    }
+    return
+  }
+
+  // Always show banks first, then check if we need to auto-fuse
   banksLoaded.value = true
 
   // Wait for DOM update
@@ -345,6 +369,13 @@ onMounted(async () => {
   // Start animations after a short delay
   setTimeout(async () => {
     await showElements()
+
+    // If all banks are viewed and fusion not completed yet, automatically start fusion
+    if (allViewed.value && !isFusionCompleted.value) {
+      setTimeout(() => {
+        startFusion()
+      }, 1500) // Wait for banks to fully appear before fusion
+    }
   }, 300)
 })
 
@@ -738,6 +769,7 @@ const navigateToHistoryWithReveal = () => {
     transform: translate(-50%, -30%) translateY(12px) scale(0.96);
     filter: blur(6px);
   }
+
   100% {
     opacity: 1;
     transform: translate(-50%, -30%) translateY(0) scale(1);

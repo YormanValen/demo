@@ -134,123 +134,127 @@
       <!-- New financial icons -->
       <div class="floating-element bitcoin-icon">₿</div>
       <div class="floating-element percentage-icon">%</div>
-      
+
       <!-- New chart icons -->
       <div class="floating-element line-chart">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M3 20L9 14L13 18L21 10" stroke="currentColor" stroke-width="2"/>
+          <path d="M3 20L9 14L13 18L21 10" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <div class="floating-element calculator-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
-          <rect x="8" y="6" width="8" height="2" fill="currentColor"/>
-          <rect x="8" y="10" width="2" height="2" fill="currentColor"/>
-          <rect x="12" y="10" width="2" height="2" fill="currentColor"/>
-          <rect x="8" y="14" width="2" height="2" fill="currentColor"/>
-          <rect x="12" y="14" width="2" height="2" fill="currentColor"/>
+          <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2" />
+          <rect x="8" y="6" width="8" height="2" fill="currentColor" />
+          <rect x="8" y="10" width="2" height="2" fill="currentColor" />
+          <rect x="12" y="10" width="2" height="2" fill="currentColor" />
+          <rect x="8" y="14" width="2" height="2" fill="currentColor" />
+          <rect x="12" y="14" width="2" height="2" fill="currentColor" />
         </svg>
       </div>
-      
+
       <!-- New business icons -->
       <div class="floating-element building-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M3 21H21M5 21V7L13 3L21 7V21M9 9V13M15 9V13" stroke="currentColor" stroke-width="2"/>
+          <path d="M3 21H21M5 21V7L13 3L21 7V21M9 9V13M15 9V13" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <div class="floating-element handshake-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M16 14C16 14 17.5 14 19 16S23 20 23 20M8 14C8 14 6.5 14 5 16S1 20 1 20M16 8C18 10 20 12 22 12M8 8C6 10 4 12 2 12" stroke="currentColor" stroke-width="2"/>
+          <path
+            d="M16 14C16 14 17.5 14 19 16S23 20 23 20M8 14C8 14 6.5 14 5 16S1 20 1 20M16 8C18 10 20 12 22 12M8 8C6 10 4 12 2 12"
+            stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <div class="floating-element document-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M14 3V7C14 8.1 14.9 9 16 9H20M6 3H14L20 9V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V5C4 3.9 4.9 3 6 3Z" stroke="currentColor" stroke-width="2"/>
+          <path
+            d="M14 3V7C14 8.1 14.9 9 16 9H20M6 3H14L20 9V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V5C4 3.9 4.9 3 6 3Z"
+            stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <!-- New diverse financial icons -->
       <div class="floating-element yen-icon">¥</div>
       <div class="floating-element pound-icon">£</div>
       <div class="floating-element rupee-icon">₹</div>
-      
+
       <!-- Tech and digital icons -->
       <div class="floating-element blockchain-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect x="3" y="3" width="6" height="6" stroke="currentColor" stroke-width="2"/>
-          <rect x="15" y="3" width="6" height="6" stroke="currentColor" stroke-width="2"/>
-          <rect x="3" y="15" width="6" height="6" stroke="currentColor" stroke-width="2"/>
-          <rect x="15" y="15" width="6" height="6" stroke="currentColor" stroke-width="2"/>
-          <path d="M9 6H15M9 18H15M6 9V15M18 9V15" stroke="currentColor" stroke-width="2"/>
+          <rect x="3" y="3" width="6" height="6" stroke="currentColor" stroke-width="2" />
+          <rect x="15" y="3" width="6" height="6" stroke="currentColor" stroke-width="2" />
+          <rect x="3" y="15" width="6" height="6" stroke="currentColor" stroke-width="2" />
+          <rect x="15" y="15" width="6" height="6" stroke="currentColor" stroke-width="2" />
+          <path d="M9 6H15M9 18H15M6 9V15M18 9V15" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <div class="floating-element network-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="5" r="3" stroke="currentColor" stroke-width="2"/>
-          <circle cx="6" cy="19" r="3" stroke="currentColor" stroke-width="2"/>
-          <circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2"/>
-          <path d="M9 7L7 17M15 7L17 17" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="5" r="3" stroke="currentColor" stroke-width="2" />
+          <circle cx="6" cy="19" r="3" stroke="currentColor" stroke-width="2" />
+          <circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2" />
+          <path d="M9 7L7 17M15 7L17 17" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <div class="floating-element database-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" stroke-width="2"/>
-          <path d="M21 12C21 13.66 16.97 15 12 15S3 13.66 3 12" stroke="currentColor" stroke-width="2"/>
-          <path d="M3 5V19C3 20.66 7.03 22 12 22S21 20.66 21 19V5" stroke="currentColor" stroke-width="2"/>
+          <ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" stroke-width="2" />
+          <path d="M21 12C21 13.66 16.97 15 12 15S3 13.66 3 12" stroke="currentColor" stroke-width="2" />
+          <path d="M3 5V19C3 20.66 7.03 22 12 22S21 20.66 21 19V5" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <!-- Investment and growth icons -->
       <div class="floating-element growth-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" />
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" />
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <div class="floating-element diamond-icon">◆</div>
       <div class="floating-element star-icon">★</div>
       <div class="floating-element plus-icon">+</div>
-      
+
       <!-- Economic symbols -->
       <div class="floating-element infinity-icon">∞</div>
       <div class="floating-element delta-icon">Δ</div>
       <div class="floating-element sigma-icon">Σ</div>
-      
+
       <!-- More currency symbols -->
       <div class="floating-element won-icon">₩</div>
       <div class="floating-element franc-icon">₣</div>
       <div class="floating-element lira-icon">₺</div>
       <div class="floating-element ruble-icon">₽</div>
-      
+
       <!-- Business and finance icons -->
       <div class="floating-element briefcase-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect x="4" y="8" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
-          <path d="M8 8V6C8 4.9 8.9 4 10 4H14C15.1 4 16 4.9 16 6V8" stroke="currentColor" stroke-width="2"/>
+          <rect x="4" y="8" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2" />
+          <path d="M8 8V6C8 4.9 8.9 4 10 4H14C15.1 4 16 4.9 16 6V8" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <div class="floating-element chart-line-up">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M7 18L12 13L16 17L21 12" stroke="currentColor" stroke-width="2"/>
-          <path d="M17 12H21V16" stroke="currentColor" stroke-width="2"/>
+          <path d="M7 18L12 13L16 17L21 12" stroke="currentColor" stroke-width="2" />
+          <path d="M17 12H21V16" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <div class="floating-element coins-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2"/>
-          <path d="M16 8C18.21 8 20 9.79 20 12S18.21 16 16 16" stroke="currentColor" stroke-width="2"/>
+          <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2" />
+          <path d="M16 8C18.21 8 20 9.79 20 12S18.21 16 16 16" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <!-- Geometric and mathematical symbols -->
       <div class="floating-element triangle-icon">▲</div>
       <div class="floating-element square-icon">■</div>
@@ -260,33 +264,35 @@
       <div class="floating-element arrow-down">↘</div>
       <div class="floating-element equals-icon">=</div>
       <div class="floating-element hash-icon">#</div>
-      
+
       <!-- Tech symbols -->
       <div class="floating-element api-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect x="2" y="6" width="4" height="12" stroke="currentColor" stroke-width="2"/>
-          <rect x="10" y="2" width="4" height="20" stroke="currentColor" stroke-width="2"/>
-          <rect x="18" y="8" width="4" height="8" stroke="currentColor" stroke-width="2"/>
+          <rect x="2" y="6" width="4" height="12" stroke="currentColor" stroke-width="2" />
+          <rect x="10" y="2" width="4" height="20" stroke="currentColor" stroke-width="2" />
+          <rect x="18" y="8" width="4" height="8" stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <div class="floating-element server-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <rect x="2" y="4" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2"/>
-          <rect x="2" y="10" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2"/>
-          <rect x="2" y="16" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2"/>
-          <circle cx="6" cy="6" r="1" fill="currentColor"/>
-          <circle cx="6" cy="12" r="1" fill="currentColor"/>
-          <circle cx="6" cy="18" r="1" fill="currentColor"/>
+          <rect x="2" y="4" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2" />
+          <rect x="2" y="10" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2" />
+          <rect x="2" y="16" width="20" height="4" rx="2" stroke="currentColor" stroke-width="2" />
+          <circle cx="6" cy="6" r="1" fill="currentColor" />
+          <circle cx="6" cy="12" r="1" fill="currentColor" />
+          <circle cx="6" cy="18" r="1" fill="currentColor" />
         </svg>
       </div>
-      
+
       <div class="floating-element cloud-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M17.5 19H9C6.79 19 5 17.21 5 15C5 13.07 6.5 11.45 8.5 11.1C9.24 8.35 11.92 6.5 15 6.5C18.59 6.5 21.5 9.41 21.5 13C21.5 13.28 21.45 13.54 21.39 13.8C22.32 14.36 23 15.35 23 16.5C23 18.43 21.43 20 19.5 20H17.5" stroke="currentColor" stroke-width="2"/>
+          <path
+            d="M17.5 19H9C6.79 19 5 17.21 5 15C5 13.07 6.5 11.45 8.5 11.1C9.24 8.35 11.92 6.5 15 6.5C18.59 6.5 21.5 9.41 21.5 13C21.5 13.28 21.45 13.54 21.39 13.8C22.32 14.36 23 15.35 23 16.5C23 18.43 21.43 20 19.5 20H17.5"
+            stroke="currentColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <!-- More numbers and percentages -->
       <div class="floating-element number">5.1K</div>
       <div class="floating-element number">67%</div>
@@ -298,7 +304,7 @@
       <div class="floating-element number">-3.8%</div>
       <div class="floating-element number">321K</div>
       <div class="floating-element number">+76%</div>
-      
+
       <!-- More data symbols -->
       <div class="floating-element data-point">●</div>
       <div class="floating-element data-point">●</div>
@@ -346,7 +352,7 @@ const showDescription = ref(false)
 const showButton = ref(false)
 
 const titleText = "Transactional Insights"
-const descriptionText = "nuestra solución inteligente que convierte cada transacción en una oportunidad de entender mejor a tus clientes. Diseñado con experiencia global y listo para Colombia, abre el camino al verdadero potencial del Open Finance con información clara, ágil y accionable"
+const descriptionText = "Nuestra solución inteligente que convierte cada transacción en una oportunidad de entender mejor a tus clientes. Diseñado con experiencia global y listo para Colombia, abre el camino al verdadero potencial del Open Finance con información clara, ágil y accionable."
 
 // Smooth appear animation function
 const showElements = async () => {

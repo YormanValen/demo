@@ -19,7 +19,6 @@ onMounted(() => {
 
 const deviceOptions: { key: DeviceKind; label: string }[] = [
   { key: 'full', label: 'Pantalla completa' },
-  { key: 'desktop', label: 'Escritorio' },
   { key: 'tablet', label: 'Tableta' },
 ]
 
