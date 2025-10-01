@@ -110,7 +110,10 @@
 import { ref, onMounted, computed, nextTick, watch } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import { useRouter } from 'vue-router'
-// import { useRouter } from 'vue-router'
+// Logo imports
+import neodigiBankLogo from '@/assets/logos/neodigi-bank-logo.png'
+import tekcreditLogo from '@/assets/logos/tekcredit-logo.png'
+import flexfiniaLogo from '@/assets/logos/flexfinia-logo.png'
 
 // Router
 const router = useRouter()
@@ -140,7 +143,7 @@ const defaultBanks = [
   {
     id: 1,
     name: 'Neodigi Bank',
-    logo: '/src/assets/logos/neodigi-bank-logo.png',
+    logo: neodigiBankLogo,
     bankInitials: 'ND',
     bankColor: '#1d4ed8',
     status: 'CONECTADO',
@@ -151,7 +154,7 @@ const defaultBanks = [
   {
     id: 2,
     name: 'TekCredit',
-    logo: '/src/assets/logos/tekcredit-logo.png',
+    logo: tekcreditLogo,
     bankInitials: 'TC',
     bankColor: '#dc2626',
     status: 'CONECTADO',
@@ -162,7 +165,7 @@ const defaultBanks = [
   {
     id: 3,
     name: 'Flexfinia',
-    logo: '/src/assets/logos/flexfinia-logo.png',
+    logo: flexfiniaLogo,
     bankInitials: 'FF',
     bankColor: '#059669',
     status: 'CONECTADO',
