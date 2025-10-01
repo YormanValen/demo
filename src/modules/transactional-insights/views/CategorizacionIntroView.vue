@@ -14,6 +14,12 @@
     <div class="title-container" :class="{ 'visible': showTitle }">
       <h1 class="main-title">Categorización</h1>
       <p class="subtitle">Descubra las categorías de cada transacción de gastos e ingresos</p>
+      <div class="description-container">
+        <p class="description-text">Se basa en la información proporcionada por la transacción.</p>
+        <p class="description-text">Ofrecemos 129 categorías: 107 orientadas a gastos y 22 a ingresos</p>
+        <p class="description-text highlight">Precisión de clase mundial</p>
+        <p class="description-text">Modelo de Machine Learning y categorías en constante validación y adaptación a los cambios del mercado</p>
+      </div>
     </div>
 
     <!-- Main content with table and categories -->
@@ -24,18 +30,15 @@
           <table class="transactions-table">
             <thead>
               <tr>
+                <th>Código</th>
                 <th>Clase Transacción</th>
                 <th>Descripción</th>
               </tr>
             </thead>
             <tbody>
-              <tr 
-                v-for="(transaction, index) in sampleTransactions" 
-                :key="index"
-                class="transaction-row"
-                :style="{ animationDelay: `${index * 0.1}s` }"
-                :class="{ 'visible': showTransactions }"
-              >
+              <tr v-for="(transaction, index) in sampleTransactions" :key="index" class="transaction-row"
+                :style="{ animationDelay: `${index * 0.1}s` }" :class="{ 'visible': showTransactions }">
+                <td class="transaction-code">{{ transaction.code }}</td>
                 <td class="transaction-type" :class="transaction.type">
                   {{ transaction.type === 'credit' ? 'Crédito' : 'Débito' }}
                 </td>
@@ -44,19 +47,19 @@
             </tbody>
           </table>
         </div>
-        
+
         <!-- Floating category chips -->
         <div class="category-chips-container">
-          <div 
-            v-for="(category, index) in sampleCategories" 
-            :key="index"
-            class="category-chip"
-            :style="{ 
-              top: `${index * 46 + 60}px`
-            }"
-            :class="{ 'visible': visibleCategoryIndices.has(index) }"
-          >
-            <div class="category-text">{{ category.text }}</div>
+          <div v-for="(category, index) in sampleCategories" :key="index" class="category-item-wrapper" :style="{
+            top: `${index * 46 + 60}px`
+          }" :class="{ 'visible': visibleCategoryIndices.has(index) }">
+            <div class="arrow-icon">→</div>
+            <div class="category-chip">
+              <div class="category-text">
+                <span class="category-code">{{ category.text.split(':')[0] }}</span>:
+                <span class="category-desc">{{ category.text.split(':').slice(1).join(':') }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -77,36 +80,38 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+
 // Animation states
 const showTitle = ref(false)
 const showTable = ref(false)
 const showTransactions = ref(false)
-const showCategories = ref(false)
 const showButton = ref(false)
 const visibleCategoryIndices = ref<Set<number>>(new Set())
 
-// Sample transaction data (20 records)
+// Sample transaction data (22 records)
 const sampleTransactions = [
-  { type: 'debit', description: 'Compra en supermercado Metro' },
-  { type: 'credit', description: 'Depósito salario empresa' },
-  { type: 'debit', description: 'Pago restaurante La Pampa' },
-  { type: 'credit', description: 'Transferencia recibida' },
-  { type: 'debit', description: 'Compra gasolinera Shell' },
-  { type: 'debit', description: 'Pago farmacia Cruz Verde' },
-  { type: 'credit', description: 'Bonificación adicional' },
-  { type: 'debit', description: 'Compra tienda Éxito' },
-  { type: 'debit', description: 'Pago servicios públicos' },
-  { type: 'credit', description: 'Devolución compra online' },
-  { type: 'debit', description: 'Compra ropa Falabella' },
-  { type: 'debit', description: 'Pago transporte público' },
-  { type: 'credit', description: 'Intereses cuenta ahorros' },
-  { type: 'debit', description: 'Compra medicamentos' },
-  { type: 'debit', description: 'Pago gimnasio mensual' },
-  { type: 'credit', description: 'Venta producto usado' },
-  { type: 'debit', description: 'Compra comida rápida' },
-  { type: 'debit', description: 'Pago telefonía móvil' },
-  { type: 'credit', description: 'Reembolso seguro' },
-  { type: 'debit', description: 'Compra libros librería' }
+  { code: 'TXN001', type: 'debit', description: 'Compra en supermercado Metro' },
+  { code: 'TXN002', type: 'credit', description: 'Depósito salario empresa' },
+  { code: 'TXN003', type: 'debit', description: 'Pago restaurante La Pampa' },
+  { code: 'TXN004', type: 'credit', description: 'Transferencia recibida' },
+  { code: 'TXN005', type: 'debit', description: 'Compra gasolinera Shell' },
+  { code: 'TXN006', type: 'debit', description: 'Pago farmacia Cruz Verde' },
+  { code: 'TXN007', type: 'credit', description: 'Bonificación adicional' },
+  { code: 'TXN008', type: 'debit', description: 'Compra tienda Éxito' },
+  { code: 'TXN009', type: 'debit', description: 'Pago servicios públicos' },
+  { code: 'TXN010', type: 'credit', description: 'Devolución compra online' },
+  { code: 'TXN011', type: 'debit', description: 'Compra ropa Falabella' },
+  { code: 'TXN012', type: 'debit', description: 'Pago transporte público' },
+  { code: 'TXN013', type: 'credit', description: 'Intereses cuenta ahorros' },
+  { code: 'TXN014', type: 'debit', description: 'Compra medicamentos' },
+  { code: 'TXN015', type: 'debit', description: 'Pago gimnasio mensual' },
+  { code: 'TXN016', type: 'credit', description: 'Venta producto usado' },
+  { code: 'TXN017', type: 'debit', description: 'Compra comida rápida' },
+  { code: 'TXN018', type: 'debit', description: 'Pago telefonía móvil' },
+  { code: 'TXN019', type: 'credit', description: 'Reembolso seguro' },
+  { code: 'TXN020', type: 'debit', description: 'Compra libros librería' },
+  { code: 'TXN021', type: 'credit', description: 'Pago freelance proyecto' },
+  { code: 'TXN022', type: 'debit', description: 'Compra productos limpieza' }
 ]
 
 // Sample category data
@@ -130,7 +135,9 @@ const sampleCategories = [
   { text: 'EXP-ENT-003: Comida rápida' },
   { text: 'EXP-TEC-001: Telefonía' },
   { text: 'INC-SEG-001: Seguros' },
-  { text: 'EXP-EDU-001: Educación' }
+  { text: 'EXP-EDU-001: Educación' },
+  { text: 'INC-LAB-002: Trabajos independientes' },
+  { text: 'EXP-HOG-001: Productos hogar' }
 ]
 
 // Start title animation
@@ -149,16 +156,16 @@ const animateCategoriesSequentially = async () => {
         resolve()
         return
       }
-      
+
       // Add current category to visible set
       visibleCategoryIndices.value.add(index)
-      
+
       // Wait for animation to complete (800ms) before starting next one
       setTimeout(() => {
         animateNextCategory(index + 1)
       }, 800)
     }
-    
+
     // Start with first category
     animateNextCategory(0)
   })
@@ -186,20 +193,18 @@ const startContentAnimations = async () => {
 
 // Handle continue button click
 const handleContinue = () => {
-  // Navigate to next view (to be determined)
-  console.log('Navigating to next categorization view...')
-  // router.push({ name: 'next-view-name' })
+  router.push({ name: 'entity-transactional-insights-agregados-categorizacion' })
 }
 
 // Start animations on mount
 onMounted(async () => {
   await nextTick()
-  
+
   // Wait a moment before starting
   setTimeout(async () => {
     // Start title animation
     await startTitleAnimation()
-    
+
     // Start content animations
     await startContentAnimations()
   }, 300)
@@ -299,10 +304,13 @@ onMounted(async () => {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
     opacity: 0.15;
   }
+
   50% {
     transform: translateY(-10px) rotate(0.5deg);
     opacity: 0.25;
@@ -341,9 +349,32 @@ onMounted(async () => {
   font-size: 1.2rem;
   color: #6b7280;
   text-align: center;
-  margin: 0;
+  margin: 0 0 20px 0;
   font-weight: 400;
   line-height: 1.5;
+}
+
+.description-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.description-text {
+  font-size: 1rem;
+  color: #4b5563;
+  text-align: center;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.description-text.highlight {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #1f2937;
 }
 
 /* Content layout */
@@ -429,10 +460,18 @@ onMounted(async () => {
   vertical-align: middle;
 }
 
+.transaction-code {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #6b7280;
+  width: 15%;
+  font-size: 0.8rem;
+}
+
 .transaction-type {
   font-weight: 600;
   font-family: 'Courier New', monospace;
-  width: 30%;
+  width: 25%;
 }
 
 .transaction-type.credit {
@@ -445,7 +484,7 @@ onMounted(async () => {
 
 .transaction-description {
   color: #4b5563;
-  width: 70%;
+  width: 60%;
 }
 
 /* Category chips floating to the right */
@@ -458,7 +497,7 @@ onMounted(async () => {
   pointer-events: none;
 }
 
-.category-chip {
+.category-item-wrapper {
   position: absolute;
   left: 0;
   right: 0;
@@ -466,6 +505,16 @@ onMounted(async () => {
   transform: translateX(-50px);
   animation: slideInChip 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   animation-play-state: paused;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-item-wrapper.visible {
+  animation-play-state: running;
+}
+
+.category-chip {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 8px;
@@ -477,10 +526,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-}
-
-.category-chip.visible {
-  animation-play-state: running;
+  flex: 1;
 }
 
 @keyframes slideInChip {
@@ -490,11 +536,30 @@ onMounted(async () => {
   }
 }
 
+.arrow-icon {
+  font-size: 2rem;
+  margin-left: -25px;
+  color: #059669;
+  font-weight: 600;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
 .category-text {
   font-size: 0.8rem;
   color: #374151;
   line-height: 1.3;
   font-weight: 500;
+}
+
+.category-code {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.category-desc {
+  font-weight: 500;
+  color: #374151;
 }
 
 /* Continue Button */
@@ -538,26 +603,26 @@ onMounted(async () => {
   .main-title {
     font-size: 2.5rem;
   }
-  
+
   .table-wrapper {
     width: 55%;
   }
-  
+
   .category-chips-container {
     left: 60%;
     width: 40%;
   }
-  
+
   .transactions-table th,
   .transactions-table td {
     padding: 12px 14px;
     font-size: 0.85rem;
   }
-  
+
   .category-text {
     font-size: 0.75rem;
   }
-  
+
   .category-chip {
     padding: 8px 12px;
   }
@@ -567,43 +632,55 @@ onMounted(async () => {
   .categorizacion-intro-container {
     padding: 15px;
   }
-  
+
   .main-title {
     font-size: 2.2rem;
     letter-spacing: 0.5px;
   }
-  
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .description-text {
+    font-size: 0.9rem;
+  }
+
+  .description-text.highlight {
+    font-size: 1rem;
+  }
+
   .content-layout {
     gap: 25px;
   }
-  
+
   .table-wrapper {
     width: 100%;
   }
-  
+
   .category-chips-container {
     position: relative;
     left: 0;
     width: 100%;
     margin-top: 20px;
   }
-  
+
   .category-chip {
     position: relative;
     margin-bottom: 10px;
     top: auto !important;
   }
-  
+
   .transactions-table th,
   .transactions-table td {
     padding: 10px 12px;
     font-size: 0.8rem;
   }
-  
+
   .category-text {
     font-size: 0.7rem;
   }
-  
+
   .continue-button {
     padding: 14px 30px;
     font-size: 1.1rem;
@@ -614,21 +691,21 @@ onMounted(async () => {
   .main-title {
     font-size: 1.8rem;
   }
-  
+
   .transactions-table th,
   .transactions-table td {
     padding: 8px 10px;
     font-size: 0.75rem;
   }
-  
+
   .category-chip {
     padding: 6px 10px;
   }
-  
+
   .category-text {
     font-size: 0.65rem;
   }
-  
+
   .continue-button {
     padding: 12px 25px;
     font-size: 1rem;

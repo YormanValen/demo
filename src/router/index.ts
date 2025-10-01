@@ -205,6 +205,18 @@ const routes: RouteRecordRaw[] = [
     name: 'entity-transactional-insights-categorizacion-intro',
     component: () => import('../modules/transactional-insights/views/CategorizacionIntroView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/agregados-categorizacion',
+    name: 'entity-transactional-insights-agregados-categorizacion',
+    component: () => import('../modules/transactional-insights/views/AgregadosCategorizacionView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/submenu',
+    name: 'entity-transactional-insights-submenu',
+    component: () => import('../modules/transactional-insights/views/TransactionalInsightsSubmenuView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 

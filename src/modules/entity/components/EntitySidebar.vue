@@ -66,17 +66,17 @@ const handleTransactionalInsightsClick = async () => {
 const menuItems = [
   {
     path: '/entity/dashboard',
-    label: 'Visualizar consentimientos',
+    label: 'Visualizar Consentimientos',
     icon: 'ViewIcon'
   },
   {
     path: '/entity/consent-revocation',
-    label: 'Revocación de consentimientos',
+    label: 'Revocación de Consentimientos',
     icon: 'RevokeIcon'
   },
   {
     path: '/entity/analytics',
-    label: 'Estadísticas',
+    label: 'Tableros de Control',
     icon: 'AnalyticsIcon'
   },
   {
