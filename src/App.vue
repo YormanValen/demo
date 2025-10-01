@@ -8,8 +8,8 @@ import DeviceFrame from './components/frame/DeviceFrame.vue'
 type DeviceKind = 'full' | 'desktop' | 'tablet'
 
 const showContent = ref(false)
-// Abrir por defecto en Escritorio
-const currentDevice = ref<DeviceKind>('desktop')
+// Abrir por defecto en Pantalla completa
+const currentDevice = ref<DeviceKind>('full')
 
 onMounted(() => {
   setTimeout(() => {

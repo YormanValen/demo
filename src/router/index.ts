@@ -181,6 +181,24 @@ const routes: RouteRecordRaw[] = [
     name: 'entity-transactional-insights',
     component: () => import('../modules/transactional-insights/views/TransactionalInsightsIntroView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/bank-selection',
+    name: 'entity-transactional-insights-bank-selection',
+    component: () => import('../modules/transactional-insights/views/BankSelectionAnimationView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/bank/:bankId',
+    name: 'entity-transactional-insights-bank-transaction',
+    component: () => import('../modules/transactional-insights/views/BankTransactionView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/history',
+    name: 'entity-transactional-insights-history-transaction',
+    component: () => import('../modules/transactional-insights/views/HistoryTransactionView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 
