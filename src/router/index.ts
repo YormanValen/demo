@@ -199,6 +199,12 @@ const routes: RouteRecordRaw[] = [
     name: 'entity-transactional-insights-history-transaction',
     component: () => import('../modules/transactional-insights/views/HistoryTransactionView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/categorizacion-intro',
+    name: 'entity-transactional-insights-categorizacion-intro',
+    component: () => import('../modules/transactional-insights/views/CategorizacionIntroView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 

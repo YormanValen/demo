@@ -137,7 +137,7 @@ const handleContinue = () => {
       requestAnimationFrame(() => { reveal.value.expand = false })
       setTimeout(() => {
         router.push({ 
-          name: 'entity-transactional-insights-bank-selection',
+          name: 'entity-transactional-insights-categorizacion-intro',
           query: { fromHistory: 'true' }
         })
         setTimeout(() => { reveal.value.active = false; exiting.value = false }, 50)
@@ -145,7 +145,7 @@ const handleContinue = () => {
     }, 180)
   } else {
     router.push({ 
-      name: 'entity-transactional-insights-bank-selection',
+      name: 'entity-transactional-insights-categorizacion-intro',
       query: { fromHistory: 'true' }
     })
   }
