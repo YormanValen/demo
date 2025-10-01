@@ -325,7 +325,7 @@
       </div>
 
       <div class="button-container" :class="{ 'visible': showButton }">
-        <button class="continue-button">
+        <button class="continue-button" @click="handleContinue">
           Continuar
         </button>
       </div>
@@ -335,6 +335,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+// Router
+const router = useRouter()
 
 // Animation variables
 const showTitle = ref(false)
@@ -358,6 +362,11 @@ const showElements = async () => {
       }, 800)
     }, 500)
   })
+}
+
+// Handle continue button click
+const handleContinue = () => {
+  router.push({ name: 'entity-transactional-insights-bank-selection' })
 }
 
 // Start smooth appear animation when component mounts
