@@ -178,7 +178,7 @@ const navigateToOption = (option: string) => {
       router.push({ name: 'entity-transactional-insights-affordability' })
       break
     case 'alertas':
-      // Future implementation - ALERTAS Y TENDENCIAS
+      router.push({ name: 'entity-transactional-insights-alertas-y-tendencias' })
       break
     case 'income':
       // Future implementation - INCOME INSIGHTS
