@@ -1,7 +1,8 @@
 <template>
   <div class="insights-animation-container">
     <!-- Animated background elements -->
-    <div class="background-elements">
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <!-- Financial symbols -->
       <div class="floating-element dollar-sign">$</div>
       <div class="floating-element peso-sign">$</div>
@@ -341,6 +342,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
 // Router

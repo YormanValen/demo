@@ -1,7 +1,8 @@
 <template>
   <div class="submenu-container">
     <!-- Animated background elements -->
-    <div class="background-elements">
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <div class="floating-element number">360°</div>
       <div class="floating-element number">AI</div>
       <div class="floating-element data-point">●</div>
@@ -10,9 +11,6 @@
 
     <!-- Header -->
     <div class="header-container" :class="{ 'visible': showHeader }">
-      <div class="fusion-logo">
-        <span class="fusion-initials">TI</span>
-      </div>
       <h1 class="main-title">Transactional Insights</h1>
       <p class="subtitle">Selecciona la funcionalidad que deseas explorar</p>
     </div>
@@ -22,14 +20,15 @@
       <div class="menu-option" :class="{ 'visible': visibleOptions.has(0) }" @click="navigateToOption('affordability')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M8 12h8" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M8 12h8" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
         <div class="option-content">
           <h3 class="option-title">Affordability</h3>
-          <p class="option-description">Evaluación histórica de la capacidad de pago y estilo de vida de los clientes</p>
+          <p class="option-description">Evaluación histórica de la capacidad de pago y estilo de vida de los clientes
+          </p>
         </div>
         <div class="option-arrow">→</div>
       </div>
@@ -37,9 +36,10 @@
       <div class="menu-option" :class="{ 'visible': visibleOptions.has(1) }" @click="navigateToOption('alertas')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="2"/>
-            <line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="2"/>
-            <line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2"/>
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+              stroke="currentColor" stroke-width="2" />
+            <line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="2" />
+            <line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
         <div class="option-content">
@@ -52,8 +52,10 @@
       <div class="menu-option" :class="{ 'visible': visibleOptions.has(2) }" @click="navigateToOption('income')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.3"/>
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="currentColor"
+              fill-opacity="0.3" />
           </svg>
         </div>
         <div class="option-content">
@@ -66,14 +68,16 @@
       <div class="menu-option" :class="{ 'visible': visibleOptions.has(3) }" @click="navigateToOption('proyectados')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M3 3v18h18" stroke="currentColor" stroke-width="2"/>
-            <path d="M18 9l-5 5-4-4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="18" cy="9" r="2" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+            <path d="M3 3v18h18" stroke="currentColor" stroke-width="2" />
+            <path d="M18 9l-5 5-4-4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <circle cx="18" cy="9" r="2" stroke="currentColor" stroke-width="2" fill="currentColor" />
           </svg>
         </div>
         <div class="option-content">
           <h3 class="option-title">Insights Proyectados</h3>
-          <p class="option-description">Proyección de ingresos, gastos y flujos de caja del cliente para cada uno de los siguientes 24 meses.</p>
+          <p class="option-description">Proyección de ingresos, gastos y flujos de caja del cliente para cada uno de los
+            siguientes 24 meses.</p>
         </div>
         <div class="option-arrow">→</div>
       </div>
@@ -81,14 +85,15 @@
       <div class="menu-option" :class="{ 'visible': visibleOptions.has(4) }" @click="navigateToOption('perfil')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
-            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
-            <path d="M12 14v7" stroke="currentColor" stroke-width="2"/>
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" />
+            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
+            <path d="M12 14v7" stroke="currentColor" stroke-width="2" />
           </svg>
         </div>
         <div class="option-content">
           <h3 class="option-title">Perfil Transaccional</h3>
-          <p class="option-description">Conocimiento de los estilos de vida y preferencias del cliente para una mejor segmentación.</p>
+          <p class="option-description">Conocimiento de los estilos de vida y preferencias del cliente para una mejor
+            segmentación.</p>
         </div>
         <div class="option-arrow">→</div>
       </div>
@@ -96,15 +101,16 @@
       <div class="menu-option" :class="{ 'visible': visibleOptions.has(5) }" @click="navigateToOption('score')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
-            <path d="M3 10h18" stroke="currentColor" stroke-width="2"/>
-            <path d="M8 14h8" stroke="currentColor" stroke-width="2"/>
-            <circle cx="12" cy="14" r="2" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+            <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" />
+            <path d="M3 10h18" stroke="currentColor" stroke-width="2" />
+            <path d="M8 14h8" stroke="currentColor" stroke-width="2" />
+            <circle cx="12" cy="14" r="2" stroke="currentColor" stroke-width="2" fill="currentColor" />
           </svg>
         </div>
         <div class="option-content">
           <h3 class="option-title">Score Transaccional</h3>
-          <p class="option-description">Potencie el scoring crediticio de sus clientes fusionando datos tradicionales de buró con datos transaccionales</p>
+          <p class="option-description">Potencie el scoring crediticio de sus clientes fusionando datos tradicionales de
+            buró con datos transaccionales</p>
         </div>
         <div class="option-arrow">→</div>
       </div>
@@ -121,6 +127,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -136,15 +143,15 @@ const startAnimations = async () => {
   return new Promise<void>((resolve) => {
     // Show header first
     showHeader.value = true
-    
+
     setTimeout(() => {
       // Show menu container
       showMenu.value = true
-      
+
       setTimeout(() => {
         // Animate menu options sequentially
         animateOptionsSequentially()
-        
+
         setTimeout(() => {
           showBackButton.value = true
           resolve()
@@ -158,14 +165,14 @@ const startAnimations = async () => {
 const animateOptionsSequentially = () => {
   const animateNextOption = (index: number) => {
     if (index >= 6) return
-    
+
     visibleOptions.value.add(index)
-    
+
     setTimeout(() => {
       animateNextOption(index + 1)
     }, 200)
   }
-  
+
   animateNextOption(0)
 }
 
@@ -173,7 +180,7 @@ const animateOptionsSequentially = () => {
 const navigateToOption = (option: string) => {
   console.log(`Navigating to: ${option}`)
   // Add navigation logic based on option
-  switch(option) {
+  switch (option) {
     case 'affordability':
       router.push({ name: 'entity-transactional-insights-affordability' })
       break
@@ -184,7 +191,7 @@ const navigateToOption = (option: string) => {
       router.push({ name: 'entity-transactional-insights-income-insights' })
       break
     case 'proyectados':
-      // Future implementation - INSIGHTS PROYECTADOS
+      router.push({ name: 'entity-transactional-insights-insights-proyectados' })
       break
     case 'perfil':
       // Future implementation - PERFIL TRANSACCIONAL
@@ -289,10 +296,13 @@ onMounted(async () => {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
     opacity: 0.15;
   }
+
   50% {
     transform: translateY(-15px) rotate(1deg);
     opacity: 0.25;
@@ -480,20 +490,20 @@ onMounted(async () => {
   .submenu-container {
     padding: 30px 15px;
   }
-  
+
   .main-title {
     font-size: 2rem;
   }
-  
+
   .menu-option {
     padding: 20px;
   }
-  
+
   .option-icon {
     width: 60px;
     height: 60px;
   }
-  
+
   .option-icon svg {
     width: 40px;
     height: 40px;
@@ -504,13 +514,13 @@ onMounted(async () => {
   .main-title {
     font-size: 1.8rem;
   }
-  
+
   .menu-option {
     flex-direction: column;
     text-align: center;
     gap: 15px;
   }
-  
+
   .option-arrow {
     display: none;
   }

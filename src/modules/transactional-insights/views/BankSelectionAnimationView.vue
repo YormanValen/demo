@@ -1,7 +1,8 @@
 <template>
   <div class="bank-selection-container">
-    <!-- Animated background elements (simplified from intro) -->
-    <div class="background-elements">
+    <!-- Reusable animated background -->
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <!-- Financial symbols -->
       <div class="floating-element dollar-sign">$</div>
       <div class="floating-element euro-sign">€</div>
@@ -108,6 +109,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick } from 'vue'
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import type { ComponentPublicInstance } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 // Logo imports

@@ -1,7 +1,8 @@
 <template>
   <div class="categorizacion-intro-container">
     <!-- Animated background elements -->
-    <div class="background-elements">
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <div class="floating-element number">129</div>
       <div class="floating-element number">107</div>
       <div class="floating-element number">22</div>
@@ -76,6 +77,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

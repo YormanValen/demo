@@ -1,7 +1,8 @@
 <template>
   <div class="alertas-tendencias-container">
     <!-- Animated background elements -->
-    <div class="background-elements">
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <div class="floating-element number">📊</div>
       <div class="floating-element number">📈</div>
       <div class="floating-element number">⚠️</div>
@@ -12,7 +13,7 @@
 
     <!-- Title at top -->
     <div class="title-container" :class="{ 'visible': showTitle }">
-      <h1 class="main-title">ALERTAS Y TENDENCIAS</h1>
+      <h1 class="main-title">Alertas y Tendencias</h1>
       <p class="subtitle">Detección de tendencias de gastos e ingresos y comportamientos del cliente.</p>
       <div class="description-container">
         <p class="description-text">Análisis avanzado de patrones de comportamiento financiero</p>
@@ -29,62 +30,62 @@
           <div class="large-table">
             <svg width="300" height="200" viewBox="0 0 300 200" fill="none">
               <!-- Table structure -->
-              <rect x="20" y="20" width="260" height="160" rx="8" stroke="#3b82f6" stroke-width="3" fill="#f8fafc"/>
+              <rect x="20" y="20" width="260" height="160" rx="8" stroke="#3b82f6" stroke-width="3" fill="#f8fafc" />
               <!-- Table header -->
-              <rect x="20" y="20" width="260" height="30" rx="8" fill="#3b82f6"/>
+              <rect x="20" y="20" width="260" height="30" rx="8" fill="#3b82f6" />
               <!-- Grid lines -->
-              <line x1="20" y1="60" x2="280" y2="60" stroke="#e5e7eb" stroke-width="1"/>
-              <line x1="20" y1="80" x2="280" y2="80" stroke="#e5e7eb" stroke-width="1"/>
-              <line x1="20" y1="100" x2="280" y2="100" stroke="#e5e7eb" stroke-width="1"/>
-              <line x1="20" y1="120" x2="280" y2="120" stroke="#e5e7eb" stroke-width="1"/>
-              <line x1="20" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-              <line x1="20" y1="160" x2="280" y2="160" stroke="#e5e7eb" stroke-width="1"/>
-              
-              <line x1="80" y1="20" x2="80" y2="180" stroke="#e5e7eb" stroke-width="1"/>
-              <line x1="150" y1="20" x2="150" y2="180" stroke="#e5e7eb" stroke-width="1"/>
-              <line x1="220" y1="20" x2="220" y2="180" stroke="#e5e7eb" stroke-width="1"/>
-              
+              <line x1="20" y1="60" x2="280" y2="60" stroke="#e5e7eb" stroke-width="1" />
+              <line x1="20" y1="80" x2="280" y2="80" stroke="#e5e7eb" stroke-width="1" />
+              <line x1="20" y1="100" x2="280" y2="100" stroke="#e5e7eb" stroke-width="1" />
+              <line x1="20" y1="120" x2="280" y2="120" stroke="#e5e7eb" stroke-width="1" />
+              <line x1="20" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1" />
+              <line x1="20" y1="160" x2="280" y2="160" stroke="#e5e7eb" stroke-width="1" />
+
+              <line x1="80" y1="20" x2="80" y2="180" stroke="#e5e7eb" stroke-width="1" />
+              <line x1="150" y1="20" x2="150" y2="180" stroke="#e5e7eb" stroke-width="1" />
+              <line x1="220" y1="20" x2="220" y2="180" stroke="#e5e7eb" stroke-width="1" />
+
               <!-- Data dots -->
-              <circle cx="50" cy="70" r="2" fill="#6b7280"/>
-              <circle cx="115" cy="70" r="2" fill="#6b7280"/>
-              <circle cx="185" cy="70" r="2" fill="#6b7280"/>
-              <circle cx="250" cy="70" r="2" fill="#6b7280"/>
-              
-              <circle cx="50" cy="90" r="2" fill="#6b7280"/>
-              <circle cx="115" cy="90" r="2" fill="#6b7280"/>
-              <circle cx="185" cy="90" r="2" fill="#6b7280"/>
-              <circle cx="250" cy="90" r="2" fill="#6b7280"/>
-              
-              <circle cx="50" cy="110" r="2" fill="#6b7280"/>
-              <circle cx="115" cy="110" r="2" fill="#6b7280"/>
-              <circle cx="185" cy="110" r="2" fill="#6b7280"/>
-              <circle cx="250" cy="110" r="2" fill="#6b7280"/>
-              
-              <circle cx="50" cy="130" r="2" fill="#6b7280"/>
-              <circle cx="115" cy="130" r="2" fill="#6b7280"/>
-              <circle cx="185" cy="130" r="2" fill="#6b7280"/>
-              <circle cx="250" cy="130" r="2" fill="#6b7280"/>
-              
-              <circle cx="50" cy="150" r="2" fill="#6b7280"/>
-              <circle cx="115" cy="150" r="2" fill="#6b7280"/>
-              <circle cx="185" cy="150" r="2" fill="#6b7280"/>
-              <circle cx="250" cy="150" r="2" fill="#6b7280"/>
-              
-              <circle cx="50" cy="170" r="2" fill="#6b7280"/>
-              <circle cx="115" cy="170" r="2" fill="#6b7280"/>
-              <circle cx="185" cy="170" r="2" fill="#6b7280"/>
-              <circle cx="250" cy="170" r="2" fill="#6b7280"/>
+              <circle cx="50" cy="70" r="2" fill="#6b7280" />
+              <circle cx="115" cy="70" r="2" fill="#6b7280" />
+              <circle cx="185" cy="70" r="2" fill="#6b7280" />
+              <circle cx="250" cy="70" r="2" fill="#6b7280" />
+
+              <circle cx="50" cy="90" r="2" fill="#6b7280" />
+              <circle cx="115" cy="90" r="2" fill="#6b7280" />
+              <circle cx="185" cy="90" r="2" fill="#6b7280" />
+              <circle cx="250" cy="90" r="2" fill="#6b7280" />
+
+              <circle cx="50" cy="110" r="2" fill="#6b7280" />
+              <circle cx="115" cy="110" r="2" fill="#6b7280" />
+              <circle cx="185" cy="110" r="2" fill="#6b7280" />
+              <circle cx="250" cy="110" r="2" fill="#6b7280" />
+
+              <circle cx="50" cy="130" r="2" fill="#6b7280" />
+              <circle cx="115" cy="130" r="2" fill="#6b7280" />
+              <circle cx="185" cy="130" r="2" fill="#6b7280" />
+              <circle cx="250" cy="130" r="2" fill="#6b7280" />
+
+              <circle cx="50" cy="150" r="2" fill="#6b7280" />
+              <circle cx="115" cy="150" r="2" fill="#6b7280" />
+              <circle cx="185" cy="150" r="2" fill="#6b7280" />
+              <circle cx="250" cy="150" r="2" fill="#6b7280" />
+
+              <circle cx="50" cy="170" r="2" fill="#6b7280" />
+              <circle cx="115" cy="170" r="2" fill="#6b7280" />
+              <circle cx="185" cy="170" r="2" fill="#6b7280" />
+              <circle cx="250" cy="170" r="2" fill="#6b7280" />
             </svg>
-            
+
             <!-- Animated Magnifying Glass -->
             <div class="magnifying-glass magnifying-glass-moving" ref="magnifyingGlass">
               <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                 <!-- Glass circle -->
-                <circle cx="22" cy="22" r="18" stroke="#f59e0b" stroke-width="3" fill="rgba(245, 158, 11, 0.1)"/>
+                <circle cx="22" cy="22" r="18" stroke="#f59e0b" stroke-width="3" fill="rgba(245, 158, 11, 0.1)" />
                 <!-- Handle -->
-                <line x1="38" y1="38" x2="52" y2="52" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+                <line x1="38" y1="38" x2="52" y2="52" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" />
                 <!-- Reflection -->
-                <circle cx="18" cy="18" r="3" fill="rgba(255, 255, 255, 0.8)"/>
+                <circle cx="18" cy="18" r="3" fill="rgba(255, 255, 255, 0.8)" />
               </svg>
             </div>
           </div>
@@ -94,19 +95,15 @@
         <div class="discovery-results" :class="{ 'visible': showResults }">
           <h3 class="results-title">Hallazgos del Análisis</h3>
           <div class="findings-grid">
-            <div 
-              v-for="(finding, index) in findings" 
-              :key="finding.id"
-              class="finding-item"
-              :class="{ 
-                'visible': visibleFindings.has(index),
-                'checked': finding.discovered
-              }"
-            >
+            <div v-for="(finding, index) in findings" :key="finding.id" class="finding-item" :class="{
+              'visible': visibleFindings.has(index),
+              'checked': finding.discovered
+            }">
               <div class="checkbox-container">
                 <div class="checkbox" :class="{ 'checked': finding.discovered }">
                   <svg v-if="finding.discovered" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <polyline points="20,6 9,17 4,12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="20,6 9,17 4,12" stroke="white" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" />
                   </svg>
                 </div>
               </div>
@@ -135,6 +132,7 @@
 import { ref, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 const router = useRouter()
 
 // Refs
@@ -215,14 +213,14 @@ const showFindingsSequentially = async () => {
         resolve()
         return
       }
-      
+
       visibleFindings.value.add(index)
-      
+
       setTimeout(() => {
         showNextFinding(index + 1)
       }, 200)
     }
-    
+
     showNextFinding(0)
   })
 }
@@ -230,7 +228,7 @@ const showFindingsSequentially = async () => {
 const startDiscoveryProcess = () => {
   // Randomly discover some findings (not all)
   const findingsToDiscover = [0, 3, 1, 6, 2] // Indices of findings to discover
-  
+
   findingsToDiscover.forEach((findingIndex, order) => {
     setTimeout(() => {
       if (findings.value[findingIndex]) {
@@ -244,13 +242,13 @@ const startDiscoveryProcess = () => {
 const startAnimations = async () => {
   return new Promise<void>((resolve) => {
     showTitle.value = true
-    
+
     setTimeout(() => {
       showContent.value = true
       setTimeout(() => {
         showTable.value = true
         startMagnifyingGlassAnimation()
-        
+
         setTimeout(() => {
           showResults.value = true
           setTimeout(async () => {
@@ -373,10 +371,13 @@ onMounted(async () => {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
     opacity: 0.15;
   }
+
   50% {
     transform: translateY(-10px) rotate(0.5deg);
     opacity: 0.25;
@@ -504,39 +505,51 @@ onMounted(async () => {
   0% {
     transform: translate(30px, 30px) rotate(-10deg);
   }
+
   8.33% {
     transform: translate(80px, 35px) rotate(5deg);
   }
+
   16.66% {
     transform: translate(130px, 40px) rotate(-5deg);
   }
+
   25% {
     transform: translate(180px, 45px) rotate(10deg);
   }
+
   33.33% {
     transform: translate(160px, 70px) rotate(-8deg);
   }
+
   41.66% {
     transform: translate(110px, 80px) rotate(3deg);
   }
+
   50% {
     transform: translate(60px, 90px) rotate(-12deg);
   }
+
   58.33% {
     transform: translate(40px, 100px) rotate(8deg);
   }
+
   66.66% {
     transform: translate(90px, 110px) rotate(-6deg);
   }
+
   75% {
     transform: translate(140px, 120px) rotate(12deg);
   }
+
   83.33% {
     transform: translate(190px, 115px) rotate(-4deg);
   }
+
   91.66% {
     transform: translate(120px, 85px) rotate(7deg);
   }
+
   100% {
     transform: translate(30px, 30px) rotate(-10deg);
   }
@@ -625,9 +638,11 @@ onMounted(async () => {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.2);
   }
+
   100% {
     transform: scale(1);
   }
@@ -660,9 +675,12 @@ onMounted(async () => {
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.6;
   }
@@ -709,12 +727,12 @@ onMounted(async () => {
   .main-title {
     font-size: 2.5rem;
   }
-  
+
   .large-table svg {
     width: 250px;
     height: 160px;
   }
-  
+
   .findings-grid {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
@@ -724,39 +742,39 @@ onMounted(async () => {
   .alertas-tendencias-container {
     padding: 30px 15px 15px;
   }
-  
+
   .main-title {
     font-size: 2.2rem;
     letter-spacing: 0.5px;
   }
-  
+
   .subtitle {
     font-size: 1.1rem;
   }
-  
+
   .analysis-section {
     gap: 30px;
   }
-  
+
   .large-table svg {
     width: 200px;
     height: 130px;
   }
-  
+
   .magnifying-glass svg {
     width: 50px;
     height: 50px;
   }
-  
+
   .findings-grid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
-  
+
   .finding-item {
     padding: 15px;
   }
-  
+
   .results-title {
     font-size: 1.5rem;
   }
@@ -766,69 +784,81 @@ onMounted(async () => {
   .alertas-tendencias-container {
     padding: 20px 10px 15px;
   }
-  
+
   .main-title {
     font-size: 1.8rem;
   }
-  
+
   .large-table svg {
     width: 160px;
     height: 100px;
   }
-  
+
   .magnifying-glass svg {
     width: 40px;
     height: 40px;
   }
-  
+
   @keyframes magnifyingGlassMove {
     0% {
       transform: translate(15px, 15px) rotate(-10deg);
     }
+
     8.33% {
       transform: translate(40px, 18px) rotate(5deg);
     }
+
     16.66% {
       transform: translate(65px, 22px) rotate(-5deg);
     }
+
     25% {
       transform: translate(90px, 25px) rotate(10deg);
     }
+
     33.33% {
       transform: translate(80px, 40px) rotate(-8deg);
     }
+
     41.66% {
       transform: translate(55px, 45px) rotate(3deg);
     }
+
     50% {
       transform: translate(30px, 50px) rotate(-12deg);
     }
+
     58.33% {
       transform: translate(20px, 60px) rotate(8deg);
     }
+
     66.66% {
       transform: translate(45px, 65px) rotate(-6deg);
     }
+
     75% {
       transform: translate(70px, 70px) rotate(12deg);
     }
+
     83.33% {
       transform: translate(95px, 68px) rotate(-4deg);
     }
+
     91.66% {
       transform: translate(60px, 50px) rotate(7deg);
     }
+
     100% {
       transform: translate(15px, 15px) rotate(-10deg);
     }
   }
-  
+
   .finding-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .checkbox-container {
     align-self: flex-start;
   }

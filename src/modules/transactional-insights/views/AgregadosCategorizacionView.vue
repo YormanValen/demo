@@ -1,7 +1,8 @@
 <template>
   <div class="agregados-categorizacion-container">
     <!-- Animated background elements -->
-    <div class="background-elements">
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <div class="floating-element number">129</div>
       <div class="floating-element number">107</div>
       <div class="floating-element number">22</div>
@@ -15,7 +16,8 @@
       <h1 class="main-title">Agregados de Categorización</h1>
       <p class="subtitle">Variables agregadas del comportamiento de las categorías identificadas</p>
       <div class="description-container">
-        <p class="description-text">Calculados para todas las categorías y meses detectados en el historial transaccional del cliente.</p>
+        <p class="description-text">Calculados para todas las categorías y meses detectados en el historial
+          transaccional del cliente.</p>
         <p class="description-text highlight">Muchas más variables disponibles</p>
       </div>
     </div>
@@ -31,28 +33,35 @@
           <path d="M14 10V19" :stroke="currentDataset.tableColor" stroke-width="2" />
         </svg>
       </div>
-      
+
       <!-- Dynamic category icon that appears from table -->
       <div class="category-item" :class="{ 'visible': showCategory }">
         <div class="category-icon" :style="{ color: currentDataset.category.color }">
           <!-- Food icon for EXP-ENT-001 -->
-          <svg v-if="currentDataset.category.code === 'EXP-ENT-001'" width="60" height="60" viewBox="0 0 24 24" fill="none">
-            <path d="M8.5 8.5c0-1.5 1.5-3 3.5-3s3.5 1.5 3.5 3c0 .5-.5 1-.5 1s2 1.5 2 3.5c0 2-2 4-2 4H7s-2-2-2-4c0-2 2-3.5 2-3.5s-.5-.5-.5-1z" fill="currentColor"/>
-            <path d="M12 2v6M9 4l6 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <svg v-if="currentDataset.category.code === 'EXP-ENT-001'" width="60" height="60" viewBox="0 0 24 24"
+            fill="none">
+            <path
+              d="M8.5 8.5c0-1.5 1.5-3 3.5-3s3.5 1.5 3.5 3c0 .5-.5 1-.5 1s2 1.5 2 3.5c0 2-2 4-2 4H7s-2-2-2-4c0-2 2-3.5 2-3.5s-.5-.5-.5-1z"
+              fill="currentColor" />
+            <path d="M12 2v6M9 4l6 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
           <!-- Salary icon for INC-LAB-001 -->
-          <svg v-else-if="currentDataset.category.code === 'INC-LAB-001'" width="60" height="60" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg v-else-if="currentDataset.category.code === 'INC-LAB-001'" width="60" height="60" viewBox="0 0 24 24"
+            fill="none">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           <!-- Transport icon for EXP-TRA-002 -->
-          <svg v-else-if="currentDataset.category.code === 'EXP-TRA-002'" width="60" height="60" viewBox="0 0 24 24" fill="none">
-            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" stroke="currentColor" stroke-width="2" fill="none"/>
-            <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" stroke="currentColor" stroke-width="2" fill="none"/>
-            <path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2" stroke="currentColor" stroke-width="2" fill="none"/>
+          <svg v-else-if="currentDataset.category.code === 'EXP-TRA-002'" width="60" height="60" viewBox="0 0 24 24"
+            fill="none">
+            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" stroke="currentColor" stroke-width="2" fill="none" />
+            <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" stroke="currentColor" stroke-width="2" fill="none" />
+            <path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2" stroke="currentColor" stroke-width="2" fill="none" />
           </svg>
           <!-- Entertainment icon for EXP-REC-003 -->
           <svg v-else width="60" height="60" viewBox="0 0 24 24" fill="none">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.3"/>
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke="currentColor" stroke-width="2"
+              fill="currentColor" fill-opacity="0.3" />
           </svg>
         </div>
         <div class="category-text">
@@ -118,6 +127,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue'
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -140,9 +150,9 @@ const datasets = [
     category: {
       code: "EXP-ENT-001",
       name: "Comidas preparadas",
-      color: "#f59e0b"
+      color: "#6b7280"
     },
-    tableColor: "#10b981",
+    tableColor: "#6b7280",
     transactions: [127, 142, 118, 135],
     expenses: [2450000, 2780000, 2120000, 2650000]
   },
@@ -150,9 +160,9 @@ const datasets = [
     category: {
       code: "INC-LAB-001",
       name: "Salario o nómina",
-      color: "#3b82f6"
+      color: "#6b7280"
     },
-    tableColor: "#8b5cf6",
+    tableColor: "#6b7280",
     transactions: [89, 95, 87, 92],
     expenses: [3200000, 3150000, 3100000, 3180000]
   },
@@ -160,19 +170,19 @@ const datasets = [
     category: {
       code: "EXP-TRA-002",
       name: "Transporte público",
-      color: "#ef4444"
+      color: "#6b7280"
     },
-    tableColor: "#f97316",
+    tableColor: "#6b7280",
     transactions: [156, 142, 167, 148],
     expenses: [890000, 920000, 850000, 910000]
   },
   {
     category: {
-      code: "EXP-REC-003", 
+      code: "EXP-REC-003",
       name: "Entretenimiento",
-      color: "#10b981"
+      color: "#6b7280"
     },
-    tableColor: "#ec4899",
+    tableColor: "#6b7280",
     transactions: [67, 73, 59, 71],
     expenses: [1450000, 1680000, 1320000, 1590000]
   }
@@ -204,21 +214,21 @@ const formatNumber = (value: number) => {
 const animateNumber = (key: keyof typeof animatedValues.value, target: number, duration = 1000) => {
   const start = 0
   const startTime = Date.now()
-  
+
   const animate = () => {
     const elapsed = Date.now() - startTime
     const progress = Math.min(elapsed / duration, 1)
-    
+
     // Easing function for smooth animation
     const easeOut = 1 - Math.pow(1 - progress, 3)
-    
+
     animatedValues.value[key] = Math.round(start + (target - start) * easeOut)
-    
+
     if (progress < 1) {
       requestAnimationFrame(animate)
     }
   }
-  
+
   animate()
 }
 
@@ -230,10 +240,10 @@ const animateCardsSequentially = async () => {
         resolve()
         return
       }
-      
+
       // Add card to visible set
       visibleCards.value.add(index)
-      
+
       // Start number animation for this card
       if (index < 4) {
         // Transactions
@@ -246,13 +256,13 @@ const animateCardsSequentially = async () => {
         const target = currentDataset.value.expenses[index - 4]
         animateNumber(expenseKey, target, 1200)
       }
-      
+
       // Animate next card after delay
       setTimeout(() => {
         animateNextCard(index + 1)
       }, 400)
     }
-    
+
     animateNextCard(0)
   })
 }
@@ -281,26 +291,26 @@ const startTitleAnimation = async () => {
 // Data rotation function
 const rotateToNextDataset = async () => {
   if (isTransitioning.value) return
-  
+
   isTransitioning.value = true
-  
+
   // Check if we're at the last dataset before incrementing
   const nextIndex = (currentDataIndex.value + 1) % datasets.length
   const isLastDataset = currentDataIndex.value === datasets.length - 1
-  
+
   // Fade out cards and category
   showCards.value = false
   showCategory.value = false
   visibleCards.value.clear()
-  
+
   // Reset animated values
   Object.keys(animatedValues.value).forEach(key => {
     animatedValues.value[key as keyof typeof animatedValues.value] = 0
   })
-  
+
   // Wait for fade out
   await new Promise(resolve => setTimeout(resolve, 600))
-  
+
   // If we just finished the last dataset, navigate to submenu
   if (isLastDataset) {
     // Reset the index for next time
@@ -308,27 +318,27 @@ const rotateToNextDataset = async () => {
     router.push({ name: 'entity-transactional-insights-submenu' })
     return
   }
-  
+
   // Move to next dataset
   currentDataIndex.value = nextIndex
-  
+
   // Save current state to localStorage
   localStorage.setItem('agregados_current_index', currentDataIndex.value.toString())
-  
+
   // Wait a bit then fade in new content
   await new Promise(resolve => setTimeout(resolve, 200))
-  
+
   // Fade in category first
   showCategory.value = true
-  
+
   // Wait then show cards
   await new Promise(resolve => setTimeout(resolve, 600))
   showCards.value = true
-  
+
   // Start card animations
   await new Promise(resolve => setTimeout(resolve, 400))
   await animateCardsSequentially()
-  
+
   isTransitioning.value = false
 }
 
@@ -340,13 +350,13 @@ const handleContinue = () => {
 // Start animations on mount
 onMounted(async () => {
   await nextTick()
-  
+
   // Load current index from localStorage
   const savedIndex = localStorage.getItem('agregados_current_index')
   if (savedIndex) {
     currentDataIndex.value = parseInt(savedIndex) % datasets.length
   }
-  
+
   // Wait a moment before starting
   setTimeout(async () => {
     // Start title animation
@@ -449,10 +459,13 @@ onMounted(async () => {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
     opacity: 0.15;
   }
+
   50% {
     transform: translateY(-10px) rotate(0.5deg);
     opacity: 0.25;
@@ -659,7 +672,7 @@ onMounted(async () => {
 }
 
 .card-value.expense {
-  color: #dc2626;
+  color: #000000;
 }
 
 /* Continue Button */
@@ -703,25 +716,25 @@ onMounted(async () => {
   .main-title {
     font-size: 2.5rem;
   }
-  
+
   .icons-container {
     gap: 60px;
   }
-  
+
   .table-icon svg {
     width: 100px;
     height: 100px;
   }
-  
+
   .category-icon svg {
     width: 50px;
     height: 50px;
   }
-  
+
   .data-cards-container {
     gap: 30px;
   }
-  
+
   .cards-column {
     min-width: 240px;
   }
@@ -731,50 +744,50 @@ onMounted(async () => {
   .agregados-categorizacion-container {
     padding: 30px 15px 15px;
   }
-  
+
   .main-title {
     font-size: 2.2rem;
     letter-spacing: 0.5px;
   }
-  
+
   .subtitle {
     font-size: 1.1rem;
   }
-  
+
   .icons-container {
     gap: 40px;
     flex-direction: column;
   }
-  
+
   .table-icon svg {
     width: 80px;
     height: 80px;
   }
-  
+
   .category-icon svg {
     width: 40px;
     height: 40px;
   }
-  
+
   .data-cards-container {
     flex-direction: column;
     gap: 25px;
     margin: 30px 0;
   }
-  
+
   .cards-column {
     min-width: auto;
     width: 100%;
   }
-  
+
   .card {
     padding: 15px;
   }
-  
+
   .card-value {
     font-size: 1.5rem;
   }
-  
+
   .continue-button {
     padding: 14px 30px;
     font-size: 1.1rem;
@@ -785,15 +798,15 @@ onMounted(async () => {
   .agregados-categorizacion-container {
     padding: 20px 5px 15px;
   }
-  
+
   .main-title {
     font-size: 1.8rem;
   }
-  
+
   .card-value {
     font-size: 1.3rem;
   }
-  
+
   .continue-button {
     padding: 12px 25px;
     font-size: 1rem;

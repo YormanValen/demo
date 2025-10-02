@@ -2,8 +2,10 @@
   <div class="main-container" ref="entityRootRef">
     <!-- Full Screen Animation -->
     <div class="full-screen-animation" :class="{ 'show': showMessage }">
-      <!-- Animated background - always visible -->
-      <div class="animated-background">
+      <!-- Reusable animated background for Transactional Insights overlay -->
+      <TransactionalInsightsBackground />
+      <!-- Legacy animated background (hidden) -->
+      <div class="animated-background" v-if="false">
         <!-- Financial symbols -->
         <div class="floating-element dollar-sign">$</div>
         <div class="floating-element peso-sign">$</div>
@@ -527,6 +529,7 @@ import * as pdfjsLib from 'pdfjs-dist'
 // @ts-ignore
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min?url'
 import DesmaterializedFormPdf from '../components/DesmaterializedFormPdf.vue'
+import TransactionalInsightsBackground from '../../transactional-insights/components/TransactionalInsightsBackground.vue'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker as unknown as string
 

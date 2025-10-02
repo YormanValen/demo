@@ -1,7 +1,8 @@
 <template>
   <div class="affordability-container">
     <!-- Animated background elements -->
-    <div class="background-elements">
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <div class="floating-element number">109</div>
       <div class="floating-element number">$</div>
       <div class="floating-element number">24</div>
@@ -12,7 +13,7 @@
 
     <!-- Title at top -->
     <div class="title-container" :class="{ 'visible': showTitle }">
-      <h1 class="main-title">AFFORDABILITY</h1>
+      <h1 class="main-title">Affordability</h1>
       <p class="subtitle">Evaluación histórica de la capacidad de pago y estilo de vida de los clientes.</p>
       <div class="description-container">
         <p class="description-text">Disponible para cada mes del periodo cubierto por el historial transaccional</p>
@@ -23,167 +24,180 @@
     <!-- Main Content Layout -->
     <div class="main-content" :class="{ 'visible': showCategories }">
       <!-- Left Side - Current Category -->
-      <div 
-        ref="movingCard"
-        class="current-category-card" 
-        :class="{ 'visible': visibleCategories.has(0) }"
-      >
-          <div 
-            class="category-icon-large" 
-            :style="{ backgroundColor: currentCategory.color }"
-          >
-            <!-- Food icon -->
-            <svg v-if="currentCategory.icon === 'food'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M8.5 8.5c0-1.5 1.5-3 3.5-3s3.5 1.5 3.5 3c0 .5-.5 1-.5 1s2 1.5 2 3.5c0 2-2 4-2 4H7s-2-2-2-4c0-2 2-3.5 2-3.5s-.5-.5-.5-1z" fill="white"/>
-              <path d="M12 2v6M9 4l6 0" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <!-- Streaming icon -->
-            <svg v-else-if="currentCategory.icon === 'streaming'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10Z" stroke="white" stroke-width="2"/>
-              <path d="M10 8l6 4-6 4V8Z" fill="white"/>
-            </svg>
-            <!-- Supplements icon -->
-            <svg v-else-if="currentCategory.icon === 'supplements'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M4.5 12a7.5 7.5 0 0 0 15 0a7.5 7.5 0 0 0-15 0Z" stroke="white" stroke-width="2"/>
-              <path d="M12 4.5v15M4.5 12h15" stroke="white" stroke-width="2"/>
-            </svg>
-            <!-- Salary icon -->
-            <svg v-else-if="currentCategory.icon === 'salary'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <!-- Rent icon -->
-            <svg v-else-if="currentCategory.icon === 'rent'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M3 21h18M5 21V7l8-4v18M19 21V10l-6-3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M9 9v.01M9 12v.01M9 15v.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <!-- Medical icon -->
-            <svg v-else-if="currentCategory.icon === 'medical'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5L12 21l7-6.5Z" fill="white"/>
-              <path d="M12 5.5v13M8.5 9h7" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <!-- Electricity icon -->
-            <svg v-else-if="currentCategory.icon === 'electricity'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="white"/>
-            </svg>
-            <!-- Technology icon -->
-            <svg v-else-if="currentCategory.icon === 'technology'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <rect x="4" y="4" width="16" height="12" rx="2" stroke="white" stroke-width="2"/>
-              <path d="M8 20h8M12 16v4" stroke="white" stroke-width="2"/>
-            </svg>
-            <!-- Pets icon -->
-            <svg v-else-if="currentCategory.icon === 'pets'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <circle cx="11" cy="4" r="2" fill="white"/>
-              <circle cx="18" cy="8" r="2" fill="white"/>
-              <circle cx="20" cy="16" r="2" fill="white"/>
-              <circle cx="9" cy="20" r="2" fill="white"/>
-              <circle cx="15" cy="12" r="3" fill="white"/>
-            </svg>
-            <!-- Credit icon -->
-            <svg v-else-if="currentCategory.icon === 'credit'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <rect x="1" y="4" width="22" height="16" rx="2" stroke="white" stroke-width="2"/>
-              <path d="M1 10h22M5 14h2M13 14h6" stroke="white" stroke-width="2"/>
-            </svg>
-            <!-- Mortgage icon -->
-            <svg v-else-if="currentCategory.icon === 'mortgage'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M9 21v-6a1 1 0 011-1h4a1 1 0 011 1v6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <!-- Freelance icon -->
-            <svg v-else-if="currentCategory.icon === 'freelance'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="white" stroke-width="2"/>
-              <circle cx="8.5" cy="7" r="4" stroke="white" stroke-width="2"/>
-              <path d="M20 8v6M23 11l-3 3-3-3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <!-- Gambling icon -->
-            <svg v-else-if="currentCategory.icon === 'gambling'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="3" width="6" height="6" rx="1" stroke="white" stroke-width="2" fill="none"/>
-              <circle cx="6" cy="6" r="1" fill="white"/>
-              <rect x="15" y="15" width="6" height="6" rx="1" stroke="white" stroke-width="2" fill="none"/>
-              <circle cx="17" cy="17" r="1" fill="white"/>
-              <circle cx="19" cy="19" r="1" fill="white"/>
-            </svg>
-            <!-- Dividends icon -->
-            <svg v-else-if="currentCategory.icon === 'dividends'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="18" cy="6" r="2" stroke="white" stroke-width="1.5" fill="white"/>
-              <circle cx="18" cy="18" r="2" stroke="white" stroke-width="1.5" fill="white"/>
-            </svg>
-            <!-- Groceries icon -->
-            <svg v-else-if="currentCategory.icon === 'groceries'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M7 4V2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2" stroke="white" stroke-width="2"/>
-              <path d="M5 4h14l-1 14H6L5 4Z" stroke="white" stroke-width="2" fill="none"/>
-              <path d="M9 8v4M15 8v4" stroke="white" stroke-width="2"/>
-            </svg>
-            <!-- Clothing icon -->
-            <svg v-else-if="currentCategory.icon === 'clothing'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M7 3h10l3 6v12H4V9l3-6Z" stroke="white" stroke-width="2" fill="none"/>
-              <path d="M7 3l1 6M17 3l-1 6" stroke="white" stroke-width="2"/>
-              <circle cx="12" cy="15" r="2" stroke="white" stroke-width="2" fill="white"/>
-            </svg>
-            <!-- Education icon -->
-            <svg v-else-if="currentCategory.icon === 'education'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M6 12v5c3 0 5-1 8-1s5 1 8 1v-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <!-- Taxes icon -->
-            <svg v-else-if="currentCategory.icon === 'taxes'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="4" width="18" height="16" rx="2" stroke="white" stroke-width="2" fill="none"/>
-              <path d="M7 2v4M17 2v4M3 10h18" stroke="white" stroke-width="2"/>
-              <path d="M12 14v4M9 16h6" stroke="white" stroke-width="2"/>
-            </svg>
-          </div>
-          <div class="category-details">
-            <h3 class="category-name">{{ currentCategory.name }}</h3>
-            <div class="category-value">${{ formatNumber(currentCategory.value) }}</div>
-          </div>
+      <div ref="movingCard" class="current-category-card" :class="{ 'visible': visibleCategories.has(0) }">
+        <div class="category-icon-large" :style="{ backgroundColor: currentCategory.color }">
+          <!-- Food icon -->
+          <svg v-if="currentCategory.icon === 'food'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M8.5 8.5c0-1.5 1.5-3 3.5-3s3.5 1.5 3.5 3c0 .5-.5 1-.5 1s2 1.5 2 3.5c0 2-2 4-2 4H7s-2-2-2-4c0-2 2-3.5 2-3.5s-.5-.5-.5-1z"
+              fill="white" />
+            <path d="M12 2v6M9 4l6 0" stroke="white" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <!-- Streaming icon -->
+          <svg v-else-if="currentCategory.icon === 'streaming'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10Z" stroke="white"
+              stroke-width="2" />
+            <path d="M10 8l6 4-6 4V8Z" fill="white" />
+          </svg>
+          <!-- Supplements icon -->
+          <svg v-else-if="currentCategory.icon === 'supplements'" width="40" height="40" viewBox="0 0 24 24"
+            fill="none">
+            <path d="M4.5 12a7.5 7.5 0 0 0 15 0a7.5 7.5 0 0 0-15 0Z" stroke="white" stroke-width="2" />
+            <path d="M12 4.5v15M4.5 12h15" stroke="white" stroke-width="2" />
+          </svg>
+          <!-- Salary icon -->
+          <svg v-else-if="currentCategory.icon === 'salary'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <!-- Rent icon -->
+          <svg v-else-if="currentCategory.icon === 'rent'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M3 21h18M5 21V7l8-4v18M19 21V10l-6-3" stroke="white" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M9 9v.01M9 12v.01M9 15v.01" stroke="white" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <!-- Medical icon -->
+          <svg v-else-if="currentCategory.icon === 'medical'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5L12 21l7-6.5Z"
+              fill="white" />
+            <path d="M12 5.5v13M8.5 9h7" stroke="currentColor" stroke-width="2" />
+          </svg>
+          <!-- Electricity icon -->
+          <svg v-else-if="currentCategory.icon === 'electricity'" width="40" height="40" viewBox="0 0 24 24"
+            fill="none">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="white" />
+          </svg>
+          <!-- Technology icon -->
+          <svg v-else-if="currentCategory.icon === 'technology'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="4" width="16" height="12" rx="2" stroke="white" stroke-width="2" />
+            <path d="M8 20h8M12 16v4" stroke="white" stroke-width="2" />
+          </svg>
+          <!-- Pets icon -->
+          <svg v-else-if="currentCategory.icon === 'pets'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="4" r="2" fill="white" />
+            <circle cx="18" cy="8" r="2" fill="white" />
+            <circle cx="20" cy="16" r="2" fill="white" />
+            <circle cx="9" cy="20" r="2" fill="white" />
+            <circle cx="15" cy="12" r="3" fill="white" />
+          </svg>
+          <!-- Credit icon -->
+          <svg v-else-if="currentCategory.icon === 'credit'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <rect x="1" y="4" width="22" height="16" rx="2" stroke="white" stroke-width="2" />
+            <path d="M1 10h22M5 14h2M13 14h6" stroke="white" stroke-width="2" />
+          </svg>
+          <!-- Mortgage icon -->
+          <svg v-else-if="currentCategory.icon === 'mortgage'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3" stroke="white"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9 21v-6a1 1 0 011-1h4a1 1 0 011 1v6" stroke="white" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <!-- Freelance icon -->
+          <svg v-else-if="currentCategory.icon === 'freelance'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="white" stroke-width="2" />
+            <circle cx="8.5" cy="7" r="4" stroke="white" stroke-width="2" />
+            <path d="M20 8v6M23 11l-3 3-3-3" stroke="white" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <!-- Gambling icon -->
+          <svg v-else-if="currentCategory.icon === 'gambling'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="6" height="6" rx="1" stroke="white" stroke-width="2" fill="none" />
+            <circle cx="6" cy="6" r="1" fill="white" />
+            <rect x="15" y="15" width="6" height="6" rx="1" stroke="white" stroke-width="2" fill="none" />
+            <circle cx="17" cy="17" r="1" fill="white" />
+            <circle cx="19" cy="19" r="1" fill="white" />
+          </svg>
+          <!-- Dividends icon -->
+          <svg v-else-if="currentCategory.icon === 'dividends'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="18" cy="6" r="2" stroke="white" stroke-width="1.5" fill="white" />
+            <circle cx="18" cy="18" r="2" stroke="white" stroke-width="1.5" fill="white" />
+          </svg>
+          <!-- Groceries icon -->
+          <svg v-else-if="currentCategory.icon === 'groceries'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M7 4V2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2" stroke="white" stroke-width="2" />
+            <path d="M5 4h14l-1 14H6L5 4Z" stroke="white" stroke-width="2" fill="none" />
+            <path d="M9 8v4M15 8v4" stroke="white" stroke-width="2" />
+          </svg>
+          <!-- Clothing icon -->
+          <svg v-else-if="currentCategory.icon === 'clothing'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M7 3h10l3 6v12H4V9l3-6Z" stroke="white" stroke-width="2" fill="none" />
+            <path d="M7 3l1 6M17 3l-1 6" stroke="white" stroke-width="2" />
+            <circle cx="12" cy="15" r="2" stroke="white" stroke-width="2" fill="white" />
+          </svg>
+          <!-- Education icon -->
+          <svg v-else-if="currentCategory.icon === 'education'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z" stroke="white" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M6 12v5c3 0 5-1 8-1s5 1 8 1v-5" stroke="white" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <!-- Taxes icon -->
+          <svg v-else-if="currentCategory.icon === 'taxes'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="4" width="18" height="16" rx="2" stroke="white" stroke-width="2" fill="none" />
+            <path d="M7 2v4M17 2v4M3 10h18" stroke="white" stroke-width="2" />
+            <path d="M12 14v4M9 16h6" stroke="white" stroke-width="2" />
+          </svg>
         </div>
+        <div class="category-details">
+          <h3 class="category-name">{{ currentCategory.name }}</h3>
+          <div class="category-value">${{ formatNumber(currentCategory.value) }}</div>
+        </div>
+      </div>
 
       <!-- Right Side - Categories Column -->
       <div class="categories-column">
         <h3 class="column-title">Categorías de Evaluación</h3>
         <div class="evaluation-categories">
-          <div 
-            v-for="(evalCategory, index) in evaluationCategories" 
-            :key="evalCategory.id"
-            ref="categoryItems"
-            class="evaluation-item" 
-            :class="{ 
+          <div v-for="(evalCategory, index) in evaluationCategories" :key="evalCategory.id" ref="categoryItems"
+            class="evaluation-item" :class="{
               'visible': visibleCategories.has(index + 1),
               'highlighted': highlightedCategory === evalCategory.id
-            }"
-            :data-category-id="evalCategory.id"
-          >
+            }" :data-category-id="evalCategory.id">
             <div class="evaluation-left">
               <div class="evaluation-icon" :style="{ backgroundColor: evalCategory.color }">
                 <!-- Income Primary icon -->
-                <svg v-if="evalCategory.icon === 'income-primary'" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="12" cy="12" r="3" stroke="white" stroke-width="2" fill="white"/>
+                <svg v-if="evalCategory.icon === 'income-primary'" width="20" height="20" viewBox="0 0 24 24"
+                  fill="none">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <circle cx="12" cy="12" r="3" stroke="white" stroke-width="2" fill="white" />
                 </svg>
                 <!-- Income Secondary icon -->
-                <svg v-else-if="evalCategory.icon === 'income-secondary'" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="16" cy="8" r="2" stroke="white" stroke-width="1.5" fill="white"/>
+                <svg v-else-if="evalCategory.icon === 'income-secondary'" width="20" height="20" viewBox="0 0 24 24"
+                  fill="none">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <circle cx="16" cy="8" r="2" stroke="white" stroke-width="1.5" fill="white" />
                 </svg>
                 <!-- Essential expenses icon -->
-                <svg v-else-if="evalCategory.icon === 'essential'" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5L12 21l7-6.5Z" fill="white"/>
+                <svg v-else-if="evalCategory.icon === 'essential'" width="20" height="20" viewBox="0 0 24 24"
+                  fill="none">
+                  <path
+                    d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5L12 21l7-6.5Z"
+                    fill="white" />
                 </svg>
                 <!-- Discretionary expenses icon -->
-                <svg v-else-if="evalCategory.icon === 'discretionary'" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="3" fill="white"/>
-                  <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" stroke="white" stroke-width="2"/>
+                <svg v-else-if="evalCategory.icon === 'discretionary'" width="20" height="20" viewBox="0 0 24 24"
+                  fill="none">
+                  <circle cx="12" cy="12" r="3" fill="white" />
+                  <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" stroke="white" stroke-width="2" />
                 </svg>
                 <!-- Quality of life icon -->
-                <svg v-else-if="evalCategory.icon === 'quality-life'" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3l4 7h5l-4 7-4-7H8l4-7Z" fill="white"/>
-                  <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <svg v-else-if="evalCategory.icon === 'quality-life'" width="20" height="20" viewBox="0 0 24 24"
+                  fill="none">
+                  <path d="M12 3l4 7h5l-4 7-4-7H8l4-7Z" fill="white" />
+                  <circle cx="12" cy="12" r="2" fill="currentColor" />
                 </svg>
                 <!-- Committed expenses icon -->
-                <svg v-else-if="evalCategory.icon === 'committed'" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="6" width="18" height="12" rx="2" stroke="white" stroke-width="2" fill="none"/>
-                  <path d="M7 6V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M12 11v3" stroke="white" stroke-width="2"/>
-                  <circle cx="12" cy="14" r="1" fill="white"/>
+                <svg v-else-if="evalCategory.icon === 'committed'" width="20" height="20" viewBox="0 0 24 24"
+                  fill="none">
+                  <rect x="3" y="6" width="18" height="12" rx="2" stroke="white" stroke-width="2" fill="none" />
+                  <path d="M7 6V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M12 11v3" stroke="white" stroke-width="2" />
+                  <circle cx="12" cy="14" r="1" fill="white" />
                 </svg>
               </div>
               <div class="evaluation-label">{{ evalCategory.name }}</div>
@@ -196,10 +210,7 @@
 
     <!-- Continue Button -->
     <div class="button-container" :class="{ 'visible': showButton }">
-      <button 
-        class="continue-button" 
-        @click="handleContinue"
-      >
+      <button class="continue-button" @click="handleContinue">
         <span v-if="currentCategoryIndex < allCategories.length">
           Continuar ({{ currentCategoryIndex + 1 }}/{{ allCategories.length }})
         </span>
@@ -213,6 +224,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue'
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -236,23 +248,23 @@ const allCategories = [
     id: "EXP-ENT-001",
     name: "Comidas preparadas",
     value: 34900,
-    color: "#f59e0b",
+    color: "#6b7280",
     targetCategory: "gastos-discrecionales",
     icon: "food"
   },
   {
-    id: "EXP-ENT-005", 
+    id: "EXP-ENT-005",
     name: "Plataformas de streaming",
     value: 25000,
-    color: "#8b5cf6",
+    color: "#6b7280",
     targetCategory: "gastos-discrecionales",
     icon: "streaming"
   },
   {
     id: "EXP-BIE-008",
-    name: "Suplementos y medicina alternativa", 
+    name: "Suplementos y medicina alternativa",
     value: 67500,
-    color: "#10b981",
+    color: "#6b7280",
     targetCategory: "gastos-discrecionales",
     icon: "supplements"
   },
@@ -261,7 +273,7 @@ const allCategories = [
     id: "INC-LAB-001",
     name: "Salario o nómina",
     value: 3200000,
-    color: "#3b82f6", 
+    color: "#6b7280",
     targetCategory: "ingresos-principales",
     icon: "salary"
   },
@@ -269,15 +281,15 @@ const allCategories = [
     id: "INC-FIN-003",
     name: "Ingreso por arriendo",
     value: 1500000,
-    color: "#059669",
-    targetCategory: "ingresos-principales", 
+    color: "#6b7280",
+    targetCategory: "ingresos-principales",
     icon: "rent"
   },
   {
     id: "INC-LAB-002",
     name: "Ingresos como independiente",
     value: 2800000,
-    color: "#0d9488",
+    color: "#6b7280",
     targetCategory: "ingresos-principales",
     icon: "freelance"
   },
@@ -286,7 +298,7 @@ const allCategories = [
     id: "INC-COM-002",
     name: "Apuestas",
     value: 45000,
-    color: "#f59e0b",
+    color: "#6b7280",
     targetCategory: "ingresos-secundarios",
     icon: "gambling"
   },
@@ -294,7 +306,7 @@ const allCategories = [
     id: "INC-FIN-002",
     name: "Dividendos",
     value: 180000,
-    color: "#10b981",
+    color: "#6b7280",
     targetCategory: "ingresos-secundarios",
     icon: "dividends"
   },
@@ -303,7 +315,7 @@ const allCategories = [
     id: "EXP-BIE-002",
     name: "Gastos médicos y cuidados de la salud",
     value: 145000,
-    color: "#dc2626",
+    color: "#6b7280",
     targetCategory: "gastos-esenciales",
     icon: "medical"
   },
@@ -311,15 +323,15 @@ const allCategories = [
     id: "EXP-COM-002",
     name: "Víveres – Cadenas de mercado",
     value: 420000,
-    color: "#16a34a",
+    color: "#6b7280",
     targetCategory: "gastos-esenciales",
     icon: "groceries"
   },
   {
     id: "EXP-VIV-001",
-    name: "Servicio público de luz", 
+    name: "Servicio público de luz",
     value: 89000,
-    color: "#eab308",
+    color: "#6b7280",
     targetCategory: "gastos-esenciales",
     icon: "electricity"
   },
@@ -328,7 +340,7 @@ const allCategories = [
     id: "EXP-COM-006",
     name: "Tecnología",
     value: 234000,
-    color: "#6366f1",
+    color: "#6b7280",
     targetCategory: "calidad-vida-basica",
     icon: "technology"
   },
@@ -336,7 +348,7 @@ const allCategories = [
     id: "EXP-COM-007",
     name: "Ropa, calzado y maletas",
     value: 189000,
-    color: "#ec4899",
+    color: "#6b7280",
     targetCategory: "calidad-vida-basica",
     icon: "clothing"
   },
@@ -344,15 +356,15 @@ const allCategories = [
     id: "EXP-EDU-001",
     name: "Educación infantil y guarderías",
     value: 450000,
-    color: "#8b5cf6",
+    color: "#6b7280",
     targetCategory: "calidad-vida-basica",
     icon: "education"
   },
   {
-    id: "EXP-FAM-002", 
+    id: "EXP-FAM-002",
     name: "Mascotas y animales",
     value: 78000,
-    color: "#f97316",
+    color: "#6b7280",
     targetCategory: "calidad-vida-basica",
     icon: "pets"
   },
@@ -361,15 +373,15 @@ const allCategories = [
     id: "EXP-FIN-001",
     name: "Pago de balance de crédito",
     value: 567000,
-    color: "#be185d",
-    targetCategory: "gastos-comprometidos", 
+    color: "#6b7280",
+    targetCategory: "gastos-comprometidos",
     icon: "credit"
   },
   {
     id: "EXP-FIN-014",
     name: "Hipotecas",
     value: 1200000,
-    color: "#7c3aed",
+    color: "#6b7280",
     targetCategory: "gastos-comprometidos",
     icon: "mortgage"
   },
@@ -377,7 +389,7 @@ const allCategories = [
     id: "EXP-FIN-012",
     name: "Impuestos y tasas públicas",
     value: 320000,
-    color: "#991b1b",
+    color: "#6b7280",
     targetCategory: "gastos-comprometidos",
     icon: "taxes"
   }
@@ -395,42 +407,42 @@ const evaluationCategories = ref([
     id: "ingresos-principales",
     name: "Ingresos Principales",
     value: 0,
-    color: "#10b981",
+    color: "#6b7280",
     icon: "income-primary"
   },
   {
-    id: "ingresos-secundarios", 
+    id: "ingresos-secundarios",
     name: "Ingresos Secundarios",
     value: 0,
-    color: "#059669",
+    color: "#6b7280",
     icon: "income-secondary"
   },
   {
     id: "gastos-esenciales",
     name: "Gastos Esenciales",
     value: 0,
-    color: "#dc2626",
+    color: "#6b7280",
     icon: "essential"
   },
   {
     id: "gastos-discrecionales",
-    name: "Gastos Discrecionales", 
+    name: "Gastos Discrecionales",
     value: 0,
-    color: "#f59e0b",
+    color: "#6b7280",
     icon: "discretionary"
   },
   {
     id: "calidad-vida-basica",
     name: "Calidad de Vida Básica",
     value: 0,
-    color: "#8b5cf6",
+    color: "#6b7280",
     icon: "quality-life"
   },
   {
     id: "gastos-comprometidos",
     name: "Gastos Comprometidos",
     value: 0,
-    color: "#be185d",
+    color: "#6b7280",
     icon: "committed"
   }
 ])
@@ -444,20 +456,20 @@ const formatNumber = (value: number) => {
 const animateNumber = (targetElement: any, targetValue: number, duration = 800) => {
   const startValue = targetElement.value
   const startTime = Date.now()
-  
+
   const animate = () => {
     const elapsed = Date.now() - startTime
     const progress = Math.min(elapsed / duration, 1)
-    
+
     const easeOut = 1 - Math.pow(1 - progress, 3)
-    
+
     targetElement.value = Math.round(startValue + (targetValue - startValue) * easeOut)
-    
+
     if (progress < 1) {
       requestAnimationFrame(animate)
     }
   }
-  
+
   animate()
 }
 
@@ -466,7 +478,7 @@ const animateCategoriesSequentially = async () => {
   return new Promise<void>((resolve) => {
     // Show current category first
     visibleCategories.value.add(0)
-    
+
     setTimeout(() => {
       // Show evaluation categories one by one
       const animateNextCategory = (index: number) => {
@@ -474,14 +486,14 @@ const animateCategoriesSequentially = async () => {
           resolve()
           return
         }
-        
+
         visibleCategories.value.add(index + 1)
-        
+
         setTimeout(() => {
           animateNextCategory(index + 1)
         }, 150)
       }
-      
+
       animateNextCategory(0)
     }, 600)
   })
@@ -490,63 +502,63 @@ const animateCategoriesSequentially = async () => {
 // Animation for moving card to target category
 const animateCardToCategory = async () => {
   if (!movingCard.value || isAnimating.value) return
-  
+
   isAnimating.value = true
-  
+
   // Find target category element
   const targetCategoryId = currentCategory.value.targetCategory
-  const targetElement = categoryItems.value?.find(el => 
+  const targetElement = categoryItems.value?.find(el =>
     el.getAttribute('data-category-id') === targetCategoryId
   )
-  
+
   if (!targetElement) return
-  
+
   // Get positions
   const cardRect = movingCard.value.getBoundingClientRect()
   const targetRect = targetElement.getBoundingClientRect()
-  
+
   // Calculate movement to center of target element
   const deltaX = (targetRect.left + targetRect.width / 2) - (cardRect.left + cardRect.width / 2)
   const deltaY = (targetRect.top + targetRect.height / 2) - (cardRect.top + cardRect.height / 2)
-  
+
   // Apply animation directly to the card
   movingCard.value.style.transition = 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)'
   movingCard.value.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.3)`
   movingCard.value.style.opacity = '0'
   movingCard.value.style.zIndex = '1000'
-  
+
   // After movement, highlight target and update value
   setTimeout(() => {
     // Highlight target category
     highlightedCategory.value = targetCategoryId
-    
+
     // Update the highlighted category border color dynamically
     const targetCat = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
     if (targetCat && targetElement) {
       targetElement.style.setProperty('--highlight-color', targetCat.color)
     }
-    
+
     // Update target category value
     const targetCategory = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
     if (targetCategory) {
       const oldValue = { value: targetCategory.value }
       const newValue = targetCategory.value + currentCategory.value.value
-      
+
       animateNumber(oldValue, newValue)
-      
+
       // Update the actual value after animation
       setTimeout(() => {
         targetCategory.value = newValue
       }, 800)
     }
-    
+
     // Remove highlight and show next card
     setTimeout(() => {
       highlightedCategory.value = null
-      
+
       // Move to next category
       currentCategoryIndex.value++
-      
+
       // Check if we have more categories
       if (currentCategoryIndex.value < allCategories.length) {
         // Animate new card entrance
@@ -557,26 +569,26 @@ const animateCardToCategory = async () => {
           movingCard.value.style.display = 'none'
         }
       }
-      
+
       isAnimating.value = false
     }, 2500)
-    
+
   }, 1200)
 }
 
 // Smooth entrance animation for new card
 const animateNewCardEntrance = () => {
   if (!movingCard.value) return
-  
+
   // Start with card hidden and positioned slightly off
   movingCard.value.style.transition = 'none'
   movingCard.value.style.transform = 'translate(-20px, 20px) scale(0.85)'
   movingCard.value.style.opacity = '0'
   movingCard.value.style.zIndex = 'auto'
-  
+
   // Force a reflow
   movingCard.value.offsetHeight
-  
+
   // Animate to normal position
   setTimeout(() => {
     if (movingCard.value) {
@@ -605,7 +617,7 @@ const startTitleAnimation = async () => {
 // Handle continue button click
 const handleContinue = () => {
   if (isAnimating.value) return
-  
+
   // Check if we have more categories to process
   if (currentCategoryIndex.value < allCategories.length) {
     animateCardToCategory()
@@ -719,10 +731,13 @@ onMounted(async () => {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
     opacity: 0.15;
   }
+
   50% {
     transform: translateY(-10px) rotate(0.5deg);
     opacity: 0.25;
@@ -855,7 +870,7 @@ onMounted(async () => {
 .category-value {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #f59e0b;
+  color: #000000;
   font-family: 'Courier New', monospace;
   margin: 0;
 }
@@ -939,18 +954,22 @@ onMounted(async () => {
     transform: scale(1.02);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
   }
+
   25% {
     transform: scale(1.08);
     box-shadow: 0 16px 45px rgba(0, 0, 0, 0.3);
   }
+
   50% {
     transform: scale(1.05);
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
   }
+
   75% {
     transform: scale(1.06);
     box-shadow: 0 15px 42px rgba(0, 0, 0, 0.28);
   }
+
   100% {
     transform: scale(1.02);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
@@ -1020,11 +1039,11 @@ onMounted(async () => {
   .main-content {
     gap: 40px;
   }
-  
+
   .current-category-card {
     flex: 0 0 280px;
   }
-  
+
   .categories-column {
     min-width: 350px;
   }
@@ -1034,34 +1053,34 @@ onMounted(async () => {
   .main-title {
     font-size: 2.5rem;
   }
-  
+
   .main-content {
     flex-direction: column;
     gap: 40px;
     align-items: center;
   }
-  
+
   .current-category-card {
     flex: none;
     width: 100%;
     max-width: 350px;
   }
-  
+
   .categories-column {
     width: 100%;
     max-width: 600px;
     min-width: auto;
   }
-  
+
   .category-icon-large {
     width: 70px;
     height: 70px;
   }
-  
+
   .category-name {
     font-size: 1.3rem;
   }
-  
+
   .category-value {
     font-size: 1.6rem;
   }
@@ -1071,55 +1090,55 @@ onMounted(async () => {
   .affordability-container {
     padding: 30px 15px 15px;
   }
-  
+
   .main-title {
     font-size: 2.2rem;
     letter-spacing: 0.5px;
   }
-  
+
   .subtitle {
     font-size: 1.1rem;
   }
-  
+
   .current-category-card {
     padding: 30px 20px;
   }
-  
+
   .category-icon-large {
     width: 80px;
     height: 80px;
   }
-  
+
   .category-name {
     font-size: 1.4rem;
   }
-  
+
   .category-value {
     font-size: 1.8rem;
   }
-  
+
   .evaluation-item {
     padding: 15px 20px;
   }
-  
+
   .evaluation-left {
     gap: 12px;
   }
-  
+
   .evaluation-icon {
     width: 35px;
     height: 35px;
   }
-  
+
   .evaluation-icon svg {
     width: 16px;
     height: 16px;
   }
-  
+
   .evaluation-label {
     font-size: 1rem;
   }
-  
+
   .evaluation-value {
     font-size: 1.1rem;
     min-width: 100px;
@@ -1130,59 +1149,59 @@ onMounted(async () => {
   .affordability-container {
     padding: 20px 10px 15px;
   }
-  
+
   .main-title {
     font-size: 1.8rem;
   }
-  
+
   .main-content {
     gap: 30px;
   }
-  
+
   .current-category-card {
     padding: 25px 15px;
   }
-  
+
   .category-icon-large {
     width: 70px;
     height: 70px;
   }
-  
+
   .category-name {
     font-size: 1.2rem;
   }
-  
+
   .category-value {
     font-size: 1.6rem;
   }
-  
+
   .evaluation-item {
     padding: 12px 15px;
   }
-  
+
   .evaluation-left {
     gap: 10px;
   }
-  
+
   .evaluation-icon {
     width: 30px;
     height: 30px;
   }
-  
+
   .evaluation-icon svg {
     width: 14px;
     height: 14px;
   }
-  
+
   .evaluation-label {
     font-size: 0.9rem;
   }
-  
+
   .evaluation-value {
     min-width: auto;
     font-size: 1rem;
   }
-  
+
   .continue-button {
     padding: 14px 30px;
     font-size: 1.1rem;

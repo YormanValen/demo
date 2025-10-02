@@ -1,6 +1,7 @@
 <template>
   <div ref="rootContainer" class="history-transaction-container" :class="[{ revealing: reveal.active, expand: reveal.expand, exiting }]" :style="revealStyle">
-    <div class="background-elements">
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <div class="floating-element number">42%</div>
       <div class="floating-element number">1.2M</div>
       <div class="floating-element data-point">●</div>
@@ -55,6 +56,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick } from 'vue'
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTxStore } from '@/modules/transactional-insights/stores/transactions.store'
 
