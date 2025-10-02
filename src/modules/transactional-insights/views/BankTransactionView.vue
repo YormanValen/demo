@@ -84,6 +84,10 @@ import TransactionalInsightsBackground from '../components/TransactionalInsights
 import { useRoute, useRouter } from 'vue-router'
 import { useInstitutionsStore } from '@/modules/financial/stores/institutions.store'
 import { useTxStore } from '@/modules/transactional-insights/stores/transactions.store'
+// Logo imports
+import neodigiBankLogo from '@/assets/logos/neodigi-bank-logo.png'
+import tekcreditLogo from '@/assets/logos/tekcredit-logo.png'
+import flexfiniaLogo from '@/assets/logos/flexfinia-logo.png'
 
 // Router and route
 const route = useRoute()
@@ -151,6 +155,26 @@ const defaultBanks = [
   }
 ]
 
+// Map bank names to consistent IDs
+const mapBankNameToId = (bankName: string): number => {
+  const nameMap: Record<string, number> = {
+    'Neodigi Bank': 1,
+    'TekCredit': 2,
+    'Flexfinia': 3
+  }
+  return nameMap[bankName] || 1 // Default to 1 if bank name not found
+}
+
+// Map bank names to correct logo assets
+const getBankLogo = (bankName: string) => {
+  const logoMap: Record<string, string> = {
+    'Neodigi Bank': neodigiBankLogo,
+    'TekCredit': tekcreditLogo,
+    'Flexfinia': flexfiniaLogo
+  }
+  return logoMap[bankName] || ''
+}
+
 // Get selected bank (only when data is ready)
 const selectedBank = computed(() => {
   // Don't return anything until bank data is confirmed ready
@@ -161,23 +185,37 @@ const selectedBank = computed(() => {
   const bankId = parseInt(route.params.bankId as string) || 1
   const connectedBanks = institutionsStore.connectedInstitutions
   
-  // Always prioritize finding the exact bank ID requested
+  let foundBank = null
+  
+  // First try to find by the original bankId (for backward compatibility)
   if (connectedBanks.length > 0) {
-    const bank = connectedBanks.find(b => b.id === bankId)
-    if (bank) return bank
+    foundBank = connectedBanks.find(b => b.id === bankId)
   }
   
-  // Try default banks with exact ID match
-  const defaultBank = defaultBanks.find(b => b.id === bankId)
-  if (defaultBank) return defaultBank
+  // Try default banks with exact ID match if not found in connected banks
+  if (!foundBank) {
+    foundBank = defaultBanks.find(b => b.id === bankId)
+  }
   
   // Only fallback to first bank if no ID was provided (bankId === 1)
-  if (bankId === 1) {
-    return connectedBanks[0] || defaultBanks[0]
+  if (!foundBank && bankId === 1) {
+    foundBank = connectedBanks[0] || defaultBanks[0]
   }
   
-  // If specific ID was requested but not found, return first default bank
-  return defaultBanks[0]
+  // If still not found, return first default bank
+  if (!foundBank) {
+    foundBank = defaultBanks[0]
+  }
+  
+  // Return bank with correct logo mapped by name
+  if (foundBank) {
+    return {
+      ...foundBank,
+      logo: getBankLogo(foundBank.name) || foundBank.logo
+    }
+  }
+  
+  return foundBank
 })
 
 // Removed allBanks - no longer needed
@@ -204,8 +242,11 @@ watch(isBankLoaded, (isLoaded) => {
 
 // Transactions from store (credit/debit only)
 const transactions = computed(() => {
-  const id = parseInt(route.params.bankId as string) || 1
-  return txStore.byBank(id)
+  if (!selectedBank.value) return []
+  
+  // Use mapped ID based on bank name for consistent transaction data
+  const mappedId = mapBankNameToId(selectedBank.value.name)
+  return txStore.byBank(mappedId)
 })
 
 // Formateo de montos en pesos colombianos (COP)
@@ -301,9 +342,9 @@ onMounted(async () => {
   institutionsStore.loadFromLocalStorage()
   // Load transactions from localStorage, then ensure demo seeds if needed
   txStore.loadFromLocalStorage()
-  // Ensure demo transactions exist for connected/default banks
+  // Ensure demo transactions exist for connected/default banks using mapped names
   const connectedIds = (institutionsStore.connectedInstitutions.length
-    ? institutionsStore.connectedInstitutions.map(b => b.id)
+    ? institutionsStore.connectedInstitutions.map(b => mapBankNameToId(b.name))
     : [1, 2, 3])
   txStore.ensureSeedFor(connectedIds)
   

@@ -166,7 +166,28 @@ const showPeopleSequentially = async (delay = 600) => {
   })
 }
 
-const showCategoriesWithRandomChecks = async (delay = 1500) => {
+// Define which checks should be visible (categoryIndex-personIndex)
+const predefinedChecks = [
+  // Ana García (persona 0)
+  '1-0', // Amante de la comida
+  '2-0', // Viajero frecuente
+  '4-0', // Entusiasta de cuidado personal
+  '5-0', // Explorador cultural premium
+  
+  // Carlos López (persona 1)
+  '0-1', // Propietario de vehículo
+  '1-1', // Amante de la comida
+  '3-1', // Dueño de mascotas
+  
+  // María Rodríguez (persona 2)
+  '0-2', // Propietario de vehículo
+  '2-2', // Viajero frecuente
+  '3-2', // Dueño de mascotas
+  '4-2', // Entusiasta de cuidado personal
+  '5-2', // Explorador cultural premium
+]
+
+const showCategoriesWithDefinedChecks = async (delay = 1500) => {
   return new Promise<void>((resolve) => {
     const showNext = (categoryIndex: number) => {
       if (categoryIndex >= categories.value.length) {
@@ -177,13 +198,13 @@ const showCategoriesWithRandomChecks = async (delay = 1500) => {
       // Show category
       visibleCategories.value.add(categoryIndex)
       
-      // Add random checks for this category after a short delay
+      // Add predefined checks for this category after a short delay
       setTimeout(() => {
         people.value.forEach((_, personIndex) => {
-          // Random chance for each person to have this category
-          if (Math.random() > 0.4) { // 60% chance
+          const checkKey = `${categoryIndex}-${personIndex}`
+          if (predefinedChecks.includes(checkKey)) {
             setTimeout(() => {
-              visibleChecks.value.add(`${categoryIndex}-${personIndex}`)
+              visibleChecks.value.add(checkKey)
             }, personIndex * 300)
           }
         })
@@ -208,8 +229,8 @@ const startAnimations = async () => {
         // 3. Mostrar personas primero
         showPeopleSequentially(600).then(() => {
           setTimeout(() => {
-            // 4. Mostrar categorías con checks aleatorios
-            showCategoriesWithRandomChecks(1500).then(() => {
+            // 4. Mostrar categorías con checks definidos
+            showCategoriesWithDefinedChecks(1500).then(() => {
               setTimeout(() => {
                 showButton.value = true
               }, 1000)

@@ -374,7 +374,10 @@ const showElements = async () => {
 
 // Handle continue button click
 const handleContinue = () => {
-  router.push({ name: 'entity-transactional-insights-bank-selection' })
+  router.push({ name: 'entity-transactional-insights-bank-selection' }).then(() => {
+    // Force page reload to clear CSS memory issues
+    window.location.reload()
+  })
 }
 
 // Start smooth appear animation when component mounts
