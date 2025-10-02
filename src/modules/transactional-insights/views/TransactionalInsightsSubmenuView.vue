@@ -197,7 +197,7 @@ const navigateToOption = (option: string) => {
       router.push({ name: 'entity-transactional-insights-transactional-profile' })
       break
     case 'score':
-      // Future implementation - SCORE TRANSACCIONAL
+      router.push({ name: 'entity-transactional-insights-score-transaccional' })
       break
   }
 }

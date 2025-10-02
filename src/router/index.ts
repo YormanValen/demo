@@ -247,6 +247,12 @@ const routes: RouteRecordRaw[] = [
     name: 'entity-transactional-insights-transactional-profile',
     component: () => import('../modules/transactional-insights/views/TransactionalProfileView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/score-transaccional',
+    name: 'entity-transactional-insights-score-transaccional',
+    component: () => import('../modules/transactional-insights/views/ScoreTransaccionalView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 

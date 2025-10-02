@@ -17,23 +17,53 @@
 
     <!-- Main Content Layout -->
     <div class="main-content" :class="{ 'visible': showContent }">
-      <!-- Profile Cards Grid -->
-      <div class="profiles-grid" :class="{ 'visible': showProfiles }">
-        <div v-for="(profile, index) in profiles" :key="profile.id" class="profile-card"
-          :class="{ 'visible': visibleProfiles.has(index) }" :style="{ 'animation-delay': `${index * 100}ms` }">
-          <div class="profile-icon">
-            <span class="profile-emoji">{{ profile.emoji }}</span>
-          </div>
-          <h3 class="profile-name">{{ profile.name }}</h3>
-          <p class="profile-description">{{ profile.description }}</p>
-          <div class="profile-stats">
-            <div class="stat-item">
-              <span class="stat-label">Frecuencia:</span>
-              <span class="stat-value">{{ profile.frequency }}</span>
+      <!-- Profile Comparison Table -->
+      <div class="profile-table-container" :class="{ 'visible': showTable }">
+        <div class="table-wrapper">
+          <!-- Header with people -->
+          <div class="table-header">
+            <div class="category-header"></div>
+            <div 
+              v-for="(person, index) in people" 
+              :key="person.id"
+              class="person-column"
+              :class="{ 'visible': visiblePeople.has(index) }"
+            >
+              <div class="person-avatar">
+                <span class="person-emoji">{{ person.emoji }}</span>
+              </div>
+              <h3 class="person-name">{{ person.name }}</h3>
+              <p class="person-age">{{ person.age }} años</p>
             </div>
-            <div class="stat-item">
-              <span class="stat-label">Categoría:</span>
-              <span class="stat-value">{{ profile.category }}</span>
+          </div>
+
+          <!-- Category rows -->
+          <div class="table-body">
+            <div 
+              v-for="(category, categoryIndex) in categories" 
+              :key="category.id"
+              class="category-row"
+              :class="{ 'visible': visibleCategories.has(categoryIndex) }"
+            >
+              <div class="category-info">
+                <div class="category-icon">
+                  <span>{{ category.icon }}</span>
+                </div>
+                <span class="category-name">{{ category.name }}</span>
+              </div>
+              
+              <div 
+                v-for="(person, personIndex) in people" 
+                :key="`${category.id}-${person.id}`"
+                class="check-cell"
+              >
+                <div 
+                  class="check-mark"
+                  :class="{ 'visible': visibleChecks.has(`${categoryIndex}-${personIndex}`) }"
+                >
+                  ✓
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -59,120 +89,107 @@ const router = useRouter()
 // Animation states
 const showTitle = ref(false)
 const showContent = ref(false)
-const showProfiles = ref(false)
+const showTable = ref(false)
 const showButton = ref(false)
-const visibleProfiles = ref<Set<number>>(new Set())
+const visiblePeople = ref<Set<number>>(new Set())
+const visibleCategories = ref<Set<number>>(new Set())
+const visibleChecks = ref<Set<string>>(new Set())
 
-// Profile data
-const profiles = ref([
+// People data
+const people = ref([
   {
     id: 1,
-    name: "Comprador Frecuente",
-    description: "Realiza múltiples transacciones diarias en diferentes categorías",
-    emoji: "🛒",
-    frequency: "Diaria",
-    category: "Retail"
+    name: "Ana García",
+    age: 28,
+    emoji: "👩‍💼"
   },
   {
     id: 2,
-    name: "Inversor Digital",
-    description: "Enfocado en inversiones y productos financieros digitales",
-    emoji: "💰",
-    frequency: "Semanal",
-    category: "Finanzas"
+    name: "Carlos López",
+    age: 35,
+    emoji: "👨‍🏫"
   },
   {
     id: 3,
-    name: "Viajero Urbano",
-    description: "Gastos concentrados en transporte y movilidad urbana",
-    emoji: "🚗",
-    frequency: "Diaria",
-    category: "Transporte"
+    name: "María Rodríguez",
+    age: 42,
+    emoji: "👩‍⚕️"
+  }
+])
+
+// Categories data
+const categories = ref([
+  {
+    id: 1,
+    name: "Propietario de vehículo",
+    icon: "🚗"
+  },
+  {
+    id: 2,
+    name: "Amante de la comida",
+    icon: "🍕"
+  },
+  {
+    id: 3,
+    name: "Viajero frecuente",
+    icon: "✈️"
   },
   {
     id: 4,
-    name: "Gastronómico",
-    description: "Alta actividad en restaurantes y delivery de comida",
-    emoji: "🍕",
-    frequency: "Diaria",
-    category: "Alimentación"
+    name: "Dueño de mascotas",
+    icon: "🐕"
   },
   {
     id: 5,
-    name: "Ahorrista Disciplinado",
-    description: "Patrones consistentes de ahorro y gastos controlados",
-    emoji: "🏦",
-    frequency: "Mensual",
-    category: "Ahorro"
+    name: "Entusiasta de cuidado personal",
+    icon: "💄"
   },
   {
     id: 6,
-    name: "Comprador Online",
-    description: "Preferencia por compras digitales y e-commerce",
-    emoji: "📱",
-    frequency: "Semanal",
-    category: "Digital"
-  },
-  {
-    id: 7,
-    name: "Fitness Enthusiast",
-    description: "Gastos en gimnasios, suplementos y actividades deportivas",
-    emoji: "💪",
-    frequency: "Semanal",
-    category: "Salud"
-  },
-  {
-    id: 8,
-    name: "Familiar Responsable",
-    description: "Gastos enfocados en familia, educación y hogar",
-    emoji: "👨‍👩‍👧‍👦",
-    frequency: "Semanal",
-    category: "Familia"
-  },
-  {
-    id: 9,
-    name: "Entretenimiento Premium",
-    description: "Alta inversión en entretenimiento y experiencias premium",
-    emoji: "🎭",
-    frequency: "Mensual",
-    category: "Entretenimiento"
-  },
-  {
-    id: 10,
-    name: "Profesional Ejecutivo",
-    description: "Gastos corporativos y de alta gama profesional",
-    emoji: "💼",
-    frequency: "Semanal",
-    category: "Profesional"
-  },
-  {
-    id: 11,
-    name: "Estudiante Activo",
-    description: "Patrones de gasto típicos de estudiantes universitarios",
-    emoji: "🎓",
-    frequency: "Semanal",
-    category: "Educación"
-  },
-  {
-    id: 12,
-    name: "Minimalista Digital",
-    description: "Pocos gastos, enfocados en servicios digitales esenciales",
-    emoji: "📐",
-    frequency: "Mensual",
-    category: "Minimalismo"
+    name: "Explorador cultural premium",
+    icon: "🎭"
   }
 ])
 
 // Animation helpers
-const showProfilesSequentially = async (delay = 150) => {
+const showPeopleSequentially = async (delay = 600) => {
   return new Promise<void>((resolve) => {
     const showNext = (index: number) => {
-      if (index >= profiles.value.length) {
+      if (index >= people.value.length) {
         resolve()
         return
       }
-      visibleProfiles.value.add(index)
+      visiblePeople.value.add(index)
       setTimeout(() => showNext(index + 1), delay)
+    }
+    showNext(0)
+  })
+}
+
+const showCategoriesWithRandomChecks = async (delay = 1500) => {
+  return new Promise<void>((resolve) => {
+    const showNext = (categoryIndex: number) => {
+      if (categoryIndex >= categories.value.length) {
+        resolve()
+        return
+      }
+      
+      // Show category
+      visibleCategories.value.add(categoryIndex)
+      
+      // Add random checks for this category after a short delay
+      setTimeout(() => {
+        people.value.forEach((_, personIndex) => {
+          // Random chance for each person to have this category
+          if (Math.random() > 0.4) { // 60% chance
+            setTimeout(() => {
+              visibleChecks.value.add(`${categoryIndex}-${personIndex}`)
+            }, personIndex * 300)
+          }
+        })
+        
+        setTimeout(() => showNext(categoryIndex + 1), delay)
+      }, 600)
     }
     showNext(0)
   })
@@ -185,15 +202,23 @@ const startAnimations = async () => {
   setTimeout(() => {
     showContent.value = true
     setTimeout(() => {
-      // 2. Mostrar perfiles
-      showProfiles.value = true
-      showProfilesSequentially(120).then(() => {
-        setTimeout(() => {
-          showButton.value = true
-        }, 500)
-      })
-    }, 300)
-  }, 300)
+      // 2. Mostrar tabla
+      showTable.value = true
+      setTimeout(() => {
+        // 3. Mostrar personas primero
+        showPeopleSequentially(600).then(() => {
+          setTimeout(() => {
+            // 4. Mostrar categorías con checks aleatorios
+            showCategoriesWithRandomChecks(1500).then(() => {
+              setTimeout(() => {
+                showButton.value = true
+              }, 1000)
+            })
+          }, 800)
+        })
+      }, 500)
+    }, 500)
+  }, 500)
 }
 
 // Navigation
@@ -311,105 +336,170 @@ onMounted(async () => {
   transform: translateY(0);
 }
 
-/* Profiles Grid */
-.profiles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-  padding: 20px 0;
+/* Profile Table */
+.profile-table-container {
   opacity: 0;
   transform: translateY(30px);
   transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.profiles-grid.visible {
+.profile-table-container.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.profile-card {
+.table-wrapper {
   background: white;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
   border: 2px solid #e5e7eb;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(20px) scale(0.95);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
   overflow: hidden;
 }
 
-.profile-card.visible {
+/* Table Header */
+.table-header {
+  display: grid;
+  grid-template-columns: 250px repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.person-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-20px) scale(0.8);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.person-column.visible {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
 
-.profile-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-  border-color: rgb(186, 45, 125);
-}
-
-.profile-icon {
+.person-avatar {
   width: 80px;
   height: 80px;
-  border-radius: 20px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px;
+  margin-bottom: 12px;
   background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
-  position: relative;
+  box-shadow: 0 8px 20px rgba(97, 40, 120, 0.3);
 }
 
-.profile-emoji {
+.person-emoji {
   font-size: 2.5rem;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
-.profile-name {
-  font-size: 1.4rem;
+.person-name {
+  font-size: 1.2rem;
   font-weight: 700;
   color: #111827;
-  margin: 0 0 12px 0;
+  margin: 0 0 4px 0;
 }
 
-.profile-description {
-  font-size: 1rem;
+.person-age {
+  font-size: 0.9rem;
   color: #6b7280;
-  margin: 0 0 20px 0;
-  line-height: 1.5;
+  margin: 0;
 }
 
-.profile-stats {
+/* Table Body */
+.table-body {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  border-top: 1px solid #e5e7eb;
-  padding-top: 16px;
+  gap: 16px;
 }
 
-.stat-item {
+.category-row {
+  display: grid;
+  grid-template-columns: 250px repeat(3, 1fr);
+  gap: 20px;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #f3f4f6;
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-row.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.category-row:last-child {
+  border-bottom: none;
+}
+
+.category-info {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.category-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(97, 40, 120, 0.1);
+  font-size: 1.5rem;
+}
+
+.category-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.check-cell {
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.stat-label {
-  font-size: 0.9rem;
-  color: #6b7280;
-  font-weight: 500;
+.check-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 4px 12px rgba(97, 40, 120, 0.3);
 }
 
-.stat-value {
-  font-size: 0.9rem;
-  color: #111827;
-  font-weight: 600;
-  background: rgba(97, 40, 120, 0.1);
-  padding: 4px 8px;
-  border-radius: 6px;
+.check-mark.visible {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* Button */
@@ -454,9 +544,18 @@ onMounted(async () => {
     font-size: 2.5rem;
   }
 
-  .profiles-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+  .table-header {
+    grid-template-columns: 200px repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .category-row {
+    grid-template-columns: 200px repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .table-wrapper {
+    padding: 25px;
   }
 }
 
@@ -474,9 +573,37 @@ onMounted(async () => {
     font-size: 1.1rem;
   }
 
-  .profiles-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .table-header {
+    grid-template-columns: 150px repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .category-row {
+    grid-template-columns: 150px repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .table-wrapper {
+    padding: 20px;
+  }
+
+  .person-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .person-emoji {
+    font-size: 2rem;
+  }
+
+  .category-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+
+  .category-name {
+    font-size: 0.9rem;
   }
 }
 
@@ -489,8 +616,36 @@ onMounted(async () => {
     font-size: 1.8rem;
   }
 
-  .profile-card {
-    padding: 20px;
+  .table-header {
+    grid-template-columns: 120px repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .category-row {
+    grid-template-columns: 120px repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .table-wrapper {
+    padding: 16px;
+  }
+
+  .person-name {
+    font-size: 1rem;
+  }
+
+  .person-age {
+    font-size: 0.8rem;
+  }
+
+  .category-name {
+    font-size: 0.8rem;
+  }
+
+  .check-mark {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
   }
 }
 </style>
