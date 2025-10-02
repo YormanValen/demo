@@ -217,6 +217,12 @@ const routes: RouteRecordRaw[] = [
     name: 'entity-transactional-insights-submenu',
     component: () => import('../modules/transactional-insights/views/TransactionalInsightsSubmenuView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/affordability',
+    name: 'entity-transactional-insights-affordability',
+    component: () => import('../modules/transactional-insights/views/AffordabilityView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 

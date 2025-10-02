@@ -175,7 +175,7 @@ const navigateToOption = (option: string) => {
   // Add navigation logic based on option
   switch(option) {
     case 'affordability':
-      // Future implementation - AFFORDABILITY
+      router.push({ name: 'entity-transactional-insights-affordability' })
       break
     case 'alertas':
       // Future implementation - ALERTAS Y TENDENCIAS
