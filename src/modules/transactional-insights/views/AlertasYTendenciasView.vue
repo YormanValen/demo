@@ -16,8 +16,10 @@
       <h1 class="main-title">Alertas y Tendencias</h1>
       <p class="subtitle">Detección de tendencias de gastos e ingresos y comportamientos del cliente.</p>
       <div class="description-container">
-        <p class="description-text">Análisis avanzado de patrones de comportamiento financiero</p>
-        <p class="description-text highlight">Identificación automática de anomalías y cambios significativos</p>
+        <ul class="description-list">
+          <li class="description-text">Análisis avanzado de patrones de comportamiento financiero</li>
+          <li class="description-text">Identificación automática de anomalías y cambios significativos</li>
+        </ul>
       </div>
     </div>
 
@@ -30,9 +32,16 @@
           <div class="large-table">
             <svg width="300" height="200" viewBox="0 0 300 200" fill="none">
               <!-- Table structure -->
-              <rect x="20" y="20" width="260" height="160" rx="8" stroke="#3b82f6" stroke-width="3" fill="#f8fafc" />
+              <rect x="20" y="20" width="260" height="160" rx="8" stroke="url(#tableGradient)" stroke-width="3" fill="#f8fafc" />
               <!-- Table header -->
-              <rect x="20" y="20" width="260" height="30" rx="8" fill="#3b82f6" />
+              <rect x="20" y="20" width="260" height="30" rx="8" fill="url(#tableGradient)" />
+              <!-- Gradient definition -->
+              <defs>
+                <linearGradient id="tableGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:rgb(186, 45, 125);stop-opacity:1" />
+                </linearGradient>
+              </defs>
               <!-- Grid lines -->
               <line x1="20" y1="60" x2="280" y2="60" stroke="#e5e7eb" stroke-width="1" />
               <line x1="20" y1="80" x2="280" y2="80" stroke="#e5e7eb" stroke-width="1" />
@@ -80,10 +89,17 @@
             <!-- Animated Magnifying Glass -->
             <div class="magnifying-glass magnifying-glass-moving" ref="magnifyingGlass">
               <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                <!-- Gradient definition -->
+                <defs>
+                  <linearGradient id="magnifyingGlassGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:rgb(186, 45, 125);stop-opacity:1" />
+                  </linearGradient>
+                </defs>
                 <!-- Glass circle -->
-                <circle cx="22" cy="22" r="18" stroke="#f59e0b" stroke-width="3" fill="rgba(245, 158, 11, 0.1)" />
+                <circle cx="22" cy="22" r="18" stroke="url(#magnifyingGlassGradient)" stroke-width="3" fill="rgba(97, 40, 120, 0.1)" />
                 <!-- Handle -->
-                <line x1="38" y1="38" x2="52" y2="52" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" />
+                <line x1="38" y1="38" x2="52" y2="52" stroke="url(#magnifyingGlassGradient)" stroke-width="3" stroke-linecap="round" />
                 <!-- Reflection -->
                 <circle cx="18" cy="18" r="3" fill="rgba(255, 255, 255, 0.8)" />
               </svg>
@@ -110,7 +126,7 @@
               <div class="finding-content">
                 <div class="finding-title">{{ finding.title }}</div>
                 <div class="finding-status" :class="finding.discovered ? 'discovered' : 'investigating'">
-                  {{ finding.discovered ? 'Confirmado' : 'Investigando...' }}
+                  {{ finding.discovered ? 'Confirmado' : 'No encontrado' }}
                 </div>
               </div>
             </div>
@@ -429,19 +445,19 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
 .description-text {
   font-size: 1rem;
   color: #4b5563;
-  margin: 0;
+  margin: 8px 0;
   font-weight: 400;
   line-height: 1.6;
-  text-align: center;
-}
-
-.description-text.highlight {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #1f2937;
+  text-align: left;
 }
 
 /* Main Content */
@@ -608,8 +624,8 @@ onMounted(async () => {
 }
 
 .finding-item.checked {
-  border-color: #16a34a;
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: rgb(186, 45, 125);
+  background: white;
 }
 
 .checkbox-container {
@@ -629,8 +645,8 @@ onMounted(async () => {
 }
 
 .checkbox.checked {
-  background: #16a34a;
-  border-color: #16a34a;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) !important;
+  border-color: rgb(186, 45, 125);
   animation: checkboxPulse 0.6s ease;
 }
 
@@ -666,12 +682,11 @@ onMounted(async () => {
 }
 
 .finding-status.discovered {
-  color: #16a34a;
+  color: rgb(186, 45, 125);
 }
 
 .finding-status.investigating {
-  color: #f59e0b;
-  animation: pulse 2s ease-in-out infinite;
+  color: #16a34a;
 }
 
 @keyframes pulse {

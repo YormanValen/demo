@@ -16,8 +16,10 @@
       <h1 class="main-title">Affordability</h1>
       <p class="subtitle">Evaluación histórica de la capacidad de pago y estilo de vida de los clientes.</p>
       <div class="description-container">
-        <p class="description-text">Disponible para cada mes del periodo cubierto por el historial transaccional</p>
-        <p class="description-text highlight">Cada una de las 109 categorías suma a un concepto de la evaluación.</p>
+        <ul class="description-list">
+          <li class="description-text">Disponible para cada mes del periodo cubierto por el historial transaccional</li>
+          <li class="description-text">Cada una de las 109 categorías suma a un concepto de la evaluación.</li>
+        </ul>
       </div>
     </div>
 
@@ -789,19 +791,19 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
 .description-text {
   font-size: 1rem;
   color: #4b5563;
-  margin: 0;
+  margin: 8px 0;
   font-weight: 400;
   line-height: 1.6;
-  text-align: center;
-}
-
-.description-text.highlight {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #1f2937;
+  text-align: left;
 }
 
 /* Main Content Layout */

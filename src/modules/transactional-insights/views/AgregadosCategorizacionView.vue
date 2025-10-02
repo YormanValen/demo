@@ -16,9 +16,10 @@
       <h1 class="main-title">Agregados de Categorización</h1>
       <p class="subtitle">Variables agregadas del comportamiento de las categorías identificadas</p>
       <div class="description-container">
-        <p class="description-text">Calculados para todas las categorías y meses detectados en el historial
-          transaccional del cliente.</p>
-        <p class="description-text highlight">Muchas más variables disponibles</p>
+        <ul class="description-list">
+          <li class="description-text">Calculados para todas las categorías y meses detectados en el historial transaccional del cliente.</li>
+          <li class="description-text">Muchas más variables disponibles</li>
+        </ul>
       </div>
     </div>
 
@@ -517,19 +518,19 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
 .description-text {
   font-size: 1rem;
   color: #4b5563;
-  margin: 0;
+  margin: 8px 0;
   font-weight: 400;
   line-height: 1.6;
-  text-align: center;
-}
-
-.description-text.highlight {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #1f2937;
+  text-align: left;
 }
 
 /* Icons Container */

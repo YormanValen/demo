@@ -16,8 +16,10 @@
       <h1 class="main-title">Income Insights</h1>
       <p class="subtitle">Visión holística de la frecuencia, riesgo y consumo de los ingresos.</p>
       <div class="description-container">
-        <p class="description-text">Análisis integral de patrones de ingresos y comportamiento financiero</p>
-        <p class="description-text highlight">Evaluación de frecuencia, estabilidad y correlación con gastos</p>
+        <ul class="description-list">
+          <li class="description-text">Análisis integral de patrones de ingresos y comportamiento financiero</li>
+          <li class="description-text">Evaluación de frecuencia, estabilidad y correlación con gastos</li>
+        </ul>
       </div>
     </div>
 
@@ -25,7 +27,6 @@
     <div class="main-content" :class="{ 'visible': showContent }">
       <!-- Comparison Table Section -->
       <div class="comparison-section" :class="{ 'visible': showTable }">
-        <h3 class="comparison-title">Comparación de Perfiles</h3>
         <div class="table-container">
           <table class="comparison-table">
             <thead>
@@ -435,19 +436,19 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
 .description-text {
   font-size: 1rem;
   color: #4b5563;
-  margin: 0;
+  margin: 8px 0;
   font-weight: 400;
   line-height: 1.6;
-  text-align: center;
-}
-
-.description-text.highlight {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #1f2937;
+  text-align: left;
 }
 
 /* Main Content */

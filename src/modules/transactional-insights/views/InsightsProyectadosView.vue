@@ -17,10 +17,12 @@
       <p class="subtitle">Proyección de ingresos, gastos y flujos de caja del cliente para cada uno de los siguientes 24
         meses.</p>
       <div class="description-container">
-        <p class="description-text">Desglosado para ingresos, egresos y los grupos del producto Affordability.</p>
-        <p class="description-text highlight">Requiere mínimo 12 meses de historial de transacciones</p>
-        <p class="description-text secondary">Indicadores macroeconómicos provenientes de fuentes internacionales
-          especializadas y actualizados</p>
+        <ul class="description-list">
+          <li class="description-text">Desglosado para ingresos, egresos y los grupos del producto Affordability.</li>
+          <li class="description-text">Requiere mínimo 12 meses de historial de transacciones</li>
+          <li class="description-text">Indicadores macroeconómicos provenientes de fuentes internacionales
+            especializadas y actualizados</li>
+        </ul>
       </div>
     </div>
 
@@ -81,22 +83,7 @@
           </div>
         </div>
 
-        <!-- Data flow particles from ML to chart -->
-        <div v-if="showDataFlow" class="data-flow-layer">
-          <span v-for="(p, idx) in dataFlowParticles" :key="idx" class="data-particle" :style="p"></span>
-        </div>
 
-        <!-- Data cable from ML to chart while bars appear -->
-        <svg v-if="showCable" class="cable-overlay" width="100%" height="100%">
-          <defs>
-            <linearGradient id="cableGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#002db8" />
-              <stop offset="100%" stop-color="#982fa3" />
-            </linearGradient>
-          </defs>
-          <path :d="cablePath" class="cable-line" />
-          <path :d="cablePath" class="cable-dashes" />
-        </svg>
 
         <!-- Bottom Full Width: Chart -->
         <div class="chart-full-section" :class="{ 'visible': showChart }">
@@ -175,7 +162,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, onUnmounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
@@ -191,7 +178,6 @@ const showChart = ref(false)
 const showChartNote = ref(false)
 const showButton = ref(false)
 const showContinue = ref(false)
-const showDataFlow = ref(false)
 const visibleCards = ref<Set<number>>(new Set())
 const movingCards = ref<Set<number>>(new Set())
 const fadingCards = ref<Set<number>>(new Set())
@@ -206,24 +192,7 @@ const card1Ref = ref<HTMLElement | null>(null)
 const mlRef = ref<HTMLElement | null>(null)
 const rootRef = ref<HTMLElement | null>(null)
 const chartRef = ref<HTMLElement | null>(null)
-const dataFlowParticles = ref<Record<string, string>[]>([])
-const showCable = ref(false)
-const cablePath = ref('')
 
-const updateCablePath = () => {
-  if (!rootRef.value || !mlRef.value || !chartRef.value) return
-  const root = rootRef.value.getBoundingClientRect()
-  const m = mlRef.value.getBoundingClientRect()
-  const c = chartRef.value.getBoundingClientRect()
-  const sx = m.left + m.width / 2 - root.left
-  const sy = m.top + m.height - root.top
-  const ex = c.left + c.width / 2 - root.left
-  const ey = c.top - root.top
-  const midX = (sx + ex) / 2
-  const startY = sy + 6
-  const endY = ey - 6
-  cablePath.value = `M ${midX},${startY} L ${midX},${endY}`
-}
 const chartLeft = 80
 const chartRight = 780
 const baselineY = 230
@@ -312,33 +281,6 @@ const showFutureBarsSequentially = async (delay = 250) => {
   })
 }
 
-const startDataFlow = async () => {
-  await nextTick()
-  if (!rootRef.value || !mlRef.value || !chartRef.value) return
-  const root = rootRef.value.getBoundingClientRect()
-  const m = mlRef.value.getBoundingClientRect()
-  const c = chartRef.value.getBoundingClientRect()
-  const startX = m.left + m.width / 2 - root.left
-  const startY = m.top + m.height / 2 - root.top
-  const endX = c.left + c.width / 2 - root.left
-  const endY = c.top + 12 - root.top
-  const dx = endX - startX
-  const dy = endY - startY
-
-  const count = 10
-  const delayStep = 70 // ms
-  dataFlowParticles.value = Array.from({ length: count }, (_, i) => ({
-    left: `${startX}px`,
-    top: `${startY}px`,
-    '--dx': `${dx}px`,
-    '--dy': `${dy}px`,
-    'animation-delay': `${i * delayStep}ms`
-  }))
-  showDataFlow.value = true
-  return new Promise<void>((resolve) => {
-    setTimeout(() => { showDataFlow.value = false; resolve() }, count * delayStep + 900)
-  })
-}
 
 
 const computeCardMove = (cardEl: HTMLElement, targetEl: HTMLElement) => {
@@ -379,15 +321,10 @@ const runProcessing = async () => {
     clearInterval(timer)
     mlProcessing.value = false
     showChart.value = true
-    // enviar partículas y mostrar "cable" mientras salen las barras
+    // revelar barras: pasado luego futuro, lentamente
     setTimeout(() => {
-      startDataFlow()
-      updateCablePath()
-      showCable.value = true
-      // revelar barras: pasado luego futuro, lentamente
       showPastBarsSequentially(320)
         .then(() => showFutureBarsSequentially(320))
-        .then(() => { showCable.value = false })
         .then(() => {
           setTimeout(() => {
             showChartNote.value = true
@@ -440,11 +377,6 @@ onMounted(async () => {
   setTimeout(() => {
     startAnimations()
   }, 300)
-  window.addEventListener('resize', updateCablePath)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updateCablePath)
 })
 </script>
 
@@ -601,25 +533,19 @@ onUnmounted(() => {
   margin: 25px auto 0;
 }
 
+.description-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
 .description-text {
   font-size: 1rem;
   color: #4b5563;
-  margin: 0;
+  margin: 8px 0;
   font-weight: 400;
   line-height: 1.6;
-  text-align: center;
-}
-
-.description-text.highlight {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #1f2937;
-}
-
-.description-text.secondary {
-  font-size: 0.95rem;
-  color: #6b7280;
-  font-style: italic;
+  text-align: left;
 }
 
 /* Main Content */
@@ -724,18 +650,18 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   margin: 0 auto 12px;
-  color: #6b21a8;
-  background: rgba(139, 92, 246, 0.08);
+  color: white;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) !important;
 }
 
 .historical-icon {
-  color: #1f2937;
-  background: rgba(31, 41, 55, .06);
+  color: white;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) !important;
 }
 
 .macro-icon {
-  color: #7c3aed;
-  background: rgba(124, 58, 237, 0.08);
+  color: white;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) !important;
 }
 
 .card-title {
@@ -1035,69 +961,7 @@ onUnmounted(() => {
   transition: opacity 0.4s ease;
 }
 
-/* Data flow beam */
-.data-flow-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 20;
-}
 
-.data-particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #002db8 0%, #982fa3 100%);
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
-  transform: translate(0, 0);
-  animation: shoot 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-}
-
-@keyframes shoot {
-  0% {
-    transform: translate(0, 0);
-    opacity: 0.9;
-  }
-
-  80% {
-    opacity: 0.9;
-  }
-
-  100% {
-    transform: translate(var(--dx), var(--dy));
-    opacity: 0;
-  }
-}
-
-/* Cable overlay */
-.cable-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 19;
-}
-
-.cable-line {
-  stroke: rgba(2, 6, 23, 0.08);
-  stroke-width: 8;
-  fill: none;
-}
-
-.cable-dashes {
-  stroke: url(#cableGrad);
-  stroke-width: 4;
-  fill: none;
-  stroke-linecap: round;
-  stroke-dasharray: 12 14;
-  animation: dashMove 1.2s linear infinite;
-}
-
-@keyframes dashMove {
-  to {
-    stroke-dashoffset: -200;
-  }
-}
 
 /* Legend */
 .chart-legend {

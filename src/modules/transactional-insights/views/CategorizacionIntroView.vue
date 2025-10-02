@@ -16,10 +16,12 @@
       <h1 class="main-title">Categorización</h1>
       <p class="subtitle">Descubra las categorías de cada transacción de gastos e ingresos</p>
       <div class="description-container">
-        <p class="description-text">Se basa en la información proporcionada por la transacción.</p>
-        <p class="description-text">Ofrecemos 129 categorías: 107 orientadas a gastos y 22 a ingresos</p>
-        <p class="description-text highlight">Precisión de clase mundial</p>
-        <p class="description-text">Modelo de Machine Learning y categorías en constante validación y adaptación a los cambios del mercado</p>
+        <ul class="description-list">
+          <li class="description-text">Se basa en la información proporcionada por la transacción.</li>
+          <li class="description-text">Ofrecemos 129 categorías: 107 orientadas a gastos y 22 a ingresos</li>
+          <li class="description-text">Precisión de clase mundial</li>
+          <li class="description-text">Modelo de Machine Learning y categorías en constante validación y adaptación a los cambios del mercado</li>
+        </ul>
       </div>
     </div>
 
@@ -200,6 +202,10 @@ const handleContinue = () => {
 
 // Start animations on mount
 onMounted(async () => {
+  // Clear localStorage stores when component opens
+  localStorage.removeItem('fusion_completed')
+  localStorage.removeItem('ti_viewed_banks')
+  
   await nextTick()
 
   // Wait a moment before starting
@@ -364,19 +370,19 @@ onMounted(async () => {
   margin: 0 auto;
 }
 
+.description-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
 .description-text {
   font-size: 1rem;
   color: #4b5563;
-  text-align: center;
-  margin: 0;
+  text-align: left;
+  margin: 8px 0;
   font-weight: 400;
   line-height: 1.6;
-}
-
-.description-text.highlight {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #1f2937;
 }
 
 /* Content layout */

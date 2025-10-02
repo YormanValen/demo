@@ -120,7 +120,8 @@
     <div class="floating-element users-icon">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <circle cx="9" cy="8" r="4" stroke="currentColor" stroke-width="2" />
-        <path d="M1 20C1 16.6863 3.68629 14 7 14H11C14.3137 14 17 16.6863 17 20" stroke="currentColor" stroke-width="2" />
+        <path d="M1 20C1 16.6863 3.68629 14 7 14H11C14.3137 14 17 16.6863 17 20" stroke="currentColor"
+          stroke-width="2" />
       </svg>
     </div>
 
@@ -155,13 +156,16 @@
     <div class="floating-element handshake-icon">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path d="M16 8C18 10 20 12 22 12M8 8C6 10 4 12 2 12" stroke="currentColor" stroke-width="2" />
-        <path d="M16 14C16 14 17.5 14 19 16S23 20 23 20M8 14C8 14 6.5 14 5 16S1 20 1 20" stroke="currentColor" stroke-width="2" />
+        <path d="M16 14C16 14 17.5 14 19 16S23 20 23 20M8 14C8 14 6.5 14 5 16S1 20 1 20" stroke="currentColor"
+          stroke-width="2" />
       </svg>
     </div>
 
     <div class="floating-element document-icon">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M14 3V7C14 8.1 14.9 9 16 9H20M6 3H14L20 9V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V5C4 3.9 4.9 3 6 3Z" stroke="currentColor" stroke-width="2" />
+        <path
+          d="M14 3V7C14 8.1 14.9 9 16 9H20M6 3H14L20 9V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V5C4 3.9 4.9 3 6 3Z"
+          stroke="currentColor" stroke-width="2" />
       </svg>
     </div>
 
@@ -276,7 +280,9 @@
 
     <div class="floating-element cloud-icon">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M17.5 19H9C6.79 19 5 17.21 5 15C5 13.07 6.5 11.45 8.5 11.1C9.24 8.35 11.92 6.5 15 6.5C18.59 6.5 21.5 9.41 21.5 13C21.5 13.28 21.45 13.54 21.39 13.8C22.32 14.36 23 15.35 23 16.5C23 18.43 21.43 20 19.5 20H17.5" stroke="currentColor" stroke-width="2" />
+        <path
+          d="M17.5 19H9C6.79 19 5 17.21 5 15C5 13.07 6.5 11.45 8.5 11.1C9.24 8.35 11.92 6.5 15 6.5C18.59 6.5 21.5 9.41 21.5 13C21.5 13.28 21.45 13.54 21.39 13.8C22.32 14.36 23 15.35 23 16.5C23 18.43 21.43 20 19.5 20H17.5"
+          stroke="currentColor" stroke-width="2" />
       </svg>
     </div>
 
@@ -325,7 +331,7 @@
 
 .floating-element {
   position: absolute;
-  opacity: 0.5;
+  opacity: 0.2;
   background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -337,116 +343,540 @@
 }
 
 /* Financial symbols */
-.dollar-sign { font-size: 3rem; top: 5%; left: 5%; animation-delay: -2s; }
-.peso-sign { font-size: 2.5rem; top: 85%; left: 95%; animation-delay: -8s; }
-.euro-sign { font-size: 2.8rem; top: 5%; left: 95%; animation-delay: -15s; }
+.dollar-sign {
+  font-size: 3rem;
+  top: 5%;
+  left: 5%;
+  animation-delay: -2s;
+}
+
+.peso-sign {
+  font-size: 2.5rem;
+  top: 85%;
+  left: 95%;
+  animation-delay: -8s;
+}
+
+.euro-sign {
+  font-size: 2.8rem;
+  top: 5%;
+  left: 95%;
+  animation-delay: -15s;
+}
 
 /* Data visualization elements */
-.chart-bar { top: 85%; left: 25%; animation-delay: -5s; font-size: 1.5rem; }
-.trend-up { top: 25%; left: 50%; animation-delay: -12s; font-size: 1.8rem; }
-.pie-chart { top: 85%; left: 75%; animation-delay: -18s; font-size: 1.6rem; }
+.chart-bar {
+  top: 85%;
+  left: 25%;
+  animation-delay: -5s;
+  font-size: 1.5rem;
+}
+
+.trend-up {
+  top: 25%;
+  left: 50%;
+  animation-delay: -12s;
+  font-size: 1.8rem;
+}
+
+.pie-chart {
+  top: 85%;
+  left: 75%;
+  animation-delay: -18s;
+  font-size: 1.6rem;
+}
 
 /* Transaction elements */
-.card-icon { top: 55%; left: 5%; animation-delay: -3s; font-size: 1.4rem; }
-.transfer-icon { top: 90%; left: 35%; animation-delay: -10s; font-size: 1.3rem; }
+.card-icon {
+  top: 55%;
+  left: 5%;
+  animation-delay: -3s;
+  font-size: 1.4rem;
+}
+
+.transfer-icon {
+  top: 90%;
+  left: 35%;
+  animation-delay: -10s;
+  font-size: 1.3rem;
+}
 
 /* Data points */
-.data-point { font-size: 1rem; }
-.data-point:nth-child(10) { top: 30%; left: 25%; animation-delay: -1s; }
-.data-point:nth-child(11) { top: 55%; left: 90%; animation-delay: -7s; }
-.data-point:nth-child(12) { top: 85%; left: 50%; animation-delay: -14s; }
-.data-point:nth-child(13) { top: 10%; left: 45%; animation-delay: -9s; }
+.data-point {
+  font-size: 1rem;
+}
+
+.data-point:nth-child(10) {
+  top: 30%;
+  left: 25%;
+  animation-delay: -1s;
+}
+
+.data-point:nth-child(11) {
+  top: 55%;
+  left: 90%;
+  animation-delay: -7s;
+}
+
+.data-point:nth-child(12) {
+  top: 85%;
+  left: 50%;
+  animation-delay: -14s;
+}
+
+.data-point:nth-child(13) {
+  top: 10%;
+  left: 45%;
+  animation-delay: -9s;
+}
 
 /* Numbers and percentages */
-.number { font-size: 1.2rem; font-weight: 700; }
-.number:nth-child(14) { top: 45%; left: 92%; animation-delay: -4s; }
-.number:nth-child(15) { top: 65%; left: 8%; animation-delay: -11s; }
-.number:nth-child(16) { top: 15%; left: 65%; animation-delay: -17s; }
-.number:nth-child(17) { top: 85%; left: 55%; animation-delay: -6s; }
-.number:nth-child(18) { top: 45%; left: 35%; animation-delay: -13s; }
-.number:nth-child(19) { top: 15%; left: 15%; animation-delay: -19s; }
-.number:nth-child(20) { top: 90%; left: 85%; animation-delay: -10s; }
-.number:nth-child(21) { top: 35%; left: 75%; animation-delay: -16s; }
+.number {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.number:nth-child(14) {
+  top: 45%;
+  left: 92%;
+  animation-delay: -4s;
+}
+
+.number:nth-child(15) {
+  top: 65%;
+  left: 8%;
+  animation-delay: -11s;
+}
+
+.number:nth-child(16) {
+  top: 15%;
+  left: 65%;
+  animation-delay: -17s;
+}
+
+.number:nth-child(17) {
+  top: 85%;
+  left: 55%;
+  animation-delay: -6s;
+}
+
+.number:nth-child(18) {
+  top: 45%;
+  left: 35%;
+  animation-delay: -13s;
+}
+
+.number:nth-child(19) {
+  top: 15%;
+  left: 15%;
+  animation-delay: -19s;
+}
+
+.number:nth-child(20) {
+  top: 90%;
+  left: 85%;
+  animation-delay: -10s;
+}
+
+.number:nth-child(21) {
+  top: 35%;
+  left: 75%;
+  animation-delay: -16s;
+}
 
 /* Finance icons group */
-.bank-icon { top: 15%; left: 30%; animation-delay: -12s; font-size: 1.6rem; }
-.wallet-icon { top: 75%; left: 15%; animation-delay: -14s; font-size: 1.6rem; }
-.analytics-icon { top: 45%; left: 10%; animation-delay: -20s; font-size: 1.5rem; }
-.money-icon { top: 85%; left: 90%; animation-delay: -22s; font-size: 1.6rem; }
-.shield-icon { top: 15%; left: 85%; animation-delay: -24s; font-size: 1.6rem; }
-.lock-icon { top: 60%; left: 80%; animation-delay: -17s; font-size: 1.4rem; }
-.target-icon { top: 25%; left: 70%; animation-delay: -21s; font-size: 1.5rem; }
-.users-icon { top: 35%; left: 20%; animation-delay: -18s; font-size: 1.5rem; }
-.bitcoin-icon { font-size: 2rem; top: 35%; left: 95%; animation-delay: -23s; }
-.percentage-icon { font-size: 1.5rem; top: 75%; left: 65%; animation-delay: -25s; }
-.line-chart { top: 65%; left: 45%; animation-delay: -27s; font-size: 1.5rem; }
-.calculator-icon { top: 10%; left: 35%; animation-delay: -22s; font-size: 1.4rem; }
+.bank-icon {
+  top: 15%;
+  left: 30%;
+  animation-delay: -12s;
+  font-size: 1.6rem;
+}
+
+.wallet-icon {
+  top: 75%;
+  left: 15%;
+  animation-delay: -14s;
+  font-size: 1.6rem;
+}
+
+.analytics-icon {
+  top: 45%;
+  left: 10%;
+  animation-delay: -20s;
+  font-size: 1.5rem;
+}
+
+.money-icon {
+  top: 85%;
+  left: 90%;
+  animation-delay: -22s;
+  font-size: 1.6rem;
+}
+
+.shield-icon {
+  top: 15%;
+  left: 85%;
+  animation-delay: -24s;
+  font-size: 1.6rem;
+}
+
+.lock-icon {
+  top: 60%;
+  left: 80%;
+  animation-delay: -17s;
+  font-size: 1.4rem;
+}
+
+.target-icon {
+  top: 25%;
+  left: 70%;
+  animation-delay: -21s;
+  font-size: 1.5rem;
+}
+
+.users-icon {
+  top: 35%;
+  left: 20%;
+  animation-delay: -18s;
+  font-size: 1.5rem;
+}
+
+.bitcoin-icon {
+  font-size: 2rem;
+  top: 35%;
+  left: 95%;
+  animation-delay: -23s;
+}
+
+.percentage-icon {
+  font-size: 1.5rem;
+  top: 75%;
+  left: 65%;
+  animation-delay: -25s;
+}
+
+.line-chart {
+  top: 65%;
+  left: 45%;
+  animation-delay: -27s;
+  font-size: 1.5rem;
+}
+
+.calculator-icon {
+  top: 10%;
+  left: 35%;
+  animation-delay: -22s;
+  font-size: 1.4rem;
+}
 
 /* Business icons */
-.building-icon { top: 40%; left: 60%; animation-delay: -26s; font-size: 1.4rem; }
-.handshake-icon { top: 70%; left: 40%; animation-delay: -28s; font-size: 1.4rem; }
-.document-icon { top: 20%; left: 55%; animation-delay: -24s; font-size: 1.4rem; }
+.building-icon {
+  top: 40%;
+  left: 60%;
+  animation-delay: -26s;
+  font-size: 1.4rem;
+}
+
+.handshake-icon {
+  top: 70%;
+  left: 40%;
+  animation-delay: -28s;
+  font-size: 1.4rem;
+}
+
+.document-icon {
+  top: 20%;
+  left: 55%;
+  animation-delay: -24s;
+  font-size: 1.4rem;
+}
 
 /* Currency symbols */
-.yen-icon { top: 20%; left: 20%; animation-delay: -26s; font-size: 1.6rem; }
-.pound-icon { top: 80%; left: 25%; animation-delay: -23s; font-size: 1.6rem; }
-.rupee-icon { top: 30%; left: 85%; animation-delay: -21s; font-size: 1.6rem; }
+.yen-icon {
+  top: 20%;
+  left: 20%;
+  animation-delay: -26s;
+  font-size: 1.6rem;
+}
+
+.pound-icon {
+  top: 80%;
+  left: 25%;
+  animation-delay: -23s;
+  font-size: 1.6rem;
+}
+
+.rupee-icon {
+  top: 30%;
+  left: 85%;
+  animation-delay: -21s;
+  font-size: 1.6rem;
+}
 
 /* Tech and digital */
-.blockchain-icon { top: 30%; left: 30%; animation-delay: -31s; font-size: 1.3rem; }
-.network-icon { top: 70%; left: 75%; animation-delay: -33s; font-size: 1.3rem; }
-.database-icon { top: 35%; left: 50%; animation-delay: -28s; font-size: 1.5rem; }
+.blockchain-icon {
+  top: 30%;
+  left: 30%;
+  animation-delay: -31s;
+  font-size: 1.3rem;
+}
+
+.network-icon {
+  top: 70%;
+  left: 75%;
+  animation-delay: -33s;
+  font-size: 1.3rem;
+}
+
+.database-icon {
+  top: 35%;
+  left: 50%;
+  animation-delay: -28s;
+  font-size: 1.5rem;
+}
 
 /* Investment and geometry */
-.growth-icon { top: 20%; left: 75%; animation-delay: -26s; font-size: 1.3rem; }
-.diamond-icon { font-size: 1.6rem; top: 25%; left: 15%; animation-delay: -31s; }
-.star-icon { font-size: 1.6rem; top: 45%; left: 55%; animation-delay: -33s; }
-.plus-icon { font-size: 1.6rem; top: 75%; left: 35%; animation-delay: -21s; }
+.growth-icon {
+  top: 20%;
+  left: 75%;
+  animation-delay: -26s;
+  font-size: 1.3rem;
+}
+
+.diamond-icon {
+  font-size: 1.6rem;
+  top: 25%;
+  left: 15%;
+  animation-delay: -31s;
+}
+
+.star-icon {
+  font-size: 1.6rem;
+  top: 45%;
+  left: 55%;
+  animation-delay: -33s;
+}
+
+.plus-icon {
+  font-size: 1.6rem;
+  top: 75%;
+  left: 35%;
+  animation-delay: -21s;
+}
 
 /* Math symbols */
-.infinity-icon { font-size: 1.8rem; top: 35%; left: 40%; animation-delay: -26s; }
-.delta-icon { font-size: 1.8rem; top: 15%; left: 45%; animation-delay: -28s; }
-.sigma-icon { font-size: 1.8rem; top: 75%; left: 45%; animation-delay: -24s; }
+.infinity-icon {
+  font-size: 1.8rem;
+  top: 35%;
+  left: 40%;
+  animation-delay: -26s;
+}
+
+.delta-icon {
+  font-size: 1.8rem;
+  top: 15%;
+  left: 45%;
+  animation-delay: -28s;
+}
+
+.sigma-icon {
+  font-size: 1.8rem;
+  top: 75%;
+  left: 45%;
+  animation-delay: -24s;
+}
 
 /* More currency */
-.won-icon { font-size: 1.8rem; top: 55%; left: 60%; animation-delay: -22s; }
-.franc-icon { font-size: 1.8rem; top: 25%; left: 65%; animation-delay: -26s; }
-.lira-icon { font-size: 1.8rem; top: 45%; left: 25%; animation-delay: -20s; }
-.ruble-icon { font-size: 1.8rem; top: 85%; left: 15%; animation-delay: -29s; }
+.won-icon {
+  font-size: 1.8rem;
+  top: 55%;
+  left: 60%;
+  animation-delay: -22s;
+}
+
+.franc-icon {
+  font-size: 1.8rem;
+  top: 25%;
+  left: 65%;
+  animation-delay: -26s;
+}
+
+.lira-icon {
+  font-size: 1.8rem;
+  top: 45%;
+  left: 25%;
+  animation-delay: -20s;
+}
+
+.ruble-icon {
+  font-size: 1.8rem;
+  top: 85%;
+  left: 15%;
+  animation-delay: -29s;
+}
 
 /* Business and finance */
-.briefcase-icon { top: 55%; left: 35%; animation-delay: -32s; font-size: 1.4rem; }
-.chart-line-up { top: 45%; left: 85%; animation-delay: -30s; font-size: 1.4rem; }
-.coins-icon { top: 75%; left: 55%; animation-delay: -27s; font-size: 1.4rem; }
+.briefcase-icon {
+  top: 55%;
+  left: 35%;
+  animation-delay: -32s;
+  font-size: 1.4rem;
+}
+
+.chart-line-up {
+  top: 45%;
+  left: 85%;
+  animation-delay: -30s;
+  font-size: 1.4rem;
+}
+
+.coins-icon {
+  top: 75%;
+  left: 55%;
+  animation-delay: -27s;
+  font-size: 1.4rem;
+}
 
 /* Geometric symbols */
-.triangle-icon { font-size: 1.4rem; top: 25%; left: 35%; animation-delay: -33s; }
-.square-icon { font-size: 1.4rem; top: 65%; left: 25%; animation-delay: -35s; }
-.circle-icon { font-size: 1.2rem; top: 85%; left: 5%; animation-delay: -27s; }
-.hexagon-icon { font-size: 1.7rem; top: 45%; left: 95%; animation-delay: -37s; }
-.arrow-up { font-size: 1.8rem; top: 5%; left: 25%; animation-delay: -29s; }
-.arrow-down { font-size: 1.8rem; top: 65%; left: 95%; animation-delay: -38s; }
-.equals-icon { font-size: 1.5rem; top: 65%; left: 50%; animation-delay: -34s; }
-.hash-icon { font-size: 1.6rem; top: 85%; left: 50%; animation-delay: -30s; }
+.triangle-icon {
+  font-size: 1.4rem;
+  top: 25%;
+  left: 35%;
+  animation-delay: -33s;
+}
+
+.square-icon {
+  font-size: 1.4rem;
+  top: 65%;
+  left: 25%;
+  animation-delay: -35s;
+}
+
+.circle-icon {
+  font-size: 1.2rem;
+  top: 85%;
+  left: 5%;
+  animation-delay: -27s;
+}
+
+.hexagon-icon {
+  font-size: 1.7rem;
+  top: 45%;
+  left: 95%;
+  animation-delay: -37s;
+}
+
+.arrow-up {
+  font-size: 1.8rem;
+  top: 5%;
+  left: 25%;
+  animation-delay: -29s;
+}
+
+.arrow-down {
+  font-size: 1.8rem;
+  top: 65%;
+  left: 95%;
+  animation-delay: -38s;
+}
+
+.equals-icon {
+  font-size: 1.5rem;
+  top: 65%;
+  left: 50%;
+  animation-delay: -34s;
+}
+
+.hash-icon {
+  font-size: 1.6rem;
+  top: 85%;
+  left: 50%;
+  animation-delay: -30s;
+}
 
 /* Additional numbers positioning from the source */
-.number:nth-child(58) { top: 21%; left: 75%; animation-delay: -39s; }
-.number:nth-child(59) { top: 81%; left: 48%; animation-delay: -35s; }
-.number:nth-child(60) { top: 46%; left: 12%; animation-delay: -32s; }
-.number:nth-child(61) { top: 31%; left: 65%; animation-delay: -37s; }
-.number:nth-child(62) { top: 69%; left: 21%; animation-delay: -34s; }
-.number:nth-child(63) { top: 11%; left: 52%; animation-delay: -30s; }
-.number:nth-child(64) { top: 87%; left: 75%; animation-delay: -36s; }
-.number:nth-child(65) { top: 39%; left: 8%; animation-delay: -33s; }
-.number:nth-child(66) { top: 59%; left: 95%; animation-delay: -38s; }
-.number:nth-child(67) { top: 17%; left: 31%; animation-delay: -31s; }
+.number:nth-child(58) {
+  top: 21%;
+  left: 75%;
+  animation-delay: -39s;
+}
+
+.number:nth-child(59) {
+  top: 81%;
+  left: 48%;
+  animation-delay: -35s;
+}
+
+.number:nth-child(60) {
+  top: 46%;
+  left: 12%;
+  animation-delay: -32s;
+}
+
+.number:nth-child(61) {
+  top: 31%;
+  left: 65%;
+  animation-delay: -37s;
+}
+
+.number:nth-child(62) {
+  top: 69%;
+  left: 21%;
+  animation-delay: -34s;
+}
+
+.number:nth-child(63) {
+  top: 11%;
+  left: 52%;
+  animation-delay: -30s;
+}
+
+.number:nth-child(64) {
+  top: 87%;
+  left: 75%;
+  animation-delay: -36s;
+}
+
+.number:nth-child(65) {
+  top: 39%;
+  left: 8%;
+  animation-delay: -33s;
+}
+
+.number:nth-child(66) {
+  top: 59%;
+  left: 95%;
+  animation-delay: -38s;
+}
+
+.number:nth-child(67) {
+  top: 17%;
+  left: 31%;
+  animation-delay: -31s;
+}
 
 /* Float animation */
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
-  25% { transform: translateY(-20px) rotate(2deg); opacity: 0.6; }
-  50% { transform: translateY(-10px) rotate(-1deg); opacity: 0.4; }
-  75% { transform: translateY(-30px) rotate(1deg); opacity: 0.55; }
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+
+  25% {
+    transform: translateY(-20px) rotate(2deg);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(-1deg);
+    opacity: 0.2;
+  }
+
+  75% {
+    transform: translateY(-30px) rotate(1deg);
+    opacity: 0.33;
+  }
 }
 </style>
-
