@@ -1,6 +1,7 @@
 <template>
   <div ref="rootContainer" class="history-transaction-container" :class="[{ revealing: reveal.active, expand: reveal.expand, exiting }]" :style="revealStyle">
-    <div class="background-elements">
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <div class="floating-element number">42%</div>
       <div class="floating-element number">1.2M</div>
       <div class="floating-element data-point">●</div>
@@ -55,8 +56,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick } from 'vue'
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTxStore } from '@/modules/transactional-insights/stores/transactions.store'
+import { useInstitutionsStore } from '@/modules/financial/stores/institutions.store'
 
 const route = useRoute()
 const router = useRouter()
@@ -79,6 +82,17 @@ const revealStyle = computed(() => {
 })
 
 const txStore = useTxStore()
+const institutionsStore = useInstitutionsStore()
+
+// Map bank names to consistent IDs
+const mapBankNameToId = (bankName: string): number => {
+  const nameMap: Record<string, number> = {
+    'Neodigi Bank': 1,
+    'TekCredit': 2,
+    'Flexfinia': 3
+  }
+  return nameMap[bankName] || 1 // Default to 1 if bank name not found
+}
 
 const currencyCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 })
 const formatCOP = (value: number) => {
@@ -160,9 +174,14 @@ onMounted(async () => {
   const ry = parseInt((route.query.ry as string) || '')
   const hasReveal = Number.isFinite(rx) && Number.isFinite(ry)
   // Cargar transacciones desde localStorage y asegurar semillas demo básicas
+  institutionsStore.loadFromLocalStorage()
   txStore.loadFromLocalStorage()
-  // Asegurar que exista data para bancos demo (1,2,3)
-  txStore.ensureSeedFor([1, 2, 3])
+  
+  // Asegurar que exista data para bancos conectados usando nombres mapeados
+  const connectedIds = (institutionsStore.connectedInstitutions.length
+    ? institutionsStore.connectedInstitutions.map(b => mapBankNameToId(b.name))
+    : [1, 2, 3])
+  txStore.ensureSeedFor(connectedIds)
   if (hasReveal && rootContainer.value) {
     const rect = rootContainer.value.getBoundingClientRect()
     reveal.value.x = rx - rect.left

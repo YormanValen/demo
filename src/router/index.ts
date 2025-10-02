@@ -217,6 +217,42 @@ const routes: RouteRecordRaw[] = [
     name: 'entity-transactional-insights-submenu',
     component: () => import('../modules/transactional-insights/views/TransactionalInsightsSubmenuView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/affordability',
+    name: 'entity-transactional-insights-affordability',
+    component: () => import('../modules/transactional-insights/views/AffordabilityView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/alertas-y-tendencias',
+    name: 'entity-transactional-insights-alertas-y-tendencias',
+    component: () => import('../modules/transactional-insights/views/AlertasYTendenciasView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/income-insights',
+    name: 'entity-transactional-insights-income-insights',
+    component: () => import('../modules/transactional-insights/views/IncomeInsightsView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/insights-proyectados',
+    name: 'entity-transactional-insights-insights-proyectados',
+    component: () => import('../modules/transactional-insights/views/InsightsProyectadosView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/transactional-profile',
+    name: 'entity-transactional-insights-transactional-profile',
+    component: () => import('../modules/transactional-insights/views/TransactionalProfileView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/score-transaccional',
+    name: 'entity-transactional-insights-score-transaccional',
+    component: () => import('../modules/transactional-insights/views/ScoreTransaccionalView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 

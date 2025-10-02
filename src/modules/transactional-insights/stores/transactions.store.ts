@@ -103,9 +103,18 @@ export const useTxStore = defineStore('ti-transactions', {
             ]
             break
           default:
+            // Generate realistic transactions for any bank
             this.recordsByBank[id] = [
-              make(id, `${id}-001`, '2024-01-10', 100000, 'Crédito demo'),
-              make(id, `${id}-002`, '2024-01-09', -50000, 'Débito demo')
+              make(id, `${id}-001`, '2024-01-15', 1800000, 'Salario mensual'),
+              make(id, `${id}-002`, '2024-01-14', -95000, 'Supermercado Los Alpes'),
+              make(id, `${id}-003`, '2024-01-13', -180000, 'Servicios públicos'),
+              make(id, `${id}-004`, '2024-01-12', 125000, 'Transferencia recibida'),
+              make(id, `${id}-005`, '2024-01-11', -67500, 'Restaurante El Mirador'),
+              make(id, `${id}-006`, '2024-01-10', -40000, 'Retiro ATM'),
+              make(id, `${id}-007`, '2024-01-09', 250000, 'Bonificación empresa'),
+              make(id, `${id}-008`, '2024-01-08', -56000, 'Farmacia Cruz Verde'),
+              make(id, `${id}-009`, '2024-01-07', -150000, 'Seguro médico'),
+              make(id, `${id}-010`, '2024-01-06', 85000, 'Cashback compras'),
             ]
             break
         }

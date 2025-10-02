@@ -1,7 +1,8 @@
 <template>
   <div class="bank-selection-container">
-    <!-- Animated background elements (simplified from intro) -->
-    <div class="background-elements">
+    <!-- Reusable animated background -->
+    <TransactionalInsightsBackground />
+    <div class="background-elements" v-if="false">
       <!-- Financial symbols -->
       <div class="floating-element dollar-sign">$</div>
       <div class="floating-element euro-sign">€</div>
@@ -108,8 +109,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, nextTick } from 'vue'
+import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import type { ComponentPublicInstance } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useInstitutionsStore } from '@/modules/financial/stores/institutions.store'
 // Logo imports
 import neodigiBankLogo from '@/assets/logos/neodigi-bank-logo.png'
 import tekcreditLogo from '@/assets/logos/tekcredit-logo.png'
@@ -118,6 +121,9 @@ import flexfiniaLogo from '@/assets/logos/flexfinia-logo.png'
 // Router and route
 const router = useRouter()
 const route = useRoute()
+
+// Institutions store
+const institutionsStore = useInstitutionsStore()
 
 // Animation variables
 const showBanks = ref(false)
@@ -176,10 +182,27 @@ const defaultBanks = [
   }
 ]
 
-// Computed property for banks to display - always use default banks for consistent layout
+// Map bank names to correct logo assets
+const getBankLogo = (bankName: string) => {
+  const logoMap: Record<string, string> = {
+    'Neodigi Bank': neodigiBankLogo,
+    'TekCredit': tekcreditLogo,
+    'Flexfinia': flexfiniaLogo
+  }
+  return logoMap[bankName] || ''
+}
+
+// Computed property for banks to display - use store data if available, otherwise default banks
 const displayBanks = computed(() => {
-  // Always return default banks to maintain consistent visualization
-  // This ensures the same order and layout regardless of store state
+  // If institutions store has connected institutions, use those with correct logos
+  if (institutionsStore.hasConnectedInstitutions) {
+    return institutionsStore.connectedInstitutions.map(bank => ({
+      ...bank,
+      logo: getBankLogo(bank.name) || bank.logo // Use mapped logo or fallback to existing logo
+    }))
+  }
+  
+  // Otherwise fall back to default banks for consistent visualization
   return defaultBanks
 })
 
@@ -264,9 +287,12 @@ const startFusion = async () => {
     const logoEl = bankLogoRefs.get(bank.id)
     if (!itemEl || !logoEl) return
 
-    const logoRect = logoEl.getBoundingClientRect()
-    const cx = logoRect.left + logoRect.width / 2
-    const cy = logoRect.top + logoRect.height / 2
+    // Usar el center del item completo, no solo el logo
+    const itemRect = itemEl.getBoundingClientRect()
+    const cx = itemRect.left + itemRect.width / 2
+    const cy = itemRect.top + itemRect.height / 2
+    
+    // Calcular distancia al centro objetivo
     const dx = Math.round(targetX - cx)
     const dy = Math.round(targetY - cy)
 
@@ -278,7 +304,8 @@ const startFusion = async () => {
     itemEl.style.willChange = 'transform, opacity'
     itemEl.style.transition = 'transform 900ms cubic-bezier(0.25,0.46,0.45,0.94), opacity 360ms ease'
     requestAnimationFrame(() => {
-      itemEl.style.transform = `translate(${dx}px, ${dy}px) scale(1.18)`
+      // Hacer que converjan muy cerca del centro con escala más pequeña para que se superpongan
+      itemEl.style.transform = `translate(${dx}px, ${dy}px) scale(0.8)`
       // iniciar desvanecido luego de llegar al centro
       setTimeout(() => { itemEl.style.opacity = '0' }, 820)
     })
@@ -335,6 +362,9 @@ onMounted(async () => {
   if (localStorage.getItem('fusion_completed') === null) {
     localStorage.setItem('fusion_completed', 'false')
   }
+
+  // Load institutions store data
+  institutionsStore.loadFromLocalStorage()
 
   // Load viewed banks state
   loadViewed()
@@ -1043,94 +1073,6 @@ const navigateToHistoryWithReveal = () => {
   .table-icon svg {
     width: 84px;
     height: 84px;
-  }
-}
-
-@media (max-width: 768px) {
-  .banks-container {
-    flex-direction: row;
-    gap: 35px;
-    flex-wrap: wrap;
-    max-width: 600px;
-  }
-
-  .bank-logo {
-    width: 140px;
-    height: 140px;
-    background: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(10px);
-  }
-
-  .bank-logo-image {
-    width: 85px;
-    height: 85px;
-    background: transparent;
-    border-radius: 0;
-    padding: 15px;
-  }
-
-  .bank-initials {
-    font-size: 2rem;
-    color: #374151;
-  }
-
-  .bank-name {
-    font-size: 1.2rem;
-  }
-
-  .table-icon svg {
-    width: 76px !important;
-    height: 76px !important;
-  }
-
-  .continue-button {
-    padding: 15px 30px;
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-content {
-    width: 95%;
-  }
-
-  .banks-container {
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  .bank-logo {
-    width: 120px;
-    height: 120px;
-    background: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(10px);
-  }
-
-  .bank-logo-image {
-    width: 70px;
-    height: 70px;
-    background: transparent;
-    border-radius: 0;
-    padding: 12px;
-  }
-
-  .bank-initials {
-    font-size: 1.8rem;
-    color: #374151;
-  }
-
-  .bank-name {
-    font-size: 1.1rem;
-  }
-
-  .table-icon svg {
-    width: 68px;
-    height: 68px;
-  }
-
-  .continue-button {
-    padding: 12px 25px;
-    font-size: 1rem;
   }
 }
 </style>
