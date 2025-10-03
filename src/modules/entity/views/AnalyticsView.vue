@@ -2,318 +2,303 @@
   <div class="entity-dashboard">
     <div class="dashboard-content">
       <div class="content-header">
-        <h1 class="page-title">Estadísticas</h1>
+        <h1 class="page-title">Tableros de Control</h1>
         <div class="date-range">
           <span>Fecha inicial: 2025-09-01</span>
-          <span>Experian CaaS (EXPERIAN)</span>
+          <span>Entidad: Su entidad</span>
           <span>Fecha Final: 2025-09-26</span>
         </div>
       </div>
-        <div class="analytics-section">
-          <h2 class="section-title">Estado final transacciones</h2>
-          
-          <div class="chart-container">
-            <div class="pie-chart loading-chart">
-              <svg width="300" height="300" viewBox="0 0 300 300">
+      <div class="analytics-section">
+        <h2 class="section-title">Creación de consentimientos</h2>
+
+        <div class="chart-container">
+          <div class="pie-chart loading-chart">
+            <svg width="300" height="300" viewBox="0 0 300 300">
+              <defs>
+                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgb(97, 40, 120)" />
+                  <stop offset="100%" stop-color="rgb(186, 45, 125)" />
+                </linearGradient>
+                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgb(120, 60, 140)" />
+                  <stop offset="100%" stop-color="rgb(200, 70, 145)" />
+                </linearGradient>
+                <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgb(140, 80, 160)" />
+                  <stop offset="100%" stop-color="rgb(220, 95, 165)" />
+                </linearGradient>
+              </defs>
+              <!-- Pie chart segments -->
+              <circle cx="150" cy="150" r="120" fill="none" stroke="url(#gradient1)" stroke-width="60"
+                stroke-dasharray="188.4 376.8" stroke-dashoffset="0" transform="rotate(-90 150 150)" />
+              <circle cx="150" cy="150" r="120" fill="none" stroke="url(#gradient2)" stroke-width="60"
+                stroke-dasharray="113.04 376.8" stroke-dashoffset="-188.4" transform="rotate(-90 150 150)" />
+              <circle cx="150" cy="150" r="120" fill="none" stroke="url(#gradient3)" stroke-width="60"
+                stroke-dasharray="75.36 376.8" stroke-dashoffset="-301.44" transform="rotate(-90 150 150)" />
+            </svg>
+            <div class="chart-center">
+              <div class="center-text">
+                <div class="percentage">50%</div>
+                <div class="label">FINALIZADO</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-legend loading-legend">
+            <div class="legend-item loading-item">
+              <div class="legend-color blue"></div>
+              <span>CANCELADO</span>
+              <span class="percentage">31.8%</span>
+            </div>
+            <div class="legend-item loading-item">
+              <div class="legend-color red"></div>
+              <span>EN PROCESO</span>
+              <span class="percentage">18.2%</span>
+            </div>
+            <div class="legend-item loading-item">
+              <div class="legend-color orange"></div>
+              <span>FINALIZADO</span>
+              <span class="percentage">50%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-definitions">
+          <div class="definition-item">
+            <span class="status-label canceled">CANCELADO:</span>
+            <span>corresponde a las transacciones que se cancelaron y no finalizaron su proceso</span>
+          </div>
+          <div class="definition-item">
+            <span class="status-label processing">PROCESO:</span>
+            <span>corresponde a las transacciones que se encuentran en un proceso</span>
+          </div>
+          <div class="definition-item">
+            <span class="status-label completed">FINALIZADO:</span>
+            <span>corresponde a las transacciones que se concluyeron de forma exitosa</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="charts-single-column">
+        <div class="chart-card modern-card">
+          <div class="card-header">
+            <h3>Distribución de Consentimientos por Finalidad</h3>
+            <p>Categorías de uso de datos financieros</p>
+          </div>
+          <div class="chart-content">
+            <div class="consent-pie-chart">
+              <svg width="200" height="200" viewBox="0 0 200 200">
                 <defs>
-                  <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <linearGradient id="consentGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stop-color="rgb(97, 40, 120)" />
                     <stop offset="100%" stop-color="rgb(186, 45, 125)" />
                   </linearGradient>
-                  <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="rgb(120, 60, 140)" />
-                    <stop offset="100%" stop-color="rgb(200, 70, 145)" />
+                  <linearGradient id="consentGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(97, 40, 120, 0.8)" />
+                    <stop offset="100%" stop-color="rgba(186, 45, 125, 0.8)" />
                   </linearGradient>
-                  <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="rgb(140, 80, 160)" />
-                    <stop offset="100%" stop-color="rgb(220, 95, 165)" />
+                  <linearGradient id="consentGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(97, 40, 120, 0.6)" />
+                    <stop offset="100%" stop-color="rgba(186, 45, 125, 0.6)" />
+                  </linearGradient>
+                  <linearGradient id="consentGrad4" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(97, 40, 120, 0.4)" />
+                    <stop offset="100%" stop-color="rgba(186, 45, 125, 0.4)" />
+                  </linearGradient>
+                  <linearGradient id="consentGrad5" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(97, 40, 120, 0.2)" />
+                    <stop offset="100%" stop-color="rgba(186, 45, 125, 0.2)" />
                   </linearGradient>
                 </defs>
-                <!-- Pie chart segments -->
-                <circle
-                  cx="150"
-                  cy="150"
-                  r="120"
-                  fill="none"
-                  stroke="url(#gradient1)"
-                  stroke-width="60"
-                  stroke-dasharray="188.4 376.8"
-                  stroke-dashoffset="0"
-                  transform="rotate(-90 150 150)"
-                />
-                <circle
-                  cx="150"
-                  cy="150"
-                  r="120"
-                  fill="none"
-                  stroke="url(#gradient2)"
-                  stroke-width="60"
-                  stroke-dasharray="113.04 376.8"
-                  stroke-dashoffset="-188.4"
-                  transform="rotate(-90 150 150)"
-                />
-                <circle
-                  cx="150"
-                  cy="150"
-                  r="120"
-                  fill="none"
-                  stroke="url(#gradient3)"
-                  stroke-width="60"
-                  stroke-dasharray="75.36 376.8"
-                  stroke-dashoffset="-301.44"
-                  transform="rotate(-90 150 150)"
-                />
+                <!-- Pie chart segments - Open Finance 22.3% (80.28 degrees) -->
+                <path d="M 100,100 L 100,20 A 80,80 0 0,1 169.6,54.4 z" 
+                      fill="url(#consentGrad1)" stroke="white" stroke-width="2" class="chart-segment" />
+                
+                <!-- Validación ID 23.8% (85.68 degrees) -->
+                <path d="M 100,100 L 169.6,54.4 A 80,80 0 0,1 180,100 L 100,100 z" 
+                      fill="url(#consentGrad2)" stroke="white" stroke-width="2" class="chart-segment" />
+                
+                <!-- Scoring 20.3% (73.08 degrees) -->
+                <path d="M 100,100 L 180,100 A 80,80 0 0,1 145.6,165.6 z" 
+                      fill="url(#consentGrad3)" stroke="white" stroke-width="2" class="chart-segment" />
+                
+                <!-- Mercadeo 17.8% (64.08 degrees) -->
+                <path d="M 100,100 L 145.6,165.6 A 80,80 0 0,1 54.4,169.6 z" 
+                      fill="url(#consentGrad4)" stroke="white" stroke-width="2" class="chart-segment" />
+                
+                <!-- Otros 15.8% (56.88 degrees) -->
+                <path d="M 100,100 L 54.4,169.6 A 80,80 0 0,1 100,20 z" 
+                      fill="url(#consentGrad5)" stroke="white" stroke-width="2" class="chart-segment" />
               </svg>
-              <div class="chart-center">
-                <div class="center-text">
-                  <div class="percentage">50%</div>
-                  <div class="label">FINALIZADO</div>
+            </div>
+            <div class="consent-stats">
+              <div class="stat-item">
+                <div class="stat-color" style="background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%)">
+                </div>
+                <div class="stat-info">
+                  <span class="stat-label">Open Finance</span>
+                  <span class="stat-value">22.3%</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-color" style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.8) 0%, rgba(186, 45, 125, 0.8) 100%)"></div>
+                <div class="stat-info">
+                  <span class="stat-label">Validación ID</span>
+                  <span class="stat-value">23.8%</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-color" style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.6) 0%, rgba(186, 45, 125, 0.6) 100%)"></div>
+                <div class="stat-info">
+                  <span class="stat-label">Scoring</span>
+                  <span class="stat-value">20.3%</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-color" style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.4) 0%, rgba(186, 45, 125, 0.4) 100%)"></div>
+                <div class="stat-info">
+                  <span class="stat-label">Mercadeo</span>
+                  <span class="stat-value">17.8%</span>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-color" style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.2) 0%, rgba(186, 45, 125, 0.2) 100%)"></div>
+                <div class="stat-info">
+                  <span class="stat-label">Otros</span>
+                  <span class="stat-value">15.8%</span>
                 </div>
               </div>
             </div>
-            
-            <div class="chart-legend loading-legend">
-              <div class="legend-item loading-item">
-                <div class="legend-color blue"></div>
-                <span>CANCELADO</span>
-                <span class="percentage">31.8%</span>
-              </div>
-              <div class="legend-item loading-item">
-                <div class="legend-color red"></div>
-                <span>EN PROCESO</span>
-                <span class="percentage">18.2%</span>
-              </div>
-              <div class="legend-item loading-item">
-                <div class="legend-color orange"></div>
-                <span>FINALIZADO</span>
-                <span class="percentage">50%</span>
-              </div>
-            </div>
           </div>
-          
-          <div class="status-definitions">
-            <div class="definition-item">
-              <span class="status-label canceled">CANCELADO:</span>
-              <span>corresponde a las transacciones que se cancelaron y no finalizaron su proceso</span>
-            </div>
-            <div class="definition-item">
-              <span class="status-label processing">PROCESO:</span>
-              <span>corresponde a las transacciones que se encuentran en un proceso</span>
-            </div>
-            <div class="definition-item">
-              <span class="status-label completed">FINALIZADO:</span>
-              <span>corresponde a las transacciones que se concluyeron de forma exitosa</span>
-            </div>
-          </div>
-          
         </div>
 
-        <div class="charts-grid">
-          <div class="chart-card modern-card">
-            <div class="card-header">
-              <h3>Estado de consentimiento</h3>
-              <p>Distribución actual de consentimientos</p>
+        <div class="chart-card modern-card">
+          <div class="card-header">
+            <h3>Ranking de Segmentos con Mayor Riesgo de Revocación</h3>
+            <p>Número de revocaciones por segmento</p>
+          </div>
+          <div class="chart-content">
+            <div class="ranking-chart">
+              <div class="ranking-bars">
+                <div class="ranking-item">
+                  <span class="segment-label">Clientes Tradicionales</span>
+                  <div class="bar-container">
+                    <div class="ranking-bar" style="width: 100%"></div>
+                    <span class="bar-value">550</span>
+                  </div>
+                </div>
+                <div class="ranking-item">
+                  <span class="segment-label">Clientes Digitales</span>
+                  <div class="bar-container">
+                    <div class="ranking-bar" style="width: 85%"></div>
+                    <span class="bar-value">470</span>
+                  </div>
+                </div>
+                <div class="ranking-item">
+                  <span class="segment-label">Adultos</span>
+                  <div class="bar-container">
+                    <div class="ranking-bar" style="width: 75%"></div>
+                    <span class="bar-value">410</span>
+                  </div>
+                </div>
+                <div class="ranking-item">
+                  <span class="segment-label">Mayores</span>
+                  <div class="bar-container">
+                    <div class="ranking-bar" style="width: 60%"></div>
+                    <span class="bar-value">330</span>
+                  </div>
+                </div>
+                <div class="ranking-item">
+                  <span class="segment-label">Jóvenes</span>
+                  <div class="bar-container">
+                    <div class="ranking-bar" style="width: 50%"></div>
+                    <span class="bar-value">275</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="chart-content">
-              <div class="consent-pie-chart">
-                <svg width="200" height="200" viewBox="0 0 200 200">
+            <div class="ranking-scale">
+              <span>0</span>
+              <span>100</span>
+              <span>200</span>
+              <span>300</span>
+              <span>400</span>
+              <span>500</span>
+              <span>600</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card modern-card">
+          <div class="card-header">
+            <h3>Evolución de Consentimientos Activos vs Revocados</h3>
+            <p>Número de consentimientos por mes</p>
+          </div>
+          <div class="chart-content">
+            <div class="evolution-chart">
+              <div class="chart-legend-small">
+                <div class="legend-item-small">
+                  <div class="legend-dot active"></div>
+                  <span>Activos</span>
+                </div>
+                <div class="legend-item-small">
+                  <div class="legend-dot revoked"></div>
+                  <span>Revocados</span>
+                </div>
+              </div>
+              <div class="evolution-svg-container">
+                <svg width="300" height="120" viewBox="0 0 300 120">
                   <defs>
-                    <linearGradient id="consentGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <linearGradient id="activeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stop-color="rgb(97, 40, 120)" />
                       <stop offset="100%" stop-color="rgb(186, 45, 125)" />
                     </linearGradient>
-                    <linearGradient id="consentGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="rgb(120, 60, 140)" />
-                      <stop offset="100%" stop-color="rgb(200, 70, 145)" />
-                    </linearGradient>
-                    <linearGradient id="consentGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="rgb(140, 80, 160)" />
-                      <stop offset="100%" stop-color="rgb(220, 95, 165)" />
-                    </linearGradient>
-                    <linearGradient id="consentGrad4" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="rgb(160, 100, 180)" />
-                      <stop offset="100%" stop-color="rgb(240, 115, 185)" />
+                    <linearGradient id="revokedGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="rgb(97, 40, 120)" />
+                      <stop offset="100%" stop-color="rgb(186, 45, 125)" />
                     </linearGradient>
                   </defs>
-                  <circle cx="100" cy="100" r="80" fill="url(#consentGrad1)" stroke="white" stroke-width="3" class="chart-segment"/>
-                  <path d="M 100,100 L 100,20 A 80,80 0 0,1 155,45 z" fill="url(#consentGrad2)" stroke="white" stroke-width="3" class="chart-segment"/>
-                  <path d="M 100,100 L 155,45 A 80,80 0 0,1 180,100 z" fill="url(#consentGrad3)" stroke="white" stroke-width="3" class="chart-segment"/>
-                  <path d="M 100,100 L 180,100 A 80,80 0 0,1 155,155 z" fill="url(#consentGrad4)" stroke="white" stroke-width="3" class="chart-segment"/>
+                  <!-- Activos line (higher values) -->
+                  <path d="M 30,20 L 70,15 L 110,18 L 150,12 L 190,16 L 230,10 L 270,8" 
+                        fill="none" stroke="url(#activeGrad)" stroke-width="3" class="trend-line" />
+                  <!-- Revocados line (lower values) -->
+                  <path d="M 30,90 L 70,85 L 110,88 L 150,82 L 190,86 L 230,80 L 270,78" 
+                        fill="none" stroke="url(#revokedGrad)" stroke-width="3" class="trend-line" />
+                  
+                  <!-- Activos points -->
+                  <circle cx="30" cy="20" r="4" fill="url(#activeGrad)" class="trend-point" />
+                  <circle cx="70" cy="15" r="4" fill="url(#activeGrad)" class="trend-point" />
+                  <circle cx="110" cy="18" r="4" fill="url(#activeGrad)" class="trend-point" />
+                  <circle cx="150" cy="12" r="4" fill="url(#activeGrad)" class="trend-point" />
+                  <circle cx="190" cy="16" r="4" fill="url(#activeGrad)" class="trend-point" />
+                  <circle cx="230" cy="10" r="4" fill="url(#activeGrad)" class="trend-point" />
+                  <circle cx="270" cy="8" r="4" fill="url(#activeGrad)" class="trend-point" />
+                  
+                  <!-- Revocados points -->
+                  <circle cx="30" cy="90" r="4" fill="url(#revokedGrad)" class="trend-point" />
+                  <circle cx="70" cy="85" r="4" fill="url(#revokedGrad)" class="trend-point" />
+                  <circle cx="110" cy="88" r="4" fill="url(#revokedGrad)" class="trend-point" />
+                  <circle cx="150" cy="82" r="4" fill="url(#revokedGrad)" class="trend-point" />
+                  <circle cx="190" cy="86" r="4" fill="url(#revokedGrad)" class="trend-point" />
+                  <circle cx="230" cy="80" r="4" fill="url(#revokedGrad)" class="trend-point" />
+                  <circle cx="270" cy="78" r="4" fill="url(#revokedGrad)" class="trend-point" />
                 </svg>
               </div>
-              <div class="consent-stats">
-                <div class="stat-item">
-                  <div class="stat-color" style="background: linear-gradient(21deg, rgb(97, 40, 120), rgb(186, 45, 125))"></div>
-                  <div class="stat-info">
-                    <span class="stat-label">Solicitado</span>
-                    <span class="stat-value">40%</span>
-                  </div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-color" style="background: linear-gradient(21deg, rgb(120, 60, 140), rgb(200, 70, 145))"></div>
-                  <div class="stat-info">
-                    <span class="stat-label">En proceso</span>
-                    <span class="stat-value">25%</span>
-                  </div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-color" style="background: linear-gradient(21deg, rgb(140, 80, 160), rgb(220, 95, 165))"></div>
-                  <div class="stat-info">
-                    <span class="stat-label">Otorgados</span>
-                    <span class="stat-value">20%</span>
-                  </div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-color" style="background: linear-gradient(21deg, rgb(160, 100, 180), rgb(240, 115, 185))"></div>
-                  <div class="stat-info">
-                    <span class="stat-label">Revocados</span>
-                    <span class="stat-value">15%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card modern-card">
-            <div class="card-header">
-              <h3>Ingresos mensuales</h3>
-              <p>Comparativo últimos 6 meses</p>
-            </div>
-            <div class="chart-content">
-              <div class="revenue-chart">
-                <div class="revenue-bars">
-                  <div class="revenue-bar" data-month="Ene" data-value="$15,200" style="height: 60%"></div>
-                  <div class="revenue-bar" data-month="Feb" data-value="$20,400" style="height: 80%"></div>
-                  <div class="revenue-bar" data-month="Mar" data-value="$10,100" style="height: 40%"></div>
-                  <div class="revenue-bar" data-month="Abr" data-value="$17,800" style="height: 70%"></div>
-                  <div class="revenue-bar" data-month="May" data-value="$22,900" style="height: 90%"></div>
-                  <div class="revenue-bar" data-month="Jun" data-value="$12,700" style="height: 50%"></div>
-                </div>
-                <div class="revenue-labels">
-                  <span>Ene</span>
-                  <span>Feb</span>
-                  <span>Mar</span>
-                  <span>Abr</span>
-                  <span>May</span>
-                  <span>Jun</span>
-                </div>
-              </div>
-              <div class="revenue-summary">
-                <div class="summary-item">
-                  <span class="summary-label">Promedio</span>
-                  <span class="summary-value">$16,500</span>
-                </div>
-                <div class="summary-item">
-                  <span class="summary-label">Mejor mes</span>
-                  <span class="summary-value">Mayo</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card modern-card">
-            <div class="card-header">
-              <h3>Próximos a vencerse</h3>
-              <p>Consentimientos que vencen en 30 días</p>
-            </div>
-            <div class="chart-content">
-              <div class="expiry-chart">
-                <div class="expiry-number">
-                  <span class="big-number">1,247</span>
-                  <span class="number-label">Por vencer</span>
-                </div>
-                <div class="expiry-trend">
-                  <svg width="300" height="80" viewBox="0 0 300 80">
-                    <defs>
-                      <linearGradient id="trendGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="rgb(97, 40, 120)" />
-                        <stop offset="100%" stop-color="rgb(186, 45, 125)" />
-                      </linearGradient>
-                      <linearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="rgba(186, 45, 125, 0.3)" />
-                        <stop offset="100%" stop-color="rgba(186, 45, 125, 0.05)" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M 20,60 Q 70,40 120,35 T 220,20 L 280,15 L 280,70 L 20,70 Z" fill="url(#areaGrad)" class="trend-area"/>
-                    <path d="M 20,60 Q 70,40 120,35 T 220,20 L 280,15" fill="none" stroke="url(#trendGrad)" stroke-width="3" class="trend-line"/>
-                    <circle cx="20" cy="60" r="4" fill="url(#trendGrad)" class="trend-point"/>
-                    <circle cx="70" cy="45" r="4" fill="url(#trendGrad)" class="trend-point"/>
-                    <circle cx="120" cy="35" r="4" fill="url(#trendGrad)" class="trend-point"/>
-                    <circle cx="170" cy="28" r="4" fill="url(#trendGrad)" class="trend-point"/>
-                    <circle cx="220" cy="20" r="4" fill="url(#trendGrad)" class="trend-point"/>
-                    <circle cx="280" cy="15" r="4" fill="url(#trendGrad)" class="trend-point"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="expiry-details">
-                <div class="detail-item urgent">
-                  <span class="detail-number">89</span>
-                  <span class="detail-label">Esta semana</span>
-                </div>
-                <div class="detail-item warning">
-                  <span class="detail-number">234</span>
-                  <span class="detail-label">Próximos 7 días</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card modern-card">
-            <div class="card-header">
-              <h3>Actividad reciente</h3>
-              <p>Transacciones de las últimas 24 horas</p>
-            </div>
-            <div class="chart-content">
-              <div class="activity-metrics">
-                <div class="metric-item">
-                  <div class="metric-icon">
-                    <div class="pulse-dot"></div>
-                  </div>
-                  <div class="metric-info">
-                    <span class="metric-value">2,847</span>
-                    <span class="metric-label">Transacciones</span>
-                  </div>
-                </div>
-                <div class="metric-item">
-                  <div class="metric-icon">
-                    <div class="success-dot"></div>
-                  </div>
-                  <div class="metric-info">
-                    <span class="metric-value">98.2%</span>
-                    <span class="metric-label">Tasa de éxito</span>
-                  </div>
-                </div>
-                <div class="metric-item">
-                  <div class="metric-icon">
-                    <div class="warning-dot"></div>
-                  </div>
-                  <div class="metric-info">
-                    <span class="metric-value">51</span>
-                    <span class="metric-label">Errores</span>
-                  </div>
-                </div>
-              </div>
-              <div class="activity-chart">
-                <div class="activity-bars">
-                  <div class="activity-bar" style="height: 30%"></div>
-                  <div class="activity-bar" style="height: 60%"></div>
-                  <div class="activity-bar" style="height: 45%"></div>
-                  <div class="activity-bar" style="height: 80%"></div>
-                  <div class="activity-bar" style="height: 65%"></div>
-                  <div class="activity-bar" style="height: 90%"></div>
-                  <div class="activity-bar" style="height: 75%"></div>
-                  <div class="activity-bar" style="height: 55%"></div>
-                </div>
-                <div class="activity-timeline">
-                  <span>00:00</span>
-                  <span>06:00</span>
-                  <span>12:00</span>
-                  <span>18:00</span>
-                </div>
+              <div class="evolution-timeline">
+                <span>2025-02</span>
+                <span>2025-03</span>
+                <span>2025-04</span>
+                <span>2025-05</span>
+                <span>2025-06</span>
+                <span>2025-07</span>
               </div>
             </div>
           </div>
         </div>
+
+      </div>
     </div>
   </div>
 </template>
@@ -476,18 +461,11 @@
 }
 
 
-.charts-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.charts-single-column {
+  display: flex;
+  flex-direction: column;
   gap: 25px;
   margin-bottom: 30px;
-}
-
-@media (max-width: 1024px) {
-  .charts-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
 }
 
 .modern-card {
@@ -575,69 +553,114 @@
   color: #1f2937;
 }
 
-/* Revenue Chart Styles */
-.revenue-chart {
+/* Ranking Chart Styles */
+.ranking-chart {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.revenue-bars {
+.ranking-bars {
   display: flex;
-  align-items: end;
+  flex-direction: column;
   gap: 12px;
-  height: 120px;
-  padding: 0 8px;
 }
 
-.revenue-bar {
+.ranking-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.segment-label {
+  min-width: 140px;
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.bar-container {
   flex: 1;
-  background: linear-gradient(to top, rgb(97, 40, 120), rgb(186, 45, 125));
-  border-radius: 4px 4px 0 0;
-  min-height: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   position: relative;
-  cursor: pointer;
+}
+
+.ranking-bar {
+  height: 20px;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) !important;
+  border-radius: 10px;
   transition: all 0.3s ease;
 }
 
-.revenue-bar:hover {
+.ranking-bar:hover {
   filter: brightness(1.1);
-  transform: scale(1.05);
 }
 
-.revenue-labels {
-  display: flex;
-  justify-content: space-between;
+.bar-value {
   font-size: 12px;
-  color: #6b7280;
-  padding: 0 8px;
+  font-weight: 600;
+  color: #1f2937;
+  min-width: 30px;
 }
 
-.revenue-summary {
+.ranking-scale {
   display: flex;
   justify-content: space-between;
-  padding-top: 16px;
+  font-size: 10px;
+  color: #9ca3af;
+  padding-top: 8px;
   border-top: 1px solid #e5e7eb;
 }
 
-.summary-item {
+/* Evolution Chart Styles */
+.evolution-chart {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  gap: 16px;
 }
 
-.summary-label {
+.chart-legend-small {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.legend-item-small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12px;
   color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
-.summary-value {
-  font-size: 16px;
-  font-weight: 600;
-  color: rgb(97, 40, 120);
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legend-dot.active {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+}
+
+.legend-dot.revoked {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+}
+
+.evolution-svg-container {
+  display: flex;
+  justify-content: center;
+}
+
+.evolution-timeline {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #9ca3af;
+  padding: 0 15px;
 }
 
 /* Expiry Chart Styles */
@@ -830,22 +853,19 @@
     flex-direction: column;
     gap: 5px;
   }
-  
+
   .chart-container {
     grid-template-columns: 1fr;
     text-align: center;
   }
-  
+
   .pie-chart {
     width: 250px;
     height: 250px;
     margin: 0 auto;
   }
-  
-  .charts-grid {
-    grid-template-columns: 1fr;
-  }
-  
+
+
   .chart-type-selector .selector-item {
     flex-direction: column;
     gap: 10px;
@@ -858,6 +878,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -869,6 +890,7 @@
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -879,15 +901,19 @@
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.6;
   }
@@ -898,9 +924,11 @@
     opacity: 0;
     transform: scale(0.8) rotate(-10deg);
   }
+
   50% {
     transform: scale(1.05) rotate(2deg);
   }
+
   100% {
     opacity: 1;
     transform: scale(1) rotate(0deg);
@@ -908,9 +936,12 @@
 }
 
 @keyframes glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 5px rgba(186, 45, 125, 0.2);
   }
+
   50% {
     box-shadow: 0 0 20px rgba(186, 45, 125, 0.4), 0 0 30px rgba(186, 45, 125, 0.1);
   }
@@ -921,6 +952,7 @@
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -932,20 +964,42 @@
   animation-fill-mode: both;
 }
 
-.modern-card:nth-child(1) { animation-delay: 0.1s; }
-.modern-card:nth-child(2) { animation-delay: 0.2s; }
-.modern-card:nth-child(3) { animation-delay: 0.3s; }
-.modern-card:nth-child(4) { animation-delay: 0.4s; }
+.modern-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.modern-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.modern-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.modern-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
 
 .chart-segment {
   animation: popIn 0.8s ease-out;
   animation-fill-mode: both;
 }
 
-.chart-segment:nth-child(2) { animation-delay: 0.6s; }
-.chart-segment:nth-child(3) { animation-delay: 0.8s; }
-.chart-segment:nth-child(4) { animation-delay: 1.0s; }
-.chart-segment:nth-child(5) { animation-delay: 1.2s; }
+.chart-segment:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+.chart-segment:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+.chart-segment:nth-child(4) {
+  animation-delay: 1.0s;
+}
+
+.chart-segment:nth-child(5) {
+  animation-delay: 1.2s;
+}
 
 .revenue-bar {
   animation: scaleIn 0.7s ease-out;
@@ -953,12 +1007,29 @@
   transform-origin: bottom;
 }
 
-.revenue-bar:nth-child(1) { animation-delay: 0.7s; }
-.revenue-bar:nth-child(2) { animation-delay: 0.8s; }
-.revenue-bar:nth-child(3) { animation-delay: 0.9s; }
-.revenue-bar:nth-child(4) { animation-delay: 1.0s; }
-.revenue-bar:nth-child(5) { animation-delay: 1.1s; }
-.revenue-bar:nth-child(6) { animation-delay: 1.2s; }
+.revenue-bar:nth-child(1) {
+  animation-delay: 0.7s;
+}
+
+.revenue-bar:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+.revenue-bar:nth-child(3) {
+  animation-delay: 0.9s;
+}
+
+.revenue-bar:nth-child(4) {
+  animation-delay: 1.0s;
+}
+
+.revenue-bar:nth-child(5) {
+  animation-delay: 1.1s;
+}
+
+.revenue-bar:nth-child(6) {
+  animation-delay: 1.2s;
+}
 
 .trend-area {
   animation: scaleIn 1s ease-out 0.8s both;
@@ -981,12 +1052,29 @@
   animation: popIn 0.4s ease-out both;
 }
 
-.trend-point:nth-child(4) { animation-delay: 1.3s; }
-.trend-point:nth-child(5) { animation-delay: 1.4s; }
-.trend-point:nth-child(6) { animation-delay: 1.5s; }
-.trend-point:nth-child(7) { animation-delay: 1.6s; }
-.trend-point:nth-child(8) { animation-delay: 1.7s; }
-.trend-point:nth-child(9) { animation-delay: 1.8s; }
+.trend-point:nth-child(4) {
+  animation-delay: 1.3s;
+}
+
+.trend-point:nth-child(5) {
+  animation-delay: 1.4s;
+}
+
+.trend-point:nth-child(6) {
+  animation-delay: 1.5s;
+}
+
+.trend-point:nth-child(7) {
+  animation-delay: 1.6s;
+}
+
+.trend-point:nth-child(8) {
+  animation-delay: 1.7s;
+}
+
+.trend-point:nth-child(9) {
+  animation-delay: 1.8s;
+}
 
 .big-number {
   animation: countUp 0.8s ease-out 0.5s both;
@@ -1001,22 +1089,55 @@
   transform-origin: bottom;
 }
 
-.activity-bar:nth-child(1) { animation-delay: 0.9s; }
-.activity-bar:nth-child(2) { animation-delay: 1.0s; }
-.activity-bar:nth-child(3) { animation-delay: 1.1s; }
-.activity-bar:nth-child(4) { animation-delay: 1.2s; }
-.activity-bar:nth-child(5) { animation-delay: 1.3s; }
-.activity-bar:nth-child(6) { animation-delay: 1.4s; }
-.activity-bar:nth-child(7) { animation-delay: 1.5s; }
-.activity-bar:nth-child(8) { animation-delay: 1.6s; }
+.activity-bar:nth-child(1) {
+  animation-delay: 0.9s;
+}
+
+.activity-bar:nth-child(2) {
+  animation-delay: 1.0s;
+}
+
+.activity-bar:nth-child(3) {
+  animation-delay: 1.1s;
+}
+
+.activity-bar:nth-child(4) {
+  animation-delay: 1.2s;
+}
+
+.activity-bar:nth-child(5) {
+  animation-delay: 1.3s;
+}
+
+.activity-bar:nth-child(6) {
+  animation-delay: 1.4s;
+}
+
+.activity-bar:nth-child(7) {
+  animation-delay: 1.5s;
+}
+
+.activity-bar:nth-child(8) {
+  animation-delay: 1.6s;
+}
 
 .stat-item {
   animation: slideInUp 0.5s ease-out both;
 }
 
-.stat-item:nth-child(1) { animation-delay: 1.4s; }
-.stat-item:nth-child(2) { animation-delay: 1.5s; }
-.stat-item:nth-child(3) { animation-delay: 1.6s; }
-.stat-item:nth-child(4) { animation-delay: 1.7s; }
+.stat-item:nth-child(1) {
+  animation-delay: 1.4s;
+}
 
+.stat-item:nth-child(2) {
+  animation-delay: 1.5s;
+}
+
+.stat-item:nth-child(3) {
+  animation-delay: 1.6s;
+}
+
+.stat-item:nth-child(4) {
+  animation-delay: 1.7s;
+}
 </style>

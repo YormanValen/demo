@@ -16,30 +16,22 @@
       <h1 class="main-title">Agregados de Categorización</h1>
       <p class="subtitle">Variables agregadas del comportamiento de las categorías identificadas</p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">Calculados para todas las categorías y meses detectados en el historial transaccional del cliente.</li>
-          <li class="description-text">Muchas más variables disponibles</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">Calculados para todas las categorías y meses detectados en el historial transaccional del cliente.</li>
+            <li class="description-text">Muchas más variables disponibles</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- Table and Category Icons -->
+    <!-- Category -->
     <div class="icons-container" :class="{ 'visible': showIcons }">
-      <!-- Dynamic table icon -->
-      <div class="table-icon">
-        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="3" y="5" width="18" height="14" rx="2" :stroke="currentDataset.tableColor" stroke-width="2" />
-          <path d="M3 10H21" :stroke="currentDataset.tableColor" stroke-width="2" />
-          <path d="M8 10V19" :stroke="currentDataset.tableColor" stroke-width="2" />
-          <path d="M14 10V19" :stroke="currentDataset.tableColor" stroke-width="2" />
-        </svg>
-      </div>
-
-      <!-- Dynamic category icon that appears from table -->
+      <!-- Dynamic category icon -->
       <div class="category-item" :class="{ 'visible': showCategory }">
         <div class="category-icon" :style="{ color: currentDataset.category.color }">
           <!-- Food icon for EXP-ENT-001 -->
-          <svg v-if="currentDataset.category.code === 'EXP-ENT-001'" width="60" height="60" viewBox="0 0 24 24"
+          <svg v-if="currentDataset.category.code === 'EXP-ENT-001'" width="72" height="72" viewBox="0 0 24 24"
             fill="none">
             <path
               d="M8.5 8.5c0-1.5 1.5-3 3.5-3s3.5 1.5 3.5 3c0 .5-.5 1-.5 1s2 1.5 2 3.5c0 2-2 4-2 4H7s-2-2-2-4c0-2 2-3.5 2-3.5s-.5-.5-.5-1z"
@@ -47,20 +39,20 @@
             <path d="M12 2v6M9 4l6 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
           <!-- Salary icon for INC-LAB-001 -->
-          <svg v-else-if="currentDataset.category.code === 'INC-LAB-001'" width="60" height="60" viewBox="0 0 24 24"
+          <svg v-else-if="currentDataset.category.code === 'INC-LAB-001'" width="72" height="72" viewBox="0 0 24 24"
             fill="none">
             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           <!-- Transport icon for EXP-TRA-002 -->
-          <svg v-else-if="currentDataset.category.code === 'EXP-TRA-002'" width="60" height="60" viewBox="0 0 24 24"
+          <svg v-else-if="currentDataset.category.code === 'EXP-TRA-002'" width="72" height="72" viewBox="0 0 24 24"
             fill="none">
             <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" stroke="currentColor" stroke-width="2" fill="none" />
             <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" stroke="currentColor" stroke-width="2" fill="none" />
             <path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2" stroke="currentColor" stroke-width="2" fill="none" />
           </svg>
           <!-- Entertainment icon for EXP-REC-003 -->
-          <svg v-else width="60" height="60" viewBox="0 0 24 24" fill="none">
+          <svg v-else width="72" height="72" viewBox="0 0 24 24" fill="none">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke="currentColor" stroke-width="2"
               fill="currentColor" fill-opacity="0.3" />
           </svg>
@@ -127,7 +119,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
@@ -138,7 +130,7 @@ const showTitle = ref(false)
 const showIcons = ref(false)
 const showCategory = ref(false)
 const showCards = ref(false)
-const showButton = ref(false)
+const showButton = ref(true)
 const visibleCards = ref<Set<number>>(new Set())
 
 // Data rotation state
@@ -154,8 +146,8 @@ const datasets = [
       color: "#6b7280"
     },
     tableColor: "#6b7280",
-    transactions: [127, 142, 118, 135],
-    expenses: [2450000, 2780000, 2120000, 2650000]
+    transactions: [14, 16, 12, 15],
+    expenses: [220000, 260000, 180000, 240000]
   },
   {
     category: {
@@ -164,8 +156,8 @@ const datasets = [
       color: "#6b7280"
     },
     tableColor: "#6b7280",
-    transactions: [89, 95, 87, 92],
-    expenses: [3200000, 3150000, 3100000, 3180000]
+    transactions: [1, 1, 1, 1],
+    expenses: [3200000, 3200000, 3300000, 3200000]
   },
   {
     category: {
@@ -174,8 +166,8 @@ const datasets = [
       color: "#6b7280"
     },
     tableColor: "#6b7280",
-    transactions: [156, 142, 167, 148],
-    expenses: [890000, 920000, 850000, 910000]
+    transactions: [7, 8, 6, 9],
+    expenses: [65000, 72000, 60000, 80000]
   },
   {
     category: {
@@ -184,8 +176,8 @@ const datasets = [
       color: "#6b7280"
     },
     tableColor: "#6b7280",
-    transactions: [67, 73, 59, 71],
-    expenses: [1450000, 1680000, 1320000, 1590000]
+    transactions: [3, 4, 2, 3],
+    expenses: [140000, 180000, 100000, 150000]
   }
 ]
 
@@ -297,7 +289,6 @@ const rotateToNextDataset = async () => {
 
   // Check if we're at the last dataset before incrementing
   const nextIndex = (currentDataIndex.value + 1) % datasets.length
-  const isLastDataset = currentDataIndex.value === datasets.length - 1
 
   // Fade out cards and category
   showCards.value = false
@@ -311,14 +302,6 @@ const rotateToNextDataset = async () => {
 
   // Wait for fade out
   await new Promise(resolve => setTimeout(resolve, 600))
-
-  // If we just finished the last dataset, navigate to submenu
-  if (isLastDataset) {
-    // Reset the index for next time
-    localStorage.setItem('agregados_current_index', '0')
-    router.push({ name: 'entity-transactional-insights-submenu' })
-    return
-  }
 
   // Move to next dataset
   currentDataIndex.value = nextIndex
@@ -345,7 +328,7 @@ const rotateToNextDataset = async () => {
 
 // Handle continue button click
 const handleContinue = () => {
-  rotateToNextDataset()
+  router.push({ name: 'entity-transactional-insights-submenu' })
 }
 
 // Start animations on mount
@@ -362,7 +345,28 @@ onMounted(async () => {
   setTimeout(async () => {
     // Start title animation
     await startTitleAnimation()
+    // Start automatic rotation loop after initial animation
+    startAutoRotationLoop()
   }, 300)
+})
+
+// Automatic rotation every 3 seconds
+const AUTO_DELAY_MS = 3000
+let isDestroyed = false
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+const startAutoRotationLoop = async () => {
+  // initial wait before first rotation
+  await delay(AUTO_DELAY_MS)
+  while (!isDestroyed) {
+    await rotateToNextDataset()
+    await delay(AUTO_DELAY_MS)
+  }
+}
+
+onUnmounted(() => {
+  isDestroyed = true
 })
 </script>
 
@@ -518,6 +522,16 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
+}
+
 .description-list {
   list-style-type: disc;
   padding-left: 20px;
@@ -586,7 +600,7 @@ onMounted(async () => {
 }
 
 .category-code {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #374151;
   margin: 0 0 5px 0;
@@ -594,7 +608,7 @@ onMounted(async () => {
 }
 
 .category-name {
-  font-size: 0.9rem;
+  font-size: 1.3rem;
   color: #6b7280;
   margin: 0;
   font-weight: 500;

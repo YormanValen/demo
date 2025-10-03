@@ -16,10 +16,12 @@
       <h1 class="main-title">Alertas y Tendencias</h1>
       <p class="subtitle">Detección de tendencias de gastos e ingresos y comportamientos del cliente.</p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">Análisis avanzado de patrones de comportamiento financiero</li>
-          <li class="description-text">Identificación automática de anomalías y cambios significativos</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">Análisis avanzado de patrones de comportamiento financiero</li>
+            <li class="description-text">Identificación automática de anomalías y cambios significativos</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -32,7 +34,8 @@
           <div class="large-table">
             <svg width="300" height="200" viewBox="0 0 300 200" fill="none">
               <!-- Table structure -->
-              <rect x="20" y="20" width="260" height="160" rx="8" stroke="url(#tableGradient)" stroke-width="3" fill="#f8fafc" />
+              <rect x="20" y="20" width="260" height="160" rx="8" stroke="url(#tableGradient)" stroke-width="3"
+                fill="#f8fafc" />
               <!-- Table header -->
               <rect x="20" y="20" width="260" height="30" rx="8" fill="url(#tableGradient)" />
               <!-- Gradient definition -->
@@ -97,9 +100,11 @@
                   </linearGradient>
                 </defs>
                 <!-- Glass circle -->
-                <circle cx="22" cy="22" r="18" stroke="url(#magnifyingGlassGradient)" stroke-width="3" fill="rgba(97, 40, 120, 0.1)" />
+                <circle cx="22" cy="22" r="18" stroke="url(#magnifyingGlassGradient)" stroke-width="3"
+                  fill="rgba(97, 40, 120, 0.1)" />
                 <!-- Handle -->
-                <line x1="38" y1="38" x2="52" y2="52" stroke="url(#magnifyingGlassGradient)" stroke-width="3" stroke-linecap="round" />
+                <line x1="38" y1="38" x2="52" y2="52" stroke="url(#magnifyingGlassGradient)" stroke-width="3"
+                  stroke-linecap="round" />
                 <!-- Reflection -->
                 <circle cx="18" cy="18" r="3" fill="rgba(255, 255, 255, 0.8)" />
               </svg>
@@ -126,7 +131,7 @@
               <div class="finding-content">
                 <div class="finding-title">{{ finding.title }}</div>
                 <div class="finding-status" :class="finding.discovered ? 'discovered' : 'investigating'">
-                  {{ finding.discovered ? 'Confirmado' : 'No encontrado' }}
+                  {{ finding.discovered ? 'Encontrado' : 'No encontrado' }}
                 </div>
               </div>
             </div>
@@ -443,6 +448,16 @@ onMounted(async () => {
   gap: 12px;
   max-width: 700px;
   margin: 25px auto 0;
+}
+
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
 }
 
 .description-list {

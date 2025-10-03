@@ -30,7 +30,7 @@
     <div class="table-container" :class="{ 'visible': showTable }">
       <div class="table-header">
         <h2 class="table-title">Historial de Transacciones</h2>
-        <p class="table-subtitle">Últimas 10 transacciones registradas</p>
+        <p class="table-subtitle">Transacciones registradas</p>
       </div>
 
       <div class="table-wrapper">
@@ -66,6 +66,36 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Fictitious Pagination -->
+      <div class="pagination-container" :class="{ 'visible': showTable }">
+        <div class="pagination-info">
+          <span class="pagination-text">Mostrando 1-10 de 147 transacciones</span>
+        </div>
+        <div class="pagination-controls">
+          <button class="pagination-btn" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Anterior
+          </button>
+          
+          <div class="pagination-numbers">
+            <button class="pagination-number active">1</button>
+            <button class="pagination-number">2</button>
+            <button class="pagination-number">3</button>
+            <span class="pagination-dots">...</span>
+            <button class="pagination-number">15</button>
+          </div>
+          
+          <button class="pagination-btn">
+            Siguiente
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -252,9 +282,7 @@ const transactions = computed(() => {
 // Formateo de montos en pesos colombianos (COP)
 const currencyCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 })
 const formatCOP = (value: number) => {
-  // Mostrar signo + para créditos
-  const sign = value > 0 ? '+' : ''
-  return sign + currencyCOP.format(Math.abs(value))
+  return currencyCOP.format(Math.abs(value))
 }
 const amountClass = (value: number) => (value >= 0 ? 'credit' : 'debit')
 
@@ -691,6 +719,97 @@ onMounted(async () => {
   color: #4b5563;
 }
 
+/* Pagination Styles */
+.pagination-container {
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+}
+
+.pagination-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pagination-info {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination-number {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-number:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.pagination-number.active {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.pagination-dots {
+  color: #9ca3af;
+  padding: 0 8px;
+  font-weight: bold;
+}
+
 /* Continue Button */
 .button-container {
   margin-top: 40px;
@@ -741,6 +860,17 @@ onMounted(async () => {
   .bank-title {
     font-size: 2rem;
   }
+
+  .pagination-container {
+    padding: 15px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .pagination-controls {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 768px) {
@@ -774,6 +904,22 @@ onMounted(async () => {
   .bank-logo-image-header {
     width: 50px;
     height: 50px;
+  }
+
+  .pagination-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .pagination-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .pagination-info {
+    font-size: 0.8rem;
+    text-align: center;
   }
 }
 

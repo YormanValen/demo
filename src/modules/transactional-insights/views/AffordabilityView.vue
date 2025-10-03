@@ -16,10 +16,13 @@
       <h1 class="main-title">Affordability</h1>
       <p class="subtitle">Evaluación histórica de la capacidad de pago y estilo de vida de los clientes.</p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">Disponible para cada mes del periodo cubierto por el historial transaccional</li>
-          <li class="description-text">Cada una de las 109 categorías suma a un concepto de la evaluación.</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">Disponible para cada mes del periodo cubierto por el historial transaccional
+            </li>
+            <li class="description-text">Cada una de las 109 categorías suma a un concepto de la evaluación.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -145,6 +148,7 @@
           </svg>
         </div>
         <div class="category-details">
+          <p class="category-code-inline">{{ currentCategory.id }}</p>
           <h3 class="category-name">{{ currentCategory.name }}</h3>
           <div class="category-value">${{ formatNumber(currentCategory.value) }}</div>
         </div>
@@ -152,7 +156,7 @@
 
       <!-- Right Side - Categories Column -->
       <div class="categories-column">
-        <h3 class="column-title">Categorías de Evaluación</h3>
+        <h3 class="column-title">Grupos Affordability</h3>
         <div class="evaluation-categories">
           <div v-for="(evalCategory, index) in evaluationCategories" :key="evalCategory.id" ref="categoryItems"
             class="evaluation-item" :class="{
@@ -214,7 +218,7 @@
     <div class="button-container" :class="{ 'visible': showButton }">
       <button class="continue-button" @click="handleContinue">
         <span v-if="currentCategoryIndex < allCategories.length">
-          Continuar ({{ currentCategoryIndex + 1 }}/{{ allCategories.length }})
+          Continuar
         </span>
         <span v-else>
           Ir al Menú Principal
@@ -225,7 +229,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
@@ -502,80 +506,90 @@ const animateCategoriesSequentially = async () => {
 }
 
 // Animation for moving card to target category
-const animateCardToCategory = async () => {
-  if (!movingCard.value || isAnimating.value) return
-
-  isAnimating.value = true
-
-  // Find target category element
-  const targetCategoryId = currentCategory.value.targetCategory
-  const targetElement = categoryItems.value?.find(el =>
-    el.getAttribute('data-category-id') === targetCategoryId
-  )
-
-  if (!targetElement) return
-
-  // Get positions
-  const cardRect = movingCard.value.getBoundingClientRect()
-  const targetRect = targetElement.getBoundingClientRect()
-
-  // Calculate movement to center of target element
-  const deltaX = (targetRect.left + targetRect.width / 2) - (cardRect.left + cardRect.width / 2)
-  const deltaY = (targetRect.top + targetRect.height / 2) - (cardRect.top + cardRect.height / 2)
-
-  // Apply animation directly to the card
-  movingCard.value.style.transition = 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)'
-  movingCard.value.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.3)`
-  movingCard.value.style.opacity = '0'
-  movingCard.value.style.zIndex = '1000'
-
-  // After movement, highlight target and update value
-  setTimeout(() => {
-    // Highlight target category
-    highlightedCategory.value = targetCategoryId
-
-    // Update the highlighted category border color dynamically
-    const targetCat = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
-    if (targetCat && targetElement) {
-      targetElement.style.setProperty('--highlight-color', targetCat.color)
+const animateCardToCategory = async (): Promise<void> => {
+  return new Promise<void>((resolve) => {
+    if (!movingCard.value || isAnimating.value) {
+      resolve()
+      return
     }
 
-    // Update target category value
-    const targetCategory = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
-    if (targetCategory) {
-      const oldValue = { value: targetCategory.value }
-      const newValue = targetCategory.value + currentCategory.value.value
+    isAnimating.value = true
 
-      animateNumber(oldValue, newValue)
+    // Find target category element
+    const targetCategoryId = currentCategory.value.targetCategory
+    const targetElement = categoryItems.value?.find(el =>
+      el.getAttribute('data-category-id') === targetCategoryId
+    )
 
-      // Update the actual value after animation
-      setTimeout(() => {
-        targetCategory.value = newValue
-      }, 800)
+    if (!targetElement) {
+      isAnimating.value = false
+      resolve()
+      return
     }
 
-    // Remove highlight and show next card
+    // Get positions
+    const cardRect = movingCard.value.getBoundingClientRect()
+    const targetRect = targetElement.getBoundingClientRect()
+
+    // Calculate movement to center of target element
+    const deltaX = (targetRect.left + targetRect.width / 2) - (cardRect.left + cardRect.width / 2)
+    const deltaY = (targetRect.top + targetRect.height / 2) - (cardRect.top + cardRect.height / 2)
+
+    // Apply animation directly to the card
+    movingCard.value.style.transition = 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)'
+    movingCard.value.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.3)`
+    movingCard.value.style.opacity = '0'
+    movingCard.value.style.zIndex = '1000'
+
+    // After movement, highlight target and update value
     setTimeout(() => {
-      highlightedCategory.value = null
+      // Highlight target category
+      highlightedCategory.value = targetCategoryId
 
-      // Move to next category
-      currentCategoryIndex.value++
-
-      // Check if we have more categories
-      if (currentCategoryIndex.value < allCategories.length) {
-        // Animate new card entrance
-        animateNewCardEntrance()
-      } else {
-        // All categories processed - hide the card container
-        if (movingCard.value) {
-          movingCard.value.style.display = 'none'
-        }
+      // Update the highlighted category border color dynamically
+      const targetCat = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
+      if (targetCat && targetElement) {
+        targetElement.style.setProperty('--highlight-color', targetCat.color)
       }
 
-      isAnimating.value = false
-    }, 2500)
+      // Update target category value
+      const targetCategory = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
+      if (targetCategory) {
+        const oldValue = { value: targetCategory.value }
+        const newValue = targetCategory.value + currentCategory.value.value
 
-  }, 1200)
+        animateNumber(oldValue, newValue)
+
+        // Update the actual value after animation
+        setTimeout(() => {
+          targetCategory.value = newValue
+        }, 800)
+      }
+
+      // Remove highlight and show next card
+      setTimeout(() => {
+        highlightedCategory.value = null
+
+        // Move to next category
+        currentCategoryIndex.value++
+
+        // Check if we have more categories
+        if (currentCategoryIndex.value < allCategories.length) {
+          // Animate new card entrance
+          animateNewCardEntrance()
+        } else {
+          // All categories processed - hide the card container
+          if (movingCard.value) {
+            movingCard.value.style.display = 'none'
+          }
+        }
+
+        isAnimating.value = false
+        resolve()
+      }, 2500)
+
+    }, 1200)
+  })
 }
 
 // Smooth entrance animation for new card
@@ -618,15 +632,7 @@ const startTitleAnimation = async () => {
 
 // Handle continue button click
 const handleContinue = () => {
-  if (isAnimating.value) return
-
-  // Check if we have more categories to process
-  if (currentCategoryIndex.value < allCategories.length) {
-    animateCardToCategory()
-  } else {
-    // All categories completed - navigate to submenu
-    router.push({ name: 'entity-transactional-insights-submenu' })
-  }
+  router.push({ name: 'entity-transactional-insights-submenu' })
 }
 
 // Start animations on mount
@@ -634,7 +640,29 @@ onMounted(async () => {
   await nextTick()
   setTimeout(async () => {
     await startTitleAnimation()
+    startAutoAffordabilityLoop()
   }, 300)
+})
+
+// Auto loop: wait 3s showing card, then sum, wait 3s, repeat
+const AUTO_DELAY_MS = 3000
+let isDestroyed = false
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+const startAutoAffordabilityLoop = async () => {
+  // initial wait to show icon + text
+  await delay(AUTO_DELAY_MS)
+  while (!isDestroyed && currentCategoryIndex.value < allCategories.length) {
+    await animateCardToCategory()
+    if (isDestroyed) break
+    // wait before next card proceeds, showing new icon + text
+    await delay(AUTO_DELAY_MS)
+  }
+}
+
+onUnmounted(() => {
+  isDestroyed = true
 })
 </script>
 
@@ -791,6 +819,16 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
+}
+
 .description-list {
   list-style-type: disc;
   padding-left: 20px;
@@ -936,6 +974,16 @@ onMounted(async () => {
   opacity: 1;
   transform: translateX(0);
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Simple code above title */
+.category-code-inline {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 6px 0;
+  text-align: center;
 }
 
 .evaluation-item.highlighted {

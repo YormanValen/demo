@@ -534,45 +534,73 @@ async function ensurePdfStoreLoaded() {
   }
 }
 
+// Mock data completo para segunda prioridad
+const mockData = {
+  solicitante: {
+    tipoDocumento: 'Cédula de Ciudadanía',
+    numeroIdentificacion: '1234567890',
+    primerNombre: 'Carlos',
+    primerApellido: 'Rodríguez',
+    fechaExpedicion: '15/03/2010',
+    celular: '3001234567',
+    correo: 'carlos.rodriguez@email.com'
+  },
+  solicitud: {
+    tipoCredito: 'Crédito de Consumo',
+    ingresosMensuales: '$2.500.000',
+    otrosIngresos: '$500.000',
+    montoSolicitado: '$15.000.000',
+    actividadEconomica: 'Empleado',
+    antiguedad: '5 años',
+    estadoCivil: 'Soltero',
+    nivelEducativo: 'Universitario',
+    gastosMensuales: '$1.800.000',
+    numeroRadicacion: 'RAD123456'
+  },
+  datosGenerales: {
+    fechaTramite: { dia: '25', mes: '01', anio: '2025' }
+  }
+}
+
 function getFieldValue(fieldId: string): string {
   const store = cachedPdfStore
   switch (fieldId) {
     case 'tipoDocumento':
-      return store?.solicitante?.tipoDocumento || props.solicitante?.tipoDocumento || 'Cédula de Ciudadanía'
+      return store?.solicitante?.tipoDocumento || mockData.solicitante.tipoDocumento || props.solicitante?.tipoDocumento || 'Cédula de Ciudadanía'
     case 'numeroIdentificacion':
-      return store?.solicitante?.numeroIdentificacion || props.solicitante?.numeroIdentificacion || ''
+      return store?.solicitante?.numeroIdentificacion || mockData.solicitante.numeroIdentificacion || props.solicitante?.numeroIdentificacion || ''
     case 'primerNombre':
-      return store?.solicitante?.primerNombre || props.solicitante?.primerNombre || ''
+      return store?.solicitante?.primerNombre || mockData.solicitante.primerNombre || props.solicitante?.primerNombre || ''
     case 'primerApellido':
-      return store?.solicitante?.primerApellido || props.solicitante?.primerApellido || ''
+      return store?.solicitante?.primerApellido || mockData.solicitante.primerApellido || props.solicitante?.primerApellido || ''
     case 'fechaExpedicion':
-      return store?.solicitante?.fechaExpedicion || props.solicitante?.fechaExpedicion || ''
+      return store?.solicitante?.fechaExpedicion || mockData.solicitante.fechaExpedicion || props.solicitante?.fechaExpedicion || ''
     case 'celular':
-      return store?.solicitante?.celular || props.solicitante?.celular || ''
+      return store?.solicitante?.celular || mockData.solicitante.celular || props.solicitante?.celular || ''
     case 'correo':
-      return store?.solicitante?.correo || props.solicitante?.correo || ''
+      return store?.solicitante?.correo || mockData.solicitante.correo || props.solicitante?.correo || ''
     case 'montoSolicitado':
-      return store?.solicitud?.montoSolicitado || props.solicitud?.montoSolicitado || ''
+      return store?.solicitud?.montoSolicitado || mockData.solicitud.montoSolicitado || props.solicitud?.montoSolicitado || ''
     case 'gastosMensuales':
-      return store?.solicitud?.gastosMensuales || props.solicitud?.gastosMensuales || ''
+      return store?.solicitud?.gastosMensuales || mockData.solicitud.gastosMensuales || props.solicitud?.gastosMensuales || ''
     case 'ingresosMensuales':
-      return store?.solicitud?.ingresosMensuales || props.solicitud?.ingresosMensuales || ''
+      return store?.solicitud?.ingresosMensuales || mockData.solicitud.ingresosMensuales || props.solicitud?.ingresosMensuales || ''
     case 'otrosIngresos':
-      return store?.solicitud?.otrosIngresos || props.solicitud?.otrosIngresos || ''
+      return store?.solicitud?.otrosIngresos || mockData.solicitud.otrosIngresos || props.solicitud?.otrosIngresos || ''
     case 'actividadEconomica':
-      return store?.solicitud?.actividadEconomica || props.solicitud?.actividadEconomica || ''
+      return store?.solicitud?.actividadEconomica || mockData.solicitud.actividadEconomica || props.solicitud?.actividadEconomica || ''
     case 'antiguedad':
-      return store?.solicitud?.antiguedad || props.solicitud?.antiguedad || ''
+      return store?.solicitud?.antiguedad || mockData.solicitud.antiguedad || props.solicitud?.antiguedad || ''
     case 'estadoCivil':
-      return store?.solicitud?.estadoCivil || props.solicitud?.estadoCivil || ''
+      return store?.solicitud?.estadoCivil || mockData.solicitud.estadoCivil || props.solicitud?.estadoCivil || ''
     case 'nivelEducativo':
-      return store?.solicitud?.nivelEducativo || props.solicitud?.nivelEducativo || ''
+      return store?.solicitud?.nivelEducativo || mockData.solicitud.nivelEducativo || props.solicitud?.nivelEducativo || ''
     case 'tipoCredito':
-      return store?.solicitud?.tipoCredito || props.solicitud?.tipoCredito || ''
+      return store?.solicitud?.tipoCredito || mockData.solicitud.tipoCredito || props.solicitud?.tipoCredito || ''
     case 'numeroRadicacion':
-      return generatedRadicacion.value || store?.solicitud?.numeroRadicacion || props.solicitud?.numeroRadicacion || ''
+      return generatedRadicacion.value || store?.solicitud?.numeroRadicacion || mockData.solicitud.numeroRadicacion || props.solicitud?.numeroRadicacion || ''
     case 'fechaTramite':
-      const fecha = generatedFecha.value || store?.datosGenerales?.fechaTramite || props.datosGenerales?.fechaTramite
+      const fecha = generatedFecha.value || store?.datosGenerales?.fechaTramite || mockData.datosGenerales.fechaTramite || props.datosGenerales?.fechaTramite
       return `${fecha?.dia || ''} ${fecha?.mes || ''} ${fecha?.anio || ''}`
     default:
       return ''

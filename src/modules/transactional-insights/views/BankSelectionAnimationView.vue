@@ -43,7 +43,11 @@
       <div ref="banksContainer" class="banks-container" :class="{ 'visible': showBanks, 'fusing': fusion.active }"
         v-if="banksLoaded">
         <div v-for="bank in displayBanks" :key="bank.id" class="bank-item" :ref="el => setBankItemRef(el, bank.id)"
-          :class="{ expanding: expandingBankId === bank.id }">
+          :data-bank-id="bank.id" :class="{
+            expanding: expandingBankId === bank.id,
+            'transferring-data': dataTransfer.activeBank === bank.id,
+            'emptying': dataTransfer.completedBanks.has(bank.id)
+          }">
           <!-- Viewed check badge -->
           <div v-if="isViewed(bank.id)" class="viewed-check" :style="{ color: bank.bankColor }" title="Visto">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -79,12 +83,14 @@
       <!-- Fusion core removed: items themselves converge and overlap -->
 
       <!-- Fusion summary after completing all banks -->
-      <div v-if="fusion.showSummary" class="fusion-summary" :class="{ visible: fusion.showSummary }"
-        :style="fusionSummaryStyle">
+      <div v-if="fusion.showSummary" class="fusion-summary" :class="{
+        visible: fusion.showSummary,
+        'data-transfer-mode': fusion.transferring
+      }" :style="fusionSummaryStyle">
         <div class="fusion-logo" ref="fusionLogoEl">
           <span class="fusion-initials">HT</span>
         </div>
-        <h3 class="fusion-title">Historial transaccional</h3>
+        <h3 class="fusion-title">Historial Transaccional</h3>
         <div class="fusion-table-icon">
           <svg width="96" height="96" viewBox="0 0 24 24" fill="none">
             <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" />
@@ -201,7 +207,7 @@ const displayBanks = computed(() => {
       logo: getBankLogo(bank.name) || bank.logo // Use mapped logo or fallback to existing logo
     }))
   }
-  
+
   // Otherwise fall back to default banks for consistent visualization
   return defaultBanks
 })
@@ -234,9 +240,19 @@ const showElements = async () => {
 const expandingBankId = ref<number | null>(null)
 
 // Handle continue button click
-const fusion = ref<{ active: boolean; showSummary: boolean }>({ active: false, showSummary: false })
+const fusion = ref<{ active: boolean; showSummary: boolean; transferring: boolean }>({ active: false, showSummary: false, transferring: false })
 // XY position (viewport coords) where fusion core/summary should appear
 const fusionXY = ref<{ x: number; y: number } | null>(null)
+// Data transfer animation state
+const dataTransfer = ref<{
+  activeBank: number | null;
+  completedBanks: Set<number>;
+  connections: Array<{ id: string; from: { x: number; y: number }; to: { x: number; y: number } }>
+}>({
+  activeBank: null,
+  completedBanks: new Set(),
+  connections: []
+})
 // Inline style to position fusion core/summary at fusionXY
 const fusionSummaryStyle = computed(() => {
   if (!fusionXY.value) return {}
@@ -258,66 +274,335 @@ const startFusion = async () => {
   // Ocultar botón durante fusión
   showButton.value = false
   fusion.value.active = true
+  fusion.value.transferring = true
 
-  // Calcular centro objetivo usando el banco central
   await nextTick()
+
+  // ¡NUEVA ANIMACIÓN ESPECTACULAR DE CONVERGENCIA DE DATOS!
+  await startSpectacularDataConvergence()
+
+  // Finalizar
+  setTimeout(() => {
+    fusion.value.transferring = false
+    showButton.value = true
+    localStorage.setItem('fusion_completed', 'true')
+  }, 1000)
+}
+
+// 🚀 NUEVA ANIMACIÓN ESPECTACULAR DE CONVERGENCIA SECUENCIAL
+const startSpectacularDataConvergence = async () => {
   const ordered = displayBanks.value
-  const centerIdx = Math.floor(ordered.length / 2)
-  const centerBank = ordered[centerIdx]
-  const centerLogoEl = bankLogoRefs.get(centerBank?.id || -1)
-  let targetX: number
-  let targetY: number
-  if (centerLogoEl) {
-    const r = centerLogoEl.getBoundingClientRect()
-    targetX = r.left + r.width / 2
-    targetY = r.top + r.height / 2
-  } else {
-    const containerRect = banksContainer.value.getBoundingClientRect()
-    targetX = containerRect.left + containerRect.width / 2
-    targetY = containerRect.top + containerRect.height / 2
+
+  // Paso 1: Elevar bancos primero
+  await liftBanksUp()
+
+  // Paso 2: Mostrar HT abajo después de que suban los bancos
+  const htTargetX = window.innerWidth / 2
+  const htTargetY = window.innerHeight / 2 + 180
+  fusionXY.value = { x: htTargetX, y: htTargetY }
+  fusion.value.showSummary = true
+
+  await new Promise(resolve => setTimeout(resolve, 1000))
+
+  // Paso 3: Procesar cada banco secuencialmente (uno por uno)
+  for (let i = 0; i < ordered.length; i++) {
+    const bank = ordered[i]
+    await processIndividualBank(bank, htTargetX, htTargetY, i, ordered.length)
+
+    // Esperar entre cada banco para efecto secuencial (más tiempo para ver los iconos)
+    await new Promise(resolve => setTimeout(resolve, 2000))
   }
 
-  // Posición del resumen y núcleo en el punto de unión (banco central) pero un poco más arriba
-  const fusionSummaryPos = { x: targetX, y: targetY - 40 }
-  fusionXY.value = fusionSummaryPos
 
-  // Mover cada item completo (logo + nombre + icono + check) hacia el centro y solapar
+  // Paso 5: Bancos se desvanecen suavemente
+  await fadeOutAllBanks()
+
+  // Paso 5.5: HT vuelve a su tamaño normal después de que desaparezcan los bancos
+  await resetHTBalloonSize()
+
+  // Paso 6: HT sube al centro después de que desaparezcan los bancos
+  await moveHTToCenter()
+}
+
+// Nueva función para procesar cada banco individualmente
+const processIndividualBank = async (bank: any, htX: number, htY: number, bankIndex: number, totalBanks: number) => {
+  const logoEl = bankLogoRefs.get(bank.id)
+  if (!logoEl) return
+
+  const logoRect = logoEl.getBoundingClientRect()
+  const bankX = logoRect.left + logoRect.width / 2
+  const bankY = logoRect.top + logoRect.height / 2
+
+  // Crear efectos de vaciado en el banco y llenado en HT
+  createBankEmptyingEffect(logoEl, bank.bankColor)
+  createHTFillingEffect(htX, htY, bank.bankColor, bankIndex, totalBanks)
+
+  // Crear flujo de iconos de dinero y estadísticas LENTO
+  createSlowIconFlowEffect(bankX, bankY, htX, htY, bank.bankColor)
+
+  // Esperar a que termine el flujo lento de iconos
+  await new Promise(resolve => setTimeout(resolve, 4000))
+}
+
+
+// Crear flujo lento de iconos de dinero y estadísticas
+const createSlowIconFlowEffect = (fromX: number, fromY: number, toX: number, toY: number, bankColor: string) => {
+  const icons = [
+    // Iconos de dinero
+    { symbol: '$', type: 'money' },
+    { symbol: '€', type: 'money' },
+    { symbol: '₹', type: 'money' },
+    // Iconos de estadísticas  
+    { symbol: '📊', type: 'stats' },
+    { symbol: '📈', type: 'stats' },
+    { symbol: '💹', type: 'stats' },
+    // Iconos matemáticos
+    { symbol: '%', type: 'math' },
+    { symbol: '∑', type: 'math' },
+    { symbol: '∞', type: 'math' },
+    // Números
+    { symbol: '123', type: 'number' },
+    { symbol: '45K', type: 'number' },
+    { symbol: '99M', type: 'number' }
+  ]
+
+  // Crear múltiples iconos que fluyen lentamente
+  icons.forEach((iconData, index) => {
+    setTimeout(() => {
+      createFloatingIcon(fromX, fromY, toX, toY, bankColor, iconData.symbol, iconData.type)
+    }, index * 300) // Aparece un icono cada 300ms
+  })
+}
+
+// Crear un icono individual que flota lentamente
+const createFloatingIcon = (fromX: number, fromY: number, toX: number, toY: number, bankColor: string, symbol: string, type: string) => {
+  const icon = document.createElement('div')
+  icon.className = `floating-money-icon floating-${type}`
+
+  const size = 20 + Math.random() * 15 // Tamaño variable entre 20-35px
+
+  icon.style.cssText = `
+    position: fixed;
+    left: ${fromX}px;
+    top: ${fromY}px;
+    width: ${size}px;
+    height: ${size}px;
+    color: ${bankColor};
+    font-size: ${size * 0.8}px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    border: 2px solid ${bankColor};
+    box-shadow: 0 0 15px ${bankColor}40;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  `
+
+  icon.textContent = symbol
+  document.body.appendChild(icon)
+
+  // Calcular posición con variación aleatoria para trayectoria más natural
+  const randomOffsetX = (Math.random() - 0.5) * 100
+  const randomOffsetY = (Math.random() - 0.5) * 50
+
+  // Animar hacia HT con movimiento lento y natural
+  setTimeout(() => {
+    icon.style.opacity = '1'
+    icon.style.transform = 'scale(1)'
+    icon.style.left = `${toX + randomOffsetX}px`
+    icon.style.top = `${toY + randomOffsetY}px`
+  }, 100)
+
+  // Efecto final al llegar a HT
+  setTimeout(() => {
+    icon.style.opacity = '0'
+    icon.style.transform = 'scale(0.2)'
+  }, 3400)
+
+  // Limpiar después de la animación
+  setTimeout(() => {
+    icon.remove()
+  }, 4000)
+}
+
+
+// Crear efecto de vaciado en el logo del banco
+const createBankEmptyingEffect = (logoEl: HTMLElement, _bankColor: string) => {
+  // Crear overlay blanco de vaciado que baja desde arriba
+  const emptyingOverlay = document.createElement('div')
+  emptyingOverlay.className = 'bank-emptying-overlay'
+
+  emptyingOverlay.style.cssText = `
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0%;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    pointer-events: none;
+    transition: height 2.5s ease-out;
+    z-index: 0;
+  `
+
+  // Asegurar que el logo tenga position relative
+  logoEl.style.position = 'relative'
+  logoEl.style.overflow = 'hidden'
+  logoEl.appendChild(emptyingOverlay)
+
+  // Activar el efecto de vaciado (el overlay blanco baja desde arriba)
+  setTimeout(() => {
+    emptyingOverlay.style.height = '100%'
+  }, 300)
+}
+
+// Crear efecto de llenado y crecimiento en HT como globo
+const createHTFillingEffect = (_htX: number, _htY: number, _bankColor: string, bankIndex: number, totalBanks: number) => {
+  const htElement = fusionLogoEl.value
+  const htContainer = htElement?.parentElement // El contenedor completo de HT
+  if (!htElement || !htContainer) return
+
+  // Crear o encontrar el overlay de llenado
+  let fillingOverlay = htElement.querySelector('.ht-filling-overlay') as HTMLElement
+  if (!fillingOverlay) {
+    fillingOverlay = document.createElement('div')
+    fillingOverlay.className = 'ht-filling-overlay'
+
+    fillingOverlay.style.cssText = `
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(97, 40, 120, 0.7);
+      border-radius: 50%;
+      pointer-events: none;
+      height: 0%;
+      transition: height 2.5s ease-out;
+      z-index: 1;
+      mix-blend-mode: overlay;
+    `
+
+    // Asegurar que HT tenga position relative
+    htElement.style.position = 'relative'
+    htElement.style.overflow = 'hidden'
+    htElement.appendChild(fillingOverlay)
+  }
+
+  // Calcular el porcentaje de llenado
+  const fillPercentage = ((bankIndex + 1) / totalBanks) * 100
+
+  // Calcular el crecimiento del globo (desde 1x hasta 1.8x)
+  const balloonScale = 1 + ((bankIndex + 1) / totalBanks) * 0.8
+
+  // Activar el efecto de llenado (el relleno sube)
+  setTimeout(() => {
+    fillingOverlay.style.height = `${fillPercentage}%`
+  }, 300)
+
+  // Hacer crecer HT como un globo progresivamente
+  setTimeout(() => {
+    htElement.style.transition = 'width 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+
+    // Calcular nuevos tamaños para el efecto globo
+    const baseSize = 120 // Tamaño base de HT
+    const newSize = baseSize * balloonScale
+
+    htElement.style.width = `${newSize}px`
+    htElement.style.height = `${newSize}px`
+
+    // Añadir efecto de respiración/globo mientras crece
+    htElement.classList.add('balloon-breathing')
+  }, 500)
+}
+
+
+// Nueva función para hacer que los bancos suban un poco
+const liftBanksUp = async () => {
+  const ordered = displayBanks.value
+
   ordered.forEach((bank) => {
     const itemEl = bankItemRefs.get(bank.id)
-    const logoEl = bankLogoRefs.get(bank.id)
-    if (!itemEl || !logoEl) return
+    if (!itemEl) return
 
-    // Usar el center del item completo, no solo el logo
-    const itemRect = itemEl.getBoundingClientRect()
-    const cx = itemRect.left + itemRect.width / 2
-    const cy = itemRect.top + itemRect.height / 2
-    
-    // Calcular distancia al centro objetivo
-    const dx = Math.round(targetX - cx)
-    const dy = Math.round(targetY - cy)
-
-    // Desactivar animación inicial para que el transform sea controlado por transición
-    itemEl.style.animation = 'none'
-    itemEl.style.opacity = '1'
-    // Forzar reflow para que el navegador capte el cambio antes de aplicar el transform
-    void itemEl.getBoundingClientRect()
-    itemEl.style.willChange = 'transform, opacity'
-    itemEl.style.transition = 'transform 900ms cubic-bezier(0.25,0.46,0.45,0.94), opacity 360ms ease'
-    requestAnimationFrame(() => {
-      // Hacer que converjan muy cerca del centro con escala más pequeña para que se superpongan
-      itemEl.style.transform = `translate(${dx}px, ${dy}px) scale(0.8)`
-      // iniciar desvanecido luego de llegar al centro
-      setTimeout(() => { itemEl.style.opacity = '0' }, 820)
-    })
+    itemEl.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    itemEl.style.transform = 'translateY(-20px)'
   })
 
-  // Mostrar resumen cuando termine el desvanecido de los bancos (820ms + 360ms)
-  setTimeout(() => {
-    fusion.value.showSummary = true
-    showButton.value = true
-    // Mark fusion as completed in localStorage
-    localStorage.setItem('fusion_completed', 'true')
-  }, 1180)
+  return new Promise(resolve => setTimeout(resolve, 800))
+}
+
+
+
+// Función para hacer desaparecer todos los bancos suavemente
+const fadeOutAllBanks = async () => {
+  const ordered = displayBanks.value
+
+  // Desvanecer los bancos uno por uno de forma muy suave
+  for (let i = 0; i < ordered.length; i++) {
+    const bank = ordered[i]
+    const itemEl = bankItemRefs.get(bank.id)
+    if (!itemEl) continue
+
+    setTimeout(() => {
+      // Aplicar clase CSS para animación suave de desaparición
+      itemEl.classList.add('fading-out-bank')
+    }, i * 200) // Delay fluido entre bancos
+  }
+
+  // Limpiar estado de conexiones
+  dataTransfer.value.connections = []
+  dataTransfer.value.activeBank = null
+
+  // Esperar a que termine toda la animación de desvanecimiento
+  const totalFadeTime = (ordered.length * 200) + 1000
+  return new Promise(resolve => setTimeout(resolve, totalFadeTime))
+}
+
+// Función para resetear el tamaño del globo HT a normal
+const resetHTBalloonSize = async () => {
+  const htElement = fusionLogoEl.value
+  if (!htElement) return
+
+  // Volver al tamaño base con transición suave
+  htElement.style.transition = 'width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), height 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+  htElement.style.width = '120px' // Tamaño base original
+  htElement.style.height = '120px'
+
+  // Opcional: quitar el efecto de respiración
+  htElement.classList.remove('balloon-breathing')
+
+  return new Promise(resolve => setTimeout(resolve, 1500))
+}
+
+// Función para mover HT al centro suavemente
+const moveHTToCenter = async () => {
+  const centerX = window.innerWidth / 2
+  const centerY = window.innerHeight / 2 - 40
+
+  // Animar el movimiento suave hacia el centro
+  fusionXY.value = { x: centerX, y: centerY }
+
+  const htElement = fusionLogoEl.value?.parentElement
+  if (htElement) {
+    // Transición más larga y suave con un ligero rebote
+    htElement.style.transition = 'all 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+
+    // Añadir un efecto de brillo durante el movimiento
+    htElement.style.filter = 'brightness(1.2) drop-shadow(0 0 20px rgba(97, 40, 120, 0.6))'
+
+    // Restaurar el brillo después del movimiento
+    setTimeout(() => {
+      htElement.style.filter = ''
+    }, 1800)
+  }
+
+  return new Promise(resolve => setTimeout(resolve, 1800))
 }
 
 const handleContinue = () => {
@@ -382,10 +667,10 @@ onMounted(async () => {
     fusion.value.showSummary = true
     showButton.value = true
 
-    // Position fusion summary higher up on screen (above center)
+    // Position fusion summary lower on screen
     fusionXY.value = {
       x: window.innerWidth / 2,
-      y: window.innerHeight / 2 - 80 // Move 80px up from center
+      y: window.innerHeight / 2 + 50 // Move 50px down from center
     }
     return
   }
@@ -399,13 +684,6 @@ onMounted(async () => {
   // Start animations after a short delay
   setTimeout(async () => {
     await showElements()
-
-    // If all banks are viewed and fusion not completed yet, automatically start fusion
-    if (allViewed.value && !isFusionCompleted.value) {
-      setTimeout(() => {
-        startFusion()
-      }, 1500) // Wait for banks to fully appear before fusion
-    }
   }, 300)
 })
 
@@ -553,7 +831,7 @@ const navigateToHistoryWithReveal = () => {
   const centerY = Math.round(rect.top + rect.height / 2)
 
   // Usar el mismo overlay de zoom con iniciales HT
-  createZoomOverlay({ id: -1, name: 'Historial transaccional', bankInitials: 'HT' }, rect)
+  createZoomOverlay({ id: -1, name: 'Historial Transaccional', bankInitials: 'HT' }, rect)
 
   router.push({
     name: 'entity-transactional-insights-history-transaction',
@@ -745,7 +1023,7 @@ const navigateToHistoryWithReveal = () => {
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 60px;
+  gap: 140px;
   margin-bottom: 60px;
   width: 100%;
   max-width: 900px;
@@ -913,9 +1191,21 @@ const navigateToHistoryWithReveal = () => {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.274) !important;
   backdrop-filter: blur(10px);
   animation: logoBreath 6s ease-in-out infinite;
+}
+
+/* Fondos de colores suaves para cada banco */
+.bank-item[data-bank-id="1"] .bank-logo {
+  background: linear-gradient(135deg, #1d4ed840, #1d4ed820) !important;
+}
+
+.bank-item[data-bank-id="2"] .bank-logo {
+  background: linear-gradient(135deg, #dc262640, #dc262620) !important;
+}
+
+.bank-item[data-bank-id="3"] .bank-logo {
+  background: linear-gradient(135deg, #05966940, #05966920) !important;
 }
 
 
@@ -1037,6 +1327,406 @@ const navigateToHistoryWithReveal = () => {
 }
 
 /* Eliminado overlay: la revelación ocurre en la siguiente vista con clip-path */
+
+/* Data transfer animation styles */
+.data-particle {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Bank data transfer states */
+.bank-item.transferring-data {
+  position: relative;
+}
+
+.bank-item.transferring-data::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: dataFlow 1.5s ease-in-out infinite;
+  z-index: 10;
+}
+
+@keyframes dataFlow {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(45deg) scaleX(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(45deg) scaleX(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(45deg) scaleX(0);
+  }
+}
+
+/* HT positioning during data transfer */
+.fusion-summary.data-transfer-mode {
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fusion-summary.data-transfer-mode .fusion-logo {
+  animation: htPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(97, 40, 120, 0.4);
+}
+
+@keyframes htPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(97, 40, 120, 0.4);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(97, 40, 120, 0.6);
+  }
+}
+
+/* Bank emptying animation */
+.bank-item.emptying {
+  position: relative;
+}
+
+.bank-item.emptying .bank-logo {
+  animation: bankEmptying 3s ease-out forwards;
+}
+
+@keyframes bankEmptying {
+  0% {
+    filter: brightness(1) saturate(1);
+    transform: scale(1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  25% {
+    filter: brightness(0.9) saturate(0.8);
+    transform: scale(0.98);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  50% {
+    filter: brightness(0.7) saturate(0.5);
+    transform: scale(0.95);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  75% {
+    filter: brightness(0.5) saturate(0.2) grayscale(0.5);
+    transform: scale(0.92);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  100% {
+    filter: brightness(0.4) saturate(0.1) grayscale(1);
+    transform: scale(0.88);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* 🚀 ESTILOS PARA ICONOS FLOTANTES DE DINERO Y ESTADÍSTICAS */
+
+/* Iconos flotantes base */
+.floating-money-icon {
+  position: fixed;
+  pointer-events: none;
+  animation: floatGently 2s ease-in-out infinite;
+}
+
+/* Tipos específicos de iconos */
+.floating-money {
+  background: linear-gradient(135deg, #fef3c7, #f59e0b);
+  border-color: #f59e0b;
+}
+
+.floating-stats {
+  background: linear-gradient(135deg, #e0e7ff, #6366f1);
+  border-color: #6366f1;
+}
+
+.floating-math {
+  background: linear-gradient(135deg, #f3e8ff, #8b5cf6);
+  border-color: #8b5cf6;
+}
+
+.floating-number {
+  background: linear-gradient(135deg, #dcfce7, #16a34a);
+  border-color: #16a34a;
+}
+
+@keyframes floatGently {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+
+  50% {
+    transform: translateY(-3px) rotate(-1deg);
+  }
+
+  75% {
+    transform: translateY(-7px) rotate(1deg);
+  }
+}
+
+/* Efecto de respiración para el globo HT */
+.balloon-breathing {
+  animation: balloonBreath 3s ease-in-out infinite !important;
+}
+
+@keyframes balloonBreath {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.02);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  75% {
+    transform: scale(1.03);
+  }
+}
+
+/* Pulsadores de bancos */
+.bank-data-pulser {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes pulseGrow {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.bank-data-pulser.active {
+  animation: pulseGrow 1.5s ease-out infinite, pulseColor 2s ease-in-out infinite;
+}
+
+@keyframes pulseColor {
+
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.6) saturate(1.3);
+  }
+}
+
+/* Puntos de datos fluyendo */
+.flowing-data-point {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: dataPointPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes dataPointPulse {
+
+  0%,
+  100% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+
+  50% {
+    filter: brightness(1.5);
+    transform: scale(1.2);
+  }
+}
+
+/* Explosión de convergencia */
+.convergence-explosion {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes convergenceBlast {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+    border-width: 8px;
+    filter: brightness(1);
+  }
+
+  30% {
+    transform: scale(1.2);
+    opacity: 1;
+    border-width: 6px;
+    filter: brightness(1.5) drop-shadow(0 0 20px rgba(97, 40, 120, 0.8));
+  }
+
+  60% {
+    transform: scale(2);
+    opacity: 0.8;
+    border-width: 4px;
+    filter: brightness(1.8) drop-shadow(0 0 40px rgba(97, 40, 120, 0.6));
+  }
+
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+    border-width: 2px;
+    filter: brightness(2) drop-shadow(0 0 60px rgba(97, 40, 120, 0.4));
+  }
+}
+
+/* HT mejorado durante convergencia */
+.fusion-summary.data-transfer-mode .fusion-logo {
+  animation: htConvergenceReception 2s ease-in-out infinite;
+  position: relative;
+}
+
+.fusion-summary.data-transfer-mode .fusion-logo::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  border: 3px solid rgba(97, 40, 120, 0.6);
+  border-radius: 50%;
+  animation: htAura 3s ease-in-out infinite;
+}
+
+@keyframes htConvergenceReception {
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(97, 40, 120, 0.4);
+  }
+
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(97, 40, 120, 0.8);
+  }
+}
+
+@keyframes htAura {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 0.3;
+  }
+
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Improved data particles */
+.data-particle {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  animation: particleGlow 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes particleGlow {
+  from {
+    filter: brightness(1);
+  }
+
+  to {
+    filter: brightness(1.3);
+  }
+}
+
+/* Data connection lines */
+.data-connection {
+  position: fixed;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  transform-origin: left center;
+  pointer-events: none;
+  z-index: 9998;
+  animation: connectionPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes connectionPulse {
+
+  0%,
+  100% {
+    opacity: 0.6;
+    box-shadow: 0 0 4px #3b82f6;
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 8px #3b82f6;
+  }
+}
+
+/* Animación simple y fluida de desaparición de bancos */
+.fading-out-bank {
+  animation: fadeOutBankSmoothly 1s ease-out forwards;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes fadeOutBankSmoothly {
+  0% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: translateY(-40px) scale(0.95);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.9);
+    visibility: hidden;
+  }
+}
 
 /* Responsive styles */
 @media (max-width: 1024px) {

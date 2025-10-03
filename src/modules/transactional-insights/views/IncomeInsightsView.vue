@@ -16,10 +16,12 @@
       <h1 class="main-title">Income Insights</h1>
       <p class="subtitle">Visión holística de la frecuencia, riesgo y consumo de los ingresos.</p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">Análisis integral de patrones de ingresos y comportamiento financiero</li>
-          <li class="description-text">Evaluación de frecuencia, estabilidad y correlación con gastos</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">Análisis integral de patrones de ingresos y comportamiento financiero</li>
+            <li class="description-text">Evaluación de frecuencia, estabilidad y correlación con gastos</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -32,7 +34,7 @@
             <thead>
               <tr>
                 <th class="variable-header">Variable</th>
-                <th class="user-header camilo-header">
+                <th class="user-header single-header">
                   <div class="user-info">
                     <div class="user-avatar">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -40,28 +42,7 @@
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" />
                       </svg>
                     </div>
-                    <span>Camilo</span>
-                    <div class="rating" :class="{ 'visible': showStars }">
-                      <span class="star filled">★</span>
-                      <span class="star">★</span>
-                      <span class="star">★</span>
-                    </div>
-                  </div>
-                </th>
-                <th class="user-header jose-header">
-                  <div class="user-info">
-                    <div class="user-avatar">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" />
-                      </svg>
-                    </div>
-                    <span>José</span>
-                    <div class="rating" :class="{ 'visible': showStars }">
-                      <span class="star filled">★</span>
-                      <span class="star filled">★</span>
-                      <span class="star filled">★</span>
-                    </div>
+                    <span>{{ currentUserName }}</span>
                   </div>
                 </th>
               </tr>
@@ -69,9 +50,9 @@
             <tbody>
               <tr v-for="(row, index) in tableData" :key="index" :class="{ 'visible': visibleRows.has(index) }">
                 <td class="variable-cell" :class="{ 'visible': visibleVariables.has(index) }">{{ row.variable }}</td>
-                <td class="data-cell camilo-cell" :class="{ 'visible': visibleCamiloData.has(index) }">{{ row.camilo }}
+                <td class="data-cell single-data" :class="{ 'visible': visibleData.has(index) }">
+                  {{ currentPerson === 'camilo' ? row.camilo : row.jose }}
                 </td>
-                <td class="data-cell jose-cell" :class="{ 'visible': visibleJoseData.has(index) }">{{ row.jose }}</td>
               </tr>
             </tbody>
           </table>
@@ -89,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
 import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
@@ -103,8 +84,11 @@ const showStars = ref(false)
 const showButton = ref(false)
 const visibleRows = ref<Set<number>>(new Set())
 const visibleVariables = ref<Set<number>>(new Set())
-const visibleCamiloData = ref<Set<number>>(new Set())
-const visibleJoseData = ref<Set<number>>(new Set())
+const visibleData = ref<Set<number>>(new Set())
+
+// Single column toggling state
+const currentPerson = ref<'camilo' | 'jose'>('camilo')
+const currentUserName = computed(() => currentPerson.value === 'camilo' ? 'Camilo' : 'José')
 
 // Table data
 const tableData = ref([
@@ -191,7 +175,7 @@ const showVariablesSequentially = async () => {
   })
 }
 
-const showCamiloDataSequentially = async () => {
+const showDataSequentially = async () => {
   return new Promise<void>((resolve) => {
     const showNextData = (index: number) => {
       if (index >= tableData.value.length) {
@@ -199,30 +183,11 @@ const showCamiloDataSequentially = async () => {
         return
       }
 
-      visibleCamiloData.value.add(index)
+      visibleData.value.add(index)
 
       setTimeout(() => {
         showNextData(index + 1)
-      }, 100)
-    }
-
-    showNextData(0)
-  })
-}
-
-const showJoseDataSequentially = async () => {
-  return new Promise<void>((resolve) => {
-    const showNextData = (index: number) => {
-      if (index >= tableData.value.length) {
-        resolve()
-        return
-      }
-
-      visibleJoseData.value.add(index)
-
-      setTimeout(() => {
-        showNextData(index + 1)
-      }, 100)
+      }, 80)
     }
 
     showNextData(0)
@@ -245,22 +210,18 @@ const startAnimations = async () => {
           await showVariablesSequentially()
 
           setTimeout(async () => {
-            // 4. Mostrar datos de Camilo secuencialmente
-            await showCamiloDataSequentially()
+            // 4. Mostrar datos secuencialmente (persona actual)
+            await showDataSequentially()
 
-            setTimeout(async () => {
-              // 5. Mostrar datos de José secuencialmente
-              await showJoseDataSequentially()
+            // 5. Cuando datos estén listos, mostrar estrellas y botón, luego iniciar bucle
+            setTimeout(() => {
+              showStars.value = true
 
-              // 6. Cuando todos los datos estén listos, mostrar estrellas
               setTimeout(() => {
-                showStars.value = true
-
-                setTimeout(() => {
-                  showButton.value = true
-                  resolve()
-                }, 600)
-              }, 300)
+                showButton.value = true
+                resolve()
+                startSingleColumnLoop()
+              }, 400)
             }, 200)
           }, 300)
         }, 400)
@@ -280,6 +241,31 @@ onMounted(async () => {
   setTimeout(() => {
     startAnimations()
   }, 300)
+})
+
+// Alternating loop between Camilo and José every 4 seconds
+const AUTO_DELAY_MS = 4000
+let isDestroyed = false
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+const startSingleColumnLoop = async () => {
+  while (!isDestroyed) {
+    await delay(AUTO_DELAY_MS)
+    if (isDestroyed) break
+    // Fade out
+    visibleData.value.clear()
+    await delay(300)
+    // Switch person
+    currentPerson.value = currentPerson.value === 'camilo' ? 'jose' : 'camilo'
+    // Fade in all rows
+    for (let i = 0; i < tableData.value.length; i++) {
+      visibleData.value.add(i)
+    }
+  }
+}
+
+onUnmounted(() => {
+  isDestroyed = true
 })
 </script>
 
@@ -436,6 +422,16 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
+}
+
 .description-list {
   list-style-type: disc;
   padding-left: 20px;
@@ -540,6 +536,14 @@ onMounted(async () => {
   border-bottom-right-radius: 12px;
 }
 
+/* Single, alternating person header */
+.single-header {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  color: white;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
 .user-info {
   display: flex;
   flex-direction: column;
@@ -636,6 +640,11 @@ onMounted(async () => {
 }
 
 .jose-cell {
+  border-left: 3px solid #6b7280;
+}
+
+/* Single data column cell */
+.single-data {
   border-left: 3px solid #6b7280;
 }
 

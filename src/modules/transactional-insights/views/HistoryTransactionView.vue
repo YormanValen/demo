@@ -1,5 +1,6 @@
 <template>
-  <div ref="rootContainer" class="history-transaction-container" :class="[{ revealing: reveal.active, expand: reveal.expand, exiting }]" :style="revealStyle">
+  <div ref="rootContainer" class="history-transaction-container"
+    :class="[{ revealing: reveal.active, expand: reveal.expand, exiting }]" :style="revealStyle">
     <TransactionalInsightsBackground />
     <div class="background-elements" v-if="false">
       <div class="floating-element number">42%</div>
@@ -12,14 +13,14 @@
       <div class="fusion-logo">
         <span class="fusion-initials">HT</span>
       </div>
-      <h1 class="title">Historial transaccional</h1>
+      <h1 class="title">Historial Transaccional</h1>
       <p class="subtitle">Análisis combinado de transacciones</p>
     </div>
 
     <div class="table-container" :class="{ 'visible': showTable }">
       <div class="table-header">
         <h2 class="table-title">Historial de Transacciones</h2>
-        <p class="table-subtitle">Últimas {{ desiredCount }} transacciones consolidadas</p>
+        <p class="table-subtitle">Transacciones consolidadas</p>
       </div>
 
       <div class="table-wrapper">
@@ -34,10 +35,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(transaction, index) in displayTransactions" :key="transaction.id" class="transaction-row" :style="{ animationDelay: `${index * 0.1}s` }" :class="{ 'visible': showTransactions }">
+            <tr v-for="(transaction, index) in displayTransactions" :key="transaction.id" class="transaction-row"
+              :style="{ animationDelay: `${index * 0.1}s` }" :class="{ 'visible': showTransactions }">
               <td class="transaction-id">{{ transaction.id }}</td>
               <td class="transaction-date">{{ transaction.date }}</td>
-              <td class="transaction-amount" :class="amountClass(transaction.amount)">{{ formatCOP(transaction.amount) }}</td>
+              <td class="transaction-amount" :class="amountClass(transaction.amount)">{{ formatCOP(transaction.amount)
+                }}</td>
               <td class="transaction-class">
                 <span class="transaction-badge" :class="transaction.class">{{ transaction.className }}</span>
               </td>
@@ -46,6 +49,49 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Fictitious Pagination -->
+      <div class="pagination-container" :class="{ 'visible': showTable }">
+        <div class="pagination-info">
+          <span class="pagination-text">Mostrando 1-{{ desiredCount }} de 489 transacciones</span>
+        </div>
+        <div class="pagination-controls">
+          <button class="pagination-btn" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            Anterior
+          </button>
+
+          <div class="pagination-numbers">
+            <button class="pagination-number active">1</button>
+            <button class="pagination-number">2</button>
+            <button class="pagination-number">3</button>
+            <span class="pagination-dots">...</span>
+            <button class="pagination-number">22</button>
+          </div>
+
+          <button class="pagination-btn">
+            Siguiente
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy Notice -->
+    <div class="privacy-notice" :class="{ 'visible': showTable }">
+      <div class="privacy-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="privacy-text">La información transaccional pura no se almacenará</span>
     </div>
 
     <div class="button-container" :class="{ 'visible': showButton }">
@@ -96,8 +142,7 @@ const mapBankNameToId = (bankName: string): number => {
 
 const currencyCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 })
 const formatCOP = (value: number) => {
-  const sign = value > 0 ? '+' : ''
-  return sign + currencyCOP.format(Math.abs(value))
+  return currencyCOP.format(Math.abs(value))
 }
 const amountClass = (value: number) => (value >= 0 ? 'credit' : 'debit')
 
@@ -118,7 +163,7 @@ const displayTransactions = computed(() => {
     // Secondary sort: date descending (newest first within same bank)
     return a.date < b.date ? 1 : a.date > b.date ? -1 : 0
   })
-  
+
   return sortedByBank.slice(0, desiredCount.value)
 })
 
@@ -150,7 +195,7 @@ const handleContinue = () => {
       reveal.value.expand = true
       requestAnimationFrame(() => { reveal.value.expand = false })
       setTimeout(() => {
-        router.push({ 
+        router.push({
           name: 'entity-transactional-insights-categorizacion-intro',
           query: { fromHistory: 'true' }
         })
@@ -158,7 +203,7 @@ const handleContinue = () => {
       }, 900)
     }, 180)
   } else {
-    router.push({ 
+    router.push({
       name: 'entity-transactional-insights-categorizacion-intro',
       query: { fromHistory: 'true' }
     })
@@ -176,7 +221,7 @@ onMounted(async () => {
   // Cargar transacciones desde localStorage y asegurar semillas demo básicas
   institutionsStore.loadFromLocalStorage()
   txStore.loadFromLocalStorage()
-  
+
   // Asegurar que exista data para bancos conectados usando nombres mapeados
   const connectedIds = (institutionsStore.connectedInstitutions.length
     ? institutionsStore.connectedInstitutions.map(b => mapBankNameToId(b.name))
@@ -231,64 +276,475 @@ onMounted(async () => {
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.background-elements { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-.floating-element { position: absolute; opacity: 0.25; color: #6b7280; user-select: none; }
-.number { font-size: 1.2rem; font-weight: 700; }
-.data-point { font-size: 1.5rem; }
+.background-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
 
-.final-header { display: flex; flex-direction: column; align-items: center; gap: 20px; opacity: 0; transform: translateY(30px) scale(0.9); transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); }
-.final-header.visible { opacity: 1; transform: translateY(0) scale(1); }
+.floating-element {
+  position: absolute;
+  opacity: 0.25;
+  color: #6b7280;
+  user-select: none;
+}
 
-.fusion-logo { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%); color: white; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
-.fusion-initials { font-weight: 800; font-size: 1.8rem; }
-.title { font-size: 2.5rem; font-weight: 700; margin: 0; background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-align: center; }
-.subtitle { font-size: 1.2rem; color: #6b7280; margin: 0; font-weight: 500; }
+.number {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
 
-.table-container { width: 100%; max-width: 1200px; opacity: 0; transform: scale(0.1); transform-origin: center center; z-index: 10; position: relative; }
-.table-container.visible { opacity: 1; transform: scale(1); transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-.table-header { text-align: center; margin-bottom: 30px; }
-.table-title { font-size: 1.8rem; font-weight: 600; color: #1f2937; margin: 0 0 10px 0; }
-.table-subtitle { font-size: 1rem; color: #6b7280; margin: 0; }
+.data-point {
+  font-size: 1.5rem;
+}
 
-.table-wrapper { background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); overflow: hidden; border: 1px solid #e5e7eb; }
-.transactions-table { width: 100%; border-collapse: collapse; }
-.transactions-table th { background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%); color: white; font-weight: 600; font-size: 0.9rem; padding: 16px 12px; text-align: left; border: none; }
-.transaction-row { opacity: 0; transform: translateX(-30px); animation: slideInRow 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-play-state: paused; border-bottom: 1px solid #f3f4f6; transition: background-color 0.2s ease; }
-.transaction-row:hover { background-color: #f9fafb; }
-.transaction-row.visible { animation-play-state: running; }
-@keyframes slideInRow { to { opacity: 1; transform: translateX(0); } }
-.transactions-table td { padding: 16px 12px; font-size: 0.9rem; color: #374151; border: none; }
-.transaction-id { font-family: 'Courier New', monospace; font-weight: 600; color: #4b5563; }
-.transaction-date { color: #6b7280; }
-.transaction-amount { font-weight: 600; font-family: 'Courier New', monospace; }
-.transaction-amount.credit { color: #059669; }
-.transaction-amount.debit { color: #dc2626; }
-.transaction-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #ffffff; background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%); box-shadow: 0 2px 8px rgba(97, 40, 120, 0.25); }
-.transaction-description { color: #4b5563; }
+.final-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  opacity: 0;
+  transform: translateY(30px) scale(0.9);
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-.button-container { margin-top: 40px; opacity: 0; visibility: hidden; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); z-index: 10; position: relative; }
-.button-container.visible { opacity: 1; visibility: visible; transform: translateY(0); }
-.continue-button { background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%); color: white; border: none; padding: 18px 40px; font-size: 1.3rem; font-weight: 600; border-radius: 25px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(97, 40, 120, 0.3); }
-.continue-button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(97, 40, 120, 0.4); }
+.final-header.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.fusion-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.fusion-initials {
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 500;
+}
+
+.table-container {
+  width: 100%;
+  max-width: 1200px;
+  opacity: 0;
+  transform: scale(0.1);
+  transform-origin: center center;
+  z-index: 10;
+  position: relative;
+}
+
+.table-container.visible {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.table-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.table-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 10px 0;
+}
+
+.table-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.table-wrapper {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transactions-table th {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 16px 12px;
+  text-align: left;
+  border: none;
+}
+
+.transaction-row {
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: slideInRow 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-play-state: paused;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.transaction-row:hover {
+  background-color: #f9fafb;
+}
+
+.transaction-row.visible {
+  animation-play-state: running;
+}
+
+@keyframes slideInRow {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.transactions-table td {
+  padding: 16px 12px;
+  font-size: 0.9rem;
+  color: #374151;
+  border: none;
+}
+
+.transaction-id {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.transaction-date {
+  color: #6b7280;
+}
+
+.transaction-amount {
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+}
+
+.transaction-amount.credit {
+  color: #059669;
+}
+
+.transaction-amount.debit {
+  color: #dc2626;
+}
+
+.transaction-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  box-shadow: 0 2px 8px rgba(97, 40, 120, 0.25);
+}
+
+.transaction-description {
+  color: #4b5563;
+}
+
+/* Pagination Styles */
+.pagination-container {
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+}
+
+.pagination-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pagination-info {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination-number {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-number:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.pagination-number.active {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.pagination-dots {
+  color: #9ca3af;
+  padding: 0 8px;
+  font-weight: bold;
+}
+
+/* Privacy Notice */
+.privacy-notice {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
+  z-index: 20;
+}
+
+.privacy-notice.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.privacy-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #059669;
+}
+
+.privacy-text {
+  font-size: 0.85rem;
+  color: #374151;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.button-container {
+  margin-top: 40px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+  position: relative;
+}
+
+.button-container.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.continue-button {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(97, 40, 120, 0.3);
+}
+
+.continue-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(97, 40, 120, 0.4);
+}
 
 @media (max-width: 1024px) {
-  .history-transaction-container { padding: 30px 15px; }
-  .transactions-table th, .transactions-table td { padding: 12px 8px; font-size: 0.8rem; }
-  .title { font-size: 2rem; }
+  .history-transaction-container {
+    padding: 30px 15px;
+  }
+
+  .transactions-table th,
+  .transactions-table td {
+    padding: 12px 8px;
+    font-size: 0.8rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .pagination-container {
+    padding: 15px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .pagination-controls {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 768px) {
-  .history-transaction-container { padding: 20px 10px; }
-  .table-wrapper { overflow-x: auto; }
-  .transactions-table { min-width: 600px; }
-  .transactions-table th, .transactions-table td { padding: 10px 6px; font-size: 0.75rem; }
-  .title { font-size: 1.8rem; }
-  .fusion-logo { width: 80px; height: 80px; }
+  .history-transaction-container {
+    padding: 20px 10px;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .transactions-table {
+    min-width: 600px;
+  }
+
+  .transactions-table th,
+  .transactions-table td {
+    padding: 10px 6px;
+    font-size: 0.75rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .fusion-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .pagination-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .pagination-number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+
+  .pagination-info {
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  .privacy-notice {
+    top: 15px;
+    right: 15px;
+    padding: 10px 12px;
+  }
+
+  .privacy-text {
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .history-transaction-container { padding: 15px 5px; }
-  .title { font-size: 1.5rem; }
-  .continue-button { padding: 15px 30px; font-size: 1.1rem; }
+  .history-transaction-container {
+    padding: 15px 5px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .continue-button {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+  }
+
+  .privacy-notice {
+    top: 10px;
+    right: 10px;
+    padding: 8px 10px;
+  }
+
+  .privacy-text {
+    font-size: 0.75rem;
+  }
 }
 </style>
