@@ -16,12 +16,15 @@
       <h1 class="main-title">Categorización</h1>
       <p class="subtitle">Descubra las categorías de cada transacción de gastos e ingresos</p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">Se basa en la información proporcionada por la transacción.</li>
-          <li class="description-text">Ofrecemos 129 categorías: 107 orientadas a gastos y 22 a ingresos</li>
-          <li class="description-text">Precisión de clase mundial</li>
-          <li class="description-text">Modelo de Machine Learning y categorías en constante validación y adaptación a los cambios del mercado</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">Se basa en la información proporcionada por la transacción.</li>
+            <li class="description-text">Ofrecemos 129 categorías: 107 orientadas a gastos y 22 a ingresos</li>
+            <li class="description-text">Precisión de clase mundial</li>
+            <li class="description-text">Modelo de Machine Learning y categorías en constante validación y adaptación a
+              los cambios del mercado</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -33,7 +36,8 @@
           <table class="transactions-table">
             <thead>
               <tr>
-                <th>Código</th>
+                <th>ID Transacción</th>
+                <th>Monto</th>
                 <th>Clase Transacción</th>
                 <th>Descripción</th>
               </tr>
@@ -42,6 +46,7 @@
               <tr v-for="(transaction, index) in sampleTransactions" :key="index" class="transaction-row"
                 :style="{ animationDelay: `${index * 0.1}s` }" :class="{ 'visible': showTransactions }">
                 <td class="transaction-code">{{ transaction.code }}</td>
+                <td class="transaction-amount" :class="transaction.type">{{ formatCOP(transaction.amount) }}</td>
                 <td class="transaction-type" :class="transaction.type">
                   {{ transaction.type === 'credit' ? 'Crédito' : 'Débito' }}
                 </td>
@@ -92,30 +97,42 @@ const showTransactions = ref(false)
 const showButton = ref(false)
 const visibleCategoryIndices = ref<Set<number>>(new Set())
 
+// Currency formatter
+const currencyCOP = new Intl.NumberFormat('es-CO', {
+  style: 'currency',
+  currency: 'COP',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0
+})
+
+const formatCOP = (value: number) => {
+  return currencyCOP.format(Math.abs(value))
+}
+
 // Sample transaction data (22 records)
 const sampleTransactions = [
-  { code: 'TXN001', type: 'debit', description: 'Compra en supermercado Metro' },
-  { code: 'TXN002', type: 'credit', description: 'Depósito salario empresa' },
-  { code: 'TXN003', type: 'debit', description: 'Pago restaurante La Pampa' },
-  { code: 'TXN004', type: 'credit', description: 'Transferencia recibida' },
-  { code: 'TXN005', type: 'debit', description: 'Compra gasolinera Shell' },
-  { code: 'TXN006', type: 'debit', description: 'Pago farmacia Cruz Verde' },
-  { code: 'TXN007', type: 'credit', description: 'Bonificación adicional' },
-  { code: 'TXN008', type: 'debit', description: 'Compra tienda Éxito' },
-  { code: 'TXN009', type: 'debit', description: 'Pago servicios públicos' },
-  { code: 'TXN010', type: 'credit', description: 'Devolución compra online' },
-  { code: 'TXN011', type: 'debit', description: 'Compra ropa Falabella' },
-  { code: 'TXN012', type: 'debit', description: 'Pago transporte público' },
-  { code: 'TXN013', type: 'credit', description: 'Intereses cuenta ahorros' },
-  { code: 'TXN014', type: 'debit', description: 'Compra medicamentos' },
-  { code: 'TXN015', type: 'debit', description: 'Pago gimnasio mensual' },
-  { code: 'TXN016', type: 'credit', description: 'Venta producto usado' },
-  { code: 'TXN017', type: 'debit', description: 'Compra comida rápida' },
-  { code: 'TXN018', type: 'debit', description: 'Pago telefonía móvil' },
-  { code: 'TXN019', type: 'credit', description: 'Reembolso seguro' },
-  { code: 'TXN020', type: 'debit', description: 'Compra libros librería' },
-  { code: 'TXN021', type: 'credit', description: 'Pago freelance proyecto' },
-  { code: 'TXN022', type: 'debit', description: 'Compra productos limpieza' }
+  { code: 'TXN001', type: 'debit', description: 'Compra en supermercado Metro', amount: -45000, date: '2024-03-15' },
+  { code: 'TXN002', type: 'credit', description: 'Depósito salario empresa', amount: 2500000, date: '2024-03-14' },
+  { code: 'TXN003', type: 'debit', description: 'Pago restaurante La Pampa', amount: -65000, date: '2024-03-13' },
+  { code: 'TXN004', type: 'credit', description: 'Transferencia recibida', amount: 150000, date: '2024-03-12' },
+  { code: 'TXN005', type: 'debit', description: 'Compra gasolinera Shell', amount: -80000, date: '2024-03-11' },
+  { code: 'TXN006', type: 'debit', description: 'Pago farmacia Cruz Verde', amount: -25000, date: '2024-03-10' },
+  { code: 'TXN007', type: 'credit', description: 'Bonificación adicional', amount: 300000, date: '2024-03-09' },
+  { code: 'TXN008', type: 'debit', description: 'Compra tienda Éxito', amount: -120000, date: '2024-03-08' },
+  { code: 'TXN009', type: 'debit', description: 'Pago servicios públicos', amount: -180000, date: '2024-03-07' },
+  { code: 'TXN010', type: 'credit', description: 'Devolución compra online', amount: 75000, date: '2024-03-06' },
+  { code: 'TXN011', type: 'debit', description: 'Compra ropa Falabella', amount: -200000, date: '2024-03-05' },
+  { code: 'TXN012', type: 'debit', description: 'Pago transporte público', amount: -15000, date: '2024-03-04' },
+  { code: 'TXN013', type: 'credit', description: 'Intereses cuenta ahorros', amount: 35000, date: '2024-03-03' },
+  { code: 'TXN014', type: 'debit', description: 'Compra medicamentos', amount: -40000, date: '2024-03-02' },
+  { code: 'TXN015', type: 'debit', description: 'Pago gimnasio mensual', amount: -95000, date: '2024-03-01' },
+  { code: 'TXN016', type: 'credit', description: 'Venta producto usado', amount: 50000, date: '2024-02-29' },
+  { code: 'TXN017', type: 'debit', description: 'Compra comida rápida', amount: -18000, date: '2024-02-28' },
+  { code: 'TXN018', type: 'debit', description: 'Pago telefonía móvil', amount: -55000, date: '2024-02-27' },
+  { code: 'TXN019', type: 'credit', description: 'Reembolso seguro', amount: 120000, date: '2024-02-26' },
+  { code: 'TXN020', type: 'debit', description: 'Compra libros librería', amount: -30000, date: '2024-02-25' },
+  { code: 'TXN021', type: 'credit', description: 'Pago freelance proyecto', amount: 800000, date: '2024-02-24' },
+  { code: 'TXN022', type: 'debit', description: 'Compra productos limpieza', amount: -22000, date: '2024-02-23' }
 ]
 
 // Sample category data
@@ -197,7 +214,7 @@ const startContentAnimations = async () => {
 
 // Handle continue button click
 const handleContinue = () => {
-  router.push({ name: 'entity-transactional-insights-agregados-categorizacion' })
+  router.push({ name: 'entity-transactional-insights-submenu' })
 }
 
 // Start animations on mount
@@ -205,7 +222,7 @@ onMounted(async () => {
   // Clear localStorage stores when component opens
   localStorage.removeItem('fusion_completed')
   localStorage.removeItem('ti_viewed_banks')
-  
+
   await nextTick()
 
   // Wait a moment before starting
@@ -370,6 +387,16 @@ onMounted(async () => {
   margin: 0 auto;
 }
 
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
+}
+
 .description-list {
   list-style-type: disc;
   padding-left: 20px;
@@ -380,7 +407,7 @@ onMounted(async () => {
   font-size: 1rem;
   color: #4b5563;
   text-align: left;
-  margin: 8px 0;
+  margin: 12px 0;
   font-weight: 400;
   line-height: 1.6;
 }
@@ -417,7 +444,7 @@ onMounted(async () => {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   border: 1px solid #e5e7eb;
-  width: 60%;
+  width: 70%;
 }
 
 .transactions-table {
@@ -479,7 +506,7 @@ onMounted(async () => {
 .transaction-type {
   font-weight: 600;
   font-family: 'Courier New', monospace;
-  width: 25%;
+  width: 20%;
 }
 
 .transaction-type.credit {
@@ -492,15 +519,30 @@ onMounted(async () => {
 
 .transaction-description {
   color: #4b5563;
-  width: 60%;
+  width: 45%;
+}
+
+.transaction-amount {
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  width: 20%;
+  text-align: right;
+}
+
+.transaction-amount.credit {
+  color: #059669;
+}
+
+.transaction-amount.debit {
+  color: #dc2626;
 }
 
 /* Category chips floating to the right */
 .category-chips-container {
   position: absolute;
-  left: 65%;
+  left: 75%;
   top: 0;
-  width: 35%;
+  width: 25%;
   height: 100%;
   pointer-events: none;
 }
@@ -613,12 +655,12 @@ onMounted(async () => {
   }
 
   .table-wrapper {
-    width: 55%;
+    width: 65%;
   }
 
   .category-chips-container {
-    left: 60%;
-    width: 40%;
+    left: 70%;
+    width: 30%;
   }
 
   .transactions-table th,

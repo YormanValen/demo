@@ -53,11 +53,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useUserExperienceCounterStore } from "../stores/user-experience-counter.store";
 
 const router = useRouter();
 const selectedExperience = ref<"user" | "entity" | null>(null);
+const userExperienceCounterStore = useUserExperienceCounterStore();
 
 const selectExperience = (type: "user" | "entity") => {
   selectedExperience.value = type;
@@ -69,13 +71,23 @@ const continueWithSelection = () => {
   // Guardar la selección en localStorage o store
   localStorage.setItem("selectedExperience", selectedExperience.value);
 
+  // Incrementar contador solo para experiencia de usuario
+  if (selectedExperience.value === 'user') {
+    userExperienceCounterStore.incrementVisit();
+  }
+
   // Navegar según la experiencia seleccionada
   if (selectedExperience.value === 'entity') {
-    router.push('/entity/login');
+    router.push('/entity/intro');
   } else {
     router.push('/registration/basic-information');
   }
 };
+
+// Cargar datos del store al montar el componente
+onMounted(() => {
+  userExperienceCounterStore.loadFromLocalStorage();
+});
 </script>
 
 <style scoped>

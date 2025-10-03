@@ -165,6 +165,12 @@ const routes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: '/entity/intro',
+    name: 'entity-intro',
+    component: () => import('../modules/entity/views/EntityIntroView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
     path: '/entity/login',
     name: 'entity-login',
     component: () => import('../modules/entity/views/EntityLoginView.vue'),
@@ -252,6 +258,12 @@ const routes: RouteRecordRaw[] = [
     path: '/entity/transactional-insights/score-transaccional',
     name: 'entity-transactional-insights-score-transaccional',
     component: () => import('../modules/transactional-insights/views/ScoreTransaccionalView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/farewell',
+    name: 'entity-transactional-insights-farewell',
+    component: () => import('../modules/transactional-insights/views/FarewellView.vue'),
     meta: { hideLayout: true }
   }
 ]

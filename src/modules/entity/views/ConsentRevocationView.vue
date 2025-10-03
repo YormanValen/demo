@@ -63,9 +63,19 @@
                 <td>{{ revocation.email }}</td>
                 <td>{{ revocation.revocationDate }}</td>
                 <td>
-                  <button class="process-button" @click="processRevocation(revocation.id)">
+                  <button 
+                    v-if="!processedRevocations.has(revocation.id)"
+                    class="process-button" 
+                    @click="processRevocation(revocation.id)"
+                  >
                     Procesar
                   </button>
+                  <span 
+                    v-else
+                    class="revoked-badge"
+                  >
+                    Revocado
+                  </span>
                 </td>
               </tr>
             </tbody>
@@ -97,6 +107,23 @@
         </div>
       </div>
     </div>
+
+    <!-- Success Popup -->
+    <div v-if="showSuccessPopup" class="popup-overlay" @click="closePopup">
+      <div class="popup-content" @click.stop>
+        <div class="popup-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.1" />
+            <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <h3 class="popup-title">¡Éxito!</h3>
+        <p class="popup-message">Consentimiento revocado exitosamente</p>
+        <button class="popup-button" @click="closePopup">
+          Aceptar
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -108,6 +135,8 @@ const searchType = ref('id')
 const searchQuery = ref('')
 const startDate = ref('2025-09-01')
 const endDate = ref('2025-09-26')
+const showSuccessPopup = ref(false)
+const processedRevocations = ref(new Set())
 
 const revocations = ref([
   {
@@ -169,6 +198,12 @@ const revocations = ref([
 
 const processRevocation = (id: number) => {
   console.log('Processing revocation for ID:', id)
+  processedRevocations.value.add(id)
+  showSuccessPopup.value = true
+}
+
+const closePopup = () => {
+  showSuccessPopup.value = false
 }
 
 const searchRevocations = () => {
@@ -389,6 +424,17 @@ const getVisiblePages = () => {
   opacity: 0.9;
 }
 
+.revoked-badge {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  display: inline-block;
+}
+
 .selected-consents {
   margin-bottom: 30px;
 }
@@ -578,6 +624,98 @@ const getVisiblePages = () => {
   text-align: center;
 }
 
+/* Popup Styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.popup-content {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.popup-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.popup-message {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0 0 25px 0;
+  line-height: 1.5;
+}
+
+.popup-button {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.popup-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(97, 40, 120, 0.3);
+}
+
 @media (max-width: 768px) {
   .pasarela-selector {
     flex-direction: column;
@@ -618,6 +756,18 @@ const getVisiblePages = () => {
     flex-direction: column;
     text-align: center;
     gap: 8px;
+  }
+
+  .popup-content {
+    padding: 25px 20px;
+  }
+
+  .popup-title {
+    font-size: 20px;
+  }
+
+  .popup-message {
+    font-size: 14px;
   }
 }
 </style>

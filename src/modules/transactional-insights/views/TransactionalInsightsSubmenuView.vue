@@ -12,17 +12,70 @@
     <!-- Header -->
     <div class="header-container" :class="{ 'visible': showHeader }">
       <h1 class="main-title">Transactional Insights</h1>
-      <p class="subtitle">Selecciona la funcionalidad que deseas explorar</p>
+      <p class="subtitle">Gracias a la categorización de transacciones, ahora podemos ofrecerte estos productos avanzados de análisis financiero</p>
     </div>
 
     <!-- Menu Options -->
     <div class="menu-container" :class="{ 'visible': showMenu }">
-      <div class="menu-option" :class="{ 'visible': visibleOptions.has(0) }" @click="navigateToOption('affordability')">
+      <div class="menu-option" :class="{ 'visible': visibleOptions.has(0) }" @click="navigateToOption('categorizacion')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            <path d="M8 12h8" stroke="currentColor" stroke-width="2" />
+            <path d="M3 7V5a2 2 0 0 1 2-2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17 3h2a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 17v2a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7 21H5a2 2 0 0 1-2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="1" fill="currentColor"/>
+            <circle cx="8" cy="8" r="1" fill="currentColor"/>
+            <circle cx="16" cy="8" r="1" fill="currentColor"/>
+            <circle cx="8" cy="16" r="1" fill="currentColor"/>
+            <circle cx="16" cy="16" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="option-content">
+          <h3 class="option-title">Categorización de Transacciones</h3>
+          <p class="option-description">Clasificación automática de transacciones financieras por categorías de negocio.</p>
+        </div>
+        <div class="option-status">
+          <div class="check-mark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="currentColor" />
+              <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-option" :class="{ 'visible': visibleOptions.has(1) }" @click="navigateToOption('agregados')">
+        <div class="option-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2" />
+            <path d="M3 9h18M9 3v18" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </div>
+        <div class="option-content">
+          <h3 class="option-title">Agregados de Categorización</h3>
+          <p class="option-description">Variables agregadas de gastos e ingresos por categoría.</p>
+        </div>
+        <div class="option-status">
+          <div v-if="visitedProductsStore.isProductVisited('agregados')" class="check-mark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="currentColor" />
+              <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div v-else class="option-arrow">→</div>
+        </div>
+      </div>
+
+      <div class="menu-option" :class="{ 'visible': visibleOptions.has(2) }" @click="navigateToOption('affordability')">
+        <div class="option-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <path d="M18 20V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 20V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 20v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="2" r="1" fill="currentColor"/>
+            <circle cx="18" cy="8" r="1" fill="currentColor"/>
+            <circle cx="6" cy="12" r="1" fill="currentColor"/>
           </svg>
         </div>
         <div class="option-content">
@@ -30,42 +83,62 @@
           <p class="option-description">Evaluación histórica de la capacidad de pago y estilo de vida de los clientes
           </p>
         </div>
-        <div class="option-arrow">→</div>
+        <div class="option-status">
+          <div v-if="visitedProductsStore.isProductVisited('affordability')" class="check-mark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="currentColor" />
+              <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div v-else class="option-arrow">→</div>
+        </div>
       </div>
 
-      <div class="menu-option" :class="{ 'visible': visibleOptions.has(1) }" @click="navigateToOption('alertas')">
+      <div class="menu-option" :class="{ 'visible': visibleOptions.has(3) }" @click="navigateToOption('alertas')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-              stroke="currentColor" stroke-width="2" />
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="2" />
             <line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="2" />
-            <line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2" />
+            <circle cx="12" cy="17" r="1" fill="currentColor" />
           </svg>
         </div>
         <div class="option-content">
           <h3 class="option-title">Alertas y Tendencias</h3>
           <p class="option-description">Detección de tendencias de gastos e ingresos y comportamientos del cliente.</p>
         </div>
-        <div class="option-arrow">→</div>
+        <div class="option-status">
+          <div v-if="visitedProductsStore.isProductVisited('alertas')" class="check-mark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="currentColor" />
+              <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div v-else class="option-arrow">→</div>
+        </div>
       </div>
 
-      <div class="menu-option" :class="{ 'visible': visibleOptions.has(2) }" @click="navigateToOption('income')">
+      <div class="menu-option" :class="{ 'visible': visibleOptions.has(4) }" @click="navigateToOption('income')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" />
-            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="currentColor"
-              fill-opacity="0.3" />
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </div>
         <div class="option-content">
           <h3 class="option-title">Income Insights</h3>
           <p class="option-description">Visión holística de la frecuencia, riesgo y consumo de los ingresos.</p>
         </div>
-        <div class="option-arrow">→</div>
+        <div class="option-status">
+          <div v-if="visitedProductsStore.isProductVisited('income')" class="check-mark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="currentColor" />
+              <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div v-else class="option-arrow">→</div>
+        </div>
       </div>
 
-      <div class="menu-option" :class="{ 'visible': visibleOptions.has(3) }" @click="navigateToOption('proyectados')">
+      <div class="menu-option" :class="{ 'visible': visibleOptions.has(5) }" @click="navigateToOption('proyectados')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
             <path d="M3 3v18h18" stroke="currentColor" stroke-width="2" />
@@ -79,10 +152,18 @@
           <p class="option-description">Proyección de ingresos, gastos y flujos de caja del cliente para cada uno de los
             siguientes 24 meses.</p>
         </div>
-        <div class="option-arrow">→</div>
+        <div class="option-status">
+          <div v-if="visitedProductsStore.isProductVisited('proyectados')" class="check-mark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="currentColor" />
+              <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div v-else class="option-arrow">→</div>
+        </div>
       </div>
 
-      <div class="menu-option" :class="{ 'visible': visibleOptions.has(4) }" @click="navigateToOption('perfil')">
+      <div class="menu-option" :class="{ 'visible': visibleOptions.has(6) }" @click="navigateToOption('perfil')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" />
@@ -95,10 +176,18 @@
           <p class="option-description">Conocimiento de los estilos de vida y preferencias del cliente para una mejor
             segmentación.</p>
         </div>
-        <div class="option-arrow">→</div>
+        <div class="option-status">
+          <div v-if="visitedProductsStore.isProductVisited('perfil')" class="check-mark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="currentColor" />
+              <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div v-else class="option-arrow">→</div>
+        </div>
       </div>
 
-      <div class="menu-option" :class="{ 'visible': visibleOptions.has(5) }" @click="navigateToOption('score')">
+      <div class="menu-option" :class="{ 'visible': visibleOptions.has(7) }" @click="navigateToOption('score')">
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
             <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" />
@@ -112,14 +201,22 @@
           <p class="option-description">Potencie el scoring crediticio de sus clientes fusionando datos tradicionales de
             buró con datos transaccionales</p>
         </div>
-        <div class="option-arrow">→</div>
+        <div class="option-status">
+          <div v-if="visitedProductsStore.isProductVisited('score')" class="check-mark">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="currentColor" />
+              <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div v-else class="option-arrow">→</div>
+        </div>
       </div>
     </div>
 
-    <!-- Back Button -->
+    <!-- Continue Button -->
     <div class="back-button-container" :class="{ 'visible': showBackButton }">
       <button class="back-button" @click="goBack">
-        ← Volver al Dashboard
+        Continuar
       </button>
     </div>
   </div>
@@ -129,14 +226,28 @@
 import { ref, onMounted, nextTick } from 'vue'
 import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
+import { useVisitedProductsStore } from '../stores/visited-products.store'
 
 const router = useRouter()
+const visitedProductsStore = useVisitedProductsStore()
 
 // Animation states
 const showHeader = ref(false)
 const showMenu = ref(false)
 const showBackButton = ref(false)
 const visibleOptions = ref<Set<number>>(new Set())
+
+// Product definitions
+const products = [
+  { id: 'categorizacion', name: 'Categorización de Transacciones' },
+  { id: 'agregados', name: 'Agregados de Categorización' },
+  { id: 'affordability', name: 'Affordability' },
+  { id: 'alertas', name: 'Alertas y Tendencias' },
+  { id: 'income', name: 'Income Insights' },
+  { id: 'proyectados', name: 'Insights Proyectados' },
+  { id: 'perfil', name: 'Perfil Transaccional' },
+  { id: 'score', name: 'Score Transaccional' }
+]
 
 // Start animations
 const startAnimations = async () => {
@@ -164,7 +275,7 @@ const startAnimations = async () => {
 // Sequential option animation
 const animateOptionsSequentially = () => {
   const animateNextOption = (index: number) => {
-    if (index >= 6) return
+    if (index >= 8) return
 
     visibleOptions.value.add(index)
 
@@ -179,8 +290,20 @@ const animateOptionsSequentially = () => {
 // Navigation functions
 const navigateToOption = (option: string) => {
   console.log(`Navigating to: ${option}`)
+  
+  // Mark product as visited (except categorizacion which is always checked)
+  if (option !== 'categorizacion') {
+    visitedProductsStore.markProductAsVisited(option)
+  }
+  
   // Add navigation logic based on option
   switch (option) {
+    case 'categorizacion':
+      router.push({ name: 'entity-transactional-insights-history-transaction' })
+      break
+    case 'agregados':
+      router.push({ name: 'entity-transactional-insights-agregados-categorizacion' })
+      break
     case 'affordability':
       router.push({ name: 'entity-transactional-insights-affordability' })
       break
@@ -203,10 +326,13 @@ const navigateToOption = (option: string) => {
 }
 
 const goBack = () => {
-  router.push({ name: 'entity-dashboard' })
+  router.push({ name: 'entity-transactional-insights-farewell' })
 }
 
 onMounted(async () => {
+  // Load visited products from localStorage
+  visitedProductsStore.loadFromLocalStorage()
+  
   await nextTick()
   setTimeout(() => {
     startAnimations()
@@ -438,6 +564,13 @@ onMounted(async () => {
   line-height: 1.5;
 }
 
+.option-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .option-arrow {
   font-size: 1.5rem;
   font-weight: 600;
@@ -445,9 +578,25 @@ onMounted(async () => {
   transition: all 0.3s ease;
 }
 
+.check-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #10b981;
+  transition: all 0.3s ease;
+}
+
+.check-mark svg {
+  transition: all 0.3s ease;
+}
+
 .menu-option:hover .option-arrow {
   color: rgb(186, 45, 125);
   transform: translateX(5px);
+}
+
+.menu-option:hover .check-mark {
+  transform: scale(1.1);
 }
 
 /* Back Button */
@@ -468,21 +617,21 @@ onMounted(async () => {
 }
 
 .back-button {
-  background: transparent;
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
-  padding: 12px 24px;
-  font-size: 1rem;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  font-size: 1.3rem;
   font-weight: 600;
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(97, 40, 120, 0.3);
 }
 
 .back-button:hover {
-  border-color: rgb(186, 45, 125);
-  color: rgb(186, 45, 125);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(97, 40, 120, 0.4);
 }
 
 /* Responsive Design */
@@ -521,7 +670,8 @@ onMounted(async () => {
     gap: 15px;
   }
 
-  .option-arrow {
+  .option-arrow,
+  .check-mark {
     display: none;
   }
 }
