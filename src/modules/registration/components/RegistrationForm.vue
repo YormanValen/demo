@@ -9,6 +9,7 @@ import FlowVisualization from "./FlowVisualization.vue";
 import AnimationContainer from "../../financial/components/AnimationContainer.vue";
 import ConsentForm from "../../consent/components/ConsentForm.vue";
 const router = useRouter();
+const emit = defineEmits(["view-document"] as const);
 const store = useRegistrationStore();
 const {
   tipoOptions,
@@ -57,6 +58,55 @@ watch(
     }
   }
 );
+
+// Sincroniza los datos relevantes al store del PDF (si Pinia está activa)
+async function syncPdfStoreFromForm() {
+  try {
+    const piniaMod: any = await import('pinia')
+    if (piniaMod?.getActivePinia && piniaMod.getActivePinia()) {
+      const mod: any = await import('@/stores/formData')
+      const store = mod?.useFormDataStore ? mod.useFormDataStore() : null
+      if (!store) return
+      const primerNombre = (form.nombres || '').trim().split(/\s+/)[0] || ''
+      // Formatea fecha a DD/MM/YYYY si viene como string de fecha o Date
+      let fechaStr: string | undefined = undefined
+      if (form.fechaExpedicionDocumento) {
+        const d = new Date(form.fechaExpedicionDocumento as any)
+        if (!isNaN(d.getTime())) {
+          const dd = String(d.getDate()).padStart(2, '0')
+          const mm = String(d.getMonth() + 1).padStart(2, '0')
+          const yyyy = String(d.getFullYear())
+          fechaStr = `${dd}/${mm}/${yyyy}`
+        } else {
+          fechaStr = String(form.fechaExpedicionDocumento)
+        }
+      }
+      store.setFromRegistrationStep1({
+        tipoDocumento: form.tipoDocumento,
+        numeroIdentificacion: form.numeroIdentificacion,
+        primerNombre,
+        primerApellido: form.primerApellido,
+        fechaExpedicion: fechaStr,
+        celular: form.celular,
+        correo: form.correo,
+      })
+    }
+  } catch {}
+}
+
+watch(
+  () => ({
+    nombres: form.nombres,
+    primerApellido: form.primerApellido,
+    tipoDocumento: form.tipoDocumento,
+    numeroIdentificacion: form.numeroIdentificacion,
+    fechaExpedicionDocumento: form.fechaExpedicionDocumento,
+    celular: form.celular,
+    correo: form.correo,
+  }),
+  () => { syncPdfStoreFromForm() },
+  { deep: true }
+)
 
 const formattedDate = computed(() => {
   if (!form.fechaExpedicionDocumento) return "";
@@ -383,7 +433,10 @@ const handleConsentAnimation = () => {
 
       <!-- Consent Form Section -->
       <div class="consent-section">
-        <ConsentForm @trigger-animation="handleConsentAnimation" />
+        <ConsentForm
+          @trigger-animation="handleConsentAnimation"
+          @view-document="(url: string) => emit('view-document', url)"
+        />
       </div>
     </div>
 
@@ -812,6 +865,55 @@ const handleConsentAnimation = () => {
   color: black;
 }
 
+/* Estilos para elementos seleccionados en el date picker */
+.v-date-picker .v-btn--active {
+  background-color: #982881 !important;
+  color: white !important;
+}
+
+.v-date-picker .v-btn--active .v-btn__content {
+  color: white !important;
+}
+
+/* Estilos más específicos para el header del date picker */
+.v-date-picker .v-date-picker-header .v-btn--active {
+  background-color: #982881 !important;
+  color: white !important;
+}
+
+.v-date-picker .v-date-picker-header .v-btn--active .v-btn__content {
+  color: white !important;
+}
+
+/* Estilos para días seleccionados en el calendario */
+.v-date-picker .v-date-picker-month .v-btn--active {
+  background-color: #982881 !important;
+  color: white !important;
+}
+
+.v-date-picker .v-date-picker-month .v-btn--active .v-btn__content {
+  color: white !important;
+}
+
+/* Estilos para selectores de año */
+.v-date-picker .v-date-picker-years .v-btn--active {
+  background-color: #982881 !important;
+  color: white !important;
+}
+
+.v-date-picker .v-date-picker-years .v-btn--active .v-btn__content {
+  color: white !important;
+}
+
+/* Estilos globales para cualquier botón activo en date picker */
+.v-date-picker .v-btn.v-btn--active {
+  background-color: #982881 !important;
+}
+
+.v-date-picker .v-btn.v-btn--active .v-btn__content {
+  color: white !important;
+}
+
 
 
 .v-select__content .v-list-item:hover {
@@ -871,7 +973,7 @@ const handleConsentAnimation = () => {
   font-size: 12px;
   margin-top: -15px;
   margin-left: calc(19px + 1vw);
-  position: absolute;
+  position: relative;
   z-index: 10;
 }
 
@@ -1137,3 +1239,88 @@ const handleConsentAnimation = () => {
   clear: both;
 }
 </style>
+
+<style>
+/* Estilos globales para el date picker - sin scoped para mayor especificidad */
+.v-date-picker .v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker .v-btn--active .v-btn__content {
+  color: black !important;
+}
+
+.v-date-picker .v-btn--active .v-btn__overlay {
+  background-color: transparent !important;
+}
+
+.v-date-picker .v-btn--variant-text.v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker .v-btn--variant-text.v-btn--active .v-btn__content {
+  color: black !important;
+}
+
+/* Para el selector de mes y año */
+.v-date-picker-header .v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker-header .v-btn--active .v-btn__content {
+  color: black !important;
+}
+
+/* Para los días del calendario */
+.v-date-picker-month .v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker-month .v-btn--active .v-btn__content {
+  color: black !important;
+}
+
+/* Para el selector de años */
+.v-date-picker-years .v-btn--active {
+  background-color: transparent !important;
+  border: 1px solid #982881 !important;
+  color: black !important;
+}
+
+.v-date-picker-years .v-btn--active .v-btn__content {
+  color: black !important;
+}
+</style>
+// Mantener el store del PDF sincronizado con los campos relevantes
+watch(
+  () => ({
+    nombres: form.nombres,
+    primerApellido: form.primerApellido,
+    tipoDocumento: form.tipoDocumento,
+    numeroIdentificacion: form.numeroIdentificacion,
+    fechaExpedicionDocumento: form.fechaExpedicionDocumento,
+    celular: form.celular,
+    correo: form.correo,
+  }),
+  () => {
+    const primerNombre = (form.nombres || '').trim().split(/\s+/)[0] || ''
+    pdfFormStore.setFromRegistrationStep1({
+      tipoDocumento: form.tipoDocumento,
+      numeroIdentificacion: form.numeroIdentificacion,
+      primerNombre,
+      primerApellido: form.primerApellido,
+      fechaExpedicion: form.fechaExpedicionDocumento as unknown as string,
+      celular: form.celular,
+      correo: form.correo,
+    })
+  },
+  { deep: true }
+)

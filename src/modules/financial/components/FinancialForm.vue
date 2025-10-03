@@ -9,8 +9,7 @@
         <div class="finance-icon">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
             <path
-              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-            />
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
           </svg>
         </div>
         <p>
@@ -22,15 +21,9 @@
       <form class="form-body" @submit.prevent="handleSubmit">
         <v-row class="form_row">
           <v-col cols="12" md="4">
-            <v-text-field
-              variant="underlined"
-              v-model="form.gastosMensuales"
-              label="Gastos mensuales"
-              class="form-field"
-              required
-              @input="formatCurrency($event, 'gastosMensuales')"
-              @blur="validateField('gastosMensuales')"
-            />
+            <v-text-field variant="underlined" v-model="form.gastosMensuales" label="Gastos mensuales"
+              class="form-field" required @input="formatCurrency($event, 'gastosMensuales')"
+              @blur="validateField('gastosMensuales')" />
             <transition name="slide-down">
               <div v-if="fieldErrors.gastosMensuales" class="error-message">
                 {{ fieldErrors.gastosMensuales }}
@@ -45,34 +38,20 @@
             </transition>
           </v-col> -->
           <v-col cols="12" md="4">
-            <v-text-field
-              variant="underlined"
-              v-model="form.ingresosMensualesPromedio"
-              label="Ingresos mensuales promedio"
-              class="form-field"
-              required
+            <v-text-field variant="underlined" v-model="form.ingresosMensualesPromedio"
+              label="Ingresos mensuales promedio" class="form-field" required
               @input="formatCurrency($event, 'ingresosMensualesPromedio')"
-              @blur="validateField('ingresosMensualesPromedio')"
-            />
+              @blur="validateField('ingresosMensualesPromedio')" />
             <transition name="slide-down">
-              <div
-                v-if="fieldErrors.ingresosMensualesPromedio"
-                class="error-message"
-              >
+              <div v-if="fieldErrors.ingresosMensualesPromedio" class="error-message">
                 {{ fieldErrors.ingresosMensualesPromedio }}
               </div>
             </transition>
           </v-col>
           <v-col cols="12" md="4">
-            <v-text-field
-              variant="underlined"
-              v-model="form.montoSolicitado"
-              label="Monto solicitado"
-              class="form-field"
-              required
-              @input="formatCurrency($event, 'montoSolicitado')"
-              @blur="validateField('montoSolicitado')"
-            />
+            <v-text-field variant="underlined" v-model="form.montoSolicitado" label="Monto solicitado"
+              class="form-field" required @input="formatCurrency($event, 'montoSolicitado')"
+              @blur="validateField('montoSolicitado')" />
             <transition name="slide-down">
               <div v-if="fieldErrors.montoSolicitado" class="error-message">
                 {{ fieldErrors.montoSolicitado }}
@@ -89,59 +68,40 @@
 
     <ValidationLoader :show="showValidationLoader" />
 
-    <OtpModal
-      :show="showOtpModal"
-      :phone-number="userPhoneNumber"
-      @close="handleOtpClose"
-      @verified="handleOtpVerified"
-    />
+    <OtpModal :show="showOtpModal" :phone-number="userPhoneNumber" @close="handleOtpClose"
+      @verified="handleOtpVerified" />
 
-    <AnimationContainer
-      :is-visible="showAnimationContainer"
-      :force-open="isAnimationOpen"
-      :clickable-header="false"
-      @toggle="handleAnimationToggle"
-    >
+    <AnimationContainer :is-visible="showAnimationContainer" :force-open="isAnimationOpen" :clickable-header="false"
+      @toggle="handleAnimationToggle">
       <template #header>
         <span>Flujo de Proceso</span>
       </template>
       <div style="display: flex; flex-direction: column; min-height: 300px">
         <!-- Loading animation at the top -->
-        <div
-          v-if="showContainerLoader"
-          style="
+        <div v-if="showContainerLoader" style="
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px 0;
-          "
-        >
+          ">
           <div class="container-loader">
-            <div
-              style="
+            <div style="
                 display: flex;
                 justify-content: center;
                 align-items: center;
-              "
-            ></div>
+              "></div>
           </div>
         </div>
 
         <!-- Flow visualization -->
-        <div
-          style="
+        <div style="
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-          "
-        >
-          <CompleteFlowVisualization
-            v-if="showCompleteFlow"
-            :is-visible="true"
-            :total-duration="10000"
-          />
+          ">
+          <CompleteFlowVisualization v-if="showCompleteFlow" :is-visible="true" :total-duration="10000" />
 
           <!-- Process disclaimer -->
           <div v-if="showCompleteFlow" class="process-disclaimer">
@@ -154,15 +114,12 @@
 
         <!-- Next button at the bottom -->
         <transition name="fade-slide-up">
-          <div
-            v-if="showNextButton"
-            style="
+          <div v-if="showNextButton" style="
               display: flex;
               flex-direction: column;
               align-items: center;
               padding: 20px;
-            "
-          >
+            ">
             <!-- Next instruction disclaimer -->
             <div class="next-disclaimer">
               <p>Haz click en "Siguiente" para continuar al siguiente paso</p>
@@ -182,6 +139,7 @@ import { computed, reactive, ref } from "vue";
 import type { FinancialFormData } from "../types/financial.types";
 import { useRouter } from "vue-router";
 import { useRegistrationStore } from "../../registration/stores/registration.store";
+import { useFinancialStore } from "../stores/financial.store";
 import OtpModal from "../../registration/components/OtpModal.vue";
 import ValidationLoader from "./ValidationLoader.vue";
 import AnimationContainer from "./AnimationContainer.vue";
@@ -190,6 +148,7 @@ import CompleteFlowVisualization from "./CompleteFlowVisualization.vue";
 const router = useRouter();
 const store = useRegistrationStore();
 const { userPhoneNumber } = store;
+const financialStore = useFinancialStore();
 const showOtpModal = ref(false);
 const showValidationLoader = ref(false);
 const showAnimationContainer = ref(true);
@@ -243,7 +202,7 @@ const isFormValid = computed(() => {
   return (
     !!form.gastosMensuales.trim() &&
     /*   !!form.antiguedadMeses.trim() &&
-   */ 
+   */
     !!form.ingresosMensualesPromedio.trim() &&
     !!form.montoSolicitado.trim()
   );
@@ -275,6 +234,25 @@ const handleSubmit = () => {
   if (!isFormValid.value) {
     return;
   }
+
+  // Store the financial data in the store
+  financialStore.setFinancialData(form);
+
+  // Empujar datos al store del PDF (si Pinia está activa)
+  ;(async () => {
+    try {
+      const piniaMod: any = await import('pinia')
+      if (piniaMod?.getActivePinia && piniaMod.getActivePinia()) {
+        const mod: any = await import('@/stores/formData')
+        const pdfStore = mod?.useFormDataStore ? mod.useFormDataStore() : null
+        pdfStore?.setFromFinancialForm({
+          gastosMensuales: form.gastosMensuales,
+          ingresosMensuales: form.ingresosMensualesPromedio,
+          montoSolicitado: form.montoSolicitado,
+        } as any)
+      }
+    } catch {}
+  })()
 
   openAnimationContainer();
   showContainerLoader.value = true;
@@ -325,12 +303,9 @@ const handleAnimationToggle = (isOpen: boolean) => {
 }
 
 .form-header {
-  background: linear-gradient(
-      21deg,
+  background: linear-gradient(21deg,
       rgb(97, 40, 120) 0%,
-      rgb(186, 45, 125) 100%
-    )
-    0% 0% no-repeat padding-box padding-box transparent;
+      rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent;
 
   width: 100%;
   display: flex;
@@ -535,11 +510,9 @@ const handleAnimationToggle = (isOpen: boolean) => {
   gap: 12px;
   padding: 16px 20px;
   margin: 20px 0;
-  background: linear-gradient(
-    135deg,
-    rgba(97, 40, 120, 0.08) 0%,
-    rgba(186, 45, 125, 0.08) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(97, 40, 120, 0.08) 0%,
+      rgba(186, 45, 125, 0.08) 100%);
   border-radius: 12px;
   border-left: 4px solid #612878;
   position: relative;
@@ -553,11 +526,9 @@ const handleAnimationToggle = (isOpen: boolean) => {
   right: 0;
   width: 60px;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(97, 40, 120, 0.05) 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(97, 40, 120, 0.05) 100%);
   pointer-events: none;
 }
 

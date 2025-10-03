@@ -77,7 +77,7 @@ onMounted(() => {
 const handleNextClick = () => {
   isAnimationOpen.value = false
   // Check if there are connected institutions to determine next route
-  if (institutionsStore.hasConnectedInstitutions()) {
+  if (institutionsStore.hasConnectedInstitutions) {
     router.push('/financial/connected-accounts')
   } else {
     router.push('/financial/connect-stage1')

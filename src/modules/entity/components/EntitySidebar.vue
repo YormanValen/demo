@@ -1,0 +1,226 @@
+<template>
+  <div class="entity-sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 13H21V21C21 21.5523 20.5523 22 20 22H4C3.44772 22 3 21.5523 3 21V13Z" fill="currentColor" />
+            <path d="M3 7H21V11H3V7Z" fill="currentColor" />
+            <path d="M12 2L21 7H3L12 2Z" fill="currentColor" />
+          </svg>
+        </div>
+        <span class="brand-text">Experiencia Entidad</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <template v-for="item in menuItems" :key="item.path">
+        <router-link v-if="!item.isSpecial" :to="item.path" class="nav-item"
+          :class="{ active: $route.path === item.path }">
+          <div class="nav-icon">
+            <component :is="item.icon" />
+          </div>
+          <span class="nav-text">{{ item.label }}</span>
+        </router-link>
+
+        <button v-else @click="handleTransactionalInsightsClick" class="nav-item special-item"
+          :class="{ active: $route.path === item.path }">
+          <div class="nav-icon">
+            <component :is="item.icon" />
+          </div>
+          <span class="nav-text">{{ item.label }}</span>
+        </button>
+      </template>
+    </nav>
+
+    <div class="sidebar-footer">
+      <!-- Footer content if needed -->
+    </div>
+
+    <!-- Transactional Insights Intro Animation -->
+    <TransactionalInsightsIntro ref="transactionalIntro" />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import TransactionalInsightsIntro from './TransactionalInsightsIntro.vue'
+
+const router = useRouter()
+const transactionalIntro = ref()
+
+const handleTransactionalInsightsClick = async () => {
+  // Navigate to dashboard first
+  await router.push('/entity/dashboard')
+
+  // Wait a bit for the component to mount and register the global function
+  setTimeout(() => {
+    const triggerFunction = (window as any).triggerTransactionalInsightsAnimation
+    if (triggerFunction) {
+      triggerFunction()
+    }
+  }, 100)
+}
+
+const menuItems = [
+  {
+    path: '/entity/dashboard',
+    label: 'Visualizar Consentimientos',
+    icon: 'ViewIcon'
+  },
+  {
+    path: '/entity/consent-revocation',
+    label: 'Revocación de Consentimientos',
+    icon: 'RevokeIcon'
+  },
+  {
+    path: '/entity/analytics',
+    label: 'Tableros de Control',
+    icon: 'AnalyticsIcon'
+  },
+  {
+    path: '/entity/transactional-insights',
+    label: 'Transactional Insights',
+    icon: 'InsightsIcon',
+    isSpecial: true
+  }
+]
+</script>
+
+<style scoped>
+.entity-sidebar {
+  width: 280px;
+  height: calc(100vh - 60px);
+  background: white;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.brand-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.brand-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+
+.sidebar-nav {
+  flex: 1;
+  padding: 20px 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #6b7280;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nav-item:hover {
+  background: #f9fafb;
+  color: #374151;
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, #faf7fb 0%, #f5f0f6 100%);
+  color: rgb(97, 40, 120);
+  border-left-color: rgb(97, 40, 120);
+}
+
+button.nav-item.special-item {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  color: white;
+  border-left-color: transparent;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+button.nav-item.special-item:hover {
+  background: linear-gradient(21deg, rgb(77, 30, 100) 0%, rgb(166, 25, 105) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  color: white;
+}
+
+button.nav-item.special-item.active {
+  background: linear-gradient(21deg, rgb(77, 30, 100) 0%, rgb(166, 25, 105) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  color: white;
+  border-left-color: transparent;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-text {
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+@media (max-width: 1024px) {
+  .entity-sidebar {
+    width: 260px;
+  }
+}
+
+/* Hide sidebar in tablet frame */
+.tablet .entity-sidebar,
+.tablet__content .entity-sidebar {
+  display: none !important;
+}
+
+@media (max-width: 1024px) {
+  .entity-sidebar {
+    display: none;
+  }
+}
+</style>

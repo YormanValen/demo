@@ -7,27 +7,14 @@
       </div>
 
       <div class="experience-cards">
-        <div
-          class="experience-card user-experience"
-          @click="selectExperience('user')"
-          :class="{ selected: selectedExperience === 'user' }"
-        >
+        <div class="experience-card user-experience" @click="selectExperience('user')"
+          :class="{ selected: selectedExperience === 'user' }">
           <div class="card-icon">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
-                fill="currentColor"
-              />
-              <path
-                d="M12 14C7.029 14 3 18.029 3 23H21C21 18.029 16.971 14 12 14Z"
-                fill="currentColor"
-              />
+                fill="currentColor" />
+              <path d="M12 14C7.029 14 3 18.029 3 23H21C21 18.029 16.971 14 12 14Z" fill="currentColor" />
             </svg>
           </div>
           <h2 class="card-title">Experiencia de Usuario</h2>
@@ -37,23 +24,11 @@
           </p>
         </div>
 
-        <div
-          class="experience-card entity-experience"
-          @click="selectExperience('entity')"
-          :class="{ selected: selectedExperience === 'entity' }"
-        >
+        <div class="experience-card entity-experience" @click="selectExperience('entity')"
+          :class="{ selected: selectedExperience === 'entity' }">
           <div class="card-icon">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3 13H21V21C21 21.5523 20.5523 22 20 22H4C3.44772 22 3 21.5523 3 21V13Z"
-                fill="currentColor"
-              />
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 13H21V21C21 21.5523 20.5523 22 20 22H4C3.44772 22 3 21.5523 3 21V13Z" fill="currentColor" />
               <path d="M3 7H21V11H3V7Z" fill="currentColor" />
               <path d="M12 2L21 7H3L12 2Z" fill="currentColor" />
             </svg>
@@ -67,11 +42,7 @@
       </div>
 
       <div class="action-buttons">
-        <button
-          class="continue-button"
-          @click="continueWithSelection"
-          :disabled="!selectedExperience"
-        >
+        <button class="continue-button" @click="continueWithSelection" :disabled="!selectedExperience">
           Continuar
         </button>
 
@@ -98,8 +69,12 @@ const continueWithSelection = () => {
   // Guardar la selección en localStorage o store
   localStorage.setItem("selectedExperience", selectedExperience.value);
 
-  // Navegar al registro básico
-  router.push("/registration/basic-information");
+  // Navegar según la experiencia seleccionada
+  if (selectedExperience.value === 'entity') {
+    router.push('/entity/login');
+  } else {
+    router.push('/registration/basic-information');
+  }
 };
 </script>
 
@@ -132,11 +107,9 @@ const continueWithSelection = () => {
   font-weight: 600;
   color: #1f2937;
   margin-bottom: 24px;
-  background: linear-gradient(
-    21deg,
-    rgb(97, 40, 120) 0%,
-    rgb(186, 45, 125) 100%
-  );
+  background: linear-gradient(21deg,
+      rgb(97, 40, 120) 0%,
+      rgb(186, 45, 125) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -175,11 +148,9 @@ const continueWithSelection = () => {
 .card-icon {
   width: 48px;
   height: 48px;
-  background: linear-gradient(
-    21deg,
-    rgb(97, 40, 120) 0%,
-    rgb(186, 45, 125) 100%
-  );
+  background: linear-gradient(21deg,
+      rgb(97, 40, 120) 0%,
+      rgb(186, 45, 125) 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -211,11 +182,9 @@ const continueWithSelection = () => {
 
 .continue-button {
   width: fit-content;
-  background: linear-gradient(
-    21deg,
-    rgb(97, 40, 120) 0%,
-    rgb(186, 45, 125) 100%
-  );
+  background: linear-gradient(21deg,
+      rgb(97, 40, 120) 0%,
+      rgb(186, 45, 125) 100%);
   color: white;
   border: none;
   padding: 12px 32px;
@@ -251,5 +220,19 @@ const continueWithSelection = () => {
   .selection-title {
     font-size: 1.6rem;
   }
+}
+
+/* Fullscreen mode adjustments */
+.full-mode .experience-selection-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 300px);
+  padding: 40px 20px;
+}
+
+.full-mode .selection-container {
+  max-width: 800px;
+  width: 100%;
 }
 </style>

@@ -122,6 +122,20 @@
                 <p>Revisamos ingresos, gastos y movimientos financieros para conocer mejor la situación del cliente.
                 </p>
               </div>
+
+              <!-- Bank Connection Card -->
+              <div class="bank-connection-card">
+                <div class="bank-icon">🏦</div>
+                <span>Conexión con su banco</span>
+              </div>
+
+              <!-- Financial Data Chips -->
+              <div class="financial-data-chips">
+                <div class="financial-chip">Sus ingresos</div>
+                <div class="financial-chip">Sus gastos</div>
+                <div class="financial-chip">Sus ahorros</div>
+                <div class="financial-chip">Su historial</div>
+              </div>
             </div>
 
             <!-- Center section: Analysis -->
@@ -131,8 +145,14 @@
                 <p>Aplicamos modelos de análisis y riesgo para generar insights confiables.</p>
               </div>
               <div class="section-header">
-                <h3>Trusso</h3>
-                <p>Nuestro motor especializado</p>
+                <h3>Transactional Insights</h3>
+              </div>
+
+              <!-- Trusso Process Steps -->
+              <div class="trusso-steps">
+                <div class="trusso-step">Revisión de datos</div>
+                <div class="trusso-step">Evaluación de riesgo</div>
+                <div class="trusso-step">Cálculo de opciones</div>
               </div>
             </div>
 
@@ -143,20 +163,13 @@
                 <p>Generamos outputs de valor (scores, segmentación, montos referenciales) para habilitar la toma de
                   decisiones.</p>
               </div>
-              <div class="section-subitem">
-                <h4>Score de riesgo crediticio transaccional</h4>
-              </div>
-              <div class="section-subitem">
-                <h4>Nivel de capacidad de pago</h4>
-              </div>
-              <div class="section-subitem">
-                <h4>Valores preaprobados</h4>
-              </div>
-              <div class="section-subitem">
-                <h4>Alertas e insights transaccionales</h4>
-              </div>
-              <div class="section-subitem">
-                <h4>Segmentación del cliente</h4>
+              <!-- Strategic Output Chips -->
+              <div class="strategic-output-chips">
+                <div class="strategic-chip">Score de riesgo crediticio transaccional</div>
+                <div class="strategic-chip">Nivel de capacidad de pago</div>
+                <div class="strategic-chip">Valores preaprobados</div>
+                <div class="strategic-chip">Alertas e insights transaccionales</div>
+                <div class="strategic-chip">Segmentación del cliente</div>
               </div>
             </div>
           </div>
@@ -904,7 +917,7 @@ const handleContinue = () => {
   border: 1px solid rgba(0, 19, 64, 0.1);
   box-shadow: 0 4px 16px rgba(0, 19, 64, 0.05);
   min-height: 200px;
-  max-height: 280px;
+  max-height: 350px;
   overflow: hidden;
 }
 
@@ -1133,6 +1146,112 @@ const handleContinue = () => {
   }
 }
 
+/* Bank Connection Card Styles */
+.bank-connection-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 19, 64, 0.05);
+  border: 2px solid rgba(0, 19, 64, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: -5px;
+}
+
+.bank-icon {
+  font-size: 1.5rem;
+  background: rgba(0, 19, 64, 0.1);
+  padding: 8px;
+  border-radius: 8px;
+  border: 2px solid rgba(0, 19, 64, 0.2);
+}
+
+.bank-connection-card span {
+  color: #001340;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.financial-data-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.financial-chip {
+  background: rgba(0, 19, 64, 0.03);
+  border: 1px solid rgba(0, 19, 64, 0.15);
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: #001340;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.financial-chip:hover {
+  background: rgba(0, 19, 64, 0.08);
+  border-color: rgba(0, 19, 64, 0.25);
+}
+
+/* Trusso Steps Styles */
+.trusso-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.trusso-step {
+  background: rgba(0, 19, 64, 0.03);
+  border: 1px solid rgba(0, 19, 64, 0.15);
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: #001340;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.trusso-step:hover {
+  background: rgba(0, 19, 64, 0.08);
+  border-color: rgba(0, 19, 64, 0.25);
+}
+
+/* Strategic Output Chips Styles */
+.strategic-output-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.strategic-chip {
+  background: rgba(0, 19, 64, 0.08);
+  border: 1px solid rgba(0, 19, 64, 0.2);
+  border-radius: 20px;
+  padding: 8px 14px;
+  color: #001340;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.strategic-chip:hover {
+  background: rgba(0, 19, 64, 0.15);
+  border-color: rgba(0, 19, 64, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 19, 64, 0.15);
+}
+
 /* Removed algo-visualization styles */
 
 .output-categories {
@@ -1265,6 +1384,7 @@ const handleContinue = () => {
   background: #001340;
   color: white;
   border: none;
+  height: fit-content;
   padding: 16px 32px;
   border-radius: 5px;
   font-size: 16px;
@@ -1289,6 +1409,13 @@ const handleContinue = () => {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Tablet frame specific styles */
+.tablet .pipeline-container,
+.tablet__content .pipeline-container {
+  grid-template-columns: 1fr !important;
+  gap: 24px;
 }
 
 @media (max-width: 1024px) {
@@ -1370,6 +1497,15 @@ const handleContinue = () => {
 
   .process-indicators {
     grid-template-columns: 1fr;
+  }
+
+  .financial-data-chips {
+    gap: 6px;
+  }
+
+  .financial-chip {
+    padding: 6px 12px;
+    font-size: 10px;
   }
 }
 </style>

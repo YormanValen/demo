@@ -13,7 +13,7 @@
 
       <SecurityMessage />
 
-      <ConnectedBanksList :banks="connectedBanks.value" @manage="handleManageBank" />
+      <ConnectedBanksList :banks="connectedBanks" @manage="handleManageBank" />
     </div>
   </div>
 </template>

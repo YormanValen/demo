@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import pdfAsset from '@/assets/autorizacion_obligatoria_v14.pdf?url';
 
 const captchaChecked = ref(false);
 
-const benefits = ref([
+interface Benefit {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  checked: boolean;
+  hasDocument?: boolean;
+  documentUrl?: string;
+}
+
+const benefits = ref<Benefit[]>([
   {
     id: 'creditAccess',
     title: 'Usar tus datos para darte acceso al crédito',
@@ -39,12 +50,12 @@ const benefits = ref([
     icon: 'mdi-file-document-outline',
     checked: false,
     hasDocument: true,
-    documentUrl: '/autorizacion_obligatoria_v14.pdf'
+    documentUrl: pdfAsset
   }
 ]);
 
 
-const emit = defineEmits(['trigger-animation']);
+const emit = defineEmits(['trigger-animation', 'view-document']);
 
 // Computed para validar si se puede continuar
 const canContinue = computed(() => {
@@ -75,8 +86,14 @@ const handleNextClick = () => {
         <div class="benefit-content">
           <h3 class="benefit-title">
             {{ benefit.title }}
-            <a v-if="benefit.hasDocument" :href="benefit.documentUrl" target="_blank" class="document-link">Ver
-              documento</a>
+            <a
+              v-if="benefit.hasDocument"
+              href="#"
+              class="document-link"
+              @click.prevent="emit('view-document', benefit.documentUrl)"
+            >
+              Ver documento
+            </a>
           </h3>
           <p class="benefit-description">{{ benefit.description }}</p>
         </div>

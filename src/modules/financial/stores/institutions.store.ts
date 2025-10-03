@@ -1,4 +1,4 @@
-import { readonly, ref } from 'vue'
+import { defineStore } from 'pinia'
 
 export interface ConnectedInstitution {
   id: number
@@ -12,41 +12,64 @@ export interface ConnectedInstitution {
   bankColor: string
 }
 
-const connectedInstitutions = ref<ConnectedInstitution[]>([])
+const STORAGE_KEY = 'connected-institutions'
 
-export function useInstitutionsStore() {
-  const addInstitution = (institution: ConnectedInstitution) => {
-    const existingIndex = connectedInstitutions.value.findIndex(inst => inst.id === institution.id)
-    if (existingIndex === -1) {
-      connectedInstitutions.value.push(institution)
+export const useInstitutionsStore = defineStore('institutions', {
+  state: () => ({
+    connectedInstitutions: [] as ConnectedInstitution[]
+  }),
+
+  getters: {
+    hasConnectedInstitutions(): boolean {
+      return this.connectedInstitutions.length > 0
+    },
+
+    getInstitutionById: (state) => (id: number) => {
+      return state.connectedInstitutions.find(inst => inst.id === id)
+    }
+  },
+
+  actions: {
+    addInstitution(institution: ConnectedInstitution) {
+      const existingIndex = this.connectedInstitutions.findIndex(inst => inst.id === institution.id)
+      if (existingIndex === -1) {
+        this.connectedInstitutions.push(institution)
+        this.saveToLocalStorage()
+      }
+    },
+
+    removeInstitution(institutionId: number) {
+      const index = this.connectedInstitutions.findIndex(inst => inst.id === institutionId)
+      if (index !== -1) {
+        this.connectedInstitutions.splice(index, 1)
+        this.saveToLocalStorage()
+      }
+    },
+
+    clearAllInstitutions() {
+      this.connectedInstitutions = []
+      this.saveToLocalStorage()
+    },
+
+    saveToLocalStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.connectedInstitutions))
+    },
+
+    loadFromLocalStorage() {
+      const stored = localStorage.getItem(STORAGE_KEY)
+      if (stored) {
+        try {
+          this.connectedInstitutions = JSON.parse(stored)
+        } catch (error) {
+          console.warn('Error parsing stored institutions:', error)
+          this.clearAllInstitutions()
+        }
+      }
+    },
+
+    initializeStore() {
+      this.clearAllInstitutions()
+      localStorage.removeItem(STORAGE_KEY)
     }
   }
-
-  const removeInstitution = (institutionId: number) => {
-    const index = connectedInstitutions.value.findIndex(inst => inst.id === institutionId)
-    if (index !== -1) {
-      connectedInstitutions.value.splice(index, 1)
-    }
-  }
-
-  const getInstitutionById = (id: number) => {
-    return connectedInstitutions.value.find(inst => inst.id === id)
-  }
-
-  const hasConnectedInstitutions = () => {
-    return connectedInstitutions.value.length > 0
-  }
-
-  const clearAllInstitutions = () => {
-    connectedInstitutions.value = []
-  }
-
-  return {
-    connectedInstitutions: readonly(connectedInstitutions),
-    addInstitution,
-    removeInstitution,
-    getInstitutionById,
-    hasConnectedInstitutions,
-    clearAllInstitutions
-  }
-}
+})

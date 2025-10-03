@@ -3,8 +3,11 @@
     <div v-for="bank in banks" :key="bank.id" class="bank-item">
       <div class="bank-info">
         <div class="bank-logo">
-          <div class="logo-placeholder">
-            <span class="logo-text">{{ bank.name?.charAt(0) || '?' }}</span>
+          <div class="logo-container" :class="{ 'has-logo': hasLogo(bank.name) }" :style="!hasLogo(bank.name) ? { backgroundColor: bank.bankColor } : {}">
+            <img v-if="bank.name === 'Neodigi Bank'" src="/src/assets/logos/neodigi-bank-logo.png" alt="Neodigi Bank" class="bank-logo-image" />
+            <img v-else-if="bank.name === 'TekCredit'" src="/src/assets/logos/tekcredit-logo.png" alt="TekCredit" class="bank-logo-image" />
+            <img v-else-if="bank.name === 'Flexfinia'" src="/src/assets/logos/flexfinia-logo.png" alt="Flexfinia" class="bank-logo-image" />
+            <span v-else class="bank-initials">{{ bank.bankInitials || bank.name?.charAt(0) || '?' }}</span>
           </div>
         </div>
         
@@ -30,6 +33,8 @@ interface Bank {
   logo: string
   status: string
   connected: boolean
+  bankInitials?: string
+  bankColor?: string
 }
 
 defineProps<{
@@ -39,6 +44,10 @@ defineProps<{
 defineEmits<{
   manage: [bank: Bank]
 }>()
+
+const hasLogo = (bankName: string) => {
+  return ['Neodigi Bank', 'TekCredit', 'Flexfinia'].includes(bankName)
+}
 </script>
 
 <style scoped>
@@ -73,23 +82,35 @@ defineEmits<{
   height: 48px;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #001340;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.logo-placeholder {
+.logo-container {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
 }
 
-.logo-text {
+.logo-container.has-logo {
+  background-color: white;
+}
+
+.bank-logo-image {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.bank-initials {
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
 }
 

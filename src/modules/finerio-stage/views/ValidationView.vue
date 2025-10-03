@@ -17,13 +17,16 @@
 
       <h1 class="main-title">Validando información</h1>
 
-      <div class="validation-text">
-        <p>Danos unos segundos mientras</p>
-        <p>finalizamos la conexión.</p>
+      <div v-if="isMultipleFlow" class="multiple-flow-info">
+        <p class="progress-text">Banco {{ currentBankNumber }} de {{ totalBanks }}</p>
+        <div class="progress-bar">
+          <div class="progress-fill" :style="{ width: progressPercentage + '%' }"></div>
+        </div>
       </div>
 
-      <div class="countdown">
-        {{ countdown }}
+      <div class="validation-text">
+        <p>Danos unos segundos mientras</p>
+        <p>finalizamos la conexión{{ isMultipleFlow ? ' con ' + bankName : '' }}.</p>
       </div>
     </div>
 
@@ -31,58 +34,138 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useBankQueueStore } from '../../financial/stores/bank-queue.store'
 
 const router = useRouter()
-const route = useRoute()
-const countdown = ref(5)
+const bankQueueStore = useBankQueueStore()
+
+const currentBank = bankQueueStore.getCurrentBank()
 
 const bankName = computed(() => {
-  return route.query.bankName as string || 'Bank'
+  return currentBank?.name || 'Bank'
 })
 
 const bankInitials = computed(() => {
-  return route.query.bankInitials as string || 'BA'
+  return currentBank?.initials || 'BA'
 })
 
 const bankColor = computed(() => {
-  return route.query.bankColor as string || '#2563eb'
+  return currentBank?.color || '#2563eb'
+})
+
+const isMultipleFlow = computed(() => {
+  return bankQueueStore.isMultipleFlow()
+})
+
+const currentBankNumber = computed(() => {
+  return bankQueueStore.getCurrentBankNumber()
+})
+
+const totalBanks = computed(() => {
+  return bankQueueStore.getTotalBanks()
+})
+
+const progressPercentage = computed(() => {
+  return bankQueueStore.getProgressPercentage()
 })
 
 
-onMounted(() => {
-  const timer = setInterval(() => {
-    countdown.value--
-    if (countdown.value <= 0) {
-      clearInterval(timer)
-      handleNavigation()
+onMounted(async () => {
+  console.log('ValidationView - onMounted called')
+  
+  // Inicializar el store si está vacío
+  initializeStoreFromLocalStorage()
+  
+  console.log('ValidationView - After initialization, store has:', bankQueueStore.getTotalBanks(), 'banks')
+  console.log('ValidationView - Current bank:', bankQueueStore.getCurrentBank())
+  
+  // Simular un pequeño delay para mostrar la animación
+  setTimeout(() => {
+    console.log('ValidationView - About to call handleNavigation')
+    handleNavigation()
+  }, 1500)
+})
+
+const initializeStoreFromLocalStorage = () => {
+  console.log('ValidationView - initializeStoreFromLocalStorage called')
+  console.log('ValidationView - Store total banks before:', bankQueueStore.getTotalBanks())
+  
+  // Si el store ya tiene bancos, no hacer nada
+  if (bankQueueStore.getTotalBanks() > 0) {
+    console.log('ValidationView - Store already has banks, skipping initialization')
+    return
+  }
+  
+  // Intentar cargar desde localStorage (fallback al sistema anterior)
+  const queueStr = localStorage.getItem('bankLoginQueue')
+  const indexStr = localStorage.getItem('currentBankIndex')
+  
+  console.log('ValidationView - localStorage bankLoginQueue:', queueStr)
+  console.log('ValidationView - localStorage currentBankIndex:', indexStr)
+  
+  if (queueStr && indexStr) {
+    const queue = JSON.parse(queueStr)
+    const currentIndex = parseInt(indexStr)
+    
+    console.log('ValidationView - Parsed queue:', queue)
+    console.log('ValidationView - Current index:', currentIndex)
+    
+    // Configurar el store
+    bankQueueStore.setSelectedBanks(queue)
+    
+    // Ajustar el índice actual si es necesario
+    for (let i = 0; i < currentIndex; i++) {
+      bankQueueStore.moveToNextBank()
     }
-  }, 1000)
-})
+    
+    console.log('ValidationView - Store configured with', bankQueueStore.getTotalBanks(), 'banks')
+  } else {
+    console.log('ValidationView - No data in localStorage to initialize store')
+  }
+}
 
 
-const handleNavigation = () => {
-  const bankName = route.query.bankName as string
-  let dashboardPath = '/bankambient/dashboard'
-
-  // Determine specific dashboard based on bank name
-  if (bankName === 'Neodigi Bank') {
-    dashboardPath = '/bankambient/dashboard/blue'
-  } else if (bankName === 'TekCredit') {
-    dashboardPath = '/bankambient/dashboard/red'
-  } else if (bankName === 'Flexfinia') {
-    dashboardPath = '/bankambient/dashboard/green'
+const handleNavigation = async () => {
+  console.log('ValidationView - handleNavigation called')
+  const currentBankData = bankQueueStore.getCurrentBank()
+  console.log('ValidationView - currentBankData in handleNavigation:', currentBankData)
+  
+  if (!currentBankData) {
+    console.log('ValidationView - No current bank data, going back')
+    // No hay bancos en la cola, volver atrás
+    router.back()
+    return
   }
 
-  router.push({
-    path: dashboardPath,
-    query: {
-      bankName: route.query.bankName,
-      bankInitials: route.query.bankInitials,
-      bankColor: route.query.bankColor
-    }
-  })
+  // Determinar el dashboard específico según el banco (que tiene el login)
+  let dashboardPath = '/bankambient/dashboard'
+  
+  if (currentBankData.name === 'Neodigi Bank') {
+    dashboardPath = '/bankambient/dashboard/blue'
+  } else if (currentBankData.name === 'TekCredit') {
+    dashboardPath = '/bankambient/dashboard/red'
+  } else if (currentBankData.name === 'Flexfinia') {
+    dashboardPath = '/bankambient/dashboard/green'
+  }
+  
+  console.log('ValidationView - About to navigate to dashboard login for:', currentBankData.name)
+  
+  try {
+    // Ir al dashboard del banco actual (que tiene el login)
+    await router.push({
+      path: dashboardPath,
+      query: {
+        bankName: currentBankData.name,
+        bankInitials: currentBankData.initials,
+        bankColor: currentBankData.color
+      }
+    })
+    console.log('ValidationView - Navigation to dashboard login completed')
+  } catch (error) {
+    console.error('ValidationView - Navigation error:', error)
+  }
 }
 
 </script>
@@ -186,6 +269,32 @@ const handleNavigation = () => {
   font-weight: 600;
   color: #001340;
   margin-top: 16px;
+}
+
+.multiple-flow-info {
+  margin-bottom: 24px;
+}
+
+.progress-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(97, 40, 120);
+  margin: 0 0 8px 0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease;
 }
 
 /* Container loader */

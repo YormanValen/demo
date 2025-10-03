@@ -217,11 +217,11 @@ const handleAnimationToggle = (isOpen: boolean) => {
 
 .financial-image {
   position: absolute;
-  top: 320px;
+  top: 360px;
   left: 50%;
   transform: translateX(-50%);
-  width: 1200px;
-  height: 600px;
+  width: 1000px;
+  height: 400px;
   background-image: url("/src/assets/financial_image.png");
   background-repeat: no-repeat;
   background-size: contain;

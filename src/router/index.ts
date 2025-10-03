@@ -136,6 +136,123 @@ const routes: RouteRecordRaw[] = [
     name: 'financial-congrats',
     component: () => import('../modules/financial/views/CongratsView.vue'),
     meta: { hideLayout: false }
+  },
+  {
+    path: '/entity',
+    component: () => import('../modules/entity/layouts/EntityLayout.vue'),
+    meta: { hideLayout: false },
+    children: [
+      {
+        path: 'dashboard',
+        name: 'entity-dashboard',
+        component: () => import('../modules/entity/views/EntityDashboardView.vue')
+      },
+      {
+        path: 'consent-management',
+        name: 'entity-consent-management',
+        component: () => import('../modules/entity/views/ConsentManagementView.vue')
+      },
+      {
+        path: 'consent-revocation',
+        name: 'entity-consent-revocation',
+        component: () => import('../modules/entity/views/ConsentRevocationView.vue')
+      },
+      {
+        path: 'analytics',
+        name: 'entity-analytics',
+        component: () => import('../modules/entity/views/AnalyticsView.vue')
+      }
+    ]
+  },
+  {
+    path: '/entity/login',
+    name: 'entity-login',
+    component: () => import('../modules/entity/views/EntityLoginView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/two-factor',
+    name: 'entity-two-factor',
+    component: () => import('../modules/entity/views/EntityTwoFactorView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights',
+    name: 'entity-transactional-insights',
+    component: () => import('../modules/transactional-insights/views/TransactionalInsightsIntroView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/bank-selection',
+    name: 'entity-transactional-insights-bank-selection',
+    component: () => import('../modules/transactional-insights/views/BankSelectionAnimationView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/bank/:bankId',
+    name: 'entity-transactional-insights-bank-transaction',
+    component: () => import('../modules/transactional-insights/views/BankTransactionView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/history',
+    name: 'entity-transactional-insights-history-transaction',
+    component: () => import('../modules/transactional-insights/views/HistoryTransactionView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/categorizacion-intro',
+    name: 'entity-transactional-insights-categorizacion-intro',
+    component: () => import('../modules/transactional-insights/views/CategorizacionIntroView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/agregados-categorizacion',
+    name: 'entity-transactional-insights-agregados-categorizacion',
+    component: () => import('../modules/transactional-insights/views/AgregadosCategorizacionView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/submenu',
+    name: 'entity-transactional-insights-submenu',
+    component: () => import('../modules/transactional-insights/views/TransactionalInsightsSubmenuView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/affordability',
+    name: 'entity-transactional-insights-affordability',
+    component: () => import('../modules/transactional-insights/views/AffordabilityView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/alertas-y-tendencias',
+    name: 'entity-transactional-insights-alertas-y-tendencias',
+    component: () => import('../modules/transactional-insights/views/AlertasYTendenciasView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/income-insights',
+    name: 'entity-transactional-insights-income-insights',
+    component: () => import('../modules/transactional-insights/views/IncomeInsightsView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/insights-proyectados',
+    name: 'entity-transactional-insights-insights-proyectados',
+    component: () => import('../modules/transactional-insights/views/InsightsProyectadosView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/transactional-profile',
+    name: 'entity-transactional-insights-transactional-profile',
+    component: () => import('../modules/transactional-insights/views/TransactionalProfileView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/entity/transactional-insights/score-transaccional',
+    name: 'entity-transactional-insights-score-transaccional',
+    component: () => import('../modules/transactional-insights/views/ScoreTransaccionalView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 
