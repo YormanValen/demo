@@ -95,7 +95,7 @@
             <!-- Animated Score -->
             <div class="score-display-large">
               <div class="animated-score">{{ animatedScore }}</div>
-              <div class="score-label-large">Score Crediticio</div>
+              <div class="score-label-large">Score Transaccional</div>
             </div>
 
           </div>
@@ -426,9 +426,29 @@ onMounted(async () => {
 }
 
 .description-list {
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
   margin: 0;
+}
+
+.description-list li {
+  position: relative;
+  padding-left: 25px;
+  margin: 8px 0;
+}
+
+.description-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
 }
 
 .description-text {

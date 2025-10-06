@@ -10,9 +10,6 @@
     </div>
 
     <div class="final-header" :class="{ 'visible': showFinalHeader }">
-      <div class="fusion-logo">
-        <span class="fusion-initials">HT</span>
-      </div>
       <h1 class="title">Historial Transaccional</h1>
       <p class="subtitle">Análisis combinado de transacciones</p>
     </div>
@@ -87,8 +84,10 @@
     <div class="privacy-notice" :class="{ 'visible': showTable }">
       <div class="privacy-icon">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
       </div>
       <span class="privacy-text">La información transaccional pura no se almacenará</span>
@@ -97,6 +96,34 @@
     <div class="button-container" :class="{ 'visible': showButton }">
       <button class="continue-button" @click="handleContinue">Continuar</button>
     </div>
+
+    <!-- Bottom sheet: flujo de historial transaccional -->
+    <EntityAnimationContainer 
+      :is-visible="true"
+      :clickable-header="false"
+      :force-open="isEntitySheetOpen"
+      @toggle="onEntitySheetToggle"
+    >
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; height:100%;">
+        <EntityFlowVisualization
+          :is-visible="showEntityFlow"
+          :steps="historySteps"
+          :pre-completed="1"
+          @step-change="onEntityFlowStepChange"
+          @all-complete="onEntityFlowComplete"
+        />
+
+        <transition name="fade-slide-up">
+          <button
+            v-if="showEntityNext"
+            class="continue-button"
+            @click="onEntityFlowContinue"
+          >
+            Continuar
+          </button>
+        </transition>
+      </div>
+    </EntityAnimationContainer>
   </div>
 </template>
 
@@ -106,6 +133,8 @@ import TransactionalInsightsBackground from '../components/TransactionalInsights
 import { useRoute, useRouter } from 'vue-router'
 import { useTxStore } from '@/modules/transactional-insights/stores/transactions.store'
 import { useInstitutionsStore } from '@/modules/financial/stores/institutions.store'
+import EntityAnimationContainer from '../../entity/components/EntityAnimationContainer.vue'
+import EntityFlowVisualization from '../../entity/components/EntityFlowVisualization.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -167,6 +196,22 @@ const displayTransactions = computed(() => {
   return sortedByBank.slice(0, desiredCount.value)
 })
 
+// Bottom sheet & flow logic (historial transaccional)
+const isEntitySheetOpen = ref(false)
+const showEntityFlow = computed(() => isEntitySheetOpen.value)
+const showEntityNext = ref(false)
+const historySteps = [
+  { title: 'Procesando la información transaccional pura', icon: 'mdi-database-clock' },
+  { title: 'Historial consolidado', icon: 'mdi-history' },
+  { title: 'Construyendo soluciones Open Finance', icon: 'mdi-lightbulb-on-outline' }
+]
+const onEntityFlowStepChange = (step: number) => {
+  if (step < historySteps.length) showEntityNext.value = false
+}
+const onEntityFlowComplete = () => { showEntityNext.value = true }
+const onEntityFlowContinue = () => { isEntitySheetOpen.value = false }
+const onEntitySheetToggle = (open: boolean) => { isEntitySheetOpen.value = open; if (!open) showEntityNext.value = false }
+
 const startAnimations = async () => {
   return new Promise<void>((resolve) => {
     setTimeout(() => { showFinalHeader.value = true }, 150)
@@ -211,6 +256,10 @@ const handleContinue = () => {
 }
 
 onMounted(async () => {
+  // Abrir sheet del flujo al ingresar
+  isEntitySheetOpen.value = true
+  // Reset viewed banks tracking when entering history view
+  try { localStorage.removeItem('ti_viewed_banks') } catch {}
   await nextTick()
   await new Promise(resolve => setTimeout(resolve, 100))
 
@@ -337,7 +386,7 @@ onMounted(async () => {
 .title {
   font-size: 2.5rem;
   font-weight: 700;
-  margin: 0;
+  margin-top: 25px;
   background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

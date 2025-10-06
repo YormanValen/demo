@@ -15,53 +15,23 @@
 
     <nav class="sidebar-nav">
       <template v-for="item in menuItems" :key="item.path">
-        <router-link v-if="!item.isSpecial" :to="item.path" class="nav-item"
+        <router-link :to="item.path" class="nav-item"
           :class="{ active: $route.path === item.path }">
           <div class="nav-icon">
             <component :is="item.icon" />
           </div>
           <span class="nav-text">{{ item.label }}</span>
         </router-link>
-
-        <button v-else @click="handleTransactionalInsightsClick" class="nav-item special-item"
-          :class="{ active: $route.path === item.path }">
-          <div class="nav-icon">
-            <component :is="item.icon" />
-          </div>
-          <span class="nav-text">{{ item.label }}</span>
-        </button>
       </template>
     </nav>
 
     <div class="sidebar-footer">
       <!-- Footer content if needed -->
     </div>
-
-    <!-- Transactional Insights Intro Animation -->
-    <TransactionalInsightsIntro ref="transactionalIntro" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import TransactionalInsightsIntro from './TransactionalInsightsIntro.vue'
-
-const router = useRouter()
-const transactionalIntro = ref()
-
-const handleTransactionalInsightsClick = async () => {
-  // Navigate to dashboard first
-  await router.push('/entity/dashboard')
-
-  // Wait a bit for the component to mount and register the global function
-  setTimeout(() => {
-    const triggerFunction = (window as any).triggerTransactionalInsightsAnimation
-    if (triggerFunction) {
-      triggerFunction()
-    }
-  }, 100)
-}
 
 const menuItems = [
   {
@@ -78,12 +48,6 @@ const menuItems = [
     path: '/entity/analytics',
     label: 'Tableros de Control',
     icon: 'AnalyticsIcon'
-  },
-  {
-    path: '/entity/transactional-insights',
-    label: 'Transactional Insights',
-    icon: 'InsightsIcon',
-    isSpecial: true
   }
 ]
 </script>
@@ -162,27 +126,6 @@ const menuItems = [
   border-left-color: rgb(97, 40, 120);
 }
 
-button.nav-item.special-item {
-  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
-  color: white;
-  border-left-color: transparent;
-  border: none;
-  text-align: left;
-  font-family: inherit;
-  font-size: inherit;
-  cursor: pointer;
-}
-
-button.nav-item.special-item:hover {
-  background: linear-gradient(21deg, rgb(77, 30, 100) 0%, rgb(166, 25, 105) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
-  color: white;
-}
-
-button.nav-item.special-item.active {
-  background: linear-gradient(21deg, rgb(77, 30, 100) 0%, rgb(166, 25, 105) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
-  color: white;
-  border-left-color: transparent;
-}
 
 .nav-icon {
   width: 20px;
