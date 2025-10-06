@@ -18,8 +18,6 @@
               fill-opacity="0.1" />
             <path d="M8 12l2 2 4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
               stroke-linejoin="round" />
-            <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1" opacity="0.3" />
-            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1" opacity="0.2" />
           </svg>
         </div>
       </div>
@@ -113,7 +111,7 @@ const goBack = () => {
 onMounted(async () => {
   // Clear visited products when reaching farewell view
   visitedProductsStore.clearVisitedProducts()
-  
+
   await nextTick()
   setTimeout(() => {
     startAnimations()

@@ -37,10 +37,7 @@
                 <th class="user-header single-header">
                   <div class="user-info">
                     <div class="user-avatar">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" />
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" />
-                      </svg>
+                      <span class="person-emoji">{{ getCurrentPersonEmoji() }}</span>
                     </div>
                     <span>{{ currentUserName }}</span>
                   </div>
@@ -51,7 +48,7 @@
               <tr v-for="(row, index) in tableData" :key="index" :class="{ 'visible': visibleRows.has(index) }">
                 <td class="variable-cell" :class="{ 'visible': visibleVariables.has(index) }">{{ row.variable }}</td>
                 <td class="data-cell single-data" :class="{ 'visible': visibleData.has(index) }">
-                  {{ currentPerson === 'camilo' ? row.camilo : row.jose }}
+                  {{ currentPerson === 'camilo' ? row.camilo : currentPerson === 'jose' ? row.jose : row.maria }}
                 </td>
               </tr>
             </tbody>
@@ -60,10 +57,10 @@
       </div>
     </div>
 
-    <!-- Back Button -->
+    <!-- Continue Button -->
     <div class="button-container" :class="{ 'visible': showButton }">
-      <button class="back-button" @click="goBack">
-        ← Volver al Menú
+      <button class="continue-button" @click="goBack">
+        Continuar
       </button>
     </div>
   </div>
@@ -87,70 +84,92 @@ const visibleVariables = ref<Set<number>>(new Set())
 const visibleData = ref<Set<number>>(new Set())
 
 // Single column toggling state
-const currentPerson = ref<'camilo' | 'jose'>('camilo')
-const currentUserName = computed(() => currentPerson.value === 'camilo' ? 'Camilo' : 'José')
+const currentPerson = ref<'camilo' | 'jose' | 'maria'>('camilo')
+const currentUserName = computed(() => {
+  if (currentPerson.value === 'camilo') return 'Camilo'
+  if (currentPerson.value === 'jose') return 'José'
+  return 'María'
+})
+
+const getCurrentPersonEmoji = () => {
+  if (currentPerson.value === 'camilo') return '👨‍💼'
+  if (currentPerson.value === 'jose') return '👨‍🔬'
+  return '👩‍💼'
+}
 
 // Table data
 const tableData = ref([
   {
     variable: 'Promedio de los ingresos totales últimos 6 meses',
     camilo: '$ 7.675.549',
-    jose: '$ 12.540.832'
+    jose: '$ 12.540.832',
+    maria: '$ 9.850.720'
   },
   {
     variable: 'Promedio de los ingresos totales últimos 6 meses, descontando meses sin ingresos',
     camilo: '$ 6.270.416',
-    jose: '$ 12.540.832'
+    jose: '$ 12.540.832',
+    maria: '$ 9.850.720'
   },
   {
     variable: 'Volatilidad del ingreso',
     camilo: '$ 2.241.192',
-    jose: '$ 897.029'
+    jose: '$ 897.029',
+    maria: '$ 1.425.380'
   },
   {
     variable: 'Índice de estabilidad de ingreso',
     camilo: '58%',
-    jose: '100%'
+    jose: '100%',
+    maria: '82%'
   },
   {
     variable: 'Número promedio de días hasta gastar el 100% de los ingresos principales',
     camilo: '16.0',
-    jose: '12.0'
+    jose: '12.0',
+    maria: '18.5'
   },
   {
     variable: 'Número promedio de días hasta gastar el 50% de los ingresos principales',
     camilo: '5.3',
-    jose: '4.5'
+    jose: '4.5',
+    maria: '7.2'
   },
   {
     variable: '% de los ingresos por juegos de azar en los últimos 6 meses',
     camilo: '10%',
-    jose: '0%'
+    jose: '0%',
+    maria: '2%'
   },
   {
     variable: '% de los ingresos de arriendo en los últimos 6 meses',
     camilo: '10%',
-    jose: '0%'
+    jose: '0%',
+    maria: '15%'
   },
   {
     variable: '% de ingresos por préstamos en los últimos 6 meses',
     camilo: '10%',
-    jose: '100%'
+    jose: '100%',
+    maria: '5%'
   },
   {
     variable: '% de los ingresos principales en los últimos 6 meses',
     camilo: '50%',
-    jose: '100%'
+    jose: '100%',
+    maria: '78%'
   },
   {
     variable: '¿Los ingresos totales son superiores a los gastos totales en los últimos 6 meses?',
     camilo: 'NO',
-    jose: 'SI'
+    jose: 'SI',
+    maria: 'SI'
   },
   {
     variable: '¿Los ingresos con fuentes confiables representan más el 80% de los ingresos?',
     camilo: 'NO',
-    jose: 'SI'
+    jose: 'SI',
+    maria: 'SI'
   }
 ])
 
@@ -255,8 +274,14 @@ const startSingleColumnLoop = async () => {
     // Fade out
     visibleData.value.clear()
     await delay(300)
-    // Switch person
-    currentPerson.value = currentPerson.value === 'camilo' ? 'jose' : 'camilo'
+    // Switch person (cycle through camilo -> jose -> maria -> camilo)
+    if (currentPerson.value === 'camilo') {
+      currentPerson.value = 'jose'
+    } else if (currentPerson.value === 'jose') {
+      currentPerson.value = 'maria'
+    } else {
+      currentPerson.value = 'camilo'
+    }
     // Fade in all rows
     for (let i = 0; i < tableData.value.length; i++) {
       visibleData.value.add(i)
@@ -433,9 +458,29 @@ onUnmounted(() => {
 }
 
 .description-list {
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
   margin: 0;
+}
+
+.description-list li {
+  position: relative;
+  padding-left: 25px;
+  margin: 8px 0;
+}
+
+.description-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
 }
 
 .description-text {
@@ -562,6 +607,11 @@ onUnmounted(() => {
   color: white;
 }
 
+.person-emoji {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
 .rating {
   display: flex;
   gap: 2px;
@@ -667,22 +717,26 @@ onUnmounted(() => {
   transform: translateY(0);
 }
 
-.back-button {
-  background: transparent;
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
-  padding: 12px 24px;
-  font-size: 1rem;
+.continue-button {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  font-size: 1.3rem;
   font-weight: 600;
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(97, 40, 120, 0.3);
 }
 
-.back-button:hover {
-  border-color: rgb(186, 45, 125);
-  color: rgb(186, 45, 125);
-  transform: translateY(-2px);
+.continue-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(97, 40, 120, 0.4);
+}
+
+.continue-button:active {
+  transform: translateY(0);
 }
 
 /* Responsive Design */
@@ -781,9 +835,8 @@ onUnmounted(() => {
     height: 25px;
   }
 
-  .user-avatar svg {
-    width: 16px;
-    height: 16px;
+  .person-emoji {
+    font-size: 1rem;
   }
 
   .star {

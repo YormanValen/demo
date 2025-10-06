@@ -237,17 +237,7 @@ const showMenu = ref(false)
 const showBackButton = ref(false)
 const visibleOptions = ref<Set<number>>(new Set())
 
-// Product definitions
-const products = [
-  { id: 'categorizacion', name: 'Categorización de Transacciones' },
-  { id: 'agregados', name: 'Agregados de Categorización' },
-  { id: 'affordability', name: 'Affordability' },
-  { id: 'alertas', name: 'Alertas y Tendencias' },
-  { id: 'income', name: 'Income Insights' },
-  { id: 'proyectados', name: 'Insights Proyectados' },
-  { id: 'perfil', name: 'Perfil Transaccional' },
-  { id: 'score', name: 'Score Transaccional' }
-]
+// (Removed unused products array; options are rendered explicitly in template)
 
 // Start animations
 const startAnimations = async () => {

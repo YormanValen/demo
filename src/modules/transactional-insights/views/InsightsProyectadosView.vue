@@ -123,9 +123,9 @@
 
                   <!-- Year dividers -->
                   <g v-for="divider in yearDividers" :key="`year-${divider.year}`">
-                    <line :x1="divider.x" y1="50" :x2="divider.x" y2="230" stroke="#10b981" stroke-width="3"
+                    <line :x1="divider.x" y1="50" :x2="divider.x" y2="230" stroke="#000000" stroke-width="3"
                       stroke-dasharray="6,3" opacity="0.8" />
-                    <text :x="divider.x" y="35" fill="#10b981" font-size="13" font-weight="600" text-anchor="middle">{{
+                    <text :x="divider.x" y="35" fill="#000000" font-size="13" font-weight="600" text-anchor="middle">{{
                       divider.year }}</text>
                   </g>
 
@@ -665,9 +665,29 @@ onMounted(async () => {
 }
 
 .description-list {
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
   margin: 0;
+}
+
+.description-list li {
+  position: relative;
+  padding-left: 25px;
+  margin: 8px 0;
+}
+
+.description-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
 }
 
 .description-text {
