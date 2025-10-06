@@ -300,10 +300,73 @@
 
       </div>
     </div>
+    <!-- Bottom sheet: Experiencia de Entidad (analytics) -->
+    <EntityAnimationContainer 
+      :is-visible="true"
+      :clickable-header="false"
+      :force-open="isEntitySheetOpen"
+      @toggle="onEntitySheetToggle"
+    >
+      <div class="analytics-flow" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; height:100%;">
+        <EntityFlowVisualization
+          :is-visible="showEntityFlow"
+          :steps="analyticsSteps"
+          :pre-completed="3"
+          @step-change="onEntityFlowStepChange"
+          @all-complete="onEntityFlowComplete"
+        />
+
+        <transition name="fade-slide-up">
+          <button
+            v-if="showEntityNext"
+            class="continue-button"
+            @click="onEntityFlowContinue"
+          >
+            Continuar
+          </button>
+        </transition>
+      </div>
+    </EntityAnimationContainer>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import EntityAnimationContainer from '../components/EntityAnimationContainer.vue'
+import EntityFlowVisualization from '../components/EntityFlowVisualization.vue'
+
+// Bottom sheet & flow logic (analytics)
+const isEntitySheetOpen = ref(false)
+const showEntityFlow = computed(() => isEntitySheetOpen.value)
+const showEntityNext = ref(false)
+
+const analyticsSteps = [
+  { title: 'Acceso a la interfaz de entidades', icon: 'mdi-door-open' },
+  { title: 'Administrar los consentimientos', icon: 'mdi-clipboard-text-outline' },
+  { title: 'Revocación de consentimientos', icon: 'mdi-cancel' },
+  { title: 'Tableros de control', icon: 'mdi-view-dashboard-outline' }
+]
+
+const onEntityFlowStepChange = (step: number) => {
+  if (step < analyticsSteps.length) showEntityNext.value = false
+}
+
+const onEntityFlowComplete = () => {
+  showEntityNext.value = true
+}
+
+const onEntityFlowContinue = () => {
+  isEntitySheetOpen.value = false
+}
+
+const onEntitySheetToggle = (open: boolean) => {
+  isEntitySheetOpen.value = open
+  if (!open) showEntityNext.value = false
+}
+
+onMounted(() => {
+  isEntitySheetOpen.value = true
+})
 </script>
 
 <style scoped>
@@ -340,6 +403,42 @@
   margin: 0 auto;
   width: 100%;
 }
+
+/* Make the flow a bit wider on Analytics */
+.analytics-flow :deep(.flow-container) {
+  max-width: 1000px;
+}
+
+.analytics-flow :deep(.step-card) {
+  min-width: 0; /* allow cards to shrink */
+}
+
+@media (max-width: 1024px) {
+  .analytics-flow :deep(.step-card) {
+    min-width: auto;
+  }
+}
+
+.continue-button {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(97, 40, 120, 0.3);
+}
+
+.continue-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(97, 40, 120, 0.4);
+}
+
+.fade-slide-up-enter-active { transition: all 0.6s ease-out; }
+.fade-slide-up-enter-from { opacity: 0; transform: translateY(12px); }
 
 .analytics-section {
   margin-bottom: 40px;

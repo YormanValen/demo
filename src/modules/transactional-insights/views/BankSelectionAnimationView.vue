@@ -88,7 +88,6 @@
         'data-transfer-mode': fusion.transferring
       }" :style="fusionSummaryStyle">
         <div class="fusion-logo" ref="fusionLogoEl">
-          <span class="fusion-initials">HT</span>
         </div>
         <h3 class="fusion-title">Historial Transaccional</h3>
         <div class="fusion-table-icon">
@@ -110,6 +109,33 @@
     </div>
 
     <!-- Overlay eliminado: la animación de entrada ocurre en la vista de transacciones usando coordenadas -->
+
+    <!-- Bottom sheet: flujo de procesamiento transaccional puro -->
+    <EntityAnimationContainer 
+      :is-visible="true"
+      :clickable-header="false"
+      :force-open="isEntitySheetOpen"
+      @toggle="onEntitySheetToggle"
+    >
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; height:100%;">
+        <EntityFlowVisualization
+          :is-visible="showEntityFlow"
+          :steps="tiSteps"
+          @step-change="onEntityFlowStepChange"
+          @all-complete="onEntityFlowComplete"
+        />
+
+        <transition name="fade-slide-up">
+          <button
+            v-if="showEntityNext"
+            class="continue-button"
+            @click="onEntityFlowContinue"
+          >
+            Continuar
+          </button>
+        </transition>
+      </div>
+    </EntityAnimationContainer>
   </div>
 </template>
 
@@ -119,6 +145,8 @@ import TransactionalInsightsBackground from '../components/TransactionalInsights
 import type { ComponentPublicInstance } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useInstitutionsStore } from '@/modules/financial/stores/institutions.store'
+import EntityAnimationContainer from '../../entity/components/EntityAnimationContainer.vue'
+import EntityFlowVisualization from '../../entity/components/EntityFlowVisualization.vue'
 // Logo imports
 import neodigiBankLogo from '@/assets/logos/neodigi-bank-logo.png'
 import tekcreditLogo from '@/assets/logos/tekcredit-logo.png'
@@ -187,6 +215,21 @@ const defaultBanks = [
     expirationDate: '2024-12-31'
   }
 ]
+
+// Bottom sheet & flow logic for processing transactional data
+const isEntitySheetOpen = ref(false)
+const showEntityFlow = computed(() => isEntitySheetOpen.value)
+const showEntityNext = ref(false)
+const tiSteps = [
+  { title: 'Procesando la información transaccional pura', icon: 'mdi-database-clock' }
+]
+const onEntityFlowStepChange = () => { showEntityNext.value = false }
+const onEntityFlowComplete = () => { showEntityNext.value = true }
+const onEntityFlowContinue = () => { isEntitySheetOpen.value = false }
+const onEntitySheetToggle = (open: boolean) => {
+  isEntitySheetOpen.value = open
+  if (!open) showEntityNext.value = false
+}
 
 // Map bank names to correct logo assets
 const getBankLogo = (bankName: string) => {
@@ -298,7 +341,7 @@ const startSpectacularDataConvergence = async () => {
 
   // Paso 2: Mostrar HT abajo después de que suban los bancos
   const htTargetX = window.innerWidth / 2
-  const htTargetY = window.innerHeight / 2 + 180
+  const htTargetY = window.innerHeight / 2 + 280 // Increased from +180 to +280 for more separation
   fusionXY.value = { x: htTargetX, y: htTargetY }
   fusion.value.showSummary = true
 
@@ -309,19 +352,19 @@ const startSpectacularDataConvergence = async () => {
     const bank = ordered[i]
     await processIndividualBank(bank, htTargetX, htTargetY, i, ordered.length)
 
-    // Esperar entre cada banco para efecto secuencial (más tiempo para ver los iconos)
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    // Esperar entre cada banco para efecto secuencial (reducido para compensar iconos adicionales)
+    await new Promise(resolve => setTimeout(resolve, 1000)) // Reduced from 2000ms to 1000ms
   }
 
 
-  // Paso 5: Bancos se desvanecen suavemente
-  await fadeOutAllBanks()
-
-  // Paso 5.5: HT vuelve a su tamaño normal después de que desaparezcan los bancos
+  // Paso 5: HT vuelve a su tamaño normal primero
   await resetHTBalloonSize()
 
-  // Paso 6: HT sube al centro después de que desaparezcan los bancos
-  await moveHTToCenter()
+  // Paso 6: HT sube al centro Y los bancos se desvanecen AL MISMO TIEMPO
+  await Promise.all([
+    moveHTToCenter(),
+    fadeOutAllBanks()
+  ])
 }
 
 // Nueva función para procesar cada banco individualmente
@@ -340,30 +383,41 @@ const processIndividualBank = async (bank: any, htX: number, htY: number, bankIn
   // Crear flujo de iconos de dinero y estadísticas LENTO
   createSlowIconFlowEffect(bankX, bankY, htX, htY, bank.bankColor)
 
-  // Esperar a que termine el flujo lento de iconos
-  await new Promise(resolve => setTimeout(resolve, 4000))
+  // Esperar a que termine el flujo lento de iconos (con chips adicionales: 22 iconos × 300ms + 5500ms animación)
+  await new Promise(resolve => setTimeout(resolve, 12100)) // Increased to account for all icons + chips
 }
 
 
-// Crear flujo lento de iconos de dinero y estadísticas
+// Crear flujo lento de iconos de categorías de gasto
 const createSlowIconFlowEffect = (fromX: number, fromY: number, toX: number, toY: number, bankColor: string) => {
   const icons = [
-    // Iconos de dinero
-    { symbol: '$', type: 'money' },
-    { symbol: '€', type: 'money' },
-    { symbol: '₹', type: 'money' },
-    // Iconos de estadísticas  
-    { symbol: '📊', type: 'stats' },
-    { symbol: '📈', type: 'stats' },
-    { symbol: '💹', type: 'stats' },
-    // Iconos matemáticos
-    { symbol: '%', type: 'math' },
-    { symbol: '∑', type: 'math' },
-    { symbol: '∞', type: 'math' },
-    // Números
-    { symbol: '123', type: 'number' },
-    { symbol: '45K', type: 'number' },
-    { symbol: '99M', type: 'number' }
+    // Categorías de alimentación
+    { symbol: '🍕', type: 'food' },
+    { symbol: '🍔', type: 'food' },
+    { symbol: '☕', type: 'food' },
+    { symbol: '🥘', type: 'food' },
+    // Entretenimiento
+    { symbol: '🎬', type: 'entertainment' },
+    { symbol: '🎵', type: 'entertainment' },
+    { symbol: '🎮', type: 'entertainment' },
+    { symbol: '📺', type: 'entertainment' },
+    // Transporte
+    { symbol: '🚗', type: 'transport' },
+    { symbol: '🚌', type: 'transport' },
+    { symbol: '⛽', type: 'transport' },
+    { symbol: '🚕', type: 'transport' },
+    // Compras y servicios
+    { symbol: '🛒', type: 'shopping' },
+    { symbol: '👕', type: 'shopping' },
+    { symbol: '🏥', type: 'services' },
+    { symbol: '💊', type: 'services' },
+    // Chips de palabras de análisis financiero
+    { symbol: 'Gastos', type: 'chip' },
+    { symbol: 'Ingresos', type: 'chip' },
+    { symbol: 'Saldos', type: 'chip' },
+    { symbol: 'Gastos', type: 'chip' },
+    { symbol: 'Ingresos', type: 'chip' },
+    { symbol: 'Saldos', type: 'chip' }
   ]
 
   // Crear múltiples iconos que fluyen lentamente
@@ -379,56 +433,93 @@ const createFloatingIcon = (fromX: number, fromY: number, toX: number, toY: numb
   const icon = document.createElement('div')
   icon.className = `floating-money-icon floating-${type}`
 
-  const size = 20 + Math.random() * 15 // Tamaño variable entre 20-35px
+  // Diferentes tamaños y estilos para chips vs iconos
+  let size, styles
+  if (type === 'chip') {
+    // Chips de texto más grandes y rectangulares
+    size = 60 + Math.random() * 20 // Tamaño base más grande para texto
+    styles = `
+      width: auto;
+      min-width: ${size}px;
+      height: 24px;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    `
+  } else {
+    // Iconos emoji circulares
+    size = 20 + Math.random() * 15 // Tamaño variable entre 20-35px
+    styles = `
+      width: ${size}px;
+      height: ${size}px;
+      border-radius: 50%;
+      font-size: ${size * 0.8}px;
+      font-weight: 700;
+    `
+  }
 
   icon.style.cssText = `
     position: fixed;
     left: ${fromX}px;
     top: ${fromY}px;
-    width: ${size}px;
-    height: ${size}px;
-    color: ${bankColor};
-    font-size: ${size * 0.8}px;
-    font-weight: 700;
+    ${styles}
+    color: ${type === 'chip' ? '#334155' : bankColor};
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 50%;
-    border: 2px solid ${bankColor};
-    box-shadow: 0 0 15px ${bankColor}40;
+    border: 2px solid ${type === 'chip' ? '#64748b' : bankColor};
+    box-shadow: 0 0 15px ${type === 'chip' ? '#64748b40' : bankColor + '40'};
     pointer-events: none;
     z-index: 9999;
     opacity: 0;
     transform: scale(0.5);
-    transition: all 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 5.0s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   `
 
   icon.textContent = symbol
   document.body.appendChild(icon)
 
-  // Calcular posición con variación aleatoria para trayectoria más natural
-  const randomOffsetX = (Math.random() - 0.5) * 100
-  const randomOffsetY = (Math.random() - 0.5) * 50
+  // Calcular posición con variación aleatoria para trayectoria más natural y extendida
+  const randomOffsetX = (Math.random() - 0.5) * 200 // Increased from 100 to 200
+  const randomOffsetY = (Math.random() - 0.5) * 150 // Increased from 50 to 150
 
-  // Animar hacia HT con movimiento lento y natural
+  // Crear puntos intermedios para trayectoria curva
+  const midX = (fromX + toX) / 2 + randomOffsetX * 1.5
+  const midY = (fromY + toY) / 2 + randomOffsetY * 1.5
+  
+  // Animar hacia HT con movimiento lento y natural en tres etapas
   setTimeout(() => {
     icon.style.opacity = '1'
     icon.style.transform = 'scale(1)'
+  }, 100)
+  
+  // Primera etapa: hacia punto intermedio
+  setTimeout(() => {
+    icon.style.left = `${midX}px`
+    icon.style.top = `${midY}px`
+    icon.style.transition = 'all 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+  }, 200)
+  
+  // Segunda etapa: hacia destino final
+  setTimeout(() => {
     icon.style.left = `${toX + randomOffsetX}px`
     icon.style.top = `${toY + randomOffsetY}px`
-  }, 100)
+    icon.style.transition = 'all 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+  }, 2700)
 
   // Efecto final al llegar a HT
   setTimeout(() => {
     icon.style.opacity = '0'
     icon.style.transform = 'scale(0.2)'
-  }, 3400)
+  }, 4800) // Increased from 3400 to 4800
 
   // Limpiar después de la animación
   setTimeout(() => {
     icon.remove()
-  }, 4000)
+  }, 5500) // Increased from 4000 to 5500
 }
 
 
@@ -522,45 +613,115 @@ const createHTFillingEffect = (_htX: number, _htY: number, _bankColor: string, b
 }
 
 
-// Nueva función para hacer que los bancos suban un poco
+// Nueva función para hacer que los bancos suban mucho más arriba para mayor separación
 const liftBanksUp = async () => {
+  console.log('🚀 LIFTING BANKS UP - Starting smooth lift animation')
   const ordered = displayBanks.value
 
+  // First ensure all banks are visible and properly positioned
   ordered.forEach((bank) => {
+    const itemEl = bankItemRefs.get(bank.id)
+    if (!itemEl) {
+      console.warn(`❌ No element found for bank ${bank.id}`)
+      return
+    }
+    
+    // Ensure the bank is visible and has completed its initial animation
+    itemEl.style.opacity = '1'
+    itemEl.style.animation = 'none'
+    console.log(`🏦 Prepared bank ${bank.name} for lifting`)
+  })
+
+  // Small delay to ensure all banks are ready
+  await new Promise(resolve => setTimeout(resolve, 100))
+
+  // Now apply the lifting animation with stagger
+  ordered.forEach((bank, index) => {
     const itemEl = bankItemRefs.get(bank.id)
     if (!itemEl) return
 
-    itemEl.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-    itemEl.style.transform = 'translateY(-20px)'
+    setTimeout(() => {
+      console.log(`⬆️ Lifting bank ${bank.name} with class`)
+      itemEl.classList.add('lifting-up')
+    }, index * 200) // Stagger each bank by 200ms
   })
 
-  return new Promise(resolve => setTimeout(resolve, 800))
+  console.log('⏱️ Waiting 3200ms for smooth staggered lift animation to complete')
+  return new Promise(resolve => setTimeout(resolve, 3200)) // 3 banks * 200ms delay + 2500ms animation
 }
 
 
 
-// Función para hacer desaparecer todos los bancos suavemente
+// Función para hacer desaparecer todos los bancos suavemente - como la subida
 const fadeOutAllBanks = async () => {
+  console.log('🌅 FADING OUT BANKS - Starting smooth fade animation')
+  console.log('Banks to fade:', displayBanks.value.map(b => b.name))
   const ordered = displayBanks.value
 
-  // Desvanecer los bancos uno por uno de forma muy suave
-  for (let i = 0; i < ordered.length; i++) {
-    const bank = ordered[i]
-    const itemEl = bankItemRefs.get(bank.id)
-    if (!itemEl) continue
-
-    setTimeout(() => {
-      // Aplicar clase CSS para animación suave de desaparición
-      itemEl.classList.add('fading-out-bank')
-    }, i * 200) // Delay fluido entre bancos
+  if (ordered.length === 0) {
+    console.warn('❌ No banks to fade out!')
+    return
   }
+
+  // First ensure all banks are properly positioned for fading
+  ordered.forEach((bank) => {
+    const itemEl = bankItemRefs.get(bank.id)
+    console.log(`Checking bank ${bank.name} (${bank.id}):`, itemEl)
+    
+    if (!itemEl) {
+      console.warn(`❌ No element found for bank ${bank.name}`)
+      return
+    }
+    
+    // Check current state
+    const currentStyle = window.getComputedStyle(itemEl)
+    console.log(`Bank ${bank.name} current opacity:`, currentStyle.opacity)
+    console.log(`Bank ${bank.name} current transform:`, currentStyle.transform)
+    
+    // Force visible state first
+    itemEl.style.opacity = '1'
+    itemEl.style.visibility = 'visible'
+    console.log(`🏦 Prepared bank ${bank.name} for fading`)
+  })
+
+  // Small delay to ensure all banks are ready
+  await new Promise(resolve => setTimeout(resolve, 200))
+
+  // Now apply the fading animation to ALL banks at the same time for smooth simultaneous fade
+  ordered.forEach((bank) => {
+    const itemEl = bankItemRefs.get(bank.id)
+    if (!itemEl) {
+      console.warn(`❌ Cannot fade bank ${bank.name} - no element`)
+      return
+    }
+
+    console.log(`🌅 APPLYING FADE CLASS to bank ${bank.name} (simultaneous)`)
+    
+    // Remove any conflicting classes first
+    itemEl.classList.remove('lifting-up')
+    
+    // Force a repaint
+    itemEl.offsetHeight
+    
+    // Apply fade class immediately to all banks
+    itemEl.classList.add('fading-out-bank')
+    
+    // Double-check the class was applied
+    setTimeout(() => {
+      console.log(`Class check - ${bank.name} has fading-out-bank:`, itemEl.classList.contains('fading-out-bank'))
+      console.log(`Style check - ${bank.name} opacity:`, itemEl.style.opacity)
+      console.log(`Computed check - ${bank.name} opacity:`, window.getComputedStyle(itemEl).opacity)
+    }, 100)
+  })
 
   // Limpiar estado de conexiones
   dataTransfer.value.connections = []
   dataTransfer.value.activeBank = null
 
-  // Esperar a que termine toda la animación de desvanecimiento
-  const totalFadeTime = (ordered.length * 200) + 1000
+  console.log('⏱️ Waiting for smooth simultaneous fade animation to complete')
+  // Wait only for animation duration since all banks fade at the same time
+  const totalFadeTime = 2500 // Just the 2500ms animation duration
+  console.log(`Total fade time: ${totalFadeTime}ms`)
   return new Promise(resolve => setTimeout(resolve, totalFadeTime))
 }
 
@@ -606,8 +767,8 @@ const moveHTToCenter = async () => {
 }
 
 const handleContinue = () => {
-  ('🔄 SELECTION VIEW - Continue button clicked')
-  // Si ya se muestra el resumen, hacer zoom a HT y navegar a la console.logvista de historial
+  console.log('🔄 SELECTION VIEW - Continue button clicked')
+  // Si ya se muestra el resumen, hacer zoom a HT y navegar a la vista de historial
   if (fusion.value.showSummary) {
     navigateToHistoryWithReveal()
     return
@@ -619,13 +780,19 @@ const handleContinue = () => {
     return
   }
 
-  // Navegar al siguiente banco no visto (o al primero si todos vistos marcados externamente)
-  const bank = nextBankToView.value
-  expandingBankId.value = bank.id
-  setTimeout(() => {
-    navigateWithReveal(bank)
-    setTimeout(() => (expandingBankId.value = null), 300)
-  }, 250)
+  // Si no todos vistos, navegar al siguiente banco no visto
+  if (!allViewed.value) {
+    const bank = nextBankToView.value
+    expandingBankId.value = bank.id
+    setTimeout(() => {
+      navigateWithReveal(bank)
+      setTimeout(() => (expandingBankId.value = null), 300)
+    }, 250)
+    return
+  }
+
+  // Fallback de seguridad
+  startFusion()
 }
 
 // Check if we're returning from a table view (bank transaction or history)
@@ -643,6 +810,8 @@ const isFusionCompleted = computed(() => {
 
 // Start animations when component mounts
 onMounted(async () => {
+  // Open processing flow sheet on enter
+  isEntitySheetOpen.value = true
   // Initialize fusion_completed to false by default
   if (localStorage.getItem('fusion_completed') === null) {
     localStorage.setItem('fusion_completed', 'false')
@@ -670,7 +839,7 @@ onMounted(async () => {
     // Position fusion summary lower on screen
     fusionXY.value = {
       x: window.innerWidth / 2,
-      y: window.innerHeight / 2 + 50 // Move 50px down from center
+      y: window.innerHeight / 2 + 150 // Increased from +50 to +150 for consistency
     }
     return
   }
@@ -1092,14 +1261,16 @@ const navigateToHistoryWithReveal = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
-  color: white;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  border: 4px solid rgb(97, 40, 120); /* Borde sólido */
+  color: rgb(97, 40, 120);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .fusion-initials {
   font-weight: 800;
   font-size: 2rem;
+  color: rgb(97, 40, 120); /* Asegurar que las letras HT sean visibles */
 }
 
 .fusion-title {
@@ -1125,12 +1296,20 @@ const navigateToHistoryWithReveal = () => {
   opacity: 0;
   transform: translateY(30px) scale(0.9);
   animation: bankAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), scale 1s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: default;
   user-select: none;
   pointer-events: none;
   min-width: 180px;
   flex: 0 0 auto;
+}
+
+/* Smooth lifting animation for banks during fusion */
+.bank-item.lifting-up {
+  transform: translateY(-300px) scale(1) !important;
+  transition: transform 2.5s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  opacity: 1 !important;
+  animation: none !important; /* Override any existing animations */
 }
 
 
@@ -1445,25 +1624,42 @@ const navigateToHistoryWithReveal = () => {
   animation: floatGently 2s ease-in-out infinite;
 }
 
-/* Tipos específicos de iconos */
-.floating-money {
+/* Tipos específicos de iconos de categorías de gasto */
+.floating-food {
   background: linear-gradient(135deg, #fef3c7, #f59e0b);
   border-color: #f59e0b;
 }
 
-.floating-stats {
+.floating-entertainment {
+  background: linear-gradient(135deg, #fce7f3, #ec4899);
+  border-color: #ec4899;
+}
+
+.floating-transport {
   background: linear-gradient(135deg, #e0e7ff, #6366f1);
   border-color: #6366f1;
 }
 
-.floating-math {
+.floating-shopping {
   background: linear-gradient(135deg, #f3e8ff, #8b5cf6);
   border-color: #8b5cf6;
 }
 
-.floating-number {
+.floating-services {
   background: linear-gradient(135deg, #dcfce7, #16a34a);
   border-color: #16a34a;
+}
+
+.floating-chip {
+  background: linear-gradient(135deg, #f1f5f9, #cbd5e1);
+  border-color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: #334155;
+  min-width: 60px;
+  text-align: center;
 }
 
 @keyframes floatGently {
@@ -1703,29 +1899,15 @@ const navigateToHistoryWithReveal = () => {
   }
 }
 
-/* Animación simple y fluida de desaparición de bancos */
-.fading-out-bank {
-  animation: fadeOutBankSmoothly 1s ease-out forwards;
-  pointer-events: none;
-  z-index: -1;
-}
-
-@keyframes fadeOutBankSmoothly {
-  0% {
-    opacity: 1;
-    transform: translateY(-20px) scale(1);
-  }
-
-  50% {
-    opacity: 0.4;
-    transform: translateY(-40px) scale(0.95);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(-60px) scale(0.9);
-    visibility: hidden;
-  }
+/* Animación suave y gradual de desaparición de bancos - como la subida */
+.bank-item.fading-out-bank {
+  opacity: 0 !important;
+  transform: translateY(-400px) scale(0.8) !important; /* Final fade position */
+  transition: opacity 2.5s cubic-bezier(0.23, 1, 0.32, 1) !important, transform 2.5s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+  animation: none !important; /* Override any existing animations */
+  visibility: visible !important; /* Ensure visibility during fade */
 }
 
 /* Responsive styles */
