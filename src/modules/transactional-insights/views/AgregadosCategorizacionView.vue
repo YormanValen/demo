@@ -18,7 +18,8 @@
       <div class="description-container">
         <div class="description-card">
           <ul class="description-list">
-            <li class="description-text">Calculados para todas las categorías y meses detectados en el historial transaccional del cliente.</li>
+            <li class="description-text">Calculados para todas las categorías y meses detectados en el historial
+              transaccional del cliente.</li>
             <li class="description-text">Muchas más variables disponibles</li>
           </ul>
         </div>
@@ -31,30 +32,60 @@
       <div class="category-item" :class="{ 'visible': showCategory }">
         <div class="category-icon" :style="{ color: currentDataset.category.color }">
           <!-- Food icon for EXP-ENT-001 -->
-          <svg v-if="currentDataset.category.code === 'EXP-ENT-001'" width="72" height="72" viewBox="0 0 24 24"
-            fill="none">
+          <svg v-if="currentDataset.category.code === 'EXP-ENT-001'" width="72" height="72"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <defs>
+              <linearGradient id="foodGradient" x1="0%" y1="0%" x2="100%" y2="100%" gradientTransform="rotate(21)">
+                <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:rgb(186, 45, 125);stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <title>food</title>
             <path
-              d="M8.5 8.5c0-1.5 1.5-3 3.5-3s3.5 1.5 3.5 3c0 .5-.5 1-.5 1s2 1.5 2 3.5c0 2-2 4-2 4H7s-2-2-2-4c0-2 2-3.5 2-3.5s-.5-.5-.5-1z"
-              fill="currentColor" />
-            <path d="M12 2v6M9 4l6 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              d="M18.06 23H19.72C20.56 23 21.25 22.35 21.35 21.53L23 5.05H18V1H16.03V5.05H11.06L11.36 7.39C13.07 7.86 14.67 8.71 15.63 9.65C17.07 11.07 18.06 12.54 18.06 14.94V23M1 22V21H16.03V22C16.03 22.54 15.58 23 15 23H2C1.45 23 1 22.54 1 22M16.03 15C16.03 7 1 7 1 15H16.03M1 17H16V19H1V17Z"
+              fill="url(#foodGradient)" />
           </svg>
           <!-- Salary icon for INC-LAB-001 -->
-          <svg v-else-if="currentDataset.category.code === 'INC-LAB-001'" width="72" height="72" viewBox="0 0 24 24"
-            fill="none">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" />
+          <svg v-else-if="currentDataset.category.code === 'INC-LAB-001'" width="72" height="72"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <defs>
+              <linearGradient id="salarygradient" x1="0%" y1="0%" x2="100%" y2="100%" gradientTransform="rotate(21)">
+                <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:rgb(186, 45, 125);stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <title>cash-multiple</title>
+            <path
+              d="M5,6H23V18H5V6M14,9A3,3 0 0,1 17,12A3,3 0 0,1 14,15A3,3 0 0,1 11,12A3,3 0 0,1 14,9M9,8A2,2 0 0,1 7,10V14A2,2 0 0,1 9,16H19A2,2 0 0,1 21,14V10A2,2 0 0,1 19,8H9M1,10H3V20H19V22H1V10Z"
+              fill="url(#salarygradient)" />
           </svg>
           <!-- Transport icon for EXP-TRA-002 -->
-          <svg v-else-if="currentDataset.category.code === 'EXP-TRA-002'" width="72" height="72" viewBox="0 0 24 24"
-            fill="none">
-            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" stroke="currentColor" stroke-width="2" fill="none" />
-            <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" stroke="currentColor" stroke-width="2" fill="none" />
-            <path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2" stroke="currentColor" stroke-width="2" fill="none" />
+          <svg v-else-if="currentDataset.category.code === 'EXP-TRA-002'" width="72" height="72"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <defs>
+              <linearGradient id="transportgradient" x1="0%" y1="0%" x2="100%" y2="100%" gradientTransform="rotate(21)">
+                <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:rgb(186, 45, 125);stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <title>train-car</title>
+            <path
+              d="M12,4H5A3,3 0 0,0 2,7V15A3,3 0 0,0 5,18L4,19V20H5L7,17.97L9,18V13H4V6H13V8H15V7A3,3 0 0,0 12,4M5,14A1,1 0 0,1 6,15A1,1 0 0,1 5,16A1,1 0 0,1 4,15A1,1 0 0,1 5,14M20.57,9.66C20.43,9.26 20.05,9 19.6,9H12.41C11.95,9 11.58,9.26 11.43,9.66L10,13.77V19.28C10,19.66 10.32,20 10.7,20H11.32C11.7,20 12,19.62 12,19.24V18H20V19.24C20,19.62 20.31,20 20.69,20H21.3C21.68,20 22,19.66 22,19.28V17.91L22,13.77L20.57,9.66M12.41,10H19.6L20.63,13H11.38L12.41,10M12,16A1,1 0 0,1 11,15A1,1 0 0,1 12,14A1,1 0 0,1 13,15A1,1 0 0,1 12,16M20,16A1,1 0 0,1 19,15A1,1 0 0,1 20,14A1,1 0 0,1 21,15A1,1 0 0,1 20,16Z"
+              fill="url(#transportgradient)" />
           </svg>
           <!-- Entertainment icon for EXP-REC-003 -->
-          <svg v-else width="72" height="72" viewBox="0 0 24 24" fill="none">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke="currentColor" stroke-width="2"
-              fill="currentColor" fill-opacity="0.3" />
+          <svg v-else width=" 72" height="72" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <defs>
+              <linearGradient id="entertainmentgradient" x1="0%" y1="0%" x2="100%" y2="100%"
+                gradientTransform="rotate(21)">
+                <stop offset="0%" style="stop-color:rgb(97, 40, 120);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:rgb(186, 45, 125);stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <title>movie-open</title>
+            <path
+              d="M20.84 2.18L16.91 2.96L19.65 6.5L21.62 6.1L20.84 2.18M13.97 3.54L12 3.93L14.75 7.46L16.71 7.07L13.97 3.54M9.07 4.5L7.1 4.91L9.85 8.44L11.81 8.05L9.07 4.5M4.16 5.5L3.18 5.69A2 2 0 0 0 1.61 8.04L2 10L6.9 9.03L4.16 5.5M2 10V20C2 21.11 2.9 22 4 22H20C21.11 22 22 21.11 22 20V10H2Z"
+              fill="url(#entertainmentgradient)" />
           </svg>
         </div>
         <div class="category-text">
@@ -612,7 +643,6 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 6px 20px rgba(245, 158, 11, 0.4));
 }
 
 .category-text {
@@ -846,5 +876,14 @@ onUnmounted(() => {
     padding: 12px 25px;
     font-size: 1rem;
   }
+}
+
+/* Reusable gradient background style */
+.gradient-icon {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 </style>
