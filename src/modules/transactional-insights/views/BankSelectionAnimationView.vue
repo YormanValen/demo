@@ -220,15 +220,36 @@ const defaultBanks = [
 const isEntitySheetOpen = ref(false)
 const showEntityFlow = computed(() => isEntitySheetOpen.value)
 const showEntityNext = ref(false)
+
+// Session storage key for tracking if flow was shown
+const BANK_SELECTION_FLOW_SHOWN_KEY = 'bank_selection_flow_shown_this_session'
+
+// Check if bank selection flow was already shown this session
+const hasBankSelectionFlowBeenShown = () => {
+  return sessionStorage.getItem(BANK_SELECTION_FLOW_SHOWN_KEY) === 'true'
+}
+
+// Mark bank selection flow as shown for this session
+const markBankSelectionFlowAsShown = () => {
+  sessionStorage.setItem(BANK_SELECTION_FLOW_SHOWN_KEY, 'true')
+}
 const tiSteps = [
   { title: 'Procesando la información transaccional pura', icon: 'mdi-database-clock' }
 ]
 const onEntityFlowStepChange = () => { showEntityNext.value = false }
 const onEntityFlowComplete = () => { showEntityNext.value = true }
-const onEntityFlowContinue = () => { isEntitySheetOpen.value = false }
+const onEntityFlowContinue = () => {
+  // Mark flow as shown and close the bottom sheet when user clicks Continuar
+  markBankSelectionFlowAsShown()
+  isEntitySheetOpen.value = false
+}
 const onEntitySheetToggle = (open: boolean) => {
   isEntitySheetOpen.value = open
-  if (!open) showEntityNext.value = false
+  if (!open) {
+    showEntityNext.value = false
+    // Mark as shown when user manually closes the sheet
+    markBankSelectionFlowAsShown()
+  }
 }
 
 // Map bank names to correct logo assets
@@ -810,8 +831,10 @@ const isFusionCompleted = computed(() => {
 
 // Start animations when component mounts
 onMounted(async () => {
-  // Open processing flow sheet on enter
-  isEntitySheetOpen.value = true
+  // Only show the bottom sheet if it hasn't been shown this session
+  if (!hasBankSelectionFlowBeenShown()) {
+    isEntitySheetOpen.value = true
+  }
   // Initialize fusion_completed to false by default
   if (localStorage.getItem('fusion_completed') === null) {
     localStorage.setItem('fusion_completed', 'false')
