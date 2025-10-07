@@ -7,13 +7,13 @@
         <div class="spinner-ring"></div>
         <div class="spinner-ring"></div>
       </div>
-      
+
       <!-- Loading text -->
       <div class="loading-text">
-        <h2 class="loading-title">API Management</h2>
+        <h2 class="loading-title">API MANAGER OPEN FINANCE</h2>
         <p class="loading-subtitle">Preparando tu dashboard...</p>
       </div>
-      
+
       <!-- Progress dots -->
       <div class="progress-dots">
         <div class="dot" :class="{ active: step >= 1 }"></div>
@@ -21,7 +21,7 @@
         <div class="dot" :class="{ active: step >= 3 }"></div>
       </div>
     </div>
-    
+
     <!-- Floating particles -->
     <div class="particles">
       <div v-for="i in 20" :key="i" class="particle" :style="getParticleStyle(i)"></div>
@@ -30,15 +30,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 interface Props {
   fadeOut?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  fadeOut: false
-})
+defineProps<Props>()
 
 const emit = defineEmits<{
   complete: []
@@ -63,12 +61,12 @@ const simulateProgress = () => {
 }
 
 // Particle animation
-const getParticleStyle = (index: number) => {
+const getParticleStyle = (_index: number) => {
   const delay = Math.random() * 2
   const duration = 3 + Math.random() * 2
   const translateX = Math.random() * 100
   const translateY = Math.random() * 100
-  
+
   return {
     left: `${Math.random() * 100}%`,
     top: `${Math.random() * 100}%`,
@@ -152,6 +150,7 @@ onMounted(() => {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -187,6 +186,7 @@ onMounted(() => {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -234,6 +234,7 @@ onMounted(() => {
     transform: translate(-50%, -50%) scale(0.8);
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(2);
     opacity: 0;
@@ -272,10 +273,13 @@ onMounted(() => {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
     opacity: 0.6;
   }
+
   50% {
     transform: translateY(-20px) rotate(180deg);
     opacity: 0.8;
@@ -288,15 +292,15 @@ onMounted(() => {
     width: 80px;
     height: 80px;
   }
-  
+
   .loading-title {
     font-size: 2rem;
   }
-  
+
   .loading-subtitle {
     font-size: 1rem;
   }
-  
+
   .loading-container {
     gap: 30px;
     padding: 0 20px;
@@ -308,12 +312,12 @@ onMounted(() => {
     width: 60px;
     height: 60px;
   }
-  
+
   .loading-title {
     font-size: 1.5rem;
     letter-spacing: 1px;
   }
-  
+
   .loading-subtitle {
     font-size: 0.9rem;
   }

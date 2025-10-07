@@ -5,7 +5,7 @@
       <div class="left-section">
         <div class="passport-content">
           <div class="passport-logo">
-            <h1 class="passport-title">API MANAGEMENT</h1>
+            <h1 class="passport-title">API MANAGER OPEN FINANCE</h1>
             <div class="passport-icon">
             </div>
           </div>

@@ -1086,7 +1086,7 @@ onMounted(() => {
   }
   // If intro flag is present in query, show full-screen animation
   const introFlag = route.query.intro
-  if (introFlag === '1' || introFlag === 'true' || introFlag === 1 || introFlag === true) {
+  if (introFlag === '1' || introFlag === 'true') {
     // Defer to ensure DOM is ready
     setTimeout(() => {
       triggerTransactionalInsightsAnimation()

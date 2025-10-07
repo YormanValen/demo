@@ -14,9 +14,14 @@
 
       <!-- Cards Section -->
       <div class="cards-section" :class="{ 'visible': showCards }">
-        <div class="experience-card card-1 clickable" :class="{ 'visible': showCard1 }" role="button" tabindex="0"
+        <div class="experience-card card-1 clickable" :class="{ 'visible': showCard1, 'completed': entityModulesStore.isModuleVisited('consent-manager') }" role="button" tabindex="0"
           @click="goToLogin" @keydown.enter="goToLogin" @keydown.space.prevent="goToLogin">
-          <div class="card-number">1</div>
+          <div class="card-number">
+            <span v-if="!entityModulesStore.isModuleVisited('consent-manager')">1</span>
+            <svg v-else class="check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <div class="card-content">
             <h2 class="card-title">Gestor de Consentimientos en finanzas abiertas</h2>
             <p class="card-description">Administra y controla los permisos de acceso a datos financieros de manera
@@ -24,9 +29,14 @@
           </div>
         </div>
 
-        <div class="experience-card card-2 clickable" :class="{ 'visible': showCard2 }" role="button" tabindex="0"
+        <div class="experience-card card-2 clickable" :class="{ 'visible': showCard2, 'completed': entityModulesStore.isModuleVisited('transactional-insights') }" role="button" tabindex="0"
           @click="goToDashboard" @keydown.enter="goToDashboard" @keydown.space.prevent="goToDashboard">
-          <div class="card-number">2</div>
+          <div class="card-number">
+            <span v-if="!entityModulesStore.isModuleVisited('transactional-insights')">2</span>
+            <svg v-else class="check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <div class="card-content">
             <h2 class="card-title">Transactional Insights</h2>
             <p class="card-description">Obtén análisis profundos y visualizaciones de datos transaccionales para tomar
@@ -34,9 +44,14 @@
           </div>
         </div>
 
-        <div class="experience-card card-3 clickable" :class="{ 'visible': showCard3 }" role="button" tabindex="0"
+        <div class="experience-card card-3 clickable" :class="{ 'visible': showCard3, 'completed': entityModulesStore.isModuleVisited('api-platform') }" role="button" tabindex="0"
           @click="goToApiLogin" @keydown.enter="goToApiLogin" @keydown.space.prevent="goToApiLogin">
-          <div class="card-number">3</div>
+          <div class="card-number">
+            <span v-if="!entityModulesStore.isModuleVisited('api-platform')">3</span>
+            <svg v-else class="check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <div class="card-content">
             <h2 class="card-title">Plataforma de APIs Open finance</h2>
             <p class="card-description">Integra y gestiona APIs abiertas para potenciar tus servicios financieros.</p>
@@ -53,8 +68,10 @@
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import TransactionalInsightsBackground from '../../transactional-insights/components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
+import { useEntityModulesStore } from '../stores/entity-modules.store'
 
 const router = useRouter()
+const entityModulesStore = useEntityModulesStore()
 
 // Animation states
 const showContent = ref(false)
@@ -109,19 +126,25 @@ const startAnimations = async () => {
 
 // Navigation for cards
 const goToLogin = () => {
+  entityModulesStore.markModuleAsVisited('consent-manager')
   router.push('/entity/login')
 }
 
 const goToDashboard = () => {
+  entityModulesStore.markModuleAsVisited('transactional-insights')
   router.push({ path: '/entity/dashboard', query: { intro: '1' } })
 }
 
 const goToApiLogin = () => {
+  entityModulesStore.markModuleAsVisited('api-platform')
   router.push({ name: 'apis-open-finance-login' })
 }
 
 // Start animations when fully ready (after window load)
 onMounted(async () => {
+  // Load entity modules store data
+  entityModulesStore.loadFromLocalStorage()
+  
   // Force a one-time full reload before showing this page
   const alreadyReloaded = sessionStorage.getItem(FULL_RELOAD_KEY) === '1'
   if (!alreadyReloaded) {
@@ -325,5 +348,40 @@ onUnmounted(() => {
 
 .experience-card.clickable {
   cursor: pointer;
+}
+
+.experience-card.completed {
+  border: 2px solid #10b981;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  box-shadow: 0 10px 40px rgba(16, 185, 129, 0.15);
+}
+
+.experience-card.completed .card-number {
+  background: #10b981;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.check-icon {
+  color: white;
+  animation: checkPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes checkPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.experience-card.completed:hover {
+  transform: translateX(0) scale(1.02);
+  box-shadow: 0 15px 50px rgba(16, 185, 129, 0.2);
 }
 </style>

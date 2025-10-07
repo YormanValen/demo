@@ -3,7 +3,7 @@
     <!-- Desktop Sidebar -->
     <aside class="desktop-sidebar">
       <div class="sidebar-logo">
-        <h2>API MANAGEMENT</h2>
+        <h2>API MANAGER OPEN FINANCE</h2>
       </div>
 
       <nav class="sidebar-navigation">
@@ -49,7 +49,7 @@
               <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2" />
               <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2" />
             </svg>
-            <span>Facturación</span>
+            <span>Transacciones</span>
           </div>
 
           <div class="nav-item">
