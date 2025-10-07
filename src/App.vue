@@ -33,7 +33,8 @@ const goHome = () => {
 // Computed property to check if we're in full screen mode and on entity routes
 const isFullScreenEntityDashboard = computed(() => {
   const entityRoutes = ['/entity/dashboard', '/entity/consent-revocation', '/entity/analytics']
-  return currentDevice.value === 'full' && entityRoutes.includes(route.path)
+  const apiRoutes = ['/apis-open-finance/dashboard', '/apis-open-finance/overview']
+  return currentDevice.value === 'full' && (entityRoutes.includes(route.path) || apiRoutes.includes(route.path))
 })
 
 // Computed property to check if we're in entity experience
@@ -41,10 +42,15 @@ const isInEntityExperience = computed(() => {
   return route.path.startsWith('/entity')
 })
 
+// Computed property to check if we're in APIs open finance experience
+const isInApisOpenFinanceExperience = computed(() => {
+  return route.path.startsWith('/apis-open-finance')
+})
+
 // Computed property to filter device options based on current route
 const availableDeviceOptions = computed(() => {
-  if (isInEntityExperience.value) {
-    // Only show "Pantalla completa" when in entity experience
+  if (isInEntityExperience.value || isInApisOpenFinanceExperience.value) {
+    // Only show "Pantalla completa" when in entity or APIs open finance experience
     return deviceOptions.filter(option => option.key !== 'tablet')
   }
   return deviceOptions
@@ -54,15 +60,18 @@ const availableDeviceOptions = computed(() => {
 const previousDeviceMode = ref<DeviceKind>('full')
 
 // Watch for route changes to handle device mode switching
-watch(isInEntityExperience, (isInEntity, wasInEntity) => {
-  if (isInEntity && !wasInEntity) {
-    // Entering entity experience - store current mode and switch to full
+watch([isInEntityExperience, isInApisOpenFinanceExperience], ([isInEntity, isInApi], [wasInEntity, wasInApi]) => {
+  const isInRestrictedArea = isInEntity || isInApi
+  const wasInRestrictedArea = wasInEntity || wasInApi
+  
+  if (isInRestrictedArea && !wasInRestrictedArea) {
+    // Entering entity or APIs open finance experience - store current mode and switch to full
     if (currentDevice.value !== 'full') {
       previousDeviceMode.value = currentDevice.value
     }
     currentDevice.value = 'full'
-  } else if (!isInEntity && wasInEntity) {
-    // Leaving entity experience - restore previous mode if it wasn't full
+  } else if (!isInRestrictedArea && wasInRestrictedArea) {
+    // Leaving entity or APIs open finance experience - restore previous mode if it wasn't full
     if (previousDeviceMode.value !== 'full') {
       currentDevice.value = previousDeviceMode.value
     }
