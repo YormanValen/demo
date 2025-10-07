@@ -1,5 +1,5 @@
 <template>
-  <div class="entity-intro-container" ref="rootRef">
+  <div class="entity-intro-container" :class="{ ready: isReady }" ref="rootRef">
     <!-- Animated background elements -->
     <TransactionalInsightsBackground />
 
@@ -14,7 +14,8 @@
 
       <!-- Cards Section -->
       <div class="cards-section" :class="{ 'visible': showCards }">
-        <div class="experience-card card-1" :class="{ 'visible': showCard1 }">
+        <div class="experience-card card-1 clickable" :class="{ 'visible': showCard1 }" role="button" tabindex="0"
+          @click="goToLogin" @keydown.enter="goToLogin" @keydown.space.prevent="goToLogin">
           <div class="card-number">1</div>
           <div class="card-content">
             <h2 class="card-title">Gestor de Consentimientos en finanzas abiertas</h2>
@@ -23,7 +24,8 @@
           </div>
         </div>
 
-        <div class="experience-card card-2" :class="{ 'visible': showCard2 }">
+        <div class="experience-card card-2 clickable" :class="{ 'visible': showCard2 }" role="button" tabindex="0"
+          @click="goToDashboard" @keydown.enter="goToDashboard" @keydown.space.prevent="goToDashboard">
           <div class="card-number">2</div>
           <div class="card-content">
             <h2 class="card-title">Transactional Insights</h2>
@@ -31,20 +33,24 @@
               decisiones informadas.</p>
           </div>
         </div>
+
+        <div class="experience-card card-3 clickable" :class="{ 'visible': showCard3 }" role="button" tabindex="0"
+          @click="goToApiLogin" @keydown.enter="goToApiLogin" @keydown.space.prevent="goToApiLogin">
+          <div class="card-number">3</div>
+          <div class="card-content">
+            <h2 class="card-title">Plataforma de APIs Open finance</h2>
+            <p class="card-description">Integra y gestiona APIs abiertas para potenciar tus servicios financieros.</p>
+          </div>
+        </div>
       </div>
 
-      <!-- Continue Button -->
-      <div class="action-section" :class="{ 'visible': showAction }">
-        <button class="continue-button" @click="continueToLogin">
-          <span class="button-text">Comenzar experiencia</span>
-        </button>
-      </div>
+      <!-- Continue button removed as requested -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import TransactionalInsightsBackground from '../../transactional-insights/components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
@@ -56,7 +62,23 @@ const showTitle = ref(false)
 const showCards = ref(false)
 const showCard1 = ref(false)
 const showCard2 = ref(false)
-const showAction = ref(false)
+const showCard3 = ref(false)
+const isReady = ref(false)
+const FULL_RELOAD_KEY = 'entity_intro_force_reload_once'
+
+// Window load handler to reveal content and start animations
+const onWindowLoad = () => {
+  if (isReady.value) return
+  isReady.value = true
+  setTimeout(() => startAnimations(), 150)
+}
+
+const clearSessionExcept = (preserveKey?: string) => {
+  let preserveVal: string | null = null
+  if (preserveKey) preserveVal = sessionStorage.getItem(preserveKey)
+  sessionStorage.clear()
+  if (preserveKey && preserveVal !== null) sessionStorage.setItem(preserveKey, preserveVal)
+}
 
 // Start animations sequence
 const startAnimations = async () => {
@@ -75,25 +97,58 @@ const startAnimations = async () => {
           showCard2.value = true
 
           setTimeout(() => {
-            showAction.value = true
-          }, 600)
+            showCard3.value = true
+          }, 400)
         }, 400)
       }, 300)
     }, 800)
   }, 300)
 }
 
-// Actions
-const continueToLogin = () => {
-  router.push({ name: 'entity-login' })
+// Removed continue button action
+
+// Navigation for cards
+const goToLogin = () => {
+  router.push('/entity/login')
 }
 
-// Start animations on mount
+const goToDashboard = () => {
+  router.push({ path: '/entity/dashboard', query: { intro: '1' } })
+}
+
+const goToApiLogin = () => {
+  router.push({ name: 'apis-open-finance-login' })
+}
+
+// Start animations when fully ready (after window load)
 onMounted(async () => {
+  // Force a one-time full reload before showing this page
+  const alreadyReloaded = sessionStorage.getItem(FULL_RELOAD_KEY) === '1'
+  if (!alreadyReloaded) {
+    // Clear entire session storage on entering, then set flag
+    clearSessionExcept()
+    sessionStorage.setItem(FULL_RELOAD_KEY, '1')
+    // Use replace to avoid adding extra history entry
+    window.location.replace(window.location.href)
+    return
+  }
+
   await nextTick()
-  setTimeout(() => {
-    startAnimations()
-  }, 300)
+
+  // Clear session again on entry but preserve the reload flag to avoid loops
+  clearSessionExcept(FULL_RELOAD_KEY)
+
+  if (document.readyState === 'complete') {
+    onWindowLoad()
+  } else {
+    window.addEventListener('load', onWindowLoad, { once: true })
+  }
+})
+
+onUnmounted(() => {
+  window.removeEventListener('load', onWindowLoad)
+  // Clear the reload flag so next visit also reloads
+  sessionStorage.removeItem(FULL_RELOAD_KEY)
 })
 </script>
 
@@ -111,7 +166,12 @@ onMounted(async () => {
   padding: 40px 20px;
   opacity: 0;
   transform: scale(1.02);
+  visibility: hidden;
+}
+
+.entity-intro-container.ready {
   animation: fadeInScale 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+  visibility: visible;
 }
 
 @keyframes fadeInScale {
@@ -259,124 +319,11 @@ onMounted(async () => {
   animation-delay: 0.2s;
 }
 
-/* Action section */
-.action-section {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+.card-3 {
+  animation-delay: 0.4s;
 }
 
-.action-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.continue-button {
-  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
-  color: white;
-  border: none;
-  padding: 18px 40px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  border-radius: 50px;
+.experience-card.clickable {
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(97, 40, 120, 0.4);
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  animation: buttonGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes buttonGlow {
-  0% {
-    box-shadow: 0 10px 30px rgba(97, 40, 120, 0.4);
-    transform: translateY(0);
-  }
-
-  100% {
-    box-shadow: 0 15px 40px rgba(97, 40, 120, 0.6);
-    transform: translateY(-2px);
-  }
-}
-
-.continue-button:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px rgba(97, 40, 120, 0.6);
-}
-
-.continue-button:active {
-  transform: translateY(-2px);
-}
-
-.button-text {
-  font-size: 1.2rem;
-}
-
-.button-icon {
-  animation: slideArrow 2s ease-in-out infinite;
-}
-
-@keyframes slideArrow {
-
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  50% {
-    transform: translateX(3px);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .main-title {
-    font-size: 2.5rem;
-  }
-
-  .subtitle {
-    font-size: 1.1rem;
-  }
-
-  .experience-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 25px;
-    gap: 20px;
-  }
-
-  .card-title {
-    font-size: 1.2rem;
-  }
-
-  .card-description {
-    font-size: 0.95rem;
-  }
-
-  .continue-button {
-    padding: 16px 35px;
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .entity-intro-container {
-    padding: 20px 15px;
-  }
-
-  .main-title {
-    font-size: 2.2rem;
-  }
-
-  .experience-card {
-    padding: 20px;
-  }
-
-  .card-number {
-    width: 50px;
-    height: 50px;
-    font-size: 1.3rem;
-  }
 }
 </style>
