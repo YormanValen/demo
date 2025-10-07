@@ -224,6 +224,12 @@ onMounted(async () => {
   // Clear localStorage stores when component opens
   localStorage.removeItem('fusion_completed')
   localStorage.removeItem('ti_viewed_banks')
+  
+  // Clear all session storage for entity flows to reset them
+  sessionStorage.removeItem('entity_flow_shown_this_session')
+  sessionStorage.removeItem('revocation_flow_shown_this_session')
+  sessionStorage.removeItem('analytics_flow_shown_this_session')
+  sessionStorage.removeItem('bank_selection_flow_shown_this_session')
 
   await nextTick()
 

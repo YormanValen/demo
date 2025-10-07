@@ -340,6 +340,19 @@ const isEntitySheetOpen = ref(false)
 const showEntityFlow = computed(() => isEntitySheetOpen.value)
 const showEntityNext = ref(false)
 
+// Session storage key for tracking if flow was shown
+const ANALYTICS_FLOW_SHOWN_KEY = 'analytics_flow_shown_this_session'
+
+// Check if analytics flow was already shown this session
+const hasAnalyticsFlowBeenShown = () => {
+  return sessionStorage.getItem(ANALYTICS_FLOW_SHOWN_KEY) === 'true'
+}
+
+// Mark analytics flow as shown for this session
+const markAnalyticsFlowAsShown = () => {
+  sessionStorage.setItem(ANALYTICS_FLOW_SHOWN_KEY, 'true')
+}
+
 const analyticsSteps = [
   { title: 'Acceso a la interfaz de entidades', icon: 'mdi-door-open' },
   { title: 'Administrar los consentimientos', icon: 'mdi-clipboard-text-outline' },
@@ -356,16 +369,25 @@ const onEntityFlowComplete = () => {
 }
 
 const onEntityFlowContinue = () => {
+  // Mark flow as shown and close the bottom sheet when user clicks Continuar
+  markAnalyticsFlowAsShown()
   isEntitySheetOpen.value = false
 }
 
 const onEntitySheetToggle = (open: boolean) => {
   isEntitySheetOpen.value = open
-  if (!open) showEntityNext.value = false
+  if (!open) {
+    showEntityNext.value = false
+    // Mark as shown when user manually closes the sheet
+    markAnalyticsFlowAsShown()
+  }
 }
 
 onMounted(() => {
-  isEntitySheetOpen.value = true
+  // Only show the bottom sheet if it hasn't been shown this session
+  if (!hasAnalyticsFlowBeenShown()) {
+    isEntitySheetOpen.value = true
+  }
 })
 </script>
 

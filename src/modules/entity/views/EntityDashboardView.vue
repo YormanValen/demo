@@ -593,10 +593,25 @@ const showEntityFlow = computed(() => isEntitySheetOpen.value)
 // Use component defaults for slower fill durations
 const validationTime = ref<number | undefined>(undefined)
 const processingTime = ref<number | undefined>(undefined)
+
+// Session storage key for tracking if flow was shown
+const ENTITY_FLOW_SHOWN_KEY = 'entity_flow_shown_this_session'
+
+// Check if entity flow was already shown this session
+const hasEntityFlowBeenShown = () => {
+  return sessionStorage.getItem(ENTITY_FLOW_SHOWN_KEY) === 'true'
+}
+
+// Mark entity flow as shown for this session
+const markEntityFlowAsShown = () => {
+  sessionStorage.setItem(ENTITY_FLOW_SHOWN_KEY, 'true')
+}
 const onEntitySheetToggle = (open: boolean) => {
   isEntitySheetOpen.value = open
   if (!open) {
     showEntityNext.value = false
+    // Mark as shown when user manually closes the sheet
+    markEntityFlowAsShown()
   }
 }
 
@@ -611,7 +626,8 @@ const onEntityFlowComplete = () => {
 }
 
 const onEntityFlowContinue = () => {
-  // Close the bottom sheet when user clicks Continuar
+  // Mark flow as shown and close the bottom sheet when user clicks Continuar
+  markEntityFlowAsShown()
   isEntitySheetOpen.value = false
 }
 
@@ -1068,8 +1084,10 @@ onMounted(() => {
   startDate.value = '2025-09-01'
   endDate.value = '2025-09-26'
   window.addEventListener('resize', handleResize)
-  // Open bottom sheet by default when entering dashboard
-  isEntitySheetOpen.value = true
+  // Open bottom sheet by default only if not shown before in this session
+  if (!hasEntityFlowBeenShown()) {
+    isEntitySheetOpen.value = true
+  }
 })
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
