@@ -17,9 +17,9 @@ onMounted(() => {
   }, 5000)
 })
 
-const deviceOptions: { key: DeviceKind; label: string }[] = [
-  { key: 'full', label: 'Pantalla completa' },
-  { key: 'tablet', label: 'Tableta' },
+const deviceOptions: { key: DeviceKind; label: string; icon: string }[] = [
+  { key: 'full', label: 'Pantalla completa', icon: 'mdi-monitor' },
+  { key: 'tablet', label: 'Tableta', icon: 'mdi-tablet' },
 ]
 
 const router = useRouter()
@@ -91,7 +91,7 @@ onMounted(() => {
   const handleFullscreenChange = () => {
     isFullscreen.value = !!document.fullscreenElement
   }
-  
+
   document.addEventListener('fullscreenchange', handleFullscreenChange)
   document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
   document.addEventListener('mozfullscreenchange', handleFullscreenChange)
@@ -127,10 +127,7 @@ onMounted(() => {
 
     <!-- Floating fullscreen button -->
     <div class="fullscreen-control">
-      <button 
-        class="fullscreen-btn" 
-        :class="{ active: isFullscreen }"
-        @click="toggleFullscreen"
+      <button class="fullscreen-btn" :class="{ active: isFullscreen }" @click="toggleFullscreen"
         :title="isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa del navegador'">
         <div class="fullscreen-icon" :class="{ 'exit': isFullscreen }"></div>
       </button>
@@ -139,9 +136,11 @@ onMounted(() => {
     <!-- Floating device selector -->
     <div class="device-controls">
       <!-- Device mode buttons -->
-      <button v-for="opt in availableDeviceOptions" :key="opt.key" :class="['device-btn', { active: currentDevice === opt.key }]"
-        @click="currentDevice = opt.key">
-        {{ opt.label }}
+      <button v-for="opt in availableDeviceOptions" :key="opt.key"
+        :class="['device-btn', { active: currentDevice === opt.key }]" 
+        @click="currentDevice = opt.key"
+        :title="opt.label">
+        <v-icon size="20">{{ opt.icon }}</v-icon>
       </button>
     </div>
 
@@ -198,7 +197,7 @@ onMounted(() => {
   right: 20px;
   z-index: 9999;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -225,17 +224,18 @@ onMounted(() => {
 }
 
 .device-btn {
-  padding: 10px 14px;
+  padding: 10px;
   border: none;
   border-radius: 10px;
   background: transparent;
   color: #6b7280;
-  font-weight: 500;
-  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 70px;
-  text-align: center;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .device-btn:hover {

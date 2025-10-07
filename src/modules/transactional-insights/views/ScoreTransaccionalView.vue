@@ -144,24 +144,19 @@ const currentPersonIndex = ref(0)
 // Different people data
 const people = [
   {
-    name: 'Juan',
-    emoji: '👨‍🏫',
+    name: 'Camilo',
+    emoji: '👨‍💼',
     targetScore: 770
   },
   {
-    name: 'María',
-    emoji: '👩‍💼',
+    name: 'José',
+    emoji: '👨‍🏫',
     targetScore: 685
   },
   {
-    name: 'Carlos',
-    emoji: '👨‍🔬',
+    name: 'María',
+    emoji: '👩‍⚕️',
     targetScore: 742
-  },
-  {
-    name: 'Ana',
-    emoji: '👩‍🎨',
-    targetScore: 695
   }
 ]
 

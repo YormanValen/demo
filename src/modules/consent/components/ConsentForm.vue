@@ -59,9 +59,9 @@ const emit = defineEmits(['trigger-animation', 'view-document']);
 
 // Computed para validar si se puede continuar
 const canContinue = computed(() => {
-  // Solo requiere que el captcha esté marcado
-  // Los checkboxes de consentimientos son opcionales
-  return captchaChecked.value;
+  // Requiere que el captcha esté marcado Y que el checkbox de tratamiento de datos esté marcado
+  const dataProcessingConsent = benefits.value.find(b => b.id === 'dataProcessing');
+  return captchaChecked.value && dataProcessingConsent?.checked === true;
 });
 
 const handleNextClick = () => {
@@ -86,6 +86,7 @@ const handleNextClick = () => {
         <div class="benefit-content">
           <h3 class="benefit-title">
             {{ benefit.title }}
+            <span v-if="benefit.id === 'dataProcessing'" class="required-indicator">*</span>
             <a
               v-if="benefit.hasDocument"
               href="#"
@@ -123,6 +124,7 @@ const handleNextClick = () => {
     <!-- Mensaje de consentimiento -->
     <div class="consent-message">
       <p>Tú decides qué autorizas. Siempre puedes cambiar o revocar tu consentimiento cuando lo necesites</p>
+      <p class="required-message">* El tratamiento de datos para fines de inclusión financiera es obligatorio para continuar</p>
     </div>
 
     <!-- Botón Continuar -->
@@ -213,6 +215,12 @@ const handleNextClick = () => {
   color: #7a1f6a;
 }
 
+.required-indicator {
+  color: #e53e3e;
+  font-weight: bold;
+  margin-left: 4px;
+}
+
 .captcha-container {
   display: flex;
   justify-content: flex-start;
@@ -276,6 +284,13 @@ const handleNextClick = () => {
   font-size: 14px;
   color: #666;
   font-style: italic;
+}
+
+.required-message {
+  color: #e53e3e !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  margin-top: 8px !important;
 }
 
 .button-container {

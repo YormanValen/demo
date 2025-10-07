@@ -84,19 +84,19 @@ const visibleChecks = ref<Set<string>>(new Set())
 const people = ref([
   {
     id: 1,
-    name: "Ana García",
+    name: "Camilo",
     age: 28,
-    emoji: "👩‍💼"
+    emoji: "👨‍💼"
   },
   {
     id: 2,
-    name: "Carlos López",
+    name: "José",
     age: 35,
     emoji: "👨‍🏫"
   },
   {
     id: 3,
-    name: "María Rodríguez",
+    name: "María",
     age: 42,
     emoji: "👩‍⚕️"
   }
@@ -153,18 +153,18 @@ const showPeopleSequentially = async (delay = 600) => {
 
 // Define which checks should be visible (categoryIndex-personIndex)
 const predefinedChecks = [
-  // Ana García (persona 0)
+  // Camilo (persona 0)
   '1-0', // Amante de la comida
   '2-0', // Viajero frecuente
   '4-0', // Entusiasta de cuidado personal
   '5-0', // Explorador cultural premium
 
-  // Carlos López (persona 1)
+  // José (persona 1)
   '0-1', // Propietario de vehículo
   '1-1', // Amante de la comida
   '3-1', // Dueño de mascotas
 
-  // María Rodríguez (persona 2)
+  // María (persona 2)
   '0-2', // Propietario de vehículo
   '2-2', // Viajero frecuente
   '3-2', // Dueño de mascotas
