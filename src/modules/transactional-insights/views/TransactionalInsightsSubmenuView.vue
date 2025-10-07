@@ -164,6 +164,7 @@
       </div>
 
       <div class="menu-option" :class="{ 'visible': visibleOptions.has(6) }" @click="navigateToOption('perfil')">
+        <div class="poc-chip">PoC</div>
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" />
@@ -188,6 +189,7 @@
       </div>
 
       <div class="menu-option" :class="{ 'visible': visibleOptions.has(7) }" @click="navigateToOption('score')">
+        <div class="poc-chip">PoC</div>
         <div class="option-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
             <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" />
@@ -510,6 +512,7 @@ onMounted(async () => {
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateX(-50px);
+  position: relative;
 }
 
 .menu-option.visible {
@@ -622,6 +625,23 @@ onMounted(async () => {
 .back-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(97, 40, 120, 0.4);
+}
+
+/* PoC chip */
+.poc-chip {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(186, 45, 125, 0.08);
+  color: rgb(186, 45, 125);
+  border: 1px solid rgba(186, 45, 125, 0.25);
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  pointer-events: none; /* no interfiere con el click de la tarjeta */
 }
 
 /* Responsive Design */
