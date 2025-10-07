@@ -458,16 +458,12 @@
           </div>
         </div>
 
-        <!-- Transactional Insights Section -->
+        <!-- Navigation back to menu -->
         <div class="transactional-insights-section">
           <div class="insights-container">
             <div class="insights-content">
-              <h3 class="insights-title">¿Listo para el siguiente paso?</h3>
-              <p class="insights-description">
-                Transforma los datos que recibes en inteligencia con nuestro motor de categorización transaccional.
-              </p>
-              <button class="insights-button" @click="handleTransactionalInsightsClick">
-                Ir a Transactional Insights
+              <button class="insights-button" @click="goBackToMenu">
+                Volver al menú
               </button>
             </div>
           </div>
@@ -565,7 +561,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import * as pdfjsLib from 'pdfjs-dist'
 // Use worker via URL so Vite resolves it correctly
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -579,6 +575,7 @@ import EntityFlowVisualization from '../components/EntityFlowVisualization.vue'
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker as unknown as string
 
 const router = useRouter()
+const route = useRoute()
 const selectedPasarela = ref('experian')
 const searchType = ref('identification')
 const searchQuery = ref('')
@@ -911,10 +908,9 @@ const navigateToTransactionalInsights = () => {
   // Make function available globally for sidebar to call
   ; (window as any).triggerTransactionalInsightsAnimation = triggerTransactionalInsightsAnimation
 
-// Handle Transactional Insights button click
-const handleTransactionalInsightsClick = async () => {
-  // Trigger the animation on the current page
-  await triggerTransactionalInsightsAnimation()
+// Volver al menú (intro de entidad)
+const goBackToMenu = () => {
+  router.push('/entity/intro')
 }
 
 
@@ -1087,6 +1083,14 @@ onMounted(() => {
   // Open bottom sheet by default only if not shown before in this session
   if (!hasEntityFlowBeenShown()) {
     isEntitySheetOpen.value = true
+  }
+  // If intro flag is present in query, show full-screen animation
+  const introFlag = route.query.intro
+  if (introFlag === '1' || introFlag === 'true' || introFlag === 1 || introFlag === true) {
+    // Defer to ensure DOM is ready
+    setTimeout(() => {
+      triggerTransactionalInsightsAnimation()
+    }, 100)
   }
 })
 onUnmounted(() => {

@@ -265,6 +265,25 @@ const routes: RouteRecordRaw[] = [
     name: 'entity-transactional-insights-farewell',
     component: () => import('../modules/transactional-insights/views/FarewellView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/apis-open-finance/login',
+    name: 'apis-open-finance-login',
+    component: () => import('../modules/apis-open-finance/views/LoginView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/apis-open-finance/dashboard',
+    name: 'apis-open-finance-dashboard',
+    component: () => import('../modules/apis-open-finance/views/DashboardView.vue'),
+    meta: { hideLayout: true }
+  }
+  ,
+  {
+    path: '/apis-open-finance/overview',
+    name: 'apis-open-finance-overview',
+    component: () => import('../modules/apis-open-finance/views/OverviewView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 

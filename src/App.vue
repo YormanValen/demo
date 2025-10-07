@@ -33,7 +33,8 @@ const goHome = () => {
 // Computed property to check if we're in full screen mode and on entity routes
 const isFullScreenEntityDashboard = computed(() => {
   const entityRoutes = ['/entity/dashboard', '/entity/consent-revocation', '/entity/analytics']
-  return currentDevice.value === 'full' && entityRoutes.includes(route.path)
+  const apiRoutes = ['/apis-open-finance/dashboard', '/apis-open-finance/overview']
+  return currentDevice.value === 'full' && (entityRoutes.includes(route.path) || apiRoutes.includes(route.path))
 })
 
 // Computed property to check if we're in entity experience
