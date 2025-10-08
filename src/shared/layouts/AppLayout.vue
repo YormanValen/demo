@@ -24,11 +24,18 @@
       </div>
     </footer>
   </div>
+  <!-- Global entity sheet header across all /entity routes (teleports to body) -->
+  <EntityAnimationContainer 
+    v-if="isEntityHeaderVisible"
+    :is-visible="true"
+    :clickable-header="false"
+  />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import EntityAnimationContainer from '../../modules/entity/components/EntityAnimationContainer.vue'
 
 const route = useRoute()
 
@@ -39,6 +46,19 @@ const showProgressBar = computed(() => {
 const hideLayout = computed(() => {
   return route.meta?.hideLayout === true
 })
+
+// Show sheet header on all /entity routes except those that already manage their own bottom sheet
+const isEntityPath = computed(() => route.path.startsWith('/entity'))
+const entityHeaderExcluded = computed(() => {
+  // Views that include their own EntityAnimationContainer with flow content
+  return [
+    '/entity/dashboard',
+    '/entity/consent-revocation',
+    '/entity/analytics',
+    '/entity/transactional-insights/bank-selection'
+  ].includes(route.path)
+})
+const isEntityHeaderVisible = computed(() => isEntityPath.value && !entityHeaderExcluded.value)
 </script>
 
 <style scoped>

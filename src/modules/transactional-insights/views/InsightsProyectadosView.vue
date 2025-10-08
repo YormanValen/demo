@@ -17,12 +17,14 @@
       <p class="subtitle">Proyección de ingresos, gastos y flujos de caja del cliente para cada uno de los siguientes 24
         meses.</p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">Desglosado para ingresos, egresos y los grupos del producto Affordability.</li>
-          <li class="description-text">Requiere mínimo 12 meses de historial de transacciones</li>
-          <li class="description-text">Indicadores macroeconómicos provenientes de fuentes internacionales
-            especializadas y actualizados</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">Desglosado para ingresos, egresos y los grupos del producto Affordability.</li>
+            <li class="description-text">Requiere mínimo 12 meses de historial de transacciones</li>
+            <li class="description-text">Indicadores macroeconómicos provenientes de fuentes internacionales
+              especializadas y actualizados</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -58,7 +60,6 @@
               <div class="ml-status">
                 <div class="gear-animation" :class="{ 'spinning': mlProcessing }">⚙️</div>
                 <p class="ml-description" v-if="!mlProcessing">Listo para procesar</p>
-                <p class="ml-description processing-text" v-else>Procesando datos... {{ processingSeconds }}s</p>
               </div>
             </div>
           </div>
@@ -98,66 +99,66 @@
               <div class="legend-item"><span class="swatch swatch-expense"></span>Gastos</div>
             </div>
 
-            <!-- Animated Chart -->
-            <div class="animated-chart">
-              <svg width="100%" height="360" viewBox="0 0 860 360" fill="none">
-                <!-- Timeline -->
-                <line :x1="chartLeft" :y1="baselineY" :x2="chartRight" :y2="baselineY" stroke="#e5e7eb"
-                  stroke-width="3" />
+            <!-- Animated Chart with Scroll -->
+            <div class="animated-chart-container">
+              <div class="animated-chart" :style="{ transform: `translateX(-${chartScrollX}px)` }">
+                <svg width="1800" height="360" viewBox="0 0 1800 360" fill="none">
+                  <!-- Extended Timeline -->
+                  <line :x1="chartLeft" :y1="baselineY" :x2="chartLeft + (pastCount + futureCount) * barGap"
+                    :y2="baselineY" stroke="#e5e7eb" stroke-width="3" />
 
-                <!-- Past bars: negative (purple) and positive (blue) -->
-                <rect v-for="(h, index) in pastNegHeights" :key="`past-neg-${index}`" :x="chartLeft + index * barGap"
-                  :y="baselineY" :width="barWidth" :height="h" fill="#982fa3"
-                  :opacity="visiblePastBars.has(index) ? 0.9 : 0" class="past-bar" />
-                <rect v-for="(h, index) in pastPosHeights" :key="`past-pos-${index}`" :x="chartLeft + index * barGap"
-                  :y="baselineY - h" :width="barWidth" :height="h" fill="#002db8"
-                  :opacity="visiblePastBars.has(index) ? 0.95 : 0" class="past-bar" />
+                  <!-- Past bars: negative (purple) and positive (blue) -->
+                  <rect v-for="(h, index) in pastNegHeights" :key="`past-neg-${index}`" :x="chartLeft + index * barGap"
+                    :y="baselineY" :width="barWidth" :height="h" fill="#982fa3"
+                    :opacity="visiblePastBars.has(index) ? 0.9 : 0" class="past-bar" />
+                  <rect v-for="(h, index) in pastPosHeights" :key="`past-pos-${index}`" :x="chartLeft + index * barGap"
+                    :y="baselineY - h" :width="barWidth" :height="h" fill="#002db8"
+                    :opacity="visiblePastBars.has(index) ? 0.95 : 0" class="past-bar" />
 
-                <!-- Present moment indicator -->
-                <line :x1="presentX" y1="50" :x2="presentX" y2="230" stroke="#ef4444" stroke-width="4"
-                  stroke-dasharray="8,4" />
-                <text :x="presentX" y="40" fill="#ef4444" font-size="14" font-weight="600" text-anchor="middle">{{
-                  presentMonthLabel }}</text>
+                  <!-- Present moment indicator -->
+                  <line :x1="presentX" y1="50" :x2="presentX" y2="230" stroke="#ef4444" stroke-width="4"
+                    stroke-dasharray="8,4" />
+                  <text :x="presentX" y="40" fill="#ef4444" font-size="14" font-weight="600" text-anchor="middle">{{
+                    presentMonthLabel }}</text>
 
-                <!-- Future bars (animated): show pos (blue) and neg (purple) per month -->
-                <rect v-for="(h, index) in futurePosHeights" :key="`future-pos-${index}`"
-                  :x="chartLeft + (pastCount + index) * barGap" :y="baselineY - h" :width="barWidth" :height="h"
-                  fill="#002db8" :opacity="visibleFutureBars.has(index) ? 0.95 : 0" class="future-bar" />
-                <rect v-for="(h, index) in futureNegHeights" :key="`future-neg-${index}`"
-                  :x="chartLeft + (pastCount + index) * barGap" :y="baselineY" :width="barWidth" :height="h"
-                  fill="#982fa3" :opacity="visibleFutureBars.has(index) ? 0.9 : 0" class="future-bar" />
+                  <!-- Year dividers -->
+                  <g v-for="divider in yearDividers" :key="`year-${divider.year}`">
+                    <line :x1="divider.x" y1="50" :x2="divider.x" y2="230" stroke="#000000" stroke-width="3"
+                      stroke-dasharray="6,3" opacity="0.8" />
+                    <text :x="divider.x" y="35" fill="#000000" font-size="13" font-weight="600" text-anchor="middle">{{
+                      divider.year }}</text>
+                  </g>
 
-                <!-- Month labels: 12 past, present, 12 future -->
-                <text v-for="(label, i) in pastMonthLabels" :key="`pl-${i}`" :x="chartLeft + i * barGap + barWidth / 2"
-                  :y="labelY" fill="#9ca3af" font-size="10" text-anchor="middle">{{ label }}</text>
-                <text :x="presentX" :y="labelY" fill="#ef4444" font-size="11" font-weight="600"
-                  text-anchor="middle"></text>
-                <text v-for="(label, i) in futureMonthLabels" :key="`fl-${i}`"
-                  :x="chartLeft + (pastCount + i) * barGap + barWidth / 2" :y="labelY" fill="#9ca3af" font-size="10"
-                  text-anchor="middle">{{ label }}</text>
-              </svg>
-            </div>
+                  <!-- Future bars (animated): show pos (blue) and neg (purple) per month -->
+                  <rect v-for="(h, index) in futurePosHeights" :key="`future-pos-${index}`"
+                    :x="chartLeft + (pastCount + index) * barGap" :y="baselineY - h" :width="barWidth" :height="h"
+                    fill="#002db8" :opacity="visibleFutureBars.has(index) ? 0.95 : 0" class="future-bar" />
+                  <rect v-for="(h, index) in futureNegHeights" :key="`future-neg-${index}`"
+                    :x="chartLeft + (pastCount + index) * barGap" :y="baselineY" :width="barWidth" :height="h"
+                    fill="#982fa3" :opacity="visibleFutureBars.has(index) ? 0.9 : 0" class="future-bar" />
 
-            <div class="chart-note" :class="{ 'visible': showChartNote }">
-              <p>El gráfico se genera como resultado del procesamiento de ML, mostrando las proyecciones para los
-                próximos 24 meses</p>
+                  <!-- Month labels: 12 past, present, 36 future -->
+                  <text v-for="(label, i) in pastMonthLabels" :key="`pl-${i}`"
+                    :x="chartLeft + i * barGap + barWidth / 2" :y="labelY" fill="#9ca3af" font-size="10"
+                    text-anchor="middle">{{ label }}</text>
+                  <text :x="presentX" :y="labelY" fill="#ef4444" font-size="11" font-weight="600"
+                    text-anchor="middle"></text>
+                  <text v-for="(label, i) in futureMonthLabels" :key="`fl-${i}`"
+                    :x="chartLeft + (pastCount + i) * barGap + barWidth / 2" :y="labelY" fill="#9ca3af" font-size="10"
+                    text-anchor="middle">{{ label }}</text>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Continue Button (before fusion) -->
+        <!-- Continue Button (after processing) -->
         <div v-if="showContinue" class="continue-container">
           <button class="continue-button" @click="onContinue">Continuar</button>
         </div>
       </div>
     </div>
 
-    <!-- Back Button -->
-    <div class="button-container" :class="{ 'visible': showButton }">
-      <button class="back-button" @click="goBack">
-        ← Volver al Menú
-      </button>
-    </div>
   </div>
 </template>
 
@@ -176,7 +177,6 @@ const showML = ref(false)
 const mlProcessing = ref(false)
 const showChart = ref(false)
 const showChartNote = ref(false)
-const showButton = ref(false)
 const showContinue = ref(false)
 const visibleCards = ref<Set<number>>(new Set())
 const movingCards = ref<Set<number>>(new Set())
@@ -184,6 +184,9 @@ const fadingCards = ref<Set<number>>(new Set())
 const visiblePastBars = ref<Set<number>>(new Set())
 const visibleFutureBars = ref<Set<number>>(new Set())
 const processingSeconds = ref(6)
+// Scroll animation
+const chartScrollX = ref(0)
+const isScrolling = ref(false)
 // Cards and movement
 const cardsGone = ref(false)
 const cardMoveStyles = ref<Record<number, Record<string, string>>>({})
@@ -197,17 +200,18 @@ const chartLeft = 80
 const chartRight = 780
 const baselineY = 230
 const labelY = baselineY + 100
-const totalBars = 24
-const barGap = Math.floor((chartRight - chartLeft) / totalBars)
+const visibleBars = 24 // Only 24 bars visible initially
+const barGap = Math.floor((chartRight - chartLeft) / visibleBars)
 const barWidth = 16
 const pastCount = 12
 const presentX = chartLeft + pastCount * barGap
+const futureCount = 36 // Extended future months to 3 years
 
 // Alturas de barras: para cada mes, una positiva (arriba) y una negativa (abajo)
 const pastPosHeights = ref<number[]>(Array(12).fill(0))
 const pastNegHeights = ref<number[]>(Array(12).fill(0))
-const futurePosHeights = ref<number[]>(Array(12).fill(0))
-const futureNegHeights = ref<number[]>(Array(12).fill(0))
+const futurePosHeights = ref<number[]>(Array(36).fill(0)) // Extended to 36 months (3 years)
+const futureNegHeights = ref<number[]>(Array(36).fill(0)) // Extended to 36 months (3 years)
 
 const generateBarHeights = () => {
   // Generador con tendencia ascendente y pequeñas caídas locales
@@ -229,13 +233,13 @@ const generateBarHeights = () => {
     return out
   }
 
-  const pos24 = genTrendingHeights(24, 30, 120)
-  const neg24 = genTrendingHeights(24, 20, 90)
+  const pos48 = genTrendingHeights(48, 30, 120) // 12 past + 36 future = 48 total
+  const neg48 = genTrendingHeights(48, 20, 90)
 
-  pastPosHeights.value = pos24.slice(0, pastCount)
-  futurePosHeights.value = pos24.slice(pastCount)
-  pastNegHeights.value = neg24.slice(0, pastCount)
-  futureNegHeights.value = neg24.slice(pastCount)
+  pastPosHeights.value = pos48.slice(0, pastCount)
+  futurePosHeights.value = pos48.slice(pastCount)
+  pastNegHeights.value = neg48.slice(0, pastCount)
+  futureNegHeights.value = neg48.slice(pastCount)
 }
 
 // Month labels based on current date
@@ -247,8 +251,63 @@ const presentMonthLabel = `${monthNames[now.getMonth()]} ${now.getFullYear()}`
 const axisMonthNames = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic']
 const formatAxisMonth = (d: Date) => axisMonthNames[d.getMonth()]
 const pastMonthLabels = ref<string[]>(Array.from({ length: 12 }, (_, i) => formatAxisMonth(addMonths(now, -12 + i))))
-const futureMonthLabels = ref<string[]>(Array.from({ length: 12 }, (_, i) => formatAxisMonth(addMonths(now, i + 1))))
+const futureMonthLabels = ref<string[]>(Array.from({ length: 36 }, (_, i) => formatAxisMonth(addMonths(now, i + 1))))
 
+// Calculate year divider positions
+const getYearDividerPositions = () => {
+  const positions: { year: number, x: number, monthIndex: number }[] = []
+  const currentYear = now.getFullYear()
+
+  // Check each future month for year changes
+  for (let i = 0; i < 36; i++) {
+    const futureDate = addMonths(now, i + 1)
+    const monthYear = futureDate.getFullYear()
+
+    // If this is January of a new year, mark it as a divider
+    if (futureDate.getMonth() === 0 && monthYear > currentYear) {
+      positions.push({
+        year: monthYear,
+        x: chartLeft + (pastCount + i) * barGap,
+        monthIndex: i
+      })
+    }
+  }
+
+  return positions
+}
+
+const yearDividers = getYearDividerPositions()
+
+// Reset animation state
+const resetAnimationState = () => {
+  // Reset cards visibility and positions
+  movingCards.value.clear()
+  fadingCards.value.clear()
+  cardsGone.value = false
+  cardMoveStyles.value = {}
+
+  // Reset ML processing
+  mlProcessing.value = false
+
+  // Reset chart visibility and scroll
+  showChart.value = false
+  chartScrollX.value = 0
+  isScrolling.value = false
+
+  // Reset bars visibility
+  visiblePastBars.value.clear()
+  visibleFutureBars.value.clear()
+
+  // Reset notes but keep continue button visible
+  showChartNote.value = false
+  // showContinue.value stays true - always visible
+
+  // Keep cards and ML visible for restart
+  visibleCards.value.clear()
+  visibleCards.value.add(0)
+  visibleCards.value.add(1)
+  showML.value = true
+}
 
 // Animation helpers
 const showPastBarsSequentially = async (delay = 250) => {
@@ -265,7 +324,7 @@ const showPastBarsSequentially = async (delay = 250) => {
 const showFutureBarsSequentially = async (delay = 250) => {
   return new Promise<void>((resolve) => {
     const showNextBar = (index: number) => {
-      if (index >= futurePosHeights.value.length) {
+      if (index >= 12) { // Only show first 12 initially
         resolve()
         return
       }
@@ -278,6 +337,45 @@ const showFutureBarsSequentially = async (delay = 250) => {
     }
 
     showNextBar(0)
+  })
+}
+
+const animateChartScroll = async () => {
+  isScrolling.value = true
+  const scrollDistance = 400 // reduced pixels to finish earlier and show remaining bars
+  const duration = 3000 // 3 seconds for quicker animation
+  const steps = 90
+  const stepDistance = scrollDistance / steps
+  const stepDuration = duration / steps
+  const additionalBars = futurePosHeights.value.length - 12 // bars beyond the first 12 (now 24 additional bars)
+
+  return new Promise<void>((resolve) => {
+    let currentStep = 0
+    const scrollStep = () => {
+      if (currentStep >= steps) {
+        isScrolling.value = false
+        resolve()
+        return
+      }
+
+      chartScrollX.value += stepDistance
+
+      // Show bars progressively during scroll based on scroll progress
+      const scrollProgress = currentStep / steps
+      const barsToShow = Math.floor(scrollProgress * additionalBars)
+
+      for (let i = 0; i < barsToShow; i++) {
+        const barIndex = 12 + i
+        if (barIndex < futurePosHeights.value.length && !visibleFutureBars.value.has(barIndex)) {
+          visibleFutureBars.value.add(barIndex)
+        }
+      }
+
+      currentStep++
+      setTimeout(scrollStep, stepDuration)
+    }
+
+    scrollStep()
   })
 }
 
@@ -317,28 +415,62 @@ const runProcessing = async () => {
   const timer = setInterval(() => {
     processingSeconds.value = Math.max(0, processingSeconds.value - 1)
   }, 1000)
-  setTimeout(() => {
-    clearInterval(timer)
-    mlProcessing.value = false
-    showChart.value = true
-    // revelar barras: pasado luego futuro, lentamente
+
+  return new Promise<void>((resolve) => {
     setTimeout(() => {
-      showPastBarsSequentially(320)
-        .then(() => showFutureBarsSequentially(320))
-        .then(() => {
-          setTimeout(() => {
-            showChartNote.value = true
-            showButton.value = true
-          }, 600)
-        })
+      clearInterval(timer)
+      mlProcessing.value = false
+      showChart.value = true
+      // revelar barras: pasado luego futuro, lentamente
+      setTimeout(() => {
+        showPastBarsSequentially(320)
+          .then(() => showFutureBarsSequentially(320))
+          .then(() => {
+            // Wait a moment then start scroll animation to show more bars
+            return new Promise(resolveScroll => {
+              setTimeout(() => {
+                animateChartScroll().then(resolveScroll)
+              }, 300) // reduced from 1000ms to 300ms
+            })
+          })
+          .then(() => {
+            setTimeout(() => {
+              showChartNote.value = true
+              // showContinue stays visible - no need to set it here
+              // Wait 3 seconds then resolve to allow restart
+              setTimeout(() => {
+                resolve()
+              }, 3000)
+            }, 600)
+          })
+      }, 200)
+    }, 6000)
+  })
+}
+
+const runAnimationCycle = async () => {
+  // Wait 3 seconds before starting fusion
+  setTimeout(async () => {
+    // Start the fusion and processing cycle
+    await moveCardsIntoML()
+    setTimeout(async () => {
+      await runProcessing()
+      // Wait 3 seconds after animation completes, then restart
+      setTimeout(() => {
+        resetAnimationState()
+        // Restart the cycle
+        setTimeout(() => runAnimationCycle(), 500)
+      }, 3000)
     }, 200)
-  }, 6000)
+  }, 3000)
 }
 
 // Start animations
 const startAnimations = async () => {
   // 1. Título y layout
   showTitle.value = true
+  // Mostrar botón continuar inmediatamente y mantenerlo visible
+  showContinue.value = true
   setTimeout(() => {
     showContent.value = true
     setTimeout(async () => {
@@ -347,25 +479,14 @@ const startAnimations = async () => {
       visibleCards.value.add(0)
       visibleCards.value.add(1)
       showML.value = true
-      // 3. Mostrar botón Continuar para ejecutar la fusión
-      setTimeout(() => {
-        showContinue.value = true
-      }, 400)
+      // 3. Iniciar el ciclo infinito de animación inmediatamente
+      runAnimationCycle()
     }, 300)
   }, 300)
 }
 
-// Continue action: fuse cards into ML and process
+// Continue action: navigate to submenu
 const onContinue = async () => {
-  if (showContinue.value) {
-    showContinue.value = false
-    await moveCardsIntoML()
-    setTimeout(() => runProcessing(), 200)
-  }
-}
-
-// Navigation
-const goBack = () => {
   router.push({ name: 'entity-transactional-insights-submenu' })
 }
 
@@ -533,10 +654,40 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
+}
+
 .description-list {
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
   margin: 0;
+}
+
+.description-list li {
+  position: relative;
+  padding-left: 25px;
+  margin: 8px 0;
+}
+
+.description-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
 }
 
 .description-text {
@@ -949,8 +1100,16 @@ onMounted(async () => {
   line-height: 1.4;
 }
 
-.animated-chart {
+.animated-chart-container {
+  width: 100%;
+  overflow: hidden;
   margin: 20px 0;
+  position: relative;
+}
+
+.animated-chart {
+  transition: transform 0.1s ease-out;
+  will-change: transform;
 }
 
 .future-bar {
@@ -1055,41 +1214,6 @@ onMounted(async () => {
 }
 
 
-/* Button */
-.button-container {
-  text-align: center;
-  margin-top: 40px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  z-index: 10;
-}
-
-.button-container.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.back-button {
-  background: transparent;
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.back-button:hover {
-  border-color: rgb(186, 45, 125);
-  color: rgb(186, 45, 125);
-  transform: translateY(-2px);
-}
 
 /* Continue CTA */
 .continue-container {

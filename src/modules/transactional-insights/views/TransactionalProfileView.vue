@@ -5,13 +5,15 @@
 
     <!-- Title at top -->
     <div class="title-container" :class="{ 'visible': showTitle }">
-      <h1 class="main-title">Perfil transaccional</h1>
+      <h1 class="main-title">Perfil Transaccional</h1>
       <p class="subtitle">Conocimiento de los estilos de vida y preferencias del cliente para una mejor segmentación.
       </p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">20 perfiles disponibles, en constante expansión.</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">20 perfiles disponibles, en constante expansión.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -23,12 +25,8 @@
           <!-- Header with people -->
           <div class="table-header">
             <div class="category-header"></div>
-            <div 
-              v-for="(person, index) in people" 
-              :key="person.id"
-              class="person-column"
-              :class="{ 'visible': visiblePeople.has(index) }"
-            >
+            <div v-for="(person, index) in people" :key="person.id" class="person-column"
+              :class="{ 'visible': visiblePeople.has(index) }">
               <div class="person-avatar">
                 <span class="person-emoji">{{ person.emoji }}</span>
               </div>
@@ -39,28 +37,17 @@
 
           <!-- Category rows -->
           <div class="table-body">
-            <div 
-              v-for="(category, categoryIndex) in categories" 
-              :key="category.id"
-              class="category-row"
-              :class="{ 'visible': visibleCategories.has(categoryIndex) }"
-            >
+            <div v-for="(category, categoryIndex) in categories" :key="category.id" class="category-row"
+              :class="{ 'visible': visibleCategories.has(categoryIndex) }">
               <div class="category-info">
                 <div class="category-icon">
                   <span>{{ category.icon }}</span>
                 </div>
                 <span class="category-name">{{ category.name }}</span>
               </div>
-              
-              <div 
-                v-for="(person, personIndex) in people" 
-                :key="`${category.id}-${person.id}`"
-                class="check-cell"
-              >
-                <div 
-                  class="check-mark"
-                  :class="{ 'visible': visibleChecks.has(`${categoryIndex}-${personIndex}`) }"
-                >
+
+              <div v-for="(person, personIndex) in people" :key="`${category.id}-${person.id}`" class="check-cell">
+                <div class="check-mark" :class="{ 'visible': visibleChecks.has(`${categoryIndex}-${personIndex}`) }">
                   ✓
                 </div>
               </div>
@@ -70,11 +57,9 @@
       </div>
     </div>
 
-    <!-- Back Button -->
-    <div class="button-container" :class="{ 'visible': showButton }">
-      <button class="back-button" @click="goBack">
-        ← Volver al Menú
-      </button>
+    <!-- Continue Button (always visible) -->
+    <div class="continue-container">
+      <button class="continue-button" @click="onContinue">Continuar</button>
     </div>
   </div>
 </template>
@@ -90,7 +75,7 @@ const router = useRouter()
 const showTitle = ref(false)
 const showContent = ref(false)
 const showTable = ref(false)
-const showButton = ref(false)
+// const showButton = ref(false) // removed: now we show a persistent Continue button
 const visiblePeople = ref<Set<number>>(new Set())
 const visibleCategories = ref<Set<number>>(new Set())
 const visibleChecks = ref<Set<string>>(new Set())
@@ -99,19 +84,19 @@ const visibleChecks = ref<Set<string>>(new Set())
 const people = ref([
   {
     id: 1,
-    name: "Ana García",
+    name: "Camilo",
     age: 28,
-    emoji: "👩‍💼"
+    emoji: "👨‍💼"
   },
   {
     id: 2,
-    name: "Carlos López",
+    name: "José",
     age: 35,
     emoji: "👨‍🏫"
   },
   {
     id: 3,
-    name: "María Rodríguez",
+    name: "María",
     age: 42,
     emoji: "👩‍⚕️"
   }
@@ -168,18 +153,18 @@ const showPeopleSequentially = async (delay = 600) => {
 
 // Define which checks should be visible (categoryIndex-personIndex)
 const predefinedChecks = [
-  // Ana García (persona 0)
+  // Camilo (persona 0)
   '1-0', // Amante de la comida
   '2-0', // Viajero frecuente
   '4-0', // Entusiasta de cuidado personal
   '5-0', // Explorador cultural premium
-  
-  // Carlos López (persona 1)
+
+  // José (persona 1)
   '0-1', // Propietario de vehículo
   '1-1', // Amante de la comida
   '3-1', // Dueño de mascotas
-  
-  // María Rodríguez (persona 2)
+
+  // María (persona 2)
   '0-2', // Propietario de vehículo
   '2-2', // Viajero frecuente
   '3-2', // Dueño de mascotas
@@ -194,10 +179,10 @@ const showCategoriesWithDefinedChecks = async (delay = 1500) => {
         resolve()
         return
       }
-      
+
       // Show category
       visibleCategories.value.add(categoryIndex)
-      
+
       // Add predefined checks for this category after a short delay
       setTimeout(() => {
         people.value.forEach((_, personIndex) => {
@@ -208,7 +193,7 @@ const showCategoriesWithDefinedChecks = async (delay = 1500) => {
             }, personIndex * 300)
           }
         })
-        
+
         setTimeout(() => showNext(categoryIndex + 1), delay)
       }, 600)
     }
@@ -231,9 +216,11 @@ const startAnimations = async () => {
           setTimeout(() => {
             // 4. Mostrar categorías con checks definidos
             showCategoriesWithDefinedChecks(1500).then(() => {
-              setTimeout(() => {
-                showButton.value = true
-              }, 1000)
+              // after full sequence completes, wait 3s and loop
+              setTimeout(async () => {
+                await resetSequence()
+                loopSequence()
+              }, 3000)
             })
           }, 800)
         })
@@ -242,9 +229,36 @@ const startAnimations = async () => {
   }, 500)
 }
 
-// Navigation
-const goBack = () => {
+// Continue navigation
+const onContinue = () => {
   router.push({ name: 'entity-transactional-insights-submenu' })
+}
+
+// Run a single animation sequence (people -> categories + checks)
+const runSequence = async () => {
+  await showPeopleSequentially(600)
+  await new Promise((r) => setTimeout(r, 800))
+  await showCategoriesWithDefinedChecks(1500)
+}
+
+// Reset state to re-run the sequence
+const resetSequence = async () => {
+  visiblePeople.value.clear()
+  visibleCategories.value.clear()
+  visibleChecks.value.clear()
+  // retrigger container animation
+  showTable.value = false
+  await new Promise((r) => setTimeout(r, 200))
+  showTable.value = true
+}
+
+// Loop the sequence indefinitely (called after first full run completes)
+const loopSequence = async () => {
+  await runSequence()
+  setTimeout(async () => {
+    await resetSequence()
+    loopSequence()
+  }, 3000)
 }
 
 // Start animations on mount
@@ -326,10 +340,40 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
+}
+
 .description-list {
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
   margin: 0;
+}
+
+.description-list li {
+  position: relative;
+  padding-left: 25px;
+  margin: 8px 0;
+}
+
+.description-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
 }
 
 .description-text {
@@ -524,39 +568,29 @@ onMounted(async () => {
 }
 
 /* Button */
-.button-container {
+.continue-container {
   text-align: center;
   margin-top: 40px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 10;
 }
 
-.button-container.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.back-button {
-  background: transparent;
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
-  padding: 12px 24px;
-  font-size: 1rem;
+.continue-button {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  padding: 16px 35px;
+  font-size: 1.2rem;
   font-weight: 600;
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(97, 40, 120, 0.3);
 }
 
-.back-button:hover {
-  border-color: rgb(186, 45, 125);
-  color: rgb(186, 45, 125);
-  transform: translateY(-2px);
+.continue-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(97, 40, 120, 0.4);
 }
 
 /* Responsive Design */

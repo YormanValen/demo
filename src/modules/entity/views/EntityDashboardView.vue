@@ -457,72 +457,111 @@
             </div>
           </div>
         </div>
+
+        <!-- Navigation back to menu -->
+        <div class="transactional-insights-section">
+          <div class="insights-container">
+            <div class="insights-content">
+              <button class="insights-button" @click="goBackToMenu">
+                Volver al menú
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Electronic Signature Modal -->
     <div v-if="showSignatureModal" class="modal-overlay" @click="closeSignatureModal">
-        <div class="modal-content" @click.stop>
-          <div class="modal-header">
-            <h3>Reporte Firma Electrónica</h3>
-            <button class="modal-close" @click="closeSignatureModal">✕</button>
-          </div>
-          <div class="modal-body">
-            <div class="signature-info">
-              <div class="info-line">
-                <span class="label">md5:</span>
-                <span class="value">"834d401b1312a37c15cb8e40eff32eeb"</span>
-              </div>
-              <div class="info-line">
-                <span class="label">sha1:</span>
-                <span class="value">"5b296debff93efb2a2583c09ce680c932c2693b"</span>
-              </div>
-              <div class="info-line">
-                <span class="label">sha256:</span>
-                <span class="value">"cd8da7bbe8b2069172a4a02ee5e3f5a328f6b63df29500362be0c90b21674011"</span>
-              </div>
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h3>Reporte Firma Electrónica</h3>
+          <button class="modal-close" @click="closeSignatureModal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="signature-info">
+            <div class="info-line">
+              <span class="label">md5:</span>
+              <span class="value">"834d401b1312a37c15cb8e40eff32eeb"</span>
+            </div>
+            <div class="info-line">
+              <span class="label">sha1:</span>
+              <span class="value">"5b296debff93efb2a2583c09ce680c932c2693b"</span>
+            </div>
+            <div class="info-line">
+              <span class="label">sha256:</span>
+              <span class="value">"cd8da7bbe8b2069172a4a02ee5e3f5a328f6b63df29500362be0c90b21674011"</span>
             </div>
           </div>
-          <div class="modal-footer">
-            <button class="modal-button" @click="closeSignatureModal">Cerrar</button>
-          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-button" @click="closeSignatureModal">Cerrar</button>
         </div>
       </div>
+    </div>
 
-      <!-- PDF Preview Modal -->
-      <div v-if="showPdfModal" class="modal-overlay" @click="closePdfModal">
-        <div class="pdf-modal" @click.stop>
-          <div class="modal-header">
-            <h3>Formulario desmaterializado</h3>
-            <div class="zoom-controls">
-              <button class="zoom-btn" @click="zoomOut" :disabled="scale <= minScale">-</button>
-              <span class="zoom-label">{{ Math.round(scale * 100) }}%</span>
-              <button class="zoom-btn" @click="zoomIn" :disabled="scale >= maxScale">+</button>
-            </div>
-            <button class="modal-close" @click="closePdfModal">✕</button>
+    <!-- PDF Preview Modal -->
+    <div v-if="showPdfModal" class="modal-overlay" @click="closePdfModal">
+      <div class="pdf-modal" @click.stop>
+        <div class="modal-header">
+          <h3>Formulario desmaterializado</h3>
+          <div class="zoom-controls">
+            <button class="zoom-btn" @click="zoomOut" :disabled="scale <= minScale">-</button>
+            <span class="zoom-label">{{ Math.round(scale * 100) }}%</span>
+            <button class="zoom-btn" @click="zoomIn" :disabled="scale >= maxScale">+</button>
           </div>
-          <div class="pdf-container">
-            <div v-if="pdfIsLoading" class="loading">
-              <div class="loading-spinner" />
-              <span>Cargando documento…</span>
-            </div>
-            <div v-else class="pages" ref="pagesRef">
-              <div v-for="page in pageNumbers" :key="page" class="page-wrapper">
-                <canvas :ref="registerCanvas(page)" class="pdf-canvas"
-                  style="width: 100%; height: auto; display: block;"></canvas>
-                <div class="page-index">Página {{ page }} / {{ pageCount }}</div>
-              </div>
+          <button class="modal-close" @click="closePdfModal">✕</button>
+        </div>
+      <div class="pdf-container">
+          <div v-if="pdfIsLoading" class="loading">
+            <div class="loading-spinner" />
+            <span>Cargando documento…</span>
+          </div>
+          <div v-else class="pages" ref="pagesRef">
+            <div v-for="page in pageNumbers" :key="page" class="page-wrapper">
+              <canvas :ref="registerCanvas(page)" class="pdf-canvas"
+                style="width: 100%; height: auto; display: block;"></canvas>
+              <div class="page-index">Página {{ page }} / {{ pageCount }}</div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Bottom sheet: Experiencia de Entidad (teleports to body) -->
+    <EntityAnimationContainer 
+      :is-visible="!showMessage" 
+      :clickable-header="false" 
+      :force-open="isEntitySheetOpen"
+      @toggle="onEntitySheetToggle"
+    >
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; height:100%;">
+        <EntityFlowVisualization 
+          :is-visible="showEntityFlow" 
+          :validation-time="validationTime"
+          :processing-time="processingTime" 
+          @step-change="onEntityFlowStepChange"
+          @all-complete="onEntityFlowComplete" 
+        />
+        <transition name="fade-slide-up">
+          <button 
+            v-if="showEntityNext" 
+            class="continue-button" 
+            @click="onEntityFlowContinue"
+            style="margin-top:8px;"
+          >
+            Continuar
+          </button>
+        </transition>
+      </div>
+    </EntityAnimationContainer>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, nextTick } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import * as pdfjsLib from 'pdfjs-dist'
 // Use worker via URL so Vite resolves it correctly
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -530,10 +569,13 @@ import * as pdfjsLib from 'pdfjs-dist'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min?url'
 import DesmaterializedFormPdf from '../components/DesmaterializedFormPdf.vue'
 import TransactionalInsightsBackground from '../../transactional-insights/components/TransactionalInsightsBackground.vue'
+import EntityAnimationContainer from '../components/EntityAnimationContainer.vue'
+import EntityFlowVisualization from '../components/EntityFlowVisualization.vue'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker as unknown as string
 
 const router = useRouter()
+const route = useRoute()
 const selectedPasarela = ref('experian')
 const searchType = ref('identification')
 const searchQuery = ref('')
@@ -541,6 +583,50 @@ const startDate = ref('2025-09-01')
 const endDate = ref('2025-09-26')
 const showSignatureModal = ref(false)
 const showMessage = ref(false)
+
+// Entity Experience (bottom sheet + flow)
+const isEntitySheetOpen = ref(false)
+const showEntityFlow = computed(() => isEntitySheetOpen.value)
+// Use component defaults for slower fill durations
+const validationTime = ref<number | undefined>(undefined)
+const processingTime = ref<number | undefined>(undefined)
+
+// Session storage key for tracking if flow was shown
+const ENTITY_FLOW_SHOWN_KEY = 'entity_flow_shown_this_session'
+
+// Check if entity flow was already shown this session
+const hasEntityFlowBeenShown = () => {
+  return sessionStorage.getItem(ENTITY_FLOW_SHOWN_KEY) === 'true'
+}
+
+// Mark entity flow as shown for this session
+const markEntityFlowAsShown = () => {
+  sessionStorage.setItem(ENTITY_FLOW_SHOWN_KEY, 'true')
+}
+const onEntitySheetToggle = (open: boolean) => {
+  isEntitySheetOpen.value = open
+  if (!open) {
+    showEntityNext.value = false
+    // Mark as shown when user manually closes the sheet
+    markEntityFlowAsShown()
+  }
+}
+
+const showEntityNext = ref(false)
+const onEntityFlowStepChange = (step: number) => {
+  // Only show Continue when flow reports all-complete
+  if (step < 2) showEntityNext.value = false
+}
+
+const onEntityFlowComplete = () => {
+  showEntityNext.value = true
+}
+
+const onEntityFlowContinue = () => {
+  // Mark flow as shown and close the bottom sheet when user clicks Continuar
+  markEntityFlowAsShown()
+  isEntitySheetOpen.value = false
+}
 
 // PDF Viewer state
 const showPdfModal = ref(false)
@@ -575,17 +661,17 @@ const pageNumbers = computed(() => Array.from({ length: pageCount.value }, (_, i
 
 async function renderPage(pageNumber: number) {
   if (!pdfDoc) return
-  
+
   console.log(`Rendering page ${pageNumber}...`)
   const page = await pdfDoc.getPage(pageNumber)
   const viewport = page.getViewport({ scale: scale.value })
   const canvas = canvasMap.get(pageNumber)
-  
+
   if (!canvas) {
     console.warn(`Canvas not found for page ${pageNumber}`)
     return
   }
-  
+
   const context = canvas.getContext('2d')
   if (!context) {
     console.warn(`Context not found for page ${pageNumber}`)
@@ -594,24 +680,24 @@ async function renderPage(pageNumber: number) {
 
   // Handle HiDPI displays and ensure canvas has visible size
   const dpr = (window.devicePixelRatio || 1)
-  
+
   // Set pixel buffer size for crisp rendering
   const scaledWidth = Math.floor(viewport.width * dpr)
   const scaledHeight = Math.floor(viewport.height * dpr)
-  
+
   console.log(`Page ${pageNumber} dimensions: ${scaledWidth}x${scaledHeight} (dpr: ${dpr})`)
-  
+
   canvas.width = scaledWidth
   canvas.height = scaledHeight
-  
+
   // Ensure canvas is visible
   canvas.style.width = Math.floor(viewport.width) + 'px'
   canvas.style.height = Math.floor(viewport.height) + 'px'
-  
+
   // Reset any transform and clear before rendering
   context.setTransform(1, 0, 0, 1, 0, 0)
   context.clearRect(0, 0, canvas.width, canvas.height)
-  
+
   // Set white background
   context.fillStyle = '#ffffff'
   context.fillRect(0, 0, canvas.width, canvas.height)
@@ -621,7 +707,7 @@ async function renderPage(pageNumber: number) {
     viewport,
     transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : undefined,
   }
-  
+
   try {
     await page.render(renderContext).promise
     console.log(`Page ${pageNumber} rendered successfully`)
@@ -666,13 +752,13 @@ async function onPdfReady(payload: { blob: Blob, url: string, nombre: string }) 
       for (let i = 0; i < tries; i++) {
         await nextTick()
         await new Promise((r) => requestAnimationFrame(() => r(undefined)))
-        
+
         console.log(`Try ${i + 1}: canvasMap size: ${canvasMap.size}, pageCount: ${pageCount.value}`)
 
         // Buscar canvas directamente en el DOM cada vez
         const canvasElements = pagesRef.value?.querySelectorAll('canvas')
         console.log('Found canvas elements in DOM:', canvasElements?.length)
-        
+
         if (canvasElements && canvasElements.length > 0) {
           canvasElements.forEach((canvas, index) => {
             const pageNum = index + 1
@@ -688,24 +774,24 @@ async function onPdfReady(payload: { blob: Blob, url: string, nombre: string }) 
           console.log('All canvas elements found!')
           break
         }
-        
+
         // Esperar progresivamente más tiempo
         const delay = Math.min(100, 20 + i * 5)
         await new Promise(r => setTimeout(r, delay))
       }
-      
+
       if (canvasMap.size < pageCount.value) {
         console.warn(`Still missing canvas elements: ${canvasMap.size}/${pageCount.value}`)
       }
     }
     // Primero terminar la carga para que aparezcan los canvas
     pdfIsLoading.value = false
-    
+
     // Ahora esperar a que los canvas aparezcan y se registren
     await nextTick()
     await new Promise(r => setTimeout(r, 100))
     overlayEntered.value = true
-    
+
     await waitForCanvasRefs()
     console.log('After waitForCanvasRefs, canvasMap size:', canvasMap.size)
     await maybeRenderInitialPages()
@@ -730,7 +816,7 @@ async function maybeRenderInitialPages() {
   if (!overlayEntered.value || !pdfDoc) return
 
   console.log('Starting render with canvasMap size:', canvasMap.size, 'pageCount:', pageCount.value)
-  
+
   if (canvasMap.size === 0) {
     console.warn('No canvas available for rendering, aborting')
     return
@@ -740,7 +826,7 @@ async function maybeRenderInitialPages() {
   console.log('About to render all pages...')
   await renderAllPages()
   console.log('First render pass complete')
-  
+
   // Second pass for sharpness after layout
   await new Promise((r) => requestAnimationFrame(() => r(undefined)))
   await renderAllPages()
@@ -821,6 +907,11 @@ const navigateToTransactionalInsights = () => {
 
   // Make function available globally for sidebar to call
   ; (window as any).triggerTransactionalInsightsAnimation = triggerTransactionalInsightsAnimation
+
+// Volver al menú (intro de entidad)
+const goBackToMenu = () => {
+  router.push('/entity/intro')
+}
 
 
 // Canvas refs per page
@@ -989,6 +1080,18 @@ onMounted(() => {
   startDate.value = '2025-09-01'
   endDate.value = '2025-09-26'
   window.addEventListener('resize', handleResize)
+  // Open bottom sheet by default only if not shown before in this session
+  if (!hasEntityFlowBeenShown()) {
+    isEntitySheetOpen.value = true
+  }
+  // If intro flag is present in query, show full-screen animation
+  const introFlag = route.query.intro
+  if (introFlag === '1' || introFlag === 'true') {
+    // Defer to ensure DOM is ready
+    setTimeout(() => {
+      triggerTransactionalInsightsAnimation()
+    }, 100)
+  }
 })
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
@@ -1762,6 +1865,16 @@ const solicitud = computed(() => {
   box-shadow: 0 6px 20px rgba(97, 40, 120, 0.4);
 }
 
+/* Transition for Continue button reveal under sheet */
+.fade-slide-up-enter-active {
+  transition: all 0.6s ease-out;
+}
+
+.fade-slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
 @keyframes slideUp {
   to {
     opacity: 1;
@@ -2305,6 +2418,65 @@ const solicitud = computed(() => {
   margin-top: 8px;
 }
 
+/* Transactional Insights Section */
+.transactional-insights-section {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.insights-container {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.insights-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.insights-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 15px 0;
+}
+
+.insights-description {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 25px 0;
+}
+
+.insights-button {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(97, 40, 120, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.insights-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(97, 40, 120, 0.3);
+}
+
+.insights-icon {
+  font-size: 1.2rem;
+}
+
 @media (max-width: 768px) {
   .pasarela-selector {
     flex-direction: column;
@@ -2333,6 +2505,19 @@ const solicitud = computed(() => {
   .download-btn {
     font-size: 12px;
     padding: 10px 14px;
+  }
+
+  .insights-title {
+    font-size: 1.2rem;
+  }
+
+  .insights-description {
+    font-size: 0.9rem;
+  }
+
+  .insights-button {
+    font-size: 0.9rem;
+    padding: 12px 24px;
   }
 }
 </style>

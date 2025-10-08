@@ -9,14 +9,17 @@
       <p class="subtitle">Potencie el scoring crediticio de sus clientes fusionando datos tradicionales de buró con
         datos transaccionales</p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">Aumentos notorios en la precisión al fusionar lo mejor de 2 mundos: datos de buró
-            + datos transaccionales.</li>
-          <li class="description-text">Incentiva a que su cliente comparta sus datos: Mejore su score crediticio dando
-            permiso para acceder a sus datos en Open Finance.</li>
-          <li class="description-text">Capture nuevos segmentos de mercado en población sin historial crediticio pero
-            con cuentas bancarias, billeteras digitales y otros activos en el sistema financiero.</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">Aumentos notorios en la precisión al fusionar lo mejor de 2 mundos: datos de
+              buró
+              + datos transaccionales.</li>
+            <li class="description-text">Incentiva a que su cliente comparta sus datos: Mejore su score crediticio dando
+              permiso para acceder a sus datos en Open Finance.</li>
+            <li class="description-text">Capture nuevos segmentos de mercado en población sin historial crediticio pero
+              con cuentas bancarias, billeteras digitales y otros activos en el sistema financiero.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -49,7 +52,6 @@
               <div class="ml-status">
                 <div class="gear-animation" :class="{ 'spinning': mlProcessing }">⚙️</div>
                 <p class="ml-description" v-if="!mlProcessing">Listo para procesar</p>
-                <p class="ml-description processing-text" v-else>Procesando datos... {{ processingSeconds }}s</p>
               </div>
             </div>
           </div>
@@ -71,46 +73,39 @@
           </div>
         </div>
 
-        <!-- Continue Button (before fusion) -->
-        <div v-if="showContinue" class="continue-container">
-          <button class="continue-button" @click="onContinue">Continuar</button>
-        </div>
+        <!-- Continue button removed; confirm is fixed at bottom -->
 
         <!-- Score Result with Person and Confetti -->
         <div class="score-result-section" :class="{ 'visible': showScoreResult }">
           <div class="person-container">
             <!-- Confetti particles -->
             <div v-if="showConfetti" class="confetti-layer">
-              <div v-for="(particle, index) in confettiParticles" :key="index" 
-                class="confetti-particle" 
-                :style="particle"
-              ></div>
+              <div v-for="(particle, index) in confettiParticles" :key="index" class="confetti-particle"
+                :style="particle"></div>
             </div>
-            
+
             <!-- Person icon -->
             <div class="person-icon" :class="{ 'celebrating': showConfetti }">
-              <span class="person-emoji">👨‍🏫</span>
+              <span class="person-emoji">{{ getCurrentPerson().emoji }}</span>
             </div>
-            
+
             <!-- Person name -->
-            <div class="person-name">Juan</div>
-            
+            <div class="person-name">{{ getCurrentPerson().name }}</div>
+
             <!-- Animated Score -->
             <div class="score-display-large">
               <div class="animated-score">{{ animatedScore }}</div>
-              <div class="score-label-large">Score Crediticio</div>
+              <div class="score-label-large">Score Transaccional</div>
             </div>
-            
+
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Back Button -->
-    <div class="button-container" :class="{ 'visible': showButton }">
-      <button class="back-button" @click="goBack">
-        ← Volver al Menú
-      </button>
+    <!-- Confirm Button (fixed bottom, always visible) -->
+    <div class="confirm-footer">
+      <button class="continue-button" @click="onConfirm">Continuar</button>
     </div>
   </div>
 </template>
@@ -128,10 +123,8 @@ const showContent = ref(false)
 const showProcess = ref(false)
 const showML = ref(false)
 const mlProcessing = ref(false)
-const showContinue = ref(false)
 const showScoreResult = ref(false)
 const showConfetti = ref(false)
-const showButton = ref(false)
 const visibleCards = ref<Set<number>>(new Set())
 const movingCards = ref<Set<number>>(new Set())
 const fadingCards = ref<Set<number>>(new Set())
@@ -146,7 +139,28 @@ const mlRef = ref<HTMLElement | null>(null)
 
 // Score animation
 const animatedScore = ref(0)
-const targetScore = 770
+const currentPersonIndex = ref(0)
+
+// Different people data
+const people = [
+  {
+    name: 'Camilo',
+    emoji: '👨‍💼',
+    targetScore: 770
+  },
+  {
+    name: 'José',
+    emoji: '👨‍🏫',
+    targetScore: 685
+  },
+  {
+    name: 'María',
+    emoji: '👩‍⚕️',
+    targetScore: 742
+  }
+]
+
+const getCurrentPerson = () => people[currentPersonIndex.value]
 
 // Confetti particles
 const confettiParticles = ref<Record<string, string>[]>([])
@@ -183,34 +197,36 @@ const animateScore = () => {
   const duration = 3000 // 3 seconds
   const startTime = Date.now()
   const startScore = 0
-  
+  const targetScore = getCurrentPerson().targetScore
+
   const animate = () => {
     const elapsed = Date.now() - startTime
     const progress = Math.min(elapsed / duration, 1)
     const easeOutProgress = 1 - Math.pow(1 - progress, 3) // Ease out cubic
-    
+
     animatedScore.value = Math.round(startScore + (targetScore - startScore) * easeOutProgress)
-    
+
     if (progress < 1) {
       requestAnimationFrame(animate)
     } else {
       // Score reached target, start confetti
-      setTimeout(() => {
-        startConfetti()
+      setTimeout(async () => {
+        await startConfetti()
+        // Wait 3 seconds after confetti ends, then restart cycle
         setTimeout(() => {
-          showButton.value = true
-        }, 2000)
+          restartAnimationCycle()
+        }, 3000)
       }, 500)
     }
   }
-  
+
   animate()
 }
 
 const startConfetti = () => {
   showConfetti.value = true
   const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b', '#6c5ce7']
-  
+
   confettiParticles.value = Array.from({ length: 50 }, () => ({
     left: `${Math.random() * 100}%`,
     top: `${Math.random() * 100}%`,
@@ -218,10 +234,13 @@ const startConfetti = () => {
     animationDelay: `${Math.random() * 2}s`,
     animationDuration: `${2 + Math.random() * 3}s`
   }))
-  
-  setTimeout(() => {
-    showConfetti.value = false
-  }, 4000)
+
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      showConfetti.value = false
+      resolve()
+    }, 4000)
+  })
 }
 
 const runProcessing = async () => {
@@ -230,16 +249,63 @@ const runProcessing = async () => {
   const timer = setInterval(() => {
     processingSeconds.value = Math.max(0, processingSeconds.value - 1)
   }, 1000)
-  
+
   setTimeout(() => {
     clearInterval(timer)
     mlProcessing.value = false
     showScoreResult.value = true
-    
+
     setTimeout(() => {
       animateScore()
     }, 800)
   }, 6000)
+}
+
+// Reset animation state
+const resetAnimationState = () => {
+  // First hide the current result
+  showScoreResult.value = false
+  showConfetti.value = false
+  confettiParticles.value = []
+
+  // Wait for fade out, then change person
+  setTimeout(() => {
+    // Move to next person
+    currentPersonIndex.value = (currentPersonIndex.value + 1) % people.length
+
+    // Reset cards visibility and positions
+    movingCards.value.clear()
+    fadingCards.value.clear()
+    cardsGone.value = false
+    cardMoveStyles.value = {}
+
+    // Reset ML processing
+    mlProcessing.value = false
+
+    // Reset score
+    animatedScore.value = 0
+
+    // Keep cards and ML visible for restart
+    visibleCards.value.clear()
+    visibleCards.value.add(0)
+    visibleCards.value.add(1)
+    showML.value = true
+  }, 500) // Wait 500ms for fade out
+}
+
+const runAnimationCycle = async () => {
+  // Wait 3 seconds before starting fusion
+  setTimeout(async () => {
+    // Start the fusion and processing cycle
+    await moveCardsIntoML()
+    setTimeout(() => runProcessing(), 200)
+  }, 3000)
+}
+
+const restartAnimationCycle = () => {
+  resetAnimationState()
+  // Start next cycle after reset completes (500ms for fade + 500ms buffer)
+  setTimeout(() => runAnimationCycle(), 1000)
 }
 
 // Start animations
@@ -254,25 +320,14 @@ const startAnimations = async () => {
       visibleCards.value.add(0)
       visibleCards.value.add(1)
       showML.value = true
-      // 3. Mostrar botón Continuar para ejecutar la fusión
-      setTimeout(() => {
-        showContinue.value = true
-      }, 400)
+      // 3. Iniciar el ciclo infinito de animación
+      runAnimationCycle()
     }, 300)
   }, 300)
 }
 
-// Continue action: fuse cards into ML and process
-const onContinue = async () => {
-  if (showContinue.value) {
-    showContinue.value = false
-    await moveCardsIntoML()
-    setTimeout(() => runProcessing(), 200)
-  }
-}
-
-// Navigation
-const goBack = () => {
+// Confirm action: navigate to submenu
+const onConfirm = () => {
   router.push({ name: 'entity-transactional-insights-submenu' })
 }
 
@@ -355,10 +410,40 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
+}
+
 .description-list {
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
   margin: 0;
+}
+
+.description-list li {
+  position: relative;
+  padding-left: 25px;
+  margin: 8px 0;
+}
+
+.description-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
 }
 
 .description-text {
@@ -523,6 +608,7 @@ onMounted(async () => {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -540,14 +626,6 @@ onMounted(async () => {
   font-weight: 600;
 }
 
-/* Continue CTA */
-.continue-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  margin: 24px 0 8px;
-}
 
 .continue-button {
   background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
@@ -569,6 +647,18 @@ onMounted(async () => {
 
 .continue-button:active {
   transform: translateY(0);
+}
+
+/* Confirm footer (moved higher up) */
+.confirm-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 350px;
+  /* moved higher up from 16px to 80px */
+  display: flex;
+  justify-content: center;
+  z-index: 20;
 }
 
 /* Score Result Section */
@@ -637,15 +727,19 @@ onMounted(async () => {
   0% {
     transform: scale(1) rotate(0deg);
   }
+
   20% {
     transform: scale(1.01) rotate(-1deg);
   }
+
   50% {
     transform: scale(1.03) rotate(1deg);
   }
+
   80% {
     transform: scale(1.05) rotate(2deg);
   }
+
   100% {
     transform: scale(1.05) rotate(2deg);
   }
@@ -697,9 +791,12 @@ onMounted(async () => {
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -730,6 +827,7 @@ onMounted(async () => {
     transform: translateY(-100vh) rotate(0deg);
     opacity: 1;
   }
+
   100% {
     transform: translateY(100vh) rotate(360deg);
     opacity: 0;

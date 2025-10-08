@@ -28,9 +28,8 @@
           :class="{ selected: selectedExperience === 'entity' }">
           <div class="card-icon">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 13H21V21C21 21.5523 20.5523 22 20 22H4C3.44772 22 3 21.5523 3 21V13Z" fill="currentColor" />
-              <path d="M3 7H21V11H3V7Z" fill="currentColor" />
-              <path d="M12 2L21 7H3L12 2Z" fill="currentColor" />
+              <path d="M11.5,1L2,6V8H21V6M16,10V17H19V10M2,22H21V19H2M10,10V17H13V10M4,10V17H7V10H4Z"
+                fill="currentColor" />
             </svg>
           </div>
           <h2 class="card-title">Experiencia de Entidad</h2>
@@ -53,11 +52,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useUserExperienceCounterStore } from "../stores/user-experience-counter.store";
+import { useEntityModulesStore } from "../../entity/stores/entity-modules.store";
 
 const router = useRouter();
 const selectedExperience = ref<"user" | "entity" | null>(null);
+const userExperienceCounterStore = useUserExperienceCounterStore();
+const entityModulesStore = useEntityModulesStore();
 
 const selectExperience = (type: "user" | "entity") => {
   selectedExperience.value = type;
@@ -69,13 +72,25 @@ const continueWithSelection = () => {
   // Guardar la selección en localStorage o store
   localStorage.setItem("selectedExperience", selectedExperience.value);
 
+  // Incrementar contador solo para experiencia de usuario
+  if (selectedExperience.value === 'user') {
+    userExperienceCounterStore.incrementVisit();
+  }
+
   // Navegar según la experiencia seleccionada
   if (selectedExperience.value === 'entity') {
-    router.push('/entity/login');
+    router.push('/entity/intro');
   } else {
     router.push('/registration/basic-information');
   }
 };
+
+// Cargar datos del store al montar el componente
+onMounted(() => {
+  userExperienceCounterStore.loadFromLocalStorage();
+  // Limpiar el store de módulos de entidad cuando se regresa a esta vista
+  entityModulesStore.clearAllModules();
+});
 </script>
 
 <style scoped>

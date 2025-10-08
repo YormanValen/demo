@@ -1232,13 +1232,13 @@ const handleContinue = () => {
 }
 
 .strategic-chip {
-  background: rgba(0, 19, 64, 0.08);
-  border: 1px solid rgba(0, 19, 64, 0.2);
+  background: rgba(0, 19, 64, 0.03);
+  border: 1px solid rgba(0, 19, 64, 0.15);
   border-radius: 20px;
   padding: 8px 14px;
   color: #001340;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
   transition: all 0.3s ease;
   text-align: center;
@@ -1246,10 +1246,8 @@ const handleContinue = () => {
 }
 
 .strategic-chip:hover {
-  background: rgba(0, 19, 64, 0.15);
-  border-color: rgba(0, 19, 64, 0.3);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 19, 64, 0.15);
+  background: rgba(0, 19, 64, 0.08);
+  border-color: rgba(0, 19, 64, 0.25);
 }
 
 /* Removed algo-visualization styles */

@@ -16,10 +16,13 @@
       <h1 class="main-title">Affordability</h1>
       <p class="subtitle">Evaluación histórica de la capacidad de pago y estilo de vida de los clientes.</p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">Disponible para cada mes del periodo cubierto por el historial transaccional</li>
-          <li class="description-text">Cada una de las 109 categorías suma a un concepto de la evaluación.</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">Disponible para cada mes del periodo cubierto por el historial transaccional
+            </li>
+            <li class="description-text">Cada una de las 109 categorías suma a un concepto de la evaluación.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -27,25 +30,26 @@
     <div class="main-content" :class="{ 'visible': showCategories }">
       <!-- Left Side - Current Category -->
       <div ref="movingCard" class="current-category-card" :class="{ 'visible': visibleCategories.has(0) }">
-        <div class="category-icon-large" :style="{ backgroundColor: currentCategory.color }">
+        <div class="category-icon-large">
           <!-- Food icon -->
           <svg v-if="currentCategory.icon === 'food'" width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <title>food</title>
             <path
-              d="M8.5 8.5c0-1.5 1.5-3 3.5-3s3.5 1.5 3.5 3c0 .5-.5 1-.5 1s2 1.5 2 3.5c0 2-2 4-2 4H7s-2-2-2-4c0-2 2-3.5 2-3.5s-.5-.5-.5-1z"
+              d="M18.06 23H19.72C20.56 23 21.25 22.35 21.35 21.53L23 5.05H18V1H16.03V5.05H11.06L11.36 7.39C13.07 7.86 14.67 8.71 15.63 9.65C17.07 11.07 18.06 12.54 18.06 14.94V23M1 22V21H16.03V22C16.03 22.54 15.58 23 15 23H2C1.45 23 1 22.54 1 22M16.03 15C16.03 7 1 7 1 15H16.03M1 17H16V19H1V17Z"
               fill="white" />
-            <path d="M12 2v6M9 4l6 0" stroke="white" stroke-width="2" stroke-linecap="round" />
           </svg>
           <!-- Streaming icon -->
           <svg v-else-if="currentCategory.icon === 'streaming'" width="40" height="40" viewBox="0 0 24 24" fill="none">
-            <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12s4.48 10 10 10 10-4.48 10-10Z" stroke="white"
-              stroke-width="2" />
-            <path d="M10 8l6 4-6 4V8Z" fill="white" />
+            <path
+              d="M4,6H2V20A2,2 0 0,0 4,22H18V20H4V6M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M12,14.5V5.5L18,10L12,14.5Z"
+              fill="white" />
           </svg>
           <!-- Supplements icon -->
           <svg v-else-if="currentCategory.icon === 'supplements'" width="40" height="40" viewBox="0 0 24 24"
             fill="none">
-            <path d="M4.5 12a7.5 7.5 0 0 0 15 0a7.5 7.5 0 0 0-15 0Z" stroke="white" stroke-width="2" />
-            <path d="M12 4.5v15M4.5 12h15" stroke="white" stroke-width="2" />
+            <path
+              d="M16.2 3.5C15.2 2.5 13.9 2 12.7 2S10.1 2.5 9.2 3.5L3.4 9.1C1.4 11.1 1.4 14.2 3.4 16.2S8.5 18.2 10.5 16.2L16.2 10.5C18.1 8.6 18.1 5.4 16.2 3.5M14.8 9.1L12 11.9L8.4 8.4L4 12.8C4 12 4.2 11.1 4.9 10.5L10.6 4.8C11.1 4.3 11.9 4 12.6 4S14.1 4.3 14.7 4.8C15.9 6.1 15.9 7.9 14.8 9.1M19.6 7.1C19.6 7.9 19.4 8.6 19.2 9.4C20.2 10.6 20.2 12.4 19.1 13.5L16.3 16.3L14.8 14.8L12 17.6C10.7 18.9 8.9 19.6 7.2 19.6C7.4 19.9 7.6 20.2 7.9 20.5C9.9 22.5 13 22.5 15 20.5L20.7 14.8C22.7 12.8 22.7 9.7 20.7 7.7C20.2 7.5 19.9 7.3 19.6 7.1Z"
+              fill="white" />
           </svg>
           <!-- Salary icon -->
           <svg v-else-if="currentCategory.icon === 'salary'" width="40" height="40" viewBox="0 0 24 24" fill="none">
@@ -55,16 +59,13 @@
           <!-- Rent icon -->
           <svg v-else-if="currentCategory.icon === 'rent'" width="40" height="40" viewBox="0 0 24 24" fill="none">
             <path d="M3 21h18M5 21V7l8-4v18M19 21V10l-6-3" stroke="white" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
-            <path d="M9 9v.01M9 12v.01M9 15v.01" stroke="white" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
+              stroke-linejoin="round" fill="white" />
           </svg>
           <!-- Medical icon -->
           <svg v-else-if="currentCategory.icon === 'medical'" width="40" height="40" viewBox="0 0 24 24" fill="none">
             <path
               d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5L12 21l7-6.5Z"
               fill="white" />
-            <path d="M12 5.5v13M8.5 9h7" stroke="currentColor" stroke-width="2" />
           </svg>
           <!-- Electricity icon -->
           <svg v-else-if="currentCategory.icon === 'electricity'" width="40" height="40" viewBox="0 0 24 24"
@@ -145,6 +146,7 @@
           </svg>
         </div>
         <div class="category-details">
+          <p class="category-code-inline">{{ currentCategory.id }}</p>
           <h3 class="category-name">{{ currentCategory.name }}</h3>
           <div class="category-value">${{ formatNumber(currentCategory.value) }}</div>
         </div>
@@ -152,7 +154,7 @@
 
       <!-- Right Side - Categories Column -->
       <div class="categories-column">
-        <h3 class="column-title">Categorías de Evaluación</h3>
+        <h3 class="column-title">Grupos Affordability</h3>
         <div class="evaluation-categories">
           <div v-for="(evalCategory, index) in evaluationCategories" :key="evalCategory.id" ref="categoryItems"
             class="evaluation-item" :class="{
@@ -160,20 +162,18 @@
               'highlighted': highlightedCategory === evalCategory.id
             }" :data-category-id="evalCategory.id">
             <div class="evaluation-left">
-              <div class="evaluation-icon" :style="{ backgroundColor: evalCategory.color }">
+              <div class="evaluation-icon">
                 <!-- Income Primary icon -->
-                <svg v-if="evalCategory.icon === 'income-primary'" width="20" height="20" viewBox="0 0 24 24"
+                <svg v-if="evalCategory.icon === 'income-primary'" width=" 20" height="20" viewBox="0 0 24 24"
                   fill="none">
                   <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round" />
-                  <circle cx="12" cy="12" r="3" stroke="white" stroke-width="2" fill="white" />
                 </svg>
                 <!-- Income Secondary icon -->
                 <svg v-else-if="evalCategory.icon === 'income-secondary'" width="20" height="20" viewBox="0 0 24 24"
                   fill="none">
                   <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="white" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round" />
-                  <circle cx="16" cy="8" r="2" stroke="white" stroke-width="1.5" fill="white" />
                 </svg>
                 <!-- Essential expenses icon -->
                 <svg v-else-if="evalCategory.icon === 'essential'" width="20" height="20" viewBox="0 0 24 24"
@@ -185,14 +185,16 @@
                 <!-- Discretionary expenses icon -->
                 <svg v-else-if="evalCategory.icon === 'discretionary'" width="20" height="20" viewBox="0 0 24 24"
                   fill="none">
-                  <circle cx="12" cy="12" r="3" fill="white" />
-                  <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" stroke="white" stroke-width="2" />
+                  <path
+                    d="M20 3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H20C21.1 21 22 20.1 22 19V5C22 3.9 21.1 3 20 3M8 19H5V17H8V19M8 16H5V14H8V16M8 13H5V11H8V13M13.5 19H10.5V17H13.5V19M13.5 16H10.5V14H13.5V16M13.5 13H10.5V11H13.5V13M19 19H16V17H19V19M19 16H16V14H19V16M19 13H16V11H19V13M19 9H5V5H19V9Z"
+                    fill="white" />
                 </svg>
                 <!-- Quality of life icon -->
                 <svg v-else-if="evalCategory.icon === 'quality-life'" width="20" height="20" viewBox="0 0 24 24"
                   fill="none">
-                  <path d="M12 3l4 7h5l-4 7-4-7H8l4-7Z" fill="white" />
-                  <circle cx="12" cy="12" r="2" fill="currentColor" />
+                  <path
+                    d="M15,14C12.3,14 7,15.3 7,18V20H23V18C23,15.3 17.7,14 15,14M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12M5,15L4.4,14.5C2.4,12.6 1,11.4 1,9.9C1,8.7 2,7.7 3.2,7.7C3.9,7.7 4.6,8 5,8.5C5.4,8 6.1,7.7 6.8,7.7C8,7.7 9,8.6 9,9.9C9,11.4 7.6,12.6 5.6,14.5L5,15Z"
+                    fill="white" />
                 </svg>
                 <!-- Committed expenses icon -->
                 <svg v-else-if="evalCategory.icon === 'committed'" width="20" height="20" viewBox="0 0 24 24"
@@ -214,7 +216,7 @@
     <div class="button-container" :class="{ 'visible': showButton }">
       <button class="continue-button" @click="handleContinue">
         <span v-if="currentCategoryIndex < allCategories.length">
-          Continuar ({{ currentCategoryIndex + 1 }}/{{ allCategories.length }})
+          Continuar
         </span>
         <span v-else>
           Ir al Menú Principal
@@ -225,7 +227,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 
@@ -502,80 +504,90 @@ const animateCategoriesSequentially = async () => {
 }
 
 // Animation for moving card to target category
-const animateCardToCategory = async () => {
-  if (!movingCard.value || isAnimating.value) return
-
-  isAnimating.value = true
-
-  // Find target category element
-  const targetCategoryId = currentCategory.value.targetCategory
-  const targetElement = categoryItems.value?.find(el =>
-    el.getAttribute('data-category-id') === targetCategoryId
-  )
-
-  if (!targetElement) return
-
-  // Get positions
-  const cardRect = movingCard.value.getBoundingClientRect()
-  const targetRect = targetElement.getBoundingClientRect()
-
-  // Calculate movement to center of target element
-  const deltaX = (targetRect.left + targetRect.width / 2) - (cardRect.left + cardRect.width / 2)
-  const deltaY = (targetRect.top + targetRect.height / 2) - (cardRect.top + cardRect.height / 2)
-
-  // Apply animation directly to the card
-  movingCard.value.style.transition = 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)'
-  movingCard.value.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.3)`
-  movingCard.value.style.opacity = '0'
-  movingCard.value.style.zIndex = '1000'
-
-  // After movement, highlight target and update value
-  setTimeout(() => {
-    // Highlight target category
-    highlightedCategory.value = targetCategoryId
-
-    // Update the highlighted category border color dynamically
-    const targetCat = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
-    if (targetCat && targetElement) {
-      targetElement.style.setProperty('--highlight-color', targetCat.color)
+const animateCardToCategory = async (): Promise<void> => {
+  return new Promise<void>((resolve) => {
+    if (!movingCard.value || isAnimating.value) {
+      resolve()
+      return
     }
 
-    // Update target category value
-    const targetCategory = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
-    if (targetCategory) {
-      const oldValue = { value: targetCategory.value }
-      const newValue = targetCategory.value + currentCategory.value.value
+    isAnimating.value = true
 
-      animateNumber(oldValue, newValue)
+    // Find target category element
+    const targetCategoryId = currentCategory.value.targetCategory
+    const targetElement = categoryItems.value?.find(el =>
+      el.getAttribute('data-category-id') === targetCategoryId
+    )
 
-      // Update the actual value after animation
-      setTimeout(() => {
-        targetCategory.value = newValue
-      }, 800)
+    if (!targetElement) {
+      isAnimating.value = false
+      resolve()
+      return
     }
 
-    // Remove highlight and show next card
+    // Get positions
+    const cardRect = movingCard.value.getBoundingClientRect()
+    const targetRect = targetElement.getBoundingClientRect()
+
+    // Calculate movement to center of target element
+    const deltaX = (targetRect.left + targetRect.width / 2) - (cardRect.left + cardRect.width / 2)
+    const deltaY = (targetRect.top + targetRect.height / 2) - (cardRect.top + cardRect.height / 2)
+
+    // Apply animation directly to the card
+    movingCard.value.style.transition = 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)'
+    movingCard.value.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.3)`
+    movingCard.value.style.opacity = '0'
+    movingCard.value.style.zIndex = '1000'
+
+    // After movement, highlight target and update value
     setTimeout(() => {
-      highlightedCategory.value = null
+      // Highlight target category
+      highlightedCategory.value = targetCategoryId
 
-      // Move to next category
-      currentCategoryIndex.value++
-
-      // Check if we have more categories
-      if (currentCategoryIndex.value < allCategories.length) {
-        // Animate new card entrance
-        animateNewCardEntrance()
-      } else {
-        // All categories processed - hide the card container
-        if (movingCard.value) {
-          movingCard.value.style.display = 'none'
-        }
+      // Update the highlighted category border color dynamically
+      const targetCat = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
+      if (targetCat && targetElement) {
+        targetElement.style.setProperty('--highlight-color', targetCat.color)
       }
 
-      isAnimating.value = false
-    }, 2500)
+      // Update target category value
+      const targetCategory = evaluationCategories.value.find(cat => cat.id === targetCategoryId)
+      if (targetCategory) {
+        const oldValue = { value: targetCategory.value }
+        const newValue = targetCategory.value + currentCategory.value.value
 
-  }, 1200)
+        animateNumber(oldValue, newValue)
+
+        // Update the actual value after animation
+        setTimeout(() => {
+          targetCategory.value = newValue
+        }, 800)
+      }
+
+      // Remove highlight and show next card
+      setTimeout(() => {
+        highlightedCategory.value = null
+
+        // Move to next category
+        currentCategoryIndex.value++
+
+        // Check if we have more categories
+        if (currentCategoryIndex.value < allCategories.length) {
+          // Animate new card entrance
+          animateNewCardEntrance()
+        } else {
+          // All categories processed - hide the card container
+          if (movingCard.value) {
+            movingCard.value.style.display = 'none'
+          }
+        }
+
+        isAnimating.value = false
+        resolve()
+      }, 2500)
+
+    }, 1200)
+  })
 }
 
 // Smooth entrance animation for new card
@@ -618,15 +630,7 @@ const startTitleAnimation = async () => {
 
 // Handle continue button click
 const handleContinue = () => {
-  if (isAnimating.value) return
-
-  // Check if we have more categories to process
-  if (currentCategoryIndex.value < allCategories.length) {
-    animateCardToCategory()
-  } else {
-    // All categories completed - navigate to submenu
-    router.push({ name: 'entity-transactional-insights-submenu' })
-  }
+  router.push({ name: 'entity-transactional-insights-submenu' })
 }
 
 // Start animations on mount
@@ -634,7 +638,29 @@ onMounted(async () => {
   await nextTick()
   setTimeout(async () => {
     await startTitleAnimation()
+    startAutoAffordabilityLoop()
   }, 300)
+})
+
+// Auto loop: wait 3s showing card, then sum, wait 3s, repeat
+const AUTO_DELAY_MS = 3000
+let isDestroyed = false
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+const startAutoAffordabilityLoop = async () => {
+  // initial wait to show icon + text
+  await delay(AUTO_DELAY_MS)
+  while (!isDestroyed && currentCategoryIndex.value < allCategories.length) {
+    await animateCardToCategory()
+    if (isDestroyed) break
+    // wait before next card proceeds, showing new icon + text
+    await delay(AUTO_DELAY_MS)
+  }
+}
+
+onUnmounted(() => {
+  isDestroyed = true
 })
 </script>
 
@@ -791,10 +817,40 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
+}
+
 .description-list {
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
   margin: 0;
+}
+
+.description-list li {
+  position: relative;
+  padding-left: 25px;
+  margin: 8px 0;
+}
+
+.description-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
 }
 
 .description-text {
@@ -847,6 +903,7 @@ onMounted(async () => {
 }
 
 .category-icon-large {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
   width: 80px;
   height: 80px;
   border-radius: 16px;
@@ -922,6 +979,7 @@ onMounted(async () => {
 }
 
 .evaluation-icon {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
   width: 40px;
   height: 40px;
   border-radius: 10px;
@@ -936,6 +994,16 @@ onMounted(async () => {
   opacity: 1;
   transform: translateX(0);
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Simple code above title */
+.category-code-inline {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 6px 0;
+  text-align: center;
 }
 
 .evaluation-item.highlighted {

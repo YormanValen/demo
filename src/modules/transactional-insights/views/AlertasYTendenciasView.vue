@@ -16,10 +16,12 @@
       <h1 class="main-title">Alertas y Tendencias</h1>
       <p class="subtitle">Detección de tendencias de gastos e ingresos y comportamientos del cliente.</p>
       <div class="description-container">
-        <ul class="description-list">
-          <li class="description-text">Análisis avanzado de patrones de comportamiento financiero</li>
-          <li class="description-text">Identificación automática de anomalías y cambios significativos</li>
-        </ul>
+        <div class="description-card">
+          <ul class="description-list">
+            <li class="description-text">Análisis avanzado de patrones de comportamiento financiero</li>
+            <li class="description-text">Identificación automática de anomalías y cambios significativos</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -32,7 +34,8 @@
           <div class="large-table">
             <svg width="300" height="200" viewBox="0 0 300 200" fill="none">
               <!-- Table structure -->
-              <rect x="20" y="20" width="260" height="160" rx="8" stroke="url(#tableGradient)" stroke-width="3" fill="#f8fafc" />
+              <rect x="20" y="20" width="260" height="160" rx="8" stroke="url(#tableGradient)" stroke-width="3"
+                fill="#f8fafc" />
               <!-- Table header -->
               <rect x="20" y="20" width="260" height="30" rx="8" fill="url(#tableGradient)" />
               <!-- Gradient definition -->
@@ -97,9 +100,11 @@
                   </linearGradient>
                 </defs>
                 <!-- Glass circle -->
-                <circle cx="22" cy="22" r="18" stroke="url(#magnifyingGlassGradient)" stroke-width="3" fill="rgba(97, 40, 120, 0.1)" />
+                <circle cx="22" cy="22" r="18" stroke="url(#magnifyingGlassGradient)" stroke-width="3"
+                  fill="rgba(97, 40, 120, 0.1)" />
                 <!-- Handle -->
-                <line x1="38" y1="38" x2="52" y2="52" stroke="url(#magnifyingGlassGradient)" stroke-width="3" stroke-linecap="round" />
+                <line x1="38" y1="38" x2="52" y2="52" stroke="url(#magnifyingGlassGradient)" stroke-width="3"
+                  stroke-linecap="round" />
                 <!-- Reflection -->
                 <circle cx="18" cy="18" r="3" fill="rgba(255, 255, 255, 0.8)" />
               </svg>
@@ -126,7 +131,7 @@
               <div class="finding-content">
                 <div class="finding-title">{{ finding.title }}</div>
                 <div class="finding-status" :class="finding.discovered ? 'discovered' : 'investigating'">
-                  {{ finding.discovered ? 'Confirmado' : 'No encontrado' }}
+                  {{ finding.discovered ? 'Encontrado' : 'No encontrado' }}
                 </div>
               </div>
             </div>
@@ -135,10 +140,10 @@
       </div>
     </div>
 
-    <!-- Back Button -->
+    <!-- Continue Button -->
     <div class="button-container" :class="{ 'visible': showButton }">
-      <button class="back-button" @click="goBack">
-        ← Volver al Menú
+      <button class="continue-button" @click="goBack">
+        Continuar
       </button>
     </div>
   </div>
@@ -445,10 +450,40 @@ onMounted(async () => {
   margin: 25px auto 0;
 }
 
+.description-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  backdrop-filter: blur(10px);
+  margin: 10px 0;
+}
+
 .description-list {
-  list-style-type: disc;
-  padding-left: 20px;
+  list-style: none;
+  padding-left: 0;
   margin: 0;
+}
+
+.description-list li {
+  position: relative;
+  padding-left: 25px;
+  margin: 8px 0;
+}
+
+.description-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%) 0% 0% no-repeat padding-box padding-box transparent !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
 }
 
 .description-text {
@@ -719,22 +754,26 @@ onMounted(async () => {
   transform: translateY(0);
 }
 
-.back-button {
-  background: transparent;
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
-  padding: 12px 24px;
-  font-size: 1rem;
+.continue-button {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  font-size: 1.3rem;
   font-weight: 600;
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(97, 40, 120, 0.3);
 }
 
-.back-button:hover {
-  border-color: rgb(186, 45, 125);
-  color: rgb(186, 45, 125);
-  transform: translateY(-2px);
+.continue-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(97, 40, 120, 0.4);
+}
+
+.continue-button:active {
+  transform: translateY(0);
 }
 
 /* Responsive Design */
