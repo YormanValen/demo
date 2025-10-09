@@ -37,6 +37,11 @@ const isFullScreenEntityDashboard = computed(() => {
   return currentDevice.value === 'full' && (entityRoutes.includes(route.path) || apiRoutes.includes(route.path))
 })
 
+// Computed property to check if we're on analytics page
+const isOnAnalyticsPage = computed(() => {
+  return route.path === '/analytics'
+})
+
 // Computed property to check if we're in entity experience
 const isInEntityExperience = computed(() => {
   return route.path.startsWith('/entity')
@@ -80,6 +85,23 @@ watch([isInEntityExperience, isInApisOpenFinanceExperience], ([isInEntity, isInA
 
 // Fullscreen functionality
 const isFullscreen = ref(false)
+
+// Info menu functionality
+const showInfoMenu = ref(false)
+
+const toggleInfoMenu = () => {
+  showInfoMenu.value = !showInfoMenu.value
+}
+
+const navigateToAnalytics = () => {
+  router.push('/analytics')
+  showInfoMenu.value = false
+}
+
+const goBack = () => {
+  router.back()
+  showInfoMenu.value = false
+}
 
 const toggleFullscreen = async () => {
   try {
@@ -144,6 +166,32 @@ onMounted(() => {
 
     <!-- Floating device selector -->
     <div class="device-controls">
+      <!-- Back button (only show on analytics page) -->
+      <button v-if="isOnAnalyticsPage" class="back-btn" @click="goBack" :title="'Volver atrás'">
+        <v-icon size="18">mdi-arrow-left</v-icon>
+      </button>
+      
+      <!-- Info button with dropdown -->
+      <div class="info-dropdown">
+        <button class="info-btn" @click="toggleInfoMenu" :title="'Información'">
+          <v-icon size="18">mdi-information-outline</v-icon>
+        </button>
+        
+        <!-- Dropdown menu -->
+        <Transition name="slide-up">
+          <div v-if="showInfoMenu" class="info-menu">
+            <button class="info-menu-item" @click="navigateToAnalytics" :title="'Ver estadísticas'">
+              <v-icon size="16">mdi-chart-line</v-icon>
+              <span>Estadísticas</span>
+            </button>
+            <button class="info-menu-item" @click="showInfoMenu = false" :title="'Configuración (próximamente)'">
+              <v-icon size="16">mdi-cog</v-icon>
+              <span>Configuración</span>
+            </button>
+          </div>
+        </Transition>
+      </div>
+      
       <!-- Device mode buttons -->
       <button v-for="opt in availableDeviceOptions" :key="opt.key"
         :class="['device-btn', { active: currentDevice === opt.key }]" 
@@ -207,6 +255,7 @@ onMounted(() => {
   z-index: 9999;
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 8px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -214,6 +263,99 @@ onMounted(() => {
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.info-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.back-btn,
+.info-btn {
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-btn:hover,
+.info-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+  transform: translateY(-1px);
+}
+
+.info-menu {
+  position: absolute;
+  bottom: 50px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 8px;
+  min-width: 160px;
+  z-index: 10001;
+}
+
+.info-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.info-menu-item:hover {
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.info-menu-item:last-child {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.info-menu-item:last-child:hover {
+  background: #f3f4f6;
+  color: #6b7280;
+  transform: none;
+}
+
+/* Dropdown animation */
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
 }
 
 .home-control {
@@ -630,6 +772,23 @@ onMounted(() => {
     min-width: 60px;
   }
 
+  .back-btn,
+  .info-btn {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+  }
+
+  .info-menu {
+    bottom: 45px;
+    min-width: 140px;
+  }
+
+  .info-menu-item {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
   .fullscreen-btn {
     width: 36px;
     height: 36px;
@@ -677,6 +836,23 @@ onMounted(() => {
     padding: 6px 8px;
     font-size: 10px;
     min-width: 50px;
+  }
+
+  .back-btn,
+  .info-btn {
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+  }
+
+  .info-menu {
+    bottom: 40px;
+    min-width: 120px;
+  }
+
+  .info-menu-item {
+    padding: 6px 8px;
+    font-size: 11px;
   }
 
   .fullscreen-btn {

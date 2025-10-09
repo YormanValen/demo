@@ -56,11 +56,15 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserExperienceCounterStore } from "../stores/user-experience-counter.store";
 import { useEntityModulesStore } from "../../entity/stores/entity-modules.store";
+import { useAnalyticsStore } from "../../../stores/analytics";
+import { useVisitedProductsStore } from "../../transactional-insights/stores/visited-products.store";
 
 const router = useRouter();
 const selectedExperience = ref<"user" | "entity" | null>(null);
 const userExperienceCounterStore = useUserExperienceCounterStore();
 const entityModulesStore = useEntityModulesStore();
+const analyticsStore = useAnalyticsStore();
+const visitedProductsStore = useVisitedProductsStore();
 
 const selectExperience = (type: "user" | "entity") => {
   selectedExperience.value = type;
@@ -68,6 +72,9 @@ const selectExperience = (type: "user" | "entity") => {
 
 const continueWithSelection = () => {
   if (!selectedExperience.value) return;
+
+  // Track analytics
+  analyticsStore.trackExperienceVisit(selectedExperience.value === 'user' ? 'usuario' : 'entidad');
 
   // Guardar la selección en localStorage o store
   localStorage.setItem("selectedExperience", selectedExperience.value);
@@ -90,6 +97,8 @@ onMounted(() => {
   userExperienceCounterStore.loadFromLocalStorage();
   // Limpiar el store de módulos de entidad cuando se regresa a esta vista
   entityModulesStore.clearAllModules();
+  // Limpiar los productos visitados del transactional insights
+  visitedProductsStore.clearVisitedProducts();
 });
 </script>
 

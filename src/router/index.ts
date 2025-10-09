@@ -296,6 +296,12 @@ const routes: RouteRecordRaw[] = [
     name: 'technical-flow',
     component: () => import('../modules/technical-flow/views/TechnicalFlowView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/analytics',
+    name: 'analytics-dashboard',
+    component: () => import('../modules/analytics/views/AnalyticsDashboardView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 

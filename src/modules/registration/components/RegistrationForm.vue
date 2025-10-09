@@ -8,9 +8,11 @@ import FinancialLoader from "./FinancialLoader.vue";
 import FlowVisualization from "./FlowVisualization.vue";
 import AnimationContainer from "../../financial/components/AnimationContainer.vue";
 import ConsentForm from "../../consent/components/ConsentForm.vue";
+import { useAnalyticsStore } from "../../../stores/analytics";
 const router = useRouter();
 const emit = defineEmits(["view-document"] as const);
 const store = useRegistrationStore();
+const analyticsStore = useAnalyticsStore();
 const {
   tipoOptions,
   isSubmitting,
@@ -206,6 +208,9 @@ const handleSubmit = async () => {
   if (!isFormValid.value || isSubmitting.value) {
     return;
   }
+
+  // Track analytics for form completion
+  analyticsStore.trackFormCompletion('basic-information', form);
 
   setPhoneNumber(form.celular);
 
