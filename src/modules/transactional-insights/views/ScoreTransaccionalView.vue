@@ -84,18 +84,44 @@
                 :style="particle"></div>
             </div>
 
-            <!-- Person icon -->
-            <div class="person-icon" :class="{ 'celebrating': showConfetti }">
-              <span class="person-emoji">{{ getCurrentPerson().emoji }}</span>
+            <!-- Left side: Categories -->
+            <div class="categories-section">
+              <h3 class="categories-title">Categorías Analizadas:</h3>
+              <div class="categories-list">
+                <div class="category-item">
+                  <span class="category-code">INC-LAB-002</span>
+                  <span class="category-description">Ingresos como independiente</span>
+                </div>
+                <div class="category-item">
+                  <span class="category-code">INC-FIN-003</span>
+                  <span class="category-description">Ingreso por arriendo</span>
+                </div>
+                <div class="category-item">
+                  <span class="category-code">EXP-COM-002</span>
+                  <span class="category-description">Víveres – Cadenas de mercado</span>
+                </div>
+                <div class="category-item">
+                  <span class="category-code">EXP-ENT-005</span>
+                  <span class="category-description">Plataformas de streaming</span>
+                </div>
+              </div>
             </div>
 
-            <!-- Person name -->
-            <div class="person-name">{{ getCurrentPerson().name }}</div>
+            <!-- Right side: Person and Score -->
+            <div class="person-score-section">
+              <!-- Person icon -->
+              <div class="person-icon" :class="{ 'celebrating': showConfetti }">
+                <span class="person-emoji">{{ getCurrentPerson().emoji }}</span>
+              </div>
 
-            <!-- Animated Score -->
-            <div class="score-display-large">
-              <div class="animated-score">{{ animatedScore }}</div>
-              <div class="score-label-large">Score Transaccional</div>
+              <!-- Person name -->
+              <div class="person-name">{{ getCurrentPerson().name }}</div>
+
+              <!-- Animated Score -->
+              <div class="score-display-large">
+                <div class="animated-score">{{ animatedScore }}</div>
+                <div class="score-label-large">Score Transaccional</div>
+              </div>
             </div>
 
           </div>
@@ -676,8 +702,8 @@ onMounted(async () => {
 
 .person-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
   position: relative;
   background: white;
   border-radius: 24px;
@@ -685,8 +711,9 @@ onMounted(async () => {
   box-shadow: 0 20px 50px rgba(97, 40, 120, 0.15);
   border: 3px solid transparent;
   background-clip: padding-box;
-  max-width: 500px;
+  max-width: 900px;
   margin: 0 auto;
+  gap: 60px;
 }
 
 .person-container::before {
@@ -704,6 +731,64 @@ onMounted(async () => {
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
   z-index: -1;
+}
+
+/* Categories Section */
+.categories-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.categories-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+  background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border-left: 4px solid rgb(97, 40, 120);
+}
+
+.category-code {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: rgb(97, 40, 120);
+  letter-spacing: 0.5px;
+}
+
+.category-description {
+  font-size: 1rem;
+  color: #4b5563;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Person and Score Section */
+.person-score-section {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .person-icon {
@@ -893,6 +978,27 @@ onMounted(async () => {
 
   .subtitle {
     font-size: 1.1rem;
+  }
+
+  .person-container {
+    flex-direction: column;
+    gap: 40px;
+    max-width: 600px;
+    align-items: center;
+  }
+
+  .categories-section {
+    order: 2;
+    width: 100%;
+  }
+
+  .person-score-section {
+    order: 1;
+  }
+
+  .categories-title {
+    font-size: 1.2rem;
+    text-align: center;
   }
 
   .data-sources {

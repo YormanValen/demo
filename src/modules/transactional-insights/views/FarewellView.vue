@@ -33,8 +33,8 @@
         <!-- Call to action -->
         <div class="cta-section" :class="{ 'visible': showCTA }">
           <div class="cta-message">¡Conversemos!</div>
-          <button class="contact-button" @click="goToExperienceSelection">
-            <span class="button-text">Volver al inicio</span>
+          <button class="contact-button" @click="goToEntityMenu">
+            <span class="button-text">Volver al menú</span>
           </button>
         </div>
       </div>
@@ -99,8 +99,8 @@ const startAnimations = async () => {
 }
 
 // Actions
-const goToExperienceSelection = () => {
-  router.push({ name: 'experience-selection' })
+const goToEntityMenu = () => {
+  router.push({ name: 'entity-intro' })
 }
 
 const goBack = () => {

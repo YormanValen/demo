@@ -145,7 +145,7 @@ const goToLogin = () => {
 
 const goToDashboard = () => {
   entityModulesStore.markModuleAsVisited('transactional-insights')
-  router.push({ path: '/entity/dashboard', query: { intro: '1' } })
+  router.push('/entity/transactional-insights')
 }
 
 const goToApiLogin = () => {

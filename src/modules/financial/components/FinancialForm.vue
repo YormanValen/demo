@@ -2,7 +2,7 @@
   <div class="registration-container">
     <div class="registration-form">
       <div class="form-header">
-        <h2>INFORMACIÓN BÁSICA SOLICITUD DE CREDITO</h2>
+        <h2>INFORMACIÓN BÁSICA SOLICITUD DE CRÉDITO</h2>
       </div>
 
       <div class="open-finance-message">
@@ -239,7 +239,7 @@ const handleSubmit = () => {
   financialStore.setFinancialData(form);
 
   // Empujar datos al store del PDF (si Pinia está activa)
-  ;(async () => {
+  ; (async () => {
     try {
       const piniaMod: any = await import('pinia')
       if (piniaMod?.getActivePinia && piniaMod.getActivePinia()) {
@@ -251,7 +251,7 @@ const handleSubmit = () => {
           montoSolicitado: form.montoSolicitado,
         } as any)
       }
-    } catch {}
+    } catch { }
   })()
 
   openAnimationContainer();
@@ -298,7 +298,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 .registration-container {
   padding: 0;
   width: 60vw;
-  /* margin-top: -50vh; */
+  margin-top: -30vh;
   position: relative;
 }
 

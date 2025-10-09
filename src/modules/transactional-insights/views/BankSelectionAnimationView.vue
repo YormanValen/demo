@@ -1397,17 +1397,22 @@ const navigateToHistoryWithReveal = () => {
   animation: logoBreath 6s ease-in-out infinite;
 }
 
-/* Fondos de colores suaves para cada banco */
+/* Fondos de colores suaves para cada banco - completamente estáticos */
 .bank-item[data-bank-id="1"] .bank-logo {
-  background: linear-gradient(135deg, #1d4ed840, #1d4ed820) !important;
+  background: linear-gradient(135deg, rgba(29, 78, 216, 0.25), rgba(29, 78, 216, 0.12)) !important;
 }
 
 .bank-item[data-bank-id="2"] .bank-logo {
-  background: linear-gradient(135deg, #dc262640, #dc262620) !important;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(220, 38, 38, 0.12)) !important;
 }
 
 .bank-item[data-bank-id="3"] .bank-logo {
-  background: linear-gradient(135deg, #05966940, #05966920) !important;
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.25), rgba(5, 150, 105, 0.12)) !important;
+}
+
+/* Fondo por defecto para cualquier otro banco */
+.bank-logo {
+  background: linear-gradient(135deg, rgba(156, 163, 175, 0.25), rgba(156, 163, 175, 0.12)) !important;
 }
 
 
