@@ -48,7 +48,7 @@
         </div>
 
         <div class="feature-item">
-          <h3 class="feature-title">Atención personalizada</h3>
+          <h3 class="feature-title">Oferta personalizada</h3>
           <p class="feature-description">
             Créditos adaptados a su perfil financiero específico
           </p>

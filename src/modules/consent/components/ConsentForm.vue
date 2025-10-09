@@ -79,6 +79,9 @@ const handleNextClick = () => {
     </div>
 
     <div class="benefits-container">
+      <div class="selection-badge">
+        <span class="badge-text">Puedes escoger una o varias opciones de consentimiento</span>
+      </div>
       <div v-for="benefit in benefits" :key="benefit.id" class="benefit-item">
         <div class="benefit-icon">
           <v-icon :icon="benefit.icon" color="#982881" size="24"></v-icon>
@@ -172,6 +175,21 @@ const handleNextClick = () => {
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.selection-badge {
+  background: linear-gradient(21deg, rgba(97, 40, 120, 0.1), rgba(186, 45, 125, 0.1));
+  border: 1px solid rgba(152, 40, 129, 0.3);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.badge-text {
+  color: #982881;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .benefit-item {
@@ -453,5 +471,11 @@ const handleNextClick = () => {
 .is-mobile .continue-button {
   padding: 8px 28px;
   font-size: 13px;
+}
+
+.is-tablet .badge-text,
+.tablet .badge-text,
+.is-mobile .badge-text {
+  font-size: 12px;
 }
 </style>

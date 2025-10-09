@@ -6,18 +6,51 @@ const isPlaying = ref(false)
 const revealed = ref(0) // how many cards are visible
 const showOrientationModal = ref(true)
 
+// Track animation for bottom elements
+const trackAnimationStep = ref(0)
+
 const startAnimation = () => {
   if (isPlaying.value) return
   isPlaying.value = true
   revealed.value = 0
+  trackAnimationStep.value = 0
 
   const totalItems = columns.length
   let i = 0
   const interval = setInterval(() => {
     i++
     revealed.value = i
-    if (i >= totalItems) clearInterval(interval)
+    if (i >= totalItems) {
+      clearInterval(interval)
+      // Start track animation after grid is complete
+      setTimeout(startTrackAnimation, 500)
+    }
   }, 350)
+}
+
+const startTrackAnimation = () => {
+  const delays = [0, 600, 1200, 1800, 2400, 3000, 3600] // 600ms between each element
+
+  // 1. Habilitación (from top)
+  setTimeout(() => trackAnimationStep.value = 1, delays[0])
+
+  // 2. Arrow 1 (from top)
+  setTimeout(() => trackAnimationStep.value = 2, delays[1])
+
+  // 3. Tecnología Core (from bottom)
+  setTimeout(() => trackAnimationStep.value = 3, delays[2])
+
+  // 4. Arrow 2 (from bottom)
+  setTimeout(() => trackAnimationStep.value = 4, delays[3])
+
+  // 5. Monetización y crecimiento (from top)
+  setTimeout(() => trackAnimationStep.value = 5, delays[4])
+
+  // 6. Arrow 3 (from top)
+  setTimeout(() => trackAnimationStep.value = 6, delays[5])
+
+  // 7. Ecosistema (from bottom)
+  setTimeout(() => trackAnimationStep.value = 7, delays[6])
 }
 
 
@@ -36,7 +69,7 @@ const columns = [
     title: 'Consultoría y Acompañamiento',
     items: [
       'Guía estratégica y técnica para implementación.',
-      'Acelera la entrada al mercado con riesgos mínimos.'
+      '<strong>Acelera la entrada al mercado</strong> con riesgos mínimos.'
     ]
   },
   {
@@ -45,7 +78,7 @@ const columns = [
     title: 'Entrenamiento Especializado',
     items: [
       'Desarrolla conocimiento y habilidades para el ecosistema.',
-      'Asegura un equipo preparado para liderar.'
+      '<strong>Asegura un equipo preparado</strong> para liderar.'
     ]
   },
   {
@@ -54,7 +87,7 @@ const columns = [
     title: 'Plataforma de Consentimientos',
     items: [
       'Gestión transparente y auditable del consentimiento.',
-      'Minimiza el riesgo legal y asegura cumplimiento.'
+      '<strong>Minimiza el riesgo legal</strong> y asegura cumplimiento.'
     ]
   },
   {
@@ -63,7 +96,7 @@ const columns = [
     title: 'Plataforma de APIs Open Finance',
     items: [
       'APIs listas que cumplen estándares.',
-      'Simplifica la complejidad técnica y la conexión.'
+      '<strong>Simplifica la complejidad técnica</strong> y la conexión.'
     ]
   },
   {
@@ -72,7 +105,7 @@ const columns = [
     title: 'Variables Analíticas',
     items: [
       'Transformación de datos transaccionales en insights.',
-      'Reduce el riesgo y potencia decisiones.'
+      '<strong>Reduce el riesgo</strong> y potencia decisiones.'
     ]
   },
   {
@@ -81,7 +114,7 @@ const columns = [
     title: 'Integración con Productos Experian',
     items: [
       'Conexión nativa con motores de decisión.',
-      'Maximiza el retorno de tu ecosistema.'
+      '<strong>Maximiza el retorno</strong> de tu ecosistema.'
     ]
   },
   {
@@ -90,7 +123,7 @@ const columns = [
     title: 'Bre-B',
     items: [
       'Habilitación en infraestructura de pagos inmediatos.',
-      'Participa activamente en la nueva economía.'
+      '<strong>Participa activamente</strong> en la nueva economía.'
     ]
   },
   {
@@ -99,7 +132,7 @@ const columns = [
     title: 'Tercero Receptor de Datos (TRD)',
     items: [
       'Acompañamiento en certificación y marco de seguridad.',
-      'Expande el alcance para consumir datos de terceros.'
+      '<strong>Expande el alcance</strong> para <strong>consumir datos</strong> de terceros.'
     ]
   }
 ]
@@ -116,13 +149,13 @@ onMounted(() => {
       <div class="banner">
         <div class="banner__left">
           <div class="headline">
-            Vive las <span class="highlight">Finanzas Abiertas</span>
+            Vive las <span class="highlight"><strong>Finanzas Abiertas</strong></span>
             <span class="brand"> con DataCrédito Experian</span>
           </div>
         </div>
         <div class="banner__right">
           Nuestra experiencia te ayudará a moverte con seguridad en esta nueva era financiera
-          para que des los pasos correctos.
+          para que des <span class="sub-highlight"><strong>pasos correctos.</strong></span>
         </div>
       </div>
     </header>
@@ -156,7 +189,7 @@ onMounted(() => {
         <!-- Description container (separate card below) -->
         <div class="desc-card">
           <ul class="desc-card__list">
-            <li v-for="(it, i) in col.items" :key="i">{{ it }}</li>
+            <li v-for="(it, i) in col.items" :key="i" v-html="it"></li>
           </ul>
         </div>
       </div>
@@ -164,10 +197,48 @@ onMounted(() => {
 
     <!-- Bottom ecosystem track -->
     <div class="track">
-      <div class="pill pill--enable">Habilitación</div>
-      <div class="pill pill--core">Tecnología Core</div>
-      <div class="pill pill--growth">Monetización y crecimiento</div>
-      <div class="pill pill--ecosystem">Ecosistema</div>
+      <!-- Arrows positioned above the spaces between buttons -->
+      <div class="arrow-connector animate-from-top" :class="{ 'visible': trackAnimationStep >= 2 }"
+        style="margin-left: -50px;">
+        <svg width="180" height="75" viewBox="0 0 252 92" class="arrow-svg" style="transform: scaleX(-1);">
+          <path
+            d="M14.4435 26.0257C16.3478 34.2205 18.0405 42.2052 20.1564 51.2405C14.6551 50.6101 11.4813 47.2481 10.2118 43.4659C6.40316 32.1193 2.80616 20.5625 0.267088 8.79558C-1.21403 2.07164 3.65251 -1.50048 10.2118 0.600755C21.2144 3.96273 32.0054 7.95508 43.0081 11.7373C43.6428 11.9474 44.4892 12.1576 44.7008 12.5778C45.7587 14.0487 46.3935 15.7296 47.2398 17.4106C45.7587 18.041 44.2776 19.5119 43.0081 19.3017C38.5647 18.6714 34.3329 17.6208 30.1011 16.7803C27.7736 16.36 25.6577 15.7297 22.2723 16.7803C24.5998 19.3018 26.9273 22.0333 29.2548 24.5548C79.6129 74.5642 155.15 85.0703 217.781 51.2405C225.821 46.8279 233.227 41.5748 241.055 36.742C243.806 35.061 246.557 33.5901 249.307 31.9092C249.942 32.3294 250.365 32.9598 251 33.38C250.365 35.2711 250.154 37.7926 248.673 39.0533C244.018 43.4659 239.363 47.8785 234.073 51.6607C181.599 89.4829 108.601 90.9538 52.1064 54.8126C41.3153 47.8785 31.7938 39.0533 21.8492 31.0686C19.7333 29.3876 18.0406 27.4966 16.1363 25.6054C15.7131 25.3953 15.0783 25.6054 14.4435 26.0257Z"
+            fill="#4F9CF9" />
+        </svg>
+      </div>
+      <div class="arrow-connector animate-from-bottom" :class="{ 'visible': trackAnimationStep >= 4 }"
+        style="margin-left: -50px;">
+        <svg width="180" height="75" viewBox="0 0 252 92" class="arrow-svg" style="transform: scaleX(-1) scaleY(-1);">
+          <path
+            d="M14.4435 26.0257C16.3478 34.2205 18.0405 42.2052 20.1564 51.2405C14.6551 50.6101 11.4813 47.2481 10.2118 43.4659C6.40316 32.1193 2.80616 20.5625 0.267088 8.79558C-1.21403 2.07164 3.65251 -1.50048 10.2118 0.600755C21.2144 3.96273 32.0054 7.95508 43.0081 11.7373C43.6428 11.9474 44.4892 12.1576 44.7008 12.5778C45.7587 14.0487 46.3935 15.7296 47.2398 17.4106C45.7587 18.041 44.2776 19.5119 43.0081 19.3017C38.5647 18.6714 34.3329 17.6208 30.1011 16.7803C27.7736 16.36 25.6577 15.7297 22.2723 16.7803C24.5998 19.3018 26.9273 22.0333 29.2548 24.5548C79.6129 74.5642 155.15 85.0703 217.781 51.2405C225.821 46.8279 233.227 41.5748 241.055 36.742C243.806 35.061 246.557 33.5901 249.307 31.9092C249.942 32.3294 250.365 32.9598 251 33.38C250.365 35.2711 250.154 37.7926 248.673 39.0533C244.018 43.4659 239.363 47.8785 234.073 51.6607C181.599 89.4829 108.601 90.9538 52.1064 54.8126C41.3153 47.8785 31.7938 39.0533 21.8492 31.0686C19.7333 29.3876 18.0406 27.4966 16.1363 25.6054C15.7131 25.3953 15.0783 25.6054 14.4435 26.0257Z"
+            fill="#4F9CF9" />
+        </svg>
+      </div>
+      <div class="arrow-connector animate-from-top" :class="{ 'visible': trackAnimationStep >= 6 }"
+        style="margin-left: -20px;">
+        <svg width="180" height="75" viewBox="0 0 252 92" class="arrow-svg" style="transform: scaleX(-1);">
+          <path
+            d="M14.4435 26.0257C16.3478 34.2205 18.0405 42.2052 20.1564 51.2405C14.6551 50.6101 11.4813 47.2481 10.2118 43.4659C6.40316 32.1193 2.80616 20.5625 0.267088 8.79558C-1.21403 2.07164 3.65251 -1.50048 10.2118 0.600755C21.2144 3.96273 32.0054 7.95508 43.0081 11.7373C43.6428 11.9474 44.4892 12.1576 44.7008 12.5778C45.7587 14.0487 46.3935 15.7296 47.2398 17.4106C45.7587 18.041 44.2776 19.5119 43.0081 19.3017C38.5647 18.6714 34.3329 17.6208 30.1011 16.7803C27.7736 16.36 25.6577 15.7297 22.2723 16.7803C24.5998 19.3018 26.9273 22.0333 29.2548 24.5548C79.6129 74.5642 155.15 85.0703 217.781 51.2405C225.821 46.8279 233.227 41.5748 241.055 36.742C243.806 35.061 246.557 33.5901 249.307 31.9092C249.942 32.3294 250.365 32.9598 251 33.38C250.365 35.2711 250.154 37.7926 248.673 39.0533C244.018 43.4659 239.363 47.8785 234.073 51.6607C181.599 89.4829 108.601 90.9538 52.1064 54.8126C41.3153 47.8785 31.7938 39.0533 21.8492 31.0686C19.7333 29.3876 18.0406 27.4966 16.1363 25.6054C15.7131 25.3953 15.0783 25.6054 14.4435 26.0257Z"
+            fill="#4F9CF9" />
+        </svg>
+      </div>
+
+      <!-- Pills container -->
+      <div class="track-pills">
+        <div class="track-item">
+          <div class="pill pill--enable animate-down" :class="{ 'visible': trackAnimationStep >= 1 }">Habilitación</div>
+        </div>
+        <div class="track-item">
+          <div class="pill pill--core animate-up" :class="{ 'visible': trackAnimationStep >= 3 }">Tecnología Core</div>
+        </div>
+        <div class="track-item">
+          <div class="pill pill--growth animate-down" :class="{ 'visible': trackAnimationStep >= 5 }">Monetización y
+            crecimiento</div>
+        </div>
+        <div class="track-item">
+          <div class="pill pill--ecosystem animate-up" :class="{ 'visible': trackAnimationStep >= 7 }">Ecosistema</div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -216,7 +287,13 @@ onMounted(() => {
 }
 
 .headline .highlight {
-  color: #7dd3fc;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.headline .sub-highlight {
+  font-weight: 500;
+  font-style: bold;
 }
 
 .headline .brand {
@@ -378,23 +455,91 @@ onMounted(() => {
 .track {
   width: 100%;
   max-width: none;
-  margin: 26px 0 0 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+  margin: 130px 0 0 0;
+  position: relative;
+}
+
+.track-pills {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.track-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Animation classes for pills */
+.pill.animate-down {
+  transform: translateY(-50px);
+}
+
+.pill.animate-up {
+  transform: translateY(50px);
+}
+
+.pill.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animation classes for arrows */
+.arrow-connector.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Specific positioning and animation delays */
+
+.arrow-connector:nth-child(1) {
+  left: calc(25% - 60px);
+}
+
+.arrow-connector:nth-child(2) {
+  left: calc(50% - 60px);
+  top: -60px;
+  bottom: auto;
+}
+
+.arrow-connector:nth-child(3) {
+  left: calc(75% - 60px);
+}
+
+.arrow-svg {
+  width: 180px;
+  height: 75px;
 }
 
 .pill {
-  padding: 0 18px;
-  height: 56px;
-  border-radius: 18px;
+  padding: 0 48px;
+  height: 80px;
+  border-radius: 24px;
   color: #fff;
   text-align: center;
   font-weight: 700;
   box-shadow: var(--shadow-md);
   display: grid;
   place-items: center;
+  font-size: 16px;
+  min-width: 280px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.arrow-connector {
+  position: absolute;
+  bottom: -80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
 }
 
 .pill--enable {
@@ -414,6 +559,69 @@ onMounted(() => {
 }
 
 /* Responsive */
+
+/* Portrait orientation for vertical screens like 1080x1920 */
+@media (orientation: portrait) and (min-width: 768px) {
+  .banner {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: 24px;
+    margin: 24px 0 40px 0;
+  }
+
+  .desc-card {
+    height: 220px;
+  }
+
+  .track {
+    margin: 80px 0 0 0;
+  }
+
+  .track-pills {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .track-item {
+    flex: none;
+    width: 100%;
+  }
+
+  .pill {
+    min-width: 320px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .arrow-connector {
+    display: none;
+  }
+}
+
+/* Large portrait screens (tablets in portrait) */
+@media (orientation: portrait) and (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    max-width: 1000px;
+    margin: 24px auto 40px;
+  }
+
+  .banner {
+    max-width: 1000px;
+    margin: 0 auto 16px;
+  }
+
+  .track {
+    max-width: 1000px;
+    margin: 80px auto 0;
+  }
+}
+
 @media (max-width: 1024px) {
   .grid {
     grid-template-columns: repeat(2, minmax(220px, 1fr));
@@ -425,7 +633,17 @@ onMounted(() => {
   }
 
   .track {
-    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .arrow-connector {
+    display: none;
+  }
+
+  .track-item {
+    flex: 0 0 calc(50% - 8px);
   }
 }
 
@@ -440,7 +658,17 @@ onMounted(() => {
   }
 
   .track {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .arrow-connector {
+    display: none;
+  }
+
+  .track-item {
+    flex: none;
+    width: 100%;
   }
 
   /* Avoid fixed height on very small screens */

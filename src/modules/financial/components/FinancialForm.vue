@@ -122,7 +122,7 @@
             ">
             <!-- Next instruction disclaimer -->
             <div class="next-disclaimer">
-              <p>Haz click en "Siguiente" para continuar al siguiente paso</p>
+              <p>Haz click en "Siguiente" para continuar.</p>
             </div>
             <button @click="handleNextClick" class="next-button">
               Siguiente

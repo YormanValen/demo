@@ -1,31 +1,32 @@
 <template>
   <div class="user-experience-intro" :class="{ 'exiting': isExiting }">
     <TransactionalInsightsBackground />
-    
+
     <div class="intro-content">
       <div class="content-container" :class="{ 'visible': isVisible, 'exiting': isExiting }">
         <div class="intro-text">
           <div class="title-container" :class="{ 'visible': showTitle, 'exiting': isExiting }">
             <p class="intro-title-text">
-              ¡Bienvenidos a la nueva era de la banca!
+              ¡Bienvenidos a la nueva era de la Banca!
             </p>
           </div>
-          
+
           <div class="description-container" :class="{ 'visible': showDescription, 'exiting': isExiting }">
             <p class="intro-description-text">
-              Hoy les mostraremos cómo <strong>Open Finance</strong> no es solo una tendencia, sino una revolución que pone el poder de sus datos en sus manos.
+              Hoy les mostraremos como <strong>Open Finance</strong> no es solo una tendencia, sino una revolución que
+              pone el poder de sus datos en sus manos.
             </p>
-            
+
             <p class="intro-description-text">
               Están a punto de iniciar un onboarding de producto con <strong>Open Finance</strong>, así, podemos
               entender mejor sus necesidades y personalizar su oferta al instante y con total seguridad.
             </p>
-            
+
             <p class="intro-description-text">
               Van a experimentar un proceso rápido, simple y transparente que utiliza sus datos financieros para:
             </p>
           </div>
-          
+
           <div class="benefits-container" :class="{ 'visible': showBenefits, 'exiting': isExiting }">
             <ul class="benefits-list">
               <li class="benefit-item" :class="{ 'visible': showBenefit1, 'exiting': isExiting }">
@@ -42,7 +43,7 @@
               </li>
             </ul>
           </div>
-          
+
           <div class="final-text-container" :class="{ 'visible': showFinalText, 'exiting': isExiting }">
             <p class="intro-description-text">
               Una vez que experimenten esta agilidad como usuarios, les mostraremos el 'detrás de escena':
@@ -50,12 +51,12 @@
             </p>
           </div>
         </div>
-        
+
         <div class="demo-badge" :class="{ 'visible': showFinalText, 'exiting': isExiting }">
           <span class="badge-label">DEMOSTRACIÓN DE CONCEPTO:</span>
           Esta es una muestra potencial, no es el producto final. Funcionalidades y datos simulados y sujetos a cambio.
         </div>
-        
+
         <button class="start-experience-button" :class="{ 'exiting': isExiting }" @click="startExperience">
           Comenzar experiencia
         </button>
@@ -83,7 +84,7 @@ const isExiting = ref(false)
 const startExperience = () => {
   // Trigger exit animation
   isExiting.value = true
-  
+
   // Navigate after animation completes
   setTimeout(() => {
     router.push('/registration/basic-information')
@@ -93,21 +94,21 @@ const startExperience = () => {
 const startAnimationSequence = async () => {
   // Show main container first
   setTimeout(() => isVisible.value = true, 100)
-  
+
   // Show title
   setTimeout(() => showTitle.value = true, 600)
-  
+
   // Show description
   setTimeout(() => showDescription.value = true, 1200)
-  
+
   // Show benefits container
   setTimeout(() => showBenefits.value = true, 1800)
-  
+
   // Show benefits sequentially
   setTimeout(() => showBenefit1.value = true, 2200)
   setTimeout(() => showBenefit2.value = true, 2500)
   setTimeout(() => showBenefit3.value = true, 2800)
-  
+
   // Show final text
   setTimeout(() => showFinalText.value = true, 3200)
 }
@@ -340,15 +341,15 @@ onMounted(() => {
     padding: 24px;
     margin: 20px;
   }
-  
+
   .intro-paragraph {
     font-size: 1rem;
   }
-  
+
   .intro-paragraph:first-child {
     font-size: 1.1rem;
   }
-  
+
   .start-experience-button {
     padding: 14px 28px;
     font-size: 1rem;

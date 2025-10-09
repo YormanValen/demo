@@ -93,7 +93,7 @@ async function syncPdfStoreFromForm() {
         correo: form.correo,
       })
     }
-  } catch {}
+  } catch { }
 }
 
 watch(
@@ -438,10 +438,8 @@ const handleConsentAnimation = () => {
 
       <!-- Consent Form Section -->
       <div class="consent-section">
-        <ConsentForm
-          @trigger-animation="handleConsentAnimation"
-          @view-document="(url: string) => emit('view-document', url)"
-        />
+        <ConsentForm @trigger-animation="handleConsentAnimation"
+          @view-document="(url: string) => emit('view-document', url)" />
       </div>
     </div>
 
@@ -488,7 +486,7 @@ const handleConsentAnimation = () => {
           <div v-if="showNextButton" style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
             <!-- Next instruction disclaimer -->
             <div class="next-disclaimer">
-              <p>Haz click en "Siguiente" para continuar al siguiente paso</p>
+              <p>Haz click en "Siguiente" para continuar.</p>
             </div>
             <button @click="handleNextClick" class="next-button">
               Siguiente
@@ -1044,11 +1042,9 @@ const handleConsentAnimation = () => {
   gap: 12px;
   padding: 16px 20px;
   margin: 20px 0;
-  background: linear-gradient(
-    135deg,
-    rgba(97, 40, 120, 0.08) 0%,
-    rgba(186, 45, 125, 0.08) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(97, 40, 120, 0.08) 0%,
+      rgba(186, 45, 125, 0.08) 100%);
   border-radius: 12px;
   border-left: 4px solid #612878;
   position: relative;
@@ -1062,11 +1058,9 @@ const handleConsentAnimation = () => {
   right: 0;
   width: 60px;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(97, 40, 120, 0.05) 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(97, 40, 120, 0.05) 100%);
   pointer-events: none;
 }
 
@@ -1101,15 +1095,15 @@ const handleConsentAnimation = () => {
     width: 90vw;
     padding: 0 10px;
   }
-  
+
   .form-header h2 {
     font-size: 16px;
   }
-  
+
   .sms-container {
     max-width: calc(100vw - 80px);
   }
-  
+
   .sms-text {
     font-size: 12px;
     white-space: normal;
@@ -1117,43 +1111,43 @@ const handleConsentAnimation = () => {
     line-height: 1.4;
     overflow-wrap: break-word;
   }
-  
+
   .switch-text {
     font-size: 12px;
     white-space: normal;
   }
-  
+
   .checkbox-text {
     font-size: 12px;
     white-space: normal;
   }
-  
+
   .form-body .form-ctn {
     gap: 2vw;
   }
-  
+
   .sms-container {
     margin-left: calc(19px + 2vw);
   }
-  
+
   .switch-container {
     margin-left: calc(19px + 2vw);
     white-space: normal;
   }
-  
+
   .checkbox-container {
     margin-left: calc(19px + 2vw);
   }
-  
+
   .error-message {
     margin-left: calc(19px + 2vw);
     font-size: 11px;
   }
-  
+
   .process-disclaimer p {
     font-size: 14px;
   }
-  
+
   .next-disclaimer p {
     font-size: 13px;
   }
@@ -1164,73 +1158,73 @@ const handleConsentAnimation = () => {
     width: 95vw;
     padding: 0 5px;
   }
-  
+
   .form-header h2 {
     font-size: 14px;
     padding: 10px;
   }
-  
-  
+
+
   .switch-text {
     font-size: 11px;
   }
-  
+
   .checkbox-text {
     font-size: 11px;
   }
-  
+
   .form-body .form-ctn {
     gap: 3vw;
   }
-  
+
   .sms-container {
     margin-left: calc(19px + 3vw);
     max-width: calc(100vw - 60px);
   }
-  
+
   .sms-text {
     font-size: 11px;
     word-wrap: break-word;
     line-height: 1.3;
     overflow-wrap: break-word;
   }
-  
+
   .switch-container {
     margin-left: calc(19px + 3vw);
     flex-wrap: wrap;
   }
-  
+
   .checkbox-container {
     margin-left: calc(19px + 3vw);
   }
-  
+
   .error-message {
     margin-left: calc(19px + 3vw);
     font-size: 10px;
   }
-  
+
   .process-disclaimer {
     padding: 12px 20px;
   }
-  
+
   .process-disclaimer p {
     font-size: 12px;
   }
-  
+
   .next-disclaimer {
     padding: 12px 16px;
   }
-  
+
   .next-disclaimer p {
     font-size: 12px;
   }
-  
+
   .next-button {
     width: 140px;
     height: 32px;
     font-size: 12px;
   }
-  
+
   .custom-tooltip .v-overlay__content {
     max-width: 200px !important;
     min-width: 150px !important;
@@ -1306,26 +1300,26 @@ const handleConsentAnimation = () => {
 </style>
 // Mantener el store del PDF sincronizado con los campos relevantes
 watch(
-  () => ({
-    nombres: form.nombres,
-    primerApellido: form.primerApellido,
-    tipoDocumento: form.tipoDocumento,
-    numeroIdentificacion: form.numeroIdentificacion,
-    fechaExpedicionDocumento: form.fechaExpedicionDocumento,
-    celular: form.celular,
-    correo: form.correo,
-  }),
-  () => {
-    const primerNombre = (form.nombres || '').trim().split(/\s+/)[0] || ''
-    pdfFormStore.setFromRegistrationStep1({
-      tipoDocumento: form.tipoDocumento,
-      numeroIdentificacion: form.numeroIdentificacion,
-      primerNombre,
-      primerApellido: form.primerApellido,
-      fechaExpedicion: form.fechaExpedicionDocumento as unknown as string,
-      celular: form.celular,
-      correo: form.correo,
-    })
-  },
-  { deep: true }
+() => ({
+nombres: form.nombres,
+primerApellido: form.primerApellido,
+tipoDocumento: form.tipoDocumento,
+numeroIdentificacion: form.numeroIdentificacion,
+fechaExpedicionDocumento: form.fechaExpedicionDocumento,
+celular: form.celular,
+correo: form.correo,
+}),
+() => {
+const primerNombre = (form.nombres || '').trim().split(/\s+/)[0] || ''
+pdfFormStore.setFromRegistrationStep1({
+tipoDocumento: form.tipoDocumento,
+numeroIdentificacion: form.numeroIdentificacion,
+primerNombre,
+primerApellido: form.primerApellido,
+fechaExpedicion: form.fechaExpedicionDocumento as unknown as string,
+celular: form.celular,
+correo: form.correo,
+})
+},
+{ deep: true }
 )

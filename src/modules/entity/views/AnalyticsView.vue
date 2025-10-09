@@ -67,15 +67,15 @@
         <div class="status-definitions">
           <div class="definition-item">
             <span class="status-label canceled">CANCELADO:</span>
-            <span>corresponde a las transacciones que se cancelaron y no finalizaron su proceso</span>
+            <span>Corresponde a las transacciones que se cancelaron y no finalizaron su proceso</span>
           </div>
           <div class="definition-item">
-            <span class="status-label processing">PROCESO:</span>
-            <span>corresponde a las transacciones que se encuentran en un proceso</span>
+            <span class="status-label processing">EN PROCESO:</span>
+            <span>Corresponde a las transacciones que se encuentran en un proceso</span>
           </div>
           <div class="definition-item">
             <span class="status-label completed">FINALIZADO:</span>
-            <span>corresponde a las transacciones que se concluyeron de forma exitosa</span>
+            <span>Corresponde a las transacciones que se concluyeron de forma exitosa</span>
           </div>
         </div>
 
@@ -113,29 +113,30 @@
                   </linearGradient>
                 </defs>
                 <!-- Pie chart segments - Open Finance 22.3% (80.28 degrees) -->
-                <path d="M 100,100 L 100,20 A 80,80 0 0,1 169.6,54.4 z" 
-                      fill="url(#consentGrad1)" stroke="white" stroke-width="2" class="chart-segment" />
-                
+                <path d="M 100,100 L 100,20 A 80,80 0 0,1 169.6,54.4 z" fill="url(#consentGrad1)" stroke="white"
+                  stroke-width="2" class="chart-segment" />
+
                 <!-- Validación ID 23.8% (85.68 degrees) -->
-                <path d="M 100,100 L 169.6,54.4 A 80,80 0 0,1 180,100 L 100,100 z" 
-                      fill="url(#consentGrad2)" stroke="white" stroke-width="2" class="chart-segment" />
-                
+                <path d="M 100,100 L 169.6,54.4 A 80,80 0 0,1 180,100 L 100,100 z" fill="url(#consentGrad2)"
+                  stroke="white" stroke-width="2" class="chart-segment" />
+
                 <!-- Scoring 20.3% (73.08 degrees) -->
-                <path d="M 100,100 L 180,100 A 80,80 0 0,1 145.6,165.6 z" 
-                      fill="url(#consentGrad3)" stroke="white" stroke-width="2" class="chart-segment" />
-                
+                <path d="M 100,100 L 180,100 A 80,80 0 0,1 145.6,165.6 z" fill="url(#consentGrad3)" stroke="white"
+                  stroke-width="2" class="chart-segment" />
+
                 <!-- Mercadeo 17.8% (64.08 degrees) -->
-                <path d="M 100,100 L 145.6,165.6 A 80,80 0 0,1 54.4,169.6 z" 
-                      fill="url(#consentGrad4)" stroke="white" stroke-width="2" class="chart-segment" />
-                
+                <path d="M 100,100 L 145.6,165.6 A 80,80 0 0,1 54.4,169.6 z" fill="url(#consentGrad4)" stroke="white"
+                  stroke-width="2" class="chart-segment" />
+
                 <!-- Otros 15.8% (56.88 degrees) -->
-                <path d="M 100,100 L 54.4,169.6 A 80,80 0 0,1 100,20 z" 
-                      fill="url(#consentGrad5)" stroke="white" stroke-width="2" class="chart-segment" />
+                <path d="M 100,100 L 54.4,169.6 A 80,80 0 0,1 100,20 z" fill="url(#consentGrad5)" stroke="white"
+                  stroke-width="2" class="chart-segment" />
               </svg>
             </div>
             <div class="consent-stats">
               <div class="stat-item">
-                <div class="stat-color" style="background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%)">
+                <div class="stat-color"
+                  style="background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%)">
                 </div>
                 <div class="stat-info">
                   <span class="stat-label">Open Finance</span>
@@ -143,28 +144,36 @@
                 </div>
               </div>
               <div class="stat-item">
-                <div class="stat-color" style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.8) 0%, rgba(186, 45, 125, 0.8) 100%)"></div>
+                <div class="stat-color"
+                  style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.8) 0%, rgba(186, 45, 125, 0.8) 100%)">
+                </div>
                 <div class="stat-info">
                   <span class="stat-label">Validación ID</span>
                   <span class="stat-value">23.8%</span>
                 </div>
               </div>
               <div class="stat-item">
-                <div class="stat-color" style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.6) 0%, rgba(186, 45, 125, 0.6) 100%)"></div>
+                <div class="stat-color"
+                  style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.6) 0%, rgba(186, 45, 125, 0.6) 100%)">
+                </div>
                 <div class="stat-info">
                   <span class="stat-label">Scoring</span>
                   <span class="stat-value">20.3%</span>
                 </div>
               </div>
               <div class="stat-item">
-                <div class="stat-color" style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.4) 0%, rgba(186, 45, 125, 0.4) 100%)"></div>
+                <div class="stat-color"
+                  style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.4) 0%, rgba(186, 45, 125, 0.4) 100%)">
+                </div>
                 <div class="stat-info">
                   <span class="stat-label">Mercadeo</span>
                   <span class="stat-value">17.8%</span>
                 </div>
               </div>
               <div class="stat-item">
-                <div class="stat-color" style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.2) 0%, rgba(186, 45, 125, 0.2) 100%)"></div>
+                <div class="stat-color"
+                  style="background: linear-gradient(21deg, rgba(97, 40, 120, 0.2) 0%, rgba(186, 45, 125, 0.2) 100%)">
+                </div>
                 <div class="stat-info">
                   <span class="stat-label">Otros</span>
                   <span class="stat-value">15.8%</span>
@@ -261,12 +270,12 @@
                     </linearGradient>
                   </defs>
                   <!-- Activos line (higher values) -->
-                  <path d="M 30,20 L 70,15 L 110,18 L 150,12 L 190,16 L 230,10 L 270,8" 
-                        fill="none" stroke="url(#activeGrad)" stroke-width="3" class="trend-line" />
+                  <path d="M 30,20 L 70,15 L 110,18 L 150,12 L 190,16 L 230,10 L 270,8" fill="none"
+                    stroke="url(#activeGrad)" stroke-width="3" class="trend-line" />
                   <!-- Revocados line (lower values) -->
-                  <path d="M 30,90 L 70,85 L 110,88 L 150,82 L 190,86 L 230,80 L 270,78" 
-                        fill="none" stroke="url(#revokedGrad)" stroke-width="3" class="trend-line" />
-                  
+                  <path d="M 30,90 L 70,85 L 110,88 L 150,82 L 190,86 L 230,80 L 270,78" fill="none"
+                    stroke="url(#revokedGrad)" stroke-width="3" class="trend-line" />
+
                   <!-- Activos points -->
                   <circle cx="30" cy="20" r="4" fill="url(#activeGrad)" class="trend-point" />
                   <circle cx="70" cy="15" r="4" fill="url(#activeGrad)" class="trend-point" />
@@ -275,7 +284,7 @@
                   <circle cx="190" cy="16" r="4" fill="url(#activeGrad)" class="trend-point" />
                   <circle cx="230" cy="10" r="4" fill="url(#activeGrad)" class="trend-point" />
                   <circle cx="270" cy="8" r="4" fill="url(#activeGrad)" class="trend-point" />
-                  
+
                   <!-- Revocados points -->
                   <circle cx="30" cy="90" r="4" fill="url(#revokedGrad)" class="trend-point" />
                   <circle cx="70" cy="85" r="4" fill="url(#revokedGrad)" class="trend-point" />
@@ -301,27 +310,15 @@
       </div>
     </div>
     <!-- Bottom sheet: Experiencia de Entidad (analytics) -->
-    <EntityAnimationContainer 
-      :is-visible="true"
-      :clickable-header="false"
-      :force-open="isEntitySheetOpen"
-      @toggle="onEntitySheetToggle"
-    >
-      <div class="analytics-flow" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; height:100%;">
-        <EntityFlowVisualization
-          :is-visible="showEntityFlow"
-          :steps="analyticsSteps"
-          :pre-completed="3"
-          @step-change="onEntityFlowStepChange"
-          @all-complete="onEntityFlowComplete"
-        />
+    <EntityAnimationContainer :is-visible="true" :clickable-header="false" :force-open="isEntitySheetOpen"
+      @toggle="onEntitySheetToggle">
+      <div class="analytics-flow"
+        style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; height:100%;">
+        <EntityFlowVisualization :is-visible="showEntityFlow" :steps="analyticsSteps" :pre-completed="3"
+          @step-change="onEntityFlowStepChange" @all-complete="onEntityFlowComplete" />
 
         <transition name="fade-slide-up">
-          <button
-            v-if="showEntityNext"
-            class="continue-button"
-            @click="onEntityFlowContinue"
-          >
+          <button v-if="showEntityNext" class="continue-button" @click="onEntityFlowContinue">
             Continuar
           </button>
         </transition>
@@ -432,7 +429,8 @@ onMounted(() => {
 }
 
 .analytics-flow :deep(.step-card) {
-  min-width: 0; /* allow cards to shrink */
+  min-width: 0;
+  /* allow cards to shrink */
 }
 
 @media (max-width: 1024px) {
@@ -459,8 +457,14 @@ onMounted(() => {
   box-shadow: 0 6px 20px rgba(97, 40, 120, 0.4);
 }
 
-.fade-slide-up-enter-active { transition: all 0.6s ease-out; }
-.fade-slide-up-enter-from { opacity: 0; transform: translateY(12px); }
+.fade-slide-up-enter-active {
+  transition: all 0.6s ease-out;
+}
+
+.fade-slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
 
 .analytics-section {
   margin-bottom: 40px;

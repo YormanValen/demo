@@ -118,9 +118,9 @@
             </svg>
           </div>
           <div class="info-content">
-            <h4 class="info-title">¿Por qué conectar mi entidad?</h4>
+            <h4 class="info-title">¿Por qué conectar mi entidad financiera?</h4>
             <p class="info-text">
-              Al conectar tu cuenta bancaria de forma segura, analizamos tu historial financiero para ofrecerte
+              Al conectar tu entidad financiera de forma segura, analizamos tu historial financiero para ofrecerte
               productos crediticios personalizados con mejores tasas y condiciones adaptadas a tu perfil.
             </p>
             <p class="info-text">
