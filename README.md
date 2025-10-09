@@ -1,194 +1,262 @@
-# Experiencia Open Finance - Plataforma de Inclusión Financiera
+# Open Finance Demo Platform - Experian
 
-> 💳 **Experiencia Open Finance** es una aplicación web moderna que facilita el proceso de registro y conexión bancaria para servicios de inclusión financiera. Desarrollada con Vue.js y tecnologías de vanguardia, ofrece una experiencia completa y responsive para múltiples dispositivos.
+> 🏦 **Plataforma de demostración** desarrollada para **Experian** que exhibe las capacidades y potencial del ecosistema **Open Finance** en Colombia. Esta aplicación interactiva demuestra cómo la tecnología de banca abierta puede revolucionar la experiencia financiera tanto para usuarios como para entidades.
 
-## 🚀 Características Principales
+## 🎯 Propósito del Proyecto
 
-### 📱 Interfaz Responsiva
-- **Multi-dispositivo**: Soporte completo para desktop, tablet y móvil
-- **Frames de dispositivo**: Simulación visual de diferentes dispositivos
-- **Diseño adaptativo**: Optimizado para todas las resoluciones
+Esta demostración conceptual ilustra la implementación de **Open Finance** en un entorno controlado, mostrando:
+- Flujos de consentimiento y autorización de datos
+- Integración con múltiples instituciones financieras
+- Análisis transaccional en tiempo real
+- Gestión de datos bajo estándares de seguridad
 
-### 🏦 Módulos Funcionales
+**⚠️ DEMOSTRACIÓN DE CONCEPTO**: Esta es una muestra potencial, no es el producto final. Funcionalidades y datos simulados y sujetos a cambio.
 
-#### Registro y Consentimientos
-- Proceso de registro paso a paso con validación
-- Sistema de consentimientos granular para tratamiento de datos
-- **Visualización de documentos PDF integrada** con navegación completa
-- Formularios con validación en tiempo real
+## 🗺️ Navegación y Flujos
 
-#### Conexión Bancaria (Finerio)
-- Integración con múltiples entidades financieras
-- Flujo guiado de conexión a cuentas bancarias
-- Gestión de datos financieros segura
-- Validación y verificación de cuentas
+### 1. Selección de Experiencia
+**Ruta**: `/registration/experience-selection`
 
-#### Panel Bancario
-- Dashboards personalizados por entidad
-- Visualización de datos en tiempo real
-- Múltiples temas de color por banco
-- Animaciones de procesamiento de datos
+El punto de entrada permite elegir entre dos perspectivas:
 
-## 🛠️ Stack Tecnológico
+#### 👤 **Experiencia de Usuario**
+- **Flujo**: Usuario final (persona natural)
+- **Objetivo**: Demostrar el proceso de onboarding con Open Finance
+- **Características**:
+  - Registro personal simplificado
+  - Conexión con instituciones bancarias
+  - Visualización de datos financieros
+  - Control granular de permisos
 
-### Frontend
-- **Vue 3** (^3.5.18) - Framework principal
-- **TypeScript** (~5.8.3) - Tipado estático
-- **Vuetify** (^3.10.2) - Biblioteca de componentes Material Design
-- **Vue Router** (^4.5.1) - Manejo de rutas
+#### 🏢 **Experiencia de Entidad**
+- **Flujo**: Institución financiera
+- **Objetivo**: Mostrar herramientas de gestión avanzada
+- **Características**:
+  - Dashboard analítico profesional
+  - Gestión de consentimientos
+  - APIs de Open Finance
+  - Transactional Insights
 
-### Herramientas de Desarrollo
-- **Vite** (^7.1.2) - Build tool y desarrollo
-- **Vue TSC** (^3.0.5) - Compilador TypeScript para Vue
+### 2. Flujo de Usuario Final
 
-### Librerías Especializadas
-- **PDF.js** (^3.11.174) - Visualización avanzada de documentos PDF
-- **Font Awesome** (^3.1.2) - Iconografía
-- **Material Design Icons** (^7.4.47) - Iconos adicionales
+#### **Introducción Personalizada**
+**Ruta**: `/registration/user-intro`
+- Presentación del concepto Open Finance
+- Beneficios y ventajas del proceso
+- Llamada a la acción educativa
 
-## 📁 Estructura del Proyecto
+#### **Registro de Información Básica**
+**Ruta**: `/registration/basic-information`
+- Captura de datos personales
+- Validación en tiempo real
+- Progreso visual del proceso
 
+#### **Conexión Financiera**
+**Ruta**: `/registration/financial-information`
+- Integración con ecosistema bancario
+- Selección de instituciones
+- Autorización de acceso a datos
+
+#### **Verificación con Finerio**
+**Ruta**: `/registration/financial-verification`
+- Proceso de autenticación bancaria
+- Validación de credenciales
+- Confirmación de cuentas
+
+### 3. Experiencia de Conexión Bancaria
+
+#### **Selección de Entidad**
+**Rutas**: `/financial/connect-institutions`
+- Catálogo de bancos disponibles
+- Información de compatibilidad
+- Proceso guiado de selección
+
+#### **Autenticación Segura**
+**Rutas**: `/bankambient/dashboard/{color}`
+- Simulación de ambientes bancarios
+- Múltiples temas corporativos
+- Formularios de login seguros
+
+#### **Procesamiento de Datos**
+**Ruta**: `/bankambient/data-processing`
+- Animaciones de sincronización
+- Indicadores de progreso
+- Feedback visual en tiempo real
+
+### 4. Panel de Entidad
+
+#### **Dashboard Principal**
+**Ruta**: `/entity/dashboard`
+- Métricas de adopción
+- Indicadores de performance
+- Gestión de módulos activos
+
+#### **Gestión de Consentimientos**
+**Ruta**: `/entity/consent-management`
+- Administración de permisos
+- Revocación de accesos
+- Auditoría de consentimientos
+
+#### **Transactional Insights**
+**Ruta**: `/entity/transactional-insights`
+- Análisis de comportamiento transaccional
+- Categorización inteligente
+- Score crediticio dinámico
+- Patrones de gasto y proyecciones
+
+#### **APIs Open Finance**
+**Ruta**: `/apis-open-finance/overview`
+- Documentación interactiva
+- Casos de uso empresariales
+- Integración técnica
+
+## 🔧 Arquitectura Técnica
+
+### **Stack Principal**
+- **Frontend**: Vue 3 + TypeScript + Vuetify
+- **Routing**: Vue Router con lazy loading
+- **Build Tool**: Vite para desarrollo y producción
+- **Styling**: Material Design 3 + CSS Variables
+
+### **Módulos Especializados**
+
+#### **Registration Module**
 ```
-src/
-├── assets/                 # Recursos estáticos
-│   └── logos/             # Logotipos de entidades
-├── components/            # Componentes base
-│   └── frame/            # Marcos de dispositivos
-├── modules/              # Módulos funcionales
-│   ├── bankambient/      # Ambiente bancario
-│   ├── consent/          # Gestión de consentimientos
-│   ├── financial/        # Servicios financieros
-│   ├── finerio-stage/    # Integración Finerio
-│   └── registration/     # Proceso de registro
-├── router/               # Configuración de rutas
-├── shared/               # Recursos compartidos
-│   ├── components/       # Componentes reutilizables
-│   ├── composables/      # Lógica reutilizable
-│   ├── layouts/          # Layouts base
-│   ├── services/         # Servicios API
-│   └── styles/           # Estilos globales
-└── App.vue              # Componente raíz
+/src/modules/registration/
+├── views/               # Vistas del flujo de registro
+├── components/          # Componentes específicos
+└── stores/             # Estado de la aplicación
 ```
 
-## 🚀 Instalación y Desarrollo
-
-### Prerrequisitos
-- Node.js (versión 18 o superior)
-- npm o yarn
-
-### Instalación
-```bash
-# Clonar el repositorio
-git clone <repository-url>
-cd demo
-
-# Instalar dependencias
-npm install
+#### **Financial Integration**
+```
+/src/modules/finerio-stage/
+├── views/              # Flujos de conexión bancaria
+├── services/           # APIs de Finerio
+└── utils/              # Utilidades de validación
 ```
 
-### Comandos Disponibles
-
-```bash
-# Desarrollo
-npm run dev
-
-# Build para producción
-npm run build
-
-# Vista previa del build
-npm run preview
+#### **Entity Management**
+```
+/src/modules/entity/
+├── views/              # Dashboards empresariales
+├── layouts/            # Layouts específicos
+└── stores/             # Estado empresarial
 ```
 
-## 🌐 Despliegue en Producción
+#### **Transactional Analytics**
+```
+/src/modules/transactional-insights/
+├── views/              # Análisis transaccional
+├── components/         # Componentes analíticos
+└── utils/              # Algoritmos de categorización
+```
 
-### Configuración AWS Amplify
-El proyecto está optimizado para despliegue en AWS Amplify:
-- **Base path relativa**: `base: './'` en `vite.config.ts`
-- **Rutas dinámicas**: Uso de `import.meta.env.BASE_URL`
-- **Assets estáticos**: Servidos desde la carpeta `public/`
+### **Características Avanzadas**
 
-### Variables de Entorno
-- `BASE_URL`: Ruta base de la aplicación (configurada automáticamente)
+#### **Multi-Tenancy Visual**
+- Temas dinámicos por entidad bancaria
+- Brandeo personalizable
+- Componentes white-label
 
-## 📋 Release Notes - v1.0.0
+#### **Responsive Design**
+- Breakpoints optimizados para móvil
+- Componentes adaptativos
+- Frames de dispositivo simulados
 
-### ✅ Funcionalidades Implementadas
-- [x] Sistema de registro multi-paso con validaciones
-- [x] Gestión completa de consentimientos GDPR
-- [x] **Visualizador PDF integrado** con navegación y zoom
-- [x] Conexión con múltiples instituciones bancarias
-- [x] Dashboards bancarios personalizados
-- [x] Soporte responsive para todos los dispositivos
-- [x] Validación robusta de formularios
-- [x] Animaciones y transiciones fluidas
-- [x] Manejo de errores y fallbacks
+#### **Progressive Enhancement**
+- Carga lazy de componentes
+- Optimización de bundles
+- Cache inteligente de recursos
 
-### 🔧 Mejoras Técnicas Recientes
-- **PDF Viewer mejorado**: Resolución de problemas de carga en producción
-- **Rutas optimizadas**: Migración de rutas absolutas a relativas para Amplify
-- **Fallback de carga**: Sistema alternativo para archivos PDF problemáticos
-- **Error handling**: Logging detallado para debugging en producción
+## 🎨 Sistema de Diseño
 
-### 🔒 Seguridad y Calidad
-- Validación de entrada en cliente y servidor
-- Gestión segura de documentos PDF con headers apropiados
-- Manejo seguro de tokens y credenciales
-- Code splitting y optimización de bundles
+### **Paleta de Colores**
+- **Primario**: Gradiente corporativo Experian
+- **Secundario**: Tonos de grises profesionales
+- **Estados**: Verde (éxito), Rojo (error), Ámbar (advertencia)
 
-### 📱 Compatibilidad Verificada
-- **Navegadores**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
-- **Dispositivos**: Desktop, Tablet, Móvil
-- **Resoluciones**: 320px - 2560px+
-- **Plataformas**: AWS Amplify, Netlify, Vercel
+### **Tipografía**
+- **Fuente Principal**: Inter (moderna y legible)
+- **Jerarquía**: Sistema de escalas predefinido
+- **Responsive**: Ajuste automático por dispositivo
 
-### 🎨 Diseño y UX
-- Diseño Material Design 3 completo
-- Temas personalizables por entidad bancaria
-- Micro-interacciones y feedback visual
-- Accesibilidad mejorada (WCAG 2.1)
+### **Componentes Reutilizables**
+- **Botones**: Estados y variantes consistentes
+- **Formularios**: Validación visual integrada
+- **Cards**: Layouts flexibles y modulares
+- **Modales**: Experiencia unificada
 
-## 🐛 Problemas Resueltos
+## 📊 Flujos de Datos
 
-### PDF en Producción ✅
-- **Problema**: Error "Invalid PDF structure" en algunos despliegues
-- **Solución**: Implementado sistema de fallback con carga via ArrayBuffer
-- **Configuración**: CDN externa para fuentes y mapas de caracteres PDF.js
+### **Gestión de Estado**
+- **Pinia Stores**: Estado reactivo centralizado
+- **LocalStorage**: Persistencia de sesión
+- **Session Management**: Control de flujos
 
-### Rutas en Amplify ✅
-- **Problema**: Rutas absolutas no funcionaban en subdirectorios
-- **Solución**: Migración completa a rutas relativas con `BASE_URL`
+### **APIs Simuladas**
+- **Finerio Integration**: Endpoints mockeados
+- **Banking Simulation**: Respuestas realistas
+- **Consent Management**: CRUD completo
 
-## 🤝 Contribución y Desarrollo
+### **Validaciones**
+- **Client-side**: Validación inmediata
+- **Business Rules**: Lógica de negocio aplicada
+- **Error Handling**: Recuperación graceful
 
-### Proceso de Contribución
-1. Fork el proyecto
-2. Crea una branch para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la branch (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+## 🔐 Consideraciones de Seguridad
 
-### Estándares de Código
-- TypeScript estricto habilitado
-- ESLint y Prettier configurados
-- Convenciones de nomenclatura Vue 3
-- Documentación inline requerida
+### **Manejo de Datos Sensibles**
+- Encriptación de datos en tránsito
+- Tokens de sesión temporales
+- Validación de permisos granular
 
-## 📊 Métricas de Performance
+### **Compliance**
+- **GDPR Ready**: Gestión de consentimientos
+- **PCI Considerations**: Simulación de mejores prácticas
+- **Audit Trail**: Registro de acciones críticas
 
-- **First Contentful Paint**: < 1.5s
-- **Largest Contentful Paint**: < 2.5s
-- **Time to Interactive**: < 3.0s
-- **Bundle size**: < 2MB (gzipped)
+## 📱 Experiencia Multi-Dispositivo
 
-## 📞 Soporte y Contacto
+### **Breakpoints Soportados**
+- **Mobile**: 320px - 767px
+- **Tablet**: 768px - 1023px
+- **Desktop**: 1024px+
+- **Large Screens**: 1440px+
 
-Para soporte técnico, reportes de bugs o consultas sobre el proyecto:
-- Crear un issue en el repositorio
-- Contactar al equipo de desarrollo
+### **Optimizaciones Móviles**
+- Touch-friendly interfaces
+- Scroll performance optimizado
+- Carga progresiva de contenido
+
+## 🚀 Performance y Optimización
+
+### **Métricas Objetivo**
+- **Time to Interactive**: < 2.5s
+- **First Contentful Paint**: < 1.2s
+- **Bundle Size**: Optimizado por route splitting
+
+### **Estrategias Implementadas**
+- **Code Splitting**: Carga bajo demanda
+- **Asset Optimization**: Compresión de imágenes
+- **Caching Strategy**: Cache inteligente de recursos
+
+## 📈 Monitoreo y Analytics
+
+### **Métricas de Negocio**
+- Conversión por flujo
+- Tiempo de completión
+- Puntos de abandono
+
+### **Performance Monitoring**
+- Vitales web core
+- Error tracking
+- User experience metrics
 
 ---
 
-**Versión**: 1.0.0  
-**Release Date**: Septiembre 2025  
-**Estado**: ✅ Listo para producción  
-**Licencia**: Privada
+**🏢 Desarrollado para**: Experian  
+**🎯 Propósito**: Demostración de Open Finance  
+**📅 Versión**: Demo 1.0  
+**⚡ Estado**: Concepto Interactivo  
+**🔒 Confidencialidad**: Uso exclusivo Experian

@@ -16,7 +16,8 @@
             <span class="bank-name-small">{{ bank.name }}</span>
           </div>
         </div>
-        <p class="connected-summary">{{ connectedBanks.length }} entidad{{ connectedBanks.length > 1 ? 'es' : '' }} conectada{{ connectedBanks.length > 1 ? 's' : '' }}</p>
+        <p class="connected-summary">{{ connectedBanks.length }} entidad{{ connectedBanks.length > 1 ? 'es' : '' }}
+          conectada{{ connectedBanks.length > 1 ? 's' : '' }}</p>
       </div>
 
       <h1 class="page-title">Solicitud de Información de Cuentas Colombia (AIS)</h1>
@@ -25,12 +26,14 @@
 
     <div class="content-section">
       <p class="instructions">
-        Danos acceso a todas tus cuentas y déjanos mostrarte todo lo que Open Finance puede ofrecerte..
+        Danos acceso a todas tus productos y déjanos mostrarte todo lo que Open Finance puede ofrecerte..
       </p>
 
       <div class="accounts-container">
         <div class="accounts-header">
-          <h3 class="accounts-title">Cuentas disponibles</h3>
+          <h3 class="accounts-title">
+            Productos de tu{{ connectedBanks.length > 1 ? 's Entidades Financieras' : ' Entidad Financiera' }} Activos
+          </h3>
           <div class="selection-control">
             <div class="main-checkbox">
               <input type="checkbox" id="selectAll" v-model="allAccountsSelected" @change="toggleAllAccounts"
@@ -88,7 +91,7 @@
       </div>
 
       <div class="review-section">
-        <h2 class="review-title">Revisa la información que compartirás</h2>
+        <h2 class="review-title">Al darnos acceso a tu información bancaria compartirás:</h2>
 
         <div class="info-items">
           <div class="info-item-container">

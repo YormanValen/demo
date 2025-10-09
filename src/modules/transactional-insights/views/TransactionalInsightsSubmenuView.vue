@@ -229,9 +229,11 @@ import { ref, onMounted, nextTick } from 'vue'
 import TransactionalInsightsBackground from '../components/TransactionalInsightsBackground.vue'
 import { useRouter } from 'vue-router'
 import { useVisitedProductsStore } from '../stores/visited-products.store'
+import { useAnalyticsStore } from '../../../stores/analytics'
 
 const router = useRouter()
 const visitedProductsStore = useVisitedProductsStore()
+const analyticsStore = useAnalyticsStore()
 
 // Animation states
 const showHeader = ref(false)
@@ -282,6 +284,9 @@ const animateOptionsSequentially = () => {
 // Navigation functions
 const navigateToOption = (option: string) => {
   console.log(`Navigating to: ${option}`)
+  
+  // Track analytics for transactional insight visit
+  analyticsStore.trackTransactionalInsightVisit(option as any)
   
   // Mark product as visited (except categorizacion which is always checked)
   if (option !== 'categorizacion') {

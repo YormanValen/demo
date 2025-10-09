@@ -571,11 +571,13 @@ import DesmaterializedFormPdf from '../components/DesmaterializedFormPdf.vue'
 import TransactionalInsightsBackground from '../../transactional-insights/components/TransactionalInsightsBackground.vue'
 import EntityAnimationContainer from '../components/EntityAnimationContainer.vue'
 import EntityFlowVisualization from '../components/EntityFlowVisualization.vue'
+import { useFormDataStore } from '../../../stores/formData'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker as unknown as string
 
 const router = useRouter()
 const route = useRoute()
+const formDataStore = useFormDataStore()
 const selectedPasarela = ref('experian')
 const searchType = ref('identification')
 const searchQuery = ref('')
@@ -889,6 +891,9 @@ const triggerTransactionalInsightsAnimation = async () => {
 
 // Navigate to entity intro on button click
 const navigateToTransactionalInsights = () => {
+  // Clear form data store before finishing the module
+  formDataStore.reset()
+  
   // Add fade out animation only to content, not background
   const introContainer = document.querySelector('.intro-container')
   if (introContainer) {

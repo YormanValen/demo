@@ -122,7 +122,7 @@
             ">
             <!-- Next instruction disclaimer -->
             <div class="next-disclaimer">
-              <p>Haz click en "Siguiente" para continuar al siguiente paso</p>
+              <p>Haz click en "Siguiente" para continuar.</p>
             </div>
             <button @click="handleNextClick" class="next-button">
               Siguiente
@@ -144,11 +144,13 @@ import OtpModal from "../../registration/components/OtpModal.vue";
 import ValidationLoader from "./ValidationLoader.vue";
 import AnimationContainer from "./AnimationContainer.vue";
 import CompleteFlowVisualization from "./CompleteFlowVisualization.vue";
+import { useAnalyticsStore } from "../../../stores/analytics";
 
 const router = useRouter();
 const store = useRegistrationStore();
 const { userPhoneNumber } = store;
 const financialStore = useFinancialStore();
+const analyticsStore = useAnalyticsStore();
 const showOtpModal = ref(false);
 const showValidationLoader = ref(false);
 const showAnimationContainer = ref(true);
@@ -234,6 +236,9 @@ const handleSubmit = () => {
   if (!isFormValid.value) {
     return;
   }
+
+  // Track analytics for financial form completion
+  analyticsStore.trackFormCompletion('financial-information', form);
 
   // Store the financial data in the store
   financialStore.setFinancialData(form);

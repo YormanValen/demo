@@ -12,7 +12,7 @@ const stepCompleted = ref([true, true, true, false, false]); // Primeros 3 ya co
 
 const steps = [
   { title: 'Usuario', icon: 'mdi-account' },
-  { title: 'Validación de Identidad y Otorgación de Consentimientos', icon: 'mdi-fingerprint' },
+  { title: 'Validación de Identidad y Otorgamiento de Consentimientos', icon: 'mdi-fingerprint' },
   { title: 'Almacenamiento', icon: 'mdi-database' },
   { title: 'Proveedor SMS', icon: 'mdi-message-text' },
   { title: 'OTP Celular', icon: 'mdi-cellphone' }
@@ -22,9 +22,9 @@ const stepDuration = computed(() => (props.totalDuration || 4000) / 2); // 2 pas
 
 const startAnimation = () => {
   flowVisible.value = true;
-  
+
   // Los primeros 3 ya están completados, empezar inmediatamente con Proveedor SMS
-  
+
   // Iniciar paso 4: Proveedor SMS inmediatamente
   setTimeout(() => {
     currentStep.value = 4;
@@ -67,62 +67,36 @@ onMounted(() => {
   <div class="flow-container" :class="{ 'flow-visible': flowVisible }">
     <div class="steps-container">
       <template v-for="(step, index) in steps" :key="index">
-        <div 
-          class="step-card"
-          :class="{
-            'active': currentStep > index,
-            'completed': stepCompleted[index],
-            'current': currentStep === index + 1 && !stepCompleted[index],
-            'previous-completed': stepCompleted[index] && index < 3
-          }"
-          :style="{
-            '--fill-duration': stepDuration + 'ms'
-          }"
-        >
+        <div class="step-card" :class="{
+          'active': currentStep > index,
+          'completed': stepCompleted[index],
+          'current': currentStep === index + 1 && !stepCompleted[index],
+          'previous-completed': stepCompleted[index] && index < 3
+        }" :style="{
+          '--fill-duration': stepDuration + 'ms'
+        }">
           <!-- Fondo de llenado animado -->
           <div class="card-fill-background"></div>
-          
+
           <div class="card-header">
             <div class="icon-container">
-              <v-icon 
-                size="24" 
-                :color="stepCompleted[index] ? '#4CAF50' : currentStep >= index ? '#982881' : '#ccc'"
-              >
+              <v-icon size="24" :color="stepCompleted[index] ? '#4CAF50' : currentStep >= index ? '#982881' : '#ccc'">
                 {{ step.icon }}
               </v-icon>
             </div>
             <div class="step-number">{{ index + 1 }}</div>
           </div>
-          
+
           <div class="card-content">
             <h3 class="step-title">{{ step.title }}</h3>
           </div>
-          
-          <div class="progress-bar">
-            <div 
-              class="progress-fill" 
-              :class="{ 
-                'filling': currentStep === index + 1 && !stepCompleted[index],
-                'completed': stepCompleted[index] 
-              }"
-            ></div>
-          </div>
-        </div>
 
-        <!-- Puente/Conector entre pasos -->
-        <div 
-          v-if="index < steps.length - 1" 
-          class="step-connector"
-          :class="{
-            'connector-active': currentStep > index + 1,
-            'connector-filling': currentStep === index + 2 && !stepCompleted[index + 1],
-            'connector-completed': stepCompleted[index]
-          }"
-        >
-          <div class="connector-line">
-            <div class="connector-progress"></div>
+          <div class="progress-bar">
+            <div class="progress-fill" :class="{
+              'filling': currentStep === index + 1 && !stepCompleted[index],
+              'completed': stepCompleted[index]
+            }"></div>
           </div>
-          <v-icon class="connector-arrow" size="16" color="#982881">mdi-chevron-right</v-icon>
         </div>
       </template>
     </div>
@@ -146,10 +120,10 @@ onMounted(() => {
 
 .steps-container {
   display: grid;
-  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+  grid-template-columns: repeat(5, 1fr);
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
   padding: 25px;
 }
 
@@ -191,23 +165,28 @@ onMounted(() => {
 
 /* Todas las tarjetas tienen la misma altura, con anchos especiales para ciertas tarjetas */
 .step-card:nth-child(1) {
-  min-width: 180px; /* Usuario */
+  min-width: 180px;
+  /* Usuario */
 }
 
 .step-card:nth-child(3) {
-  min-width: 200px; /* Validación de Identidad y Otorgación de Consentimientos */
+  min-width: 200px;
+  /* Validación de Identidad y Otorgación de Consentimientos */
 }
 
 .step-card:nth-child(5) {
-  min-width: 180px; /* Almacenamiento */
+  min-width: 180px;
+  /* Almacenamiento */
 }
 
 .step-card:nth-child(7) {
-  min-width: 180px; /* Proveedor SMS */
+  min-width: 180px;
+  /* Proveedor SMS */
 }
 
-.step-card:nth-child(9) {
-  min-width: 180px; /* OTP Celular */
+.step-card:nth-child(5) {
+  min-width: 160px;
+  /* OTP Celular */
 }
 
 /* Fondo de llenado animado */
@@ -237,6 +216,7 @@ onMounted(() => {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -313,6 +293,7 @@ onMounted(() => {
   font-weight: 600;
   color: #333;
   margin: 0;
+  margin-top: -2px;
   text-align: center;
   line-height: 1.2;
   transition: color 0.3s ease;
@@ -366,82 +347,12 @@ onMounted(() => {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
 }
 
-/* Estilos para los conectores */
-.step-connector {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 0 10px;
-  opacity: 0.3;
-  transition: opacity 0.3s ease;
-}
-
-.step-connector.connector-active,
-.step-connector.connector-completed {
-  opacity: 1;
-}
-
-.step-connector.connector-filling {
-  opacity: 1;
-}
-
-.connector-line {
-  width: 50px;
-  height: 3px;
-  background: #f0f0f0;
-  border-radius: 2px;
-  overflow: hidden;
-  position: relative;
-}
-
-.connector-progress {
-  height: 100%;
-  background: #982881;
-  width: 0;
-  border-radius: 2px;
-  transition: width 0.3s ease;
-}
-
-.step-connector.connector-active .connector-progress,
-.step-connector.connector-completed .connector-progress {
-  width: 100%;
-  background: #4CAF50;
-}
-
-.step-connector.connector-filling .connector-progress {
-  animation: fillConnector 1s ease-in-out forwards;
-}
-
-.connector-arrow {
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-
-.step-connector.connector-active .connector-arrow,
-.step-connector.connector-completed .connector-arrow {
-  opacity: 1;
-  color: #4CAF50 !important;
-}
-
-.step-connector.connector-filling .connector-arrow {
-  opacity: 0.8;
-  color: #982881 !important;
-}
-
-@keyframes fillConnector {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
 
 /* Responsive design */
 @media (max-width: 1200px) {
@@ -452,86 +363,36 @@ onMounted(() => {
     gap: 20px;
     padding: 20px;
   }
-  
+
   .step-card {
     min-width: 180px;
     max-width: 200px;
-  }
-  
-  .step-connector {
-    order: 10;
-    transform: rotate(90deg);
-    padding: 10px 0;
-  }
-  
-  .connector-line {
-    width: 30px;
-    height: 2px;
-  }
-  
-  .connector-arrow {
-    transform: rotate(90deg);
   }
 }
 
 @media (max-width: 768px) {
   .steps-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
     padding: 15px;
   }
-  
+
   .step-card {
     min-width: auto;
     max-width: none;
-    width: 100%;
     height: 120px;
-    padding: 15px;
+    padding: 10px;
   }
-  
-  .step-card:nth-child(1) {
-    min-width: 200px; /* Usuario */
-  }
-  
-  .step-card:nth-child(3) {
-    min-width: 220px; /* Validación de Identidad y Otorgación de Consentimientos */
-  }
-  
-  .step-card:nth-child(5) {
-    min-width: 200px; /* Almacenamiento */
-  }
-  
-  .step-card:nth-child(7) {
-    min-width: 200px; /* Proveedor SMS */
-  }
-  
-  .step-card:nth-child(9) {
-    min-width: 200px; /* OTP Celular */
-  }
-  
+
   .step-title {
-    font-size: 13px;
-    line-height: 1.2;
-  }
-  
-  .step-card:nth-child(3) .step-title {
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.1;
   }
-  
-  .step-connector {
-    transform: rotate(90deg);
-    padding: 10px 0;
-  }
-  
-  .connector-line {
-    width: 30px;
-    height: 2px;
-  }
-  
-  .connector-arrow {
-    transform: rotate(90deg);
+
+  .step-card:nth-child(2) .step-title {
+    font-size: 10px;
+    line-height: 1.0;
   }
 }
 
@@ -539,29 +400,25 @@ onMounted(() => {
   .flow-container {
     max-width: 100%;
   }
-  
+
   .steps-container {
     padding: 10px;
+    gap: 8px;
   }
-  
+
   .step-card {
-    padding: 12px;
+    padding: 8px;
     height: 110px;
   }
-  
-  .step-card:nth-child(3) {
-    min-width: auto;
-    width: 100%;
-  }
-  
+
   .step-title {
-    font-size: 12px;
-    line-height: 1.2;
+    font-size: 10px;
+    line-height: 1.0;
   }
-  
-  .step-card:nth-child(3) .step-title {
-    font-size: 11px;
-    line-height: 1.1;
+
+  .step-card:nth-child(2) .step-title {
+    font-size: 9px;
+    line-height: 0.9;
   }
 }
 </style>

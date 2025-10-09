@@ -34,12 +34,35 @@ type State = {
   solicitud: SolicitudCredito
 }
 
-export const useFormDataStore = defineStore('formData', {
-  state: (): State => ({
+const STORAGE_KEY = 'formData'
+
+// Helper functions for localStorage persistence
+function loadFromStorage(): State {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      return JSON.parse(saved)
+    }
+  } catch (error) {
+    console.warn('Error loading form data from localStorage:', error)
+  }
+  return {
     datosGenerales: {},
     solicitante: {},
     solicitud: {},
-  }),
+  }
+}
+
+function saveToStorage(state: State): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+  } catch (error) {
+    console.warn('Error saving form data to localStorage:', error)
+  }
+}
+
+export const useFormDataStore = defineStore('formData', {
+  state: (): State => loadFromStorage(),
   getters: {
     hasData: (state): boolean => {
       return (
@@ -65,6 +88,9 @@ export const useFormDataStore = defineStore('formData', {
       if (payload.celular !== undefined) s.celular = payload.celular
       if (payload.correo !== undefined) s.correo = payload.correo
       if (payload.fechaTramite !== undefined) this.datosGenerales.fechaTramite = payload.fechaTramite
+      
+      // Persist to localStorage
+      saveToStorage(this.$state)
     },
     setFromFinancialForm(payload: Partial<SolicitudCredito>) {
       const t = this.solicitud
@@ -78,17 +104,44 @@ export const useFormDataStore = defineStore('formData', {
       if (payload.nivelEducativo !== undefined) t.nivelEducativo = payload.nivelEducativo
       if (payload.gastosMensuales !== undefined) t.gastosMensuales = payload.gastosMensuales
       if (payload.numeroRadicacion !== undefined) t.numeroRadicacion = payload.numeroRadicacion
+      
+      // Persist to localStorage
+      saveToStorage(this.$state)
     },
     setFechaTramite(fecha?: DatosGenerales['fechaTramite']) {
       this.datosGenerales.fechaTramite = fecha
+      
+      // Persist to localStorage
+      saveToStorage(this.$state)
     },
     setNumeroRadicacion(numero?: string) {
       this.solicitud.numeroRadicacion = numero
+      
+      // Persist to localStorage
+      saveToStorage(this.$state)
     },
     reset() {
       this.datosGenerales = {}
       this.solicitante = {}
       this.solicitud = {}
+      
+      // Clear localStorage
+      try {
+        localStorage.removeItem(STORAGE_KEY)
+      } catch (error) {
+        console.warn('Error clearing form data from localStorage:', error)
+      }
+    },
+    // New method to manually save to localStorage
+    persist() {
+      saveToStorage(this.$state)
+    },
+    // New method to manually load from localStorage
+    restore() {
+      const savedData = loadFromStorage()
+      this.datosGenerales = savedData.datosGenerales
+      this.solicitante = savedData.solicitante
+      this.solicitud = savedData.solicitud
     },
   },
 })

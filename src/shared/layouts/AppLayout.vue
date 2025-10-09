@@ -5,7 +5,7 @@
   <div v-else class="app-layout">
     <header class="app-layout__header">
       <div class="header-content">
-        <span class="header-tagline">"Evolucionando el camino de ser digital"</span>
+        <span class="header-tagline">"Vive la transformación y descubre el poder de Open Finance"</span>
       </div>
     </header>
     <div v-if="showProgressBar" class="progress-container">
@@ -25,11 +25,7 @@
     </footer>
   </div>
   <!-- Global entity sheet header across all /entity routes (teleports to body) -->
-  <EntityAnimationContainer 
-    v-if="isEntityHeaderVisible"
-    :is-visible="true"
-    :clickable-header="false"
-  />
+  <EntityAnimationContainer v-if="isEntityHeaderVisible" :is-visible="true" :clickable-header="false" />
 </template>
 
 <script setup lang="ts">

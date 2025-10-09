@@ -50,19 +50,19 @@ const handleAnimationToggle = (isOpen: boolean) => {
 <template>
   <div class="financial-welcome">
     <div class="header-section">
-      <h1 class="title">Continúe con su verificación financiera</h1>
-      <p class="subtitle">Proceda con la verificación de sus datos financieros</p>
+      <h1 class="title">Continúe con su autenticación financiera</h1>
+      <p class="subtitle">Proceda con la autenticación de sus datos financieros</p>
     </div>
     <div class="blue-container">
       <div class="decoration-image"></div>
       <div class="welcome-text">
         <span class="welcome-bold"></span>
-        <span class="welcome-normal">Bienvenido a la verificación financiera</span>
+        <span class="welcome-normal">Bienvenido a la autenticación financiera</span>
       </div>
       <div class="divider-line"></div>
       <div class="description-text">
         <span class="description-bold"></span> A partir de este momento
-        puedes continuar tu solicitud en la plataforma y diligenciar la información
+        puedes continuar tu solicitud en la plataforma de tu entidad financiera y diligenciar la información
         correspondiente con la entidad que selecciones.
       </div>
       <div class="financial-image"></div>
@@ -102,7 +102,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
           <div v-if="showNextButton" style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
             <!-- Next instruction disclaimer -->
             <div class="next-disclaimer">
-              <p>Haz click en "Siguiente" para continuar al siguiente paso</p>
+              <p>Haz click en "Siguiente" para continuar.</p>
             </div>
             <button @click="handleNextClick" class="next-button">
               Siguiente

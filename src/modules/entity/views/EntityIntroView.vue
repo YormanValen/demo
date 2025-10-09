@@ -8,7 +8,7 @@
       <!-- Title Section -->
       <div class="title-section" :class="{ 'visible': showTitle }">
         <h1 class="main-title">Experiencia de Entidad</h1>
-        <p class="subtitle">Explora cómo las finanzas abiertas desbloquean un nuevo mundo de posibilidades: control
+        <p class="subtitle">Explora como las finanzas abiertas desbloquean un nuevo mundo de posibilidades: control
           total sobre consentimientos y analítica inteligente de datos transaccionales.</p>
       </div>
 
