@@ -81,7 +81,7 @@ const continueWithSelection = () => {
   if (selectedExperience.value === 'entity') {
     router.push('/entity/intro');
   } else {
-    router.push('/registration/basic-information');
+    router.push('/registration/user-intro');
   }
 };
 

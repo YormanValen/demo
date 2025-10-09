@@ -108,22 +108,6 @@ onMounted(() => {
             ></div>
           </div>
         </div>
-
-        <!-- Puente/Conector entre pasos -->
-        <div 
-          v-if="index < steps.length - 1" 
-          class="step-connector"
-          :class="{
-            'connector-active': currentStep > index + 1,
-            'connector-filling': currentStep === index + 2 && !stepCompleted[index + 1],
-            'connector-completed': stepCompleted[index]
-          }"
-        >
-          <div class="connector-line">
-            <div class="connector-progress"></div>
-          </div>
-          <v-icon class="connector-arrow" size="16" color="#982881">mdi-chevron-right</v-icon>
-        </div>
       </template>
     </div>
   </div>
@@ -146,10 +130,10 @@ onMounted(() => {
 
 .steps-container {
   display: grid;
-  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+  grid-template-columns: repeat(5, 1fr);
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
   padding: 25px;
 }
 
@@ -206,8 +190,8 @@ onMounted(() => {
   min-width: 180px; /* Proveedor SMS */
 }
 
-.step-card:nth-child(9) {
-  min-width: 180px; /* OTP Celular */
+.step-card:nth-child(5) {
+  min-width: 160px; /* OTP Celular */
 }
 
 /* Fondo de llenado animado */
@@ -371,77 +355,6 @@ onMounted(() => {
   }
 }
 
-/* Estilos para los conectores */
-.step-connector {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 0 10px;
-  opacity: 0.3;
-  transition: opacity 0.3s ease;
-}
-
-.step-connector.connector-active,
-.step-connector.connector-completed {
-  opacity: 1;
-}
-
-.step-connector.connector-filling {
-  opacity: 1;
-}
-
-.connector-line {
-  width: 50px;
-  height: 3px;
-  background: #f0f0f0;
-  border-radius: 2px;
-  overflow: hidden;
-  position: relative;
-}
-
-.connector-progress {
-  height: 100%;
-  background: #982881;
-  width: 0;
-  border-radius: 2px;
-  transition: width 0.3s ease;
-}
-
-.step-connector.connector-active .connector-progress,
-.step-connector.connector-completed .connector-progress {
-  width: 100%;
-  background: #4CAF50;
-}
-
-.step-connector.connector-filling .connector-progress {
-  animation: fillConnector 1s ease-in-out forwards;
-}
-
-.connector-arrow {
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-
-.step-connector.connector-active .connector-arrow,
-.step-connector.connector-completed .connector-arrow {
-  opacity: 1;
-  color: #4CAF50 !important;
-}
-
-.step-connector.connector-filling .connector-arrow {
-  opacity: 0.8;
-  color: #982881 !important;
-}
-
-@keyframes fillConnector {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
 
 /* Responsive design */
 @media (max-width: 1200px) {
@@ -457,81 +370,31 @@ onMounted(() => {
     min-width: 180px;
     max-width: 200px;
   }
-  
-  .step-connector {
-    order: 10;
-    transform: rotate(90deg);
-    padding: 10px 0;
-  }
-  
-  .connector-line {
-    width: 30px;
-    height: 2px;
-  }
-  
-  .connector-arrow {
-    transform: rotate(90deg);
-  }
 }
 
 @media (max-width: 768px) {
   .steps-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
     padding: 15px;
   }
   
   .step-card {
     min-width: auto;
     max-width: none;
-    width: 100%;
     height: 120px;
-    padding: 15px;
-  }
-  
-  .step-card:nth-child(1) {
-    min-width: 200px; /* Usuario */
-  }
-  
-  .step-card:nth-child(3) {
-    min-width: 220px; /* Validación de Identidad y Otorgación de Consentimientos */
-  }
-  
-  .step-card:nth-child(5) {
-    min-width: 200px; /* Almacenamiento */
-  }
-  
-  .step-card:nth-child(7) {
-    min-width: 200px; /* Proveedor SMS */
-  }
-  
-  .step-card:nth-child(9) {
-    min-width: 200px; /* OTP Celular */
+    padding: 10px;
   }
   
   .step-title {
-    font-size: 13px;
-    line-height: 1.2;
-  }
-  
-  .step-card:nth-child(3) .step-title {
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.1;
   }
   
-  .step-connector {
-    transform: rotate(90deg);
-    padding: 10px 0;
-  }
-  
-  .connector-line {
-    width: 30px;
-    height: 2px;
-  }
-  
-  .connector-arrow {
-    transform: rotate(90deg);
+  .step-card:nth-child(2) .step-title {
+    font-size: 10px;
+    line-height: 1.0;
   }
 }
 
@@ -542,26 +405,22 @@ onMounted(() => {
   
   .steps-container {
     padding: 10px;
+    gap: 8px;
   }
   
   .step-card {
-    padding: 12px;
+    padding: 8px;
     height: 110px;
   }
   
-  .step-card:nth-child(3) {
-    min-width: auto;
-    width: 100%;
-  }
-  
   .step-title {
-    font-size: 12px;
-    line-height: 1.2;
+    font-size: 10px;
+    line-height: 1.0;
   }
   
-  .step-card:nth-child(3) .step-title {
-    font-size: 11px;
-    line-height: 1.1;
+  .step-card:nth-child(2) .step-title {
+    font-size: 9px;
+    line-height: 0.9;
   }
 }
 </style>

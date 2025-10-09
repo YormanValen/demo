@@ -5,45 +5,7 @@
     <div class="floating-element peso-sign">$</div>
     <div class="floating-element euro-sign">€</div>
 
-    <!-- Data charts and graphs --> -->
-    <div class="floating-element chart-bar">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <rect x="3" y="16" width="4" height="5" fill="currentColor" />
-        <rect x="8" y="12" width="4" height="9" fill="currentColor" />
-        <rect x="13" y="8" width="4" height="13" fill="currentColor" />
-        <rect x="18" y="4" width="4" height="17" fill="currentColor" />
-      </svg>
-    </div>
 
-    <div class="floating-element trend-up">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M3 17L9 11L13 15L21 7" stroke="currentColor" stroke-width="2" />
-        <path d="M14 7H21V14" stroke="currentColor" stroke-width="2" />
-      </svg>
-    </div>
-
-    <div class="floating-element pie-chart">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" />
-        <path d="M12 4V12L18 18" stroke="currentColor" stroke-width="2" />
-      </svg>
-    </div>
-
-    <!-- Transaction symbols -->
-    <div class="floating-element card-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2" />
-        <path d="M3 10H21" stroke="currentColor" stroke-width="2" />
-      </svg>
-    </div>
-
-    <div class="floating-element transfer-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M7 17L17 7" stroke="currentColor" stroke-width="2" />
-        <path d="M17 17H17.01" stroke="currentColor" stroke-width="2" />
-        <path d="M7 7H7.01" stroke="currentColor" stroke-width="2" />
-      </svg>
-    </div>
 
     <!-- Data points and analytics -->
     <div class="floating-element data-point">●</div>
@@ -406,28 +368,101 @@
   font-size: 1rem;
 }
 
-.data-point:nth-child(10) {
+.data-point:nth-child(4) {
   top: 30%;
   left: 25%;
   animation-delay: -1s;
 }
 
-.data-point:nth-child(11) {
+.data-point:nth-child(5) {
   top: 55%;
   left: 90%;
   animation-delay: -7s;
 }
 
-.data-point:nth-child(12) {
+.data-point:nth-child(6) {
   top: 85%;
   left: 50%;
   animation-delay: -14s;
 }
 
-.data-point:nth-child(13) {
+.data-point:nth-child(7) {
   top: 10%;
   left: 45%;
   animation-delay: -9s;
+}
+
+/* All remaining data points (12 total at the end) */
+.data-point:nth-child(64) {
+  top: 18%;
+  left: 82%;
+  animation-delay: -12s;
+}
+
+.data-point:nth-child(65) {
+  top: 68%;
+  left: 22%;
+  animation-delay: -15s;
+}
+
+.data-point:nth-child(66) {
+  top: 38%;
+  left: 72%;
+  animation-delay: -18s;
+}
+
+.data-point:nth-child(67) {
+  top: 88%;
+  left: 32%;
+  animation-delay: -21s;
+}
+
+.data-point:nth-child(68) {
+  top: 28%;
+  left: 92%;
+  animation-delay: -24s;
+}
+
+.data-point:nth-child(69) {
+  top: 78%;
+  left: 12%;
+  animation-delay: -27s;
+}
+
+.data-point:nth-child(70) {
+  top: 48%;
+  left: 62%;
+  animation-delay: -30s;
+}
+
+.data-point:nth-child(71) {
+  top: 98%;
+  left: 42%;
+  animation-delay: -33s;
+}
+
+.data-point:nth-child(72) {
+  top: 8%;
+  left: 88%;
+  animation-delay: -36s;
+}
+
+.data-point:nth-child(73) {
+  top: 58%;
+  left: 28%;
+  animation-delay: -39s;
+}
+
+.data-point:nth-child(74) {
+  top: 24%;
+  left: 68%;
+  animation-delay: -42s;
+}
+
+.data-point:nth-child(75) {
+  top: 74%;
+  left: 8%;
+  animation-delay: -45s;
 }
 
 /* Numbers and percentages */
@@ -436,52 +471,113 @@
   font-weight: 700;
 }
 
-.number:nth-child(14) {
+.number:nth-child(8) {
   top: 45%;
   left: 92%;
   animation-delay: -4s;
 }
 
-.number:nth-child(15) {
+.number:nth-child(9) {
   top: 65%;
   left: 8%;
   animation-delay: -11s;
 }
 
-.number:nth-child(16) {
+.number:nth-child(10) {
   top: 15%;
   left: 65%;
   animation-delay: -17s;
 }
 
-.number:nth-child(17) {
+.number:nth-child(11) {
   top: 85%;
   left: 55%;
   animation-delay: -6s;
 }
 
-.number:nth-child(18) {
+.number:nth-child(12) {
   top: 45%;
   left: 35%;
   animation-delay: -13s;
 }
 
-.number:nth-child(19) {
+.number:nth-child(13) {
   top: 15%;
   left: 15%;
   animation-delay: -19s;
 }
 
-.number:nth-child(20) {
+.number:nth-child(14) {
   top: 90%;
   left: 85%;
   animation-delay: -10s;
 }
 
-.number:nth-child(21) {
+.number:nth-child(15) {
   top: 35%;
   left: 75%;
   animation-delay: -16s;
+}
+
+/* Additional numbers (52-61 in DOM) */
+.number:nth-child(52) {
+  top: 72%;
+  left: 28%;
+  animation-delay: -20s;
+}
+
+.number:nth-child(53) {
+  top: 12%;
+  left: 82%;
+  animation-delay: -23s;
+}
+
+.number:nth-child(54) {
+  top: 52%;
+  left: 18%;
+  animation-delay: -26s;
+}
+
+.number:nth-child(55) {
+  top: 92%;
+  left: 72%;
+  animation-delay: -29s;
+}
+
+.number:nth-child(56) {
+  top: 32%;
+  left: 88%;
+  animation-delay: -32s;
+}
+
+.number:nth-child(57) {
+  top: 62%;
+  left: 12%;
+  animation-delay: -35s;
+}
+
+.number:nth-child(58) {
+  top: 22%;
+  left: 58%;
+  animation-delay: -38s;
+}
+
+.number:nth-child(59) {
+  top: 82%;
+  left: 38%;
+  animation-delay: -41s;
+}
+
+.number:nth-child(60) {
+  top: 42%;
+  left: 78%;
+  animation-delay: -44s;
+}
+
+.number:nth-child(61) {
+  top: 2%;
+  left: 48%;
+  animation-delay: -47s;
 }
 
 /* Finance icons group */
@@ -794,6 +890,124 @@
   animation-delay: -30s;
 }
 
+/* Tech symbols */
+.api-icon {
+  top: 12%;
+  left: 68%;
+  animation-delay: -29s;
+  font-size: 1.4rem;
+}
+
+.server-icon {
+  top: 58%;
+  left: 72%;
+  animation-delay: -31s;
+  font-size: 1.3rem;
+}
+
+.cloud-icon {
+  top: 22%;
+  left: 42%;
+  animation-delay: -27s;
+  font-size: 1.5rem;
+}
+
+/* Geometric and mathematical symbols */
+.arrow-up {
+  font-size: 1.8rem;
+  top: 8%;
+  left: 25%;
+  animation-delay: -29s;
+}
+
+.arrow-down {
+  font-size: 1.8rem;
+  top: 68%;
+  left: 92%;
+  animation-delay: -33s;
+}
+
+/* Additional missing elements positioning */
+.line-chart {
+  top: 52%;
+  left: 38%;
+  animation-delay: -25s;
+  font-size: 1.5rem;
+}
+
+/* More data points positioning */
+.data-point:nth-child(264) {
+  top: 18%;
+  left: 82%;
+  animation-delay: -15s;
+}
+
+.data-point:nth-child(265) {
+  top: 72%;
+  left: 12%;
+  animation-delay: -18s;
+}
+
+.data-point:nth-child(266) {
+  top: 42%;
+  left: 68%;
+  animation-delay: -21s;
+}
+
+.data-point:nth-child(267) {
+  top: 88%;
+  left: 42%;
+  animation-delay: -24s;
+}
+
+.data-point:nth-child(268) {
+  top: 28%;
+  left: 92%;
+  animation-delay: -27s;
+}
+
+.data-point:nth-child(269) {
+  top: 62%;
+  left: 18%;
+  animation-delay: -30s;
+}
+
+.data-point:nth-child(270) {
+  top: 12%;
+  left: 48%;
+  animation-delay: -33s;
+}
+
+.data-point:nth-child(271) {
+  top: 78%;
+  left: 78%;
+  animation-delay: -36s;
+}
+
+.data-point:nth-child(272) {
+  top: 32%;
+  left: 22%;
+  animation-delay: -39s;
+}
+
+.data-point:nth-child(273) {
+  top: 58%;
+  left: 88%;
+  animation-delay: -42s;
+}
+
+.data-point:nth-child(274) {
+  top: 8%;
+  left: 58%;
+  animation-delay: -45s;
+}
+
+.data-point:nth-child(275) {
+  top: 92%;
+  left: 28%;
+  animation-delay: -48s;
+}
+
 /* Additional numbers positioning from the source */
 .number:nth-child(58) {
   top: 21%;
@@ -853,6 +1067,67 @@
   top: 17%;
   left: 31%;
   animation-delay: -31s;
+}
+
+/* Additional numbers that need positioning */
+.number:nth-child(252) {
+  top: 24%;
+  left: 88%;
+  animation-delay: -19s;
+}
+
+.number:nth-child(253) {
+  top: 76%;
+  left: 32%;
+  animation-delay: -22s;
+}
+
+.number:nth-child(254) {
+  top: 14%;
+  left: 72%;
+  animation-delay: -25s;
+}
+
+.number:nth-child(255) {
+  top: 84%;
+  left: 62%;
+  animation-delay: -28s;
+}
+
+.number:nth-child(256) {
+  top: 34%;
+  left: 12%;
+  animation-delay: -31s;
+}
+
+.number:nth-child(257) {
+  top: 64%;
+  left: 82%;
+  animation-delay: -34s;
+}
+
+.number:nth-child(258) {
+  top: 44%;
+  left: 52%;
+  animation-delay: -37s;
+}
+
+.number:nth-child(259) {
+  top: 94%;
+  left: 22%;
+  animation-delay: -40s;
+}
+
+.number:nth-child(260) {
+  top: 4%;
+  left: 42%;
+  animation-delay: -43s;
+}
+
+.number:nth-child(261) {
+  top: 54%;
+  left: 92%;
+  animation-delay: -46s;
 }
 
 /* Float animation */

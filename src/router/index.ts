@@ -15,6 +15,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../modules/registration/views/ExperienceSelectionView.vue')
   },
   {
+    path: '/registration/user-intro',
+    name: 'user-experience-intro',
+    component: () => import('../modules/registration/views/UserExperienceIntroView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
     path: '/registration/basic-information',
     name: 'registration-step1',
     component: () => import('../modules/registration/views/RegistrationStep1View.vue')
