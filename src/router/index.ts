@@ -284,6 +284,12 @@ const routes: RouteRecordRaw[] = [
     name: 'apis-open-finance-overview',
     component: () => import('../modules/apis-open-finance/views/OverviewView.vue'),
     meta: { hideLayout: true }
+  },
+  {
+    path: '/technical-flow',
+    name: 'technical-flow',
+    component: () => import('../modules/technical-flow/views/TechnicalFlowView.vue'),
+    meta: { hideLayout: true }
   }
 ]
 
