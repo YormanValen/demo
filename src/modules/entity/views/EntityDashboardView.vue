@@ -462,8 +462,8 @@
         <div class="transactional-insights-section">
           <div class="insights-container">
             <div class="insights-content">
-              <button class="insights-button" @click="goBackToMenu">
-                Volver al menú
+              <button class="insights-button" @click="triggerTransactionalInsightsAnimation">
+                Finalizar módulo
               </button>
             </div>
           </div>
@@ -887,7 +887,7 @@ const triggerTransactionalInsightsAnimation = async () => {
   }, 1000) // Start animation 1 second after screen appears
 }
 
-// Navigate to transactional insights on button click
+// Navigate to entity intro on button click
 const navigateToTransactionalInsights = () => {
   // Add fade out animation only to content, not background
   const introContainer = document.querySelector('.intro-container')
@@ -901,17 +901,13 @@ const navigateToTransactionalInsights = () => {
     if (toggleSidebar) {
       toggleSidebar(false)
     }
-    router.push('/entity/transactional-insights')
+    router.push('/entity/intro')
   }, 500) // Match the CSS transition duration
 }
 
   // Make function available globally for sidebar to call
   ; (window as any).triggerTransactionalInsightsAnimation = triggerTransactionalInsightsAnimation
 
-// Volver al menú (intro de entidad)
-const goBackToMenu = () => {
-  router.push('/entity/intro')
-}
 
 
 // Canvas refs per page
