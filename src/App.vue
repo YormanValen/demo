@@ -37,10 +37,10 @@ const isFullScreenEntityDashboard = computed(() => {
   return currentDevice.value === 'full' && (entityRoutes.includes(route.path) || apiRoutes.includes(route.path))
 })
 
-// Computed property to check if we're on analytics page
-const isOnAnalyticsPage = computed(() => {
-  return route.path === '/analytics'
-})
+// Computed helpers for controls visibility
+const isOnAnalyticsPage = computed(() => route.path === '/analytics')
+const isOnEcosystemDiagram = computed(() => route.path === '/ecosystem/diagram')
+const showBackButton = computed(() => isOnAnalyticsPage.value || isOnEcosystemDiagram.value)
 
 // Computed property to check if we're in entity experience
 const isInEntityExperience = computed(() => {
@@ -50,6 +50,11 @@ const isInEntityExperience = computed(() => {
 // Computed property to check if we're in APIs open finance experience
 const isInApisOpenFinanceExperience = computed(() => {
   return route.path.startsWith('/apis-open-finance')
+})
+
+// Hide the floating Home button on specific routes
+const showHomeControl = computed(() => {
+  return route.path !== '/ecosystem/diagram'
 })
 
 // Computed property to filter device options based on current route
@@ -95,6 +100,11 @@ const toggleInfoMenu = () => {
 
 const navigateToAnalytics = () => {
   router.push('/analytics')
+  showInfoMenu.value = false
+}
+
+const navigateToConfig = () => {
+  router.push('/ecosystem/diagram')
   showInfoMenu.value = false
 }
 
@@ -167,7 +177,7 @@ onMounted(() => {
     <!-- Floating device selector -->
     <div class="device-controls">
       <!-- Back button (only show on analytics page) -->
-      <button v-if="isOnAnalyticsPage" class="back-btn" @click="goBack" :title="'Volver atrás'">
+      <button v-if="showBackButton" class="back-btn" @click="goBack" :title="'Volver atrás'">
         <v-icon size="18">mdi-arrow-left</v-icon>
       </button>
       
@@ -184,9 +194,9 @@ onMounted(() => {
               <v-icon size="16">mdi-chart-line</v-icon>
               <span>Estadísticas</span>
             </button>
-            <button class="info-menu-item" @click="showInfoMenu = false" :title="'Configuración (próximamente)'">
-              <v-icon size="16">mdi-cog</v-icon>
-              <span>Configuración</span>
+            <button class="info-menu-item" @click="navigateToConfig" :title="'Diagrama ecosistema'">
+              <v-icon size="16">mdi-lan</v-icon>
+              <span>Diagrama ecosistema</span>
             </button>
           </div>
         </Transition>
@@ -202,7 +212,7 @@ onMounted(() => {
     </div>
 
     <!-- Floating Home control (top-left) -->
-    <div class="home-control" :class="{ 'entity-dashboard-position': isFullScreenEntityDashboard }">
+    <div v-if="showHomeControl" class="home-control" :class="{ 'entity-dashboard-position': isFullScreenEntityDashboard }">
       <button class="home-btn" @click="goHome">
         <v-icon size="18">mdi-home</v-icon>
         <span>Volver al inicio</span>
@@ -329,17 +339,6 @@ onMounted(() => {
   background: linear-gradient(21deg, rgb(97, 40, 120) 0%, rgb(186, 45, 125) 100%);
   color: white;
   transform: translateY(-1px);
-}
-
-.info-menu-item:last-child {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.info-menu-item:last-child:hover {
-  background: #f3f4f6;
-  color: #6b7280;
-  transform: none;
 }
 
 /* Dropdown animation */

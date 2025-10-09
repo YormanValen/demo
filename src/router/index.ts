@@ -303,6 +303,13 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../modules/analytics/views/AnalyticsDashboardView.vue'),
     meta: { hideLayout: true }
   }
+  ,
+  {
+    path: '/ecosystem/diagram',
+    name: 'ecosystem-diagram',
+    component: () => import('../modules/ecosystem-diagram/views/EcosystemDiagramView.vue'),
+    meta: { hideLayout: true }
+  }
 ]
 
 export const router = createRouter({

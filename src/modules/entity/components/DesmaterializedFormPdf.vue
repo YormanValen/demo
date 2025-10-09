@@ -161,7 +161,7 @@ const defaultTemplate: PDFTemplate = {
     height: 45,
     backgroundColor: [39, 13, 52], // #270D34
     waveColor: [152, 40, 129], // #982881
-    logoText: '"Evolucionando el camino de ser digital"',
+    logoText: '"Vive la transformación y descubre el poder de Open Finance"',
     logoStyle: {
       font: 'helvetica',
       style: 'normal',
