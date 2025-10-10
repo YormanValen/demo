@@ -645,7 +645,7 @@ onBeforeUnmount(() => {
 }
 
 .title-card__title {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 800;
   margin: 0;
   line-height: 1.2;
@@ -669,7 +669,7 @@ onBeforeUnmount(() => {
 
 .desc-card__list li {
   margin: 4px 0;
-  font-size: 16px;
+  font-size: 24px;
 }
 
 .track {
@@ -743,7 +743,7 @@ onBeforeUnmount(() => {
   box-shadow: var(--shadow-md);
   display: grid;
   place-items: center;
-  font-size: 16px;
+  font-size: 24px;
   min-width: 280px;
   opacity: 0;
   transform: translateY(50px);
