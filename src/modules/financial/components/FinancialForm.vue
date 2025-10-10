@@ -2,7 +2,7 @@
   <div class="registration-container">
     <div class="registration-form">
       <div class="form-header">
-        <h2>INFORMACIÓN BÁSICA SOLICITUD DE CREDITO</h2>
+        <h2>INFORMACIÓN BÁSICA SOLICITUD DE CRÉDITO</h2>
       </div>
 
       <div class="open-finance-message">
@@ -122,7 +122,7 @@
             ">
             <!-- Next instruction disclaimer -->
             <div class="next-disclaimer">
-              <p>Haz click en "Siguiente" para continuar al siguiente paso</p>
+              <p>Haz click en "Siguiente" para continuar.</p>
             </div>
             <button @click="handleNextClick" class="next-button">
               Siguiente
@@ -144,11 +144,13 @@ import OtpModal from "../../registration/components/OtpModal.vue";
 import ValidationLoader from "./ValidationLoader.vue";
 import AnimationContainer from "./AnimationContainer.vue";
 import CompleteFlowVisualization from "./CompleteFlowVisualization.vue";
+import { useAnalyticsStore } from "../../../stores/analytics";
 
 const router = useRouter();
 const store = useRegistrationStore();
 const { userPhoneNumber } = store;
 const financialStore = useFinancialStore();
+const analyticsStore = useAnalyticsStore();
 const showOtpModal = ref(false);
 const showValidationLoader = ref(false);
 const showAnimationContainer = ref(true);
@@ -235,11 +237,14 @@ const handleSubmit = () => {
     return;
   }
 
+  // Track analytics for financial form completion
+  analyticsStore.trackFormCompletion('financial-information', form);
+
   // Store the financial data in the store
   financialStore.setFinancialData(form);
 
   // Empujar datos al store del PDF (si Pinia está activa)
-  ;(async () => {
+  ; (async () => {
     try {
       const piniaMod: any = await import('pinia')
       if (piniaMod?.getActivePinia && piniaMod.getActivePinia()) {
@@ -251,7 +256,7 @@ const handleSubmit = () => {
           montoSolicitado: form.montoSolicitado,
         } as any)
       }
-    } catch {}
+    } catch { }
   })()
 
   openAnimationContainer();
@@ -298,7 +303,7 @@ const handleAnimationToggle = (isOpen: boolean) => {
 .registration-container {
   padding: 0;
   width: 60vw;
-  /* margin-top: -50vh; */
+  margin-top: -30vh;
   position: relative;
 }
 

@@ -13,7 +13,7 @@ const stepCompleted = ref([false, false, false]);
 
 const steps = [
   { title: 'Usuario', icon: 'mdi-account' },
-  { title: 'Validación de Identidad y Otorgación de Consentimientos', icon: 'mdi-fingerprint' },
+  { title: 'Validación de Identidad y Otorgamiento de Consentimientos', icon: 'mdi-fingerprint' },
   { title: 'Almacenamiento', icon: 'mdi-database' }
 ];
 
@@ -73,58 +73,44 @@ onMounted(() => {
   <div class="flow-container" :class="{ 'flow-visible': flowVisible }">
     <div class="steps-container">
       <template v-for="(step, index) in steps" :key="index">
-        <div 
-          class="step-card"
-          :class="{
-            'active': currentStep > index,
-            'completed': stepCompleted[index],
-            'current': currentStep === index + 1 && !stepCompleted[index]
-          }"
-          :style="{
-            '--fill-duration': index === 0 ? '1s' : 
-                              index === 1 ? firstStepDuration + 'ms' : 
-                              secondStepDuration + 'ms'
-          }"
-        >
+        <div class="step-card" :class="{
+          'active': currentStep > index,
+          'completed': stepCompleted[index],
+          'current': currentStep === index + 1 && !stepCompleted[index]
+        }" :style="{
+            '--fill-duration': index === 0 ? '1s' :
+              index === 1 ? firstStepDuration + 'ms' :
+                secondStepDuration + 'ms'
+          }">
           <!-- Fondo de llenado animado -->
           <div class="card-fill-background"></div>
-          
+
           <div class="card-header">
             <div class="icon-container">
-              <v-icon 
-                size="24" 
-                :color="stepCompleted[index] ? '#4CAF50' : currentStep >= index ? '#982881' : '#ccc'"
-              >
+              <v-icon size="24" :color="stepCompleted[index] ? '#4CAF50' : currentStep >= index ? '#982881' : '#ccc'">
                 {{ step.icon }}
               </v-icon>
             </div>
             <div class="step-number">{{ index + 1 }}</div>
           </div>
-          
+
           <div class="card-content">
             <h3 class="step-title">{{ step.title }}</h3>
           </div>
-          
+
           <div class="progress-bar">
-            <div 
-              class="progress-fill" 
-              :class="{ 
-                'filling': currentStep === index + 1 && !stepCompleted[index],
-                'completed': stepCompleted[index] 
-              }"
-            ></div>
+            <div class="progress-fill" :class="{
+              'filling': currentStep === index + 1 && !stepCompleted[index],
+              'completed': stepCompleted[index]
+            }"></div>
           </div>
         </div>
 
         <!-- Puente/Conector entre pasos -->
-        <div 
-          v-if="index < steps.length - 1" 
-          class="step-connector"
-          :class="{
-            'connector-active': currentStep > index + 1,
-            'connector-filling': currentStep === index + 2 && !stepCompleted[index + 1]
-          }"
-        >
+        <div v-if="index < steps.length - 1" class="step-connector" :class="{
+          'connector-active': currentStep > index + 1,
+          'connector-filling': currentStep === index + 2 && !stepCompleted[index + 1]
+        }">
           <div class="connector-line">
             <div class="connector-progress"></div>
           </div>
@@ -217,6 +203,7 @@ onMounted(() => {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -329,6 +316,7 @@ onMounted(() => {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -398,6 +386,7 @@ onMounted(() => {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -410,16 +399,16 @@ onMounted(() => {
     gap: 8px;
     padding: 15px;
   }
-  
+
   .connector-line {
     width: 40px;
   }
-  
+
   .step-card {
     padding: 15px;
     height: 120px;
   }
-  
+
   .step-title {
     font-size: 14px;
   }
@@ -432,17 +421,17 @@ onMounted(() => {
     gap: 15px;
     padding: 15px;
   }
-  
+
   .step-connector {
     transform: rotate(90deg);
     padding: 10px 0;
   }
-  
+
   .connector-line {
     width: 30px;
     height: 2px;
   }
-  
+
   .connector-arrow {
     transform: rotate(90deg);
   }
@@ -452,16 +441,16 @@ onMounted(() => {
   .flow-container {
     max-width: 100%;
   }
-  
+
   .steps-container {
     padding: 10px;
   }
-  
+
   .step-card {
     padding: 12px;
     height: 110px;
   }
-  
+
   .step-title {
     font-size: 13px;
   }

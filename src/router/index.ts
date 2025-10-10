@@ -15,6 +15,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../modules/registration/views/ExperienceSelectionView.vue')
   },
   {
+    path: '/registration/user-intro',
+    name: 'user-experience-intro',
+    component: () => import('../modules/registration/views/UserExperienceIntroView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
     path: '/registration/basic-information',
     name: 'registration-step1',
     component: () => import('../modules/registration/views/RegistrationStep1View.vue')
@@ -283,6 +289,25 @@ const routes: RouteRecordRaw[] = [
     path: '/apis-open-finance/overview',
     name: 'apis-open-finance-overview',
     component: () => import('../modules/apis-open-finance/views/OverviewView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/technical-flow',
+    name: 'technical-flow',
+    component: () => import('../modules/technical-flow/views/TechnicalFlowView.vue'),
+    meta: { hideLayout: true }
+  },
+  {
+    path: '/analytics',
+    name: 'analytics-dashboard',
+    component: () => import('../modules/analytics/views/AnalyticsDashboardView.vue'),
+    meta: { hideLayout: true }
+  }
+  ,
+  {
+    path: '/ecosystem/diagram',
+    name: 'ecosystem-diagram',
+    component: () => import('../modules/ecosystem-diagram/views/EcosystemDiagramView.vue'),
     meta: { hideLayout: true }
   }
 ]

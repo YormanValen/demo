@@ -113,8 +113,8 @@ const toggleContainer = () => {
 
 .animation-content {
   /* Stop opening a bit below the screen half */
-  height: var(--sheet-content-height, 30vh);
-  max-height: var(--sheet-content-height, 30vh);
+  height: var(--sheet-content-height, 40vh);
+  max-height: var(--sheet-content-height, 40vh);
   overflow-y: auto;
   padding: 20px;
   background: white;

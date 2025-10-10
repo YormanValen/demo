@@ -33,7 +33,7 @@ const handleContinue = () => {
             <h1>¡Felicitaciones!</h1>
           </div>
 
-          <h2 class="credit-approved">Tu crédito ha sido aprobado</h2>
+          <h2 class="credit-approved">Tu crédito ha sido pre-aprobado</h2>
 
           <div class="credit-details">
             <p>

@@ -8,18 +8,20 @@
       <!-- Title Section -->
       <div class="title-section" :class="{ 'visible': showTitle }">
         <h1 class="main-title">Experiencia de Entidad</h1>
-        <p class="subtitle">Explora cómo las finanzas abiertas desbloquean un nuevo mundo de posibilidades: control
+        <p class="subtitle">Explora como las finanzas abiertas desbloquean un nuevo mundo de posibilidades: control
           total sobre consentimientos y analítica inteligente de datos transaccionales.</p>
       </div>
 
       <!-- Cards Section -->
       <div class="cards-section" :class="{ 'visible': showCards }">
-        <div class="experience-card card-1 clickable" :class="{ 'visible': showCard1, 'completed': entityModulesStore.isModuleVisited('consent-manager') }" role="button" tabindex="0"
-          @click="goToLogin" @keydown.enter="goToLogin" @keydown.space.prevent="goToLogin">
+        <div class="experience-card card-1 clickable"
+          :class="{ 'visible': showCard1, 'completed': entityModulesStore.isModuleVisited('consent-manager') }"
+          role="button" tabindex="0" @click="goToLogin" @keydown.enter="goToLogin" @keydown.space.prevent="goToLogin">
           <div class="card-number">
             <span v-if="!entityModulesStore.isModuleVisited('consent-manager')">1</span>
             <svg v-else class="check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </div>
           <div class="card-content">
@@ -29,12 +31,15 @@
           </div>
         </div>
 
-        <div class="experience-card card-2 clickable" :class="{ 'visible': showCard2, 'completed': entityModulesStore.isModuleVisited('transactional-insights') }" role="button" tabindex="0"
-          @click="goToDashboard" @keydown.enter="goToDashboard" @keydown.space.prevent="goToDashboard">
+        <div class="experience-card card-2 clickable"
+          :class="{ 'visible': showCard2, 'completed': entityModulesStore.isModuleVisited('transactional-insights') }"
+          role="button" tabindex="0" @click="goToDashboard" @keydown.enter="goToDashboard"
+          @keydown.space.prevent="goToDashboard">
           <div class="card-number">
             <span v-if="!entityModulesStore.isModuleVisited('transactional-insights')">2</span>
             <svg v-else class="check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </div>
           <div class="card-content">
@@ -44,12 +49,15 @@
           </div>
         </div>
 
-        <div class="experience-card card-3 clickable" :class="{ 'visible': showCard3, 'completed': entityModulesStore.isModuleVisited('api-platform') }" role="button" tabindex="0"
-          @click="goToApiLogin" @keydown.enter="goToApiLogin" @keydown.space.prevent="goToApiLogin">
+        <div class="experience-card card-3 clickable"
+          :class="{ 'visible': showCard3, 'completed': entityModulesStore.isModuleVisited('api-platform') }"
+          role="button" tabindex="0" @click="goToApiLogin" @keydown.enter="goToApiLogin"
+          @keydown.space.prevent="goToApiLogin">
           <div class="card-number">
             <span v-if="!entityModulesStore.isModuleVisited('api-platform')">3</span>
             <svg v-else class="check-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round" />
             </svg>
           </div>
           <div class="card-content">
@@ -80,6 +88,7 @@ const showCards = ref(false)
 const showCard1 = ref(false)
 const showCard2 = ref(false)
 const showCard3 = ref(false)
+const showCard4 = ref(false)
 const isReady = ref(false)
 const FULL_RELOAD_KEY = 'entity_intro_force_reload_once'
 
@@ -115,6 +124,10 @@ const startAnimations = async () => {
 
           setTimeout(() => {
             showCard3.value = true
+
+            setTimeout(() => {
+              showCard4.value = true
+            }, 400)
           }, 400)
         }, 400)
       }, 300)
@@ -132,7 +145,7 @@ const goToLogin = () => {
 
 const goToDashboard = () => {
   entityModulesStore.markModuleAsVisited('transactional-insights')
-  router.push({ path: '/entity/dashboard', query: { intro: '1' } })
+  router.push('/entity/transactional-insights')
 }
 
 const goToApiLogin = () => {
@@ -140,11 +153,12 @@ const goToApiLogin = () => {
   router.push({ name: 'apis-open-finance-login' })
 }
 
+
 // Start animations when fully ready (after window load)
 onMounted(async () => {
   // Load entity modules store data
   entityModulesStore.loadFromLocalStorage()
-  
+
   // Force a one-time full reload before showing this page
   const alreadyReloaded = sessionStorage.getItem(FULL_RELOAD_KEY) === '1'
   if (!alreadyReloaded) {
@@ -346,6 +360,10 @@ onUnmounted(() => {
   animation-delay: 0.4s;
 }
 
+.card-4 {
+  animation-delay: 0.6s;
+}
+
 .experience-card.clickable {
   cursor: pointer;
 }
@@ -371,9 +389,11 @@ onUnmounted(() => {
     transform: scale(0);
     opacity: 0;
   }
+
   50% {
     transform: scale(1.2);
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
