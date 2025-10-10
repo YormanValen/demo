@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 // Controls for the staged reveal animation
 const isPlaying = ref(false)
@@ -8,6 +8,12 @@ const showOrientationModal = ref(true)
 
 // Track animation for bottom elements
 const trackAnimationStep = ref(0)
+
+// Free-drag horizontal scroll state
+const viewportRef = ref<HTMLElement | null>(null)
+let isDragging = false
+let startX = 0
+let startScrollLeft = 0
 
 const startAnimation = () => {
   if (isPlaying.value) return
@@ -59,6 +65,36 @@ const handleAgree = () => {
   // small delay for smoothness
   setTimeout(startAnimation, 200)
 }
+
+// Pointer-driven drag-to-scroll (no snapping, no auto-advance)
+const onPointerDown = (e: PointerEvent) => {
+  const vp = viewportRef.value
+  if (!vp) return
+  isDragging = true
+  startX = e.clientX
+  startScrollLeft = vp.scrollLeft
+  vp.classList.add('is-dragging')
+  try { vp.setPointerCapture(e.pointerId) } catch { }
+}
+
+const onPointerMove = (e: PointerEvent) => {
+  if (!isDragging) return
+  const vp = viewportRef.value
+  if (!vp) return
+  const dx = e.clientX - startX
+  vp.scrollLeft = startScrollLeft - dx
+  e.preventDefault()
+}
+
+const onPointerUp = (e: PointerEvent) => {
+  if (!isDragging) return
+  isDragging = false
+  const vp = viewportRef.value
+  vp?.classList.remove('is-dragging')
+  try { vp?.releasePointerCapture(e.pointerId) } catch { }
+}
+
+// No scroll badge logic needed (always show hint)
 
 
 // Simplified content adapted from the provided diagram
@@ -140,6 +176,27 @@ const columns = [
 onMounted(() => {
   // Always show orientation modal before any animation
   showOrientationModal.value = true
+
+  // Attach drag handlers
+  const vp = viewportRef.value
+  if (vp) {
+    vp.addEventListener('pointerdown', onPointerDown, { passive: true })
+    vp.addEventListener('pointermove', onPointerMove, { passive: false })
+    vp.addEventListener('pointerup', onPointerUp, { passive: true })
+    vp.addEventListener('pointerleave', onPointerUp, { passive: true })
+    vp.addEventListener('pointercancel', onPointerUp, { passive: true })
+  }
+})
+
+onBeforeUnmount(() => {
+  const vp = viewportRef.value
+  if (vp) {
+    vp.removeEventListener('pointerdown', onPointerDown as any)
+    vp.removeEventListener('pointermove', onPointerMove as any)
+    vp.removeEventListener('pointerup', onPointerUp as any)
+    vp.removeEventListener('pointerleave', onPointerUp as any)
+    vp.removeEventListener('pointercancel', onPointerUp as any)
+  }
 })
 </script>
 
@@ -176,21 +233,31 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Top row of feature columns -->
-    <div class="grid">
-      <div v-for="(col, idx) in columns" :key="idx" class="grid__item" :class="{ 'is-visible': revealed > idx }">
-        <div class="icon" :style="{ borderColor: col.color }">
-          <v-icon :color="col.color" size="48">{{ col.icon }}</v-icon>
+    <!-- Carousel container for feature columns (free scroll) -->
+    <div class="carousel-container">
+      <div class="carousel-badges">
+        <div class="badge badge--hint">
+          <v-icon size="16">mdi-hand-pointing-right</v-icon>
+          Arrastra para explorar
         </div>
-        <!-- Title container (colored, white text) -->
-        <div class="title-card" :style="{ backgroundColor: col.color }">
-          <h3 class="title-card__title">{{ col.title }}</h3>
-        </div>
-        <!-- Description container (separate card below) -->
-        <div class="desc-card">
-          <ul class="desc-card__list">
-            <li v-for="(it, i) in col.items" :key="i" v-html="it"></li>
-          </ul>
+      </div>
+      <div class="carousel-viewport" ref="viewportRef">
+        <div class="grid">
+          <div v-for="(col, idx) in columns" :key="idx" class="grid__item" :class="{ 'is-visible': revealed > idx }">
+            <div class="icon" :style="{ borderColor: col.color }">
+              <v-icon :color="col.color" size="48">{{ col.icon }}</v-icon>
+            </div>
+            <!-- Title container (colored, white text) -->
+            <div class="title-card" :style="{ backgroundColor: col.color }">
+              <h3 class="title-card__title">{{ col.title }}</h3>
+            </div>
+            <!-- Description container (separate card below) -->
+            <div class="desc-card">
+              <ul class="desc-card__list">
+                <li v-for="(it, i) in col.items" :key="i" v-html="it"></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -236,7 +303,8 @@ onMounted(() => {
             crecimiento</div>
         </div>
         <div class="track-item">
-          <div class="pill pill--ecosystem animate-up" :class="{ 'visible': trackAnimationStep >= 7 }">Ecosistema</div>
+          <div class="pill pill--ecosystem animate-up" :class="{ 'visible': trackAnimationStep >= 7 }">Ecosistema 360
+            Experian</div>
         </div>
       </div>
     </div>
@@ -254,6 +322,8 @@ onMounted(() => {
   background: #f5f7fb;
   padding: 24px 24px 60px;
   box-sizing: border-box;
+  overflow-x: hidden;
+  /* evita scroll horizontal global */
 }
 
 .ecosystem__header {
@@ -337,6 +407,21 @@ onMounted(() => {
   gap: 12px;
 }
 
+.modal-text {
+  color: #374151;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Bigger primary button inside modal */
+.modal .btn-primary {
+  padding: 14px 22px;
+  font-size: 15px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 280px;
+}
+
 .image-wrapper {
   display: grid;
   place-items: center;
@@ -375,13 +460,145 @@ onMounted(() => {
   color: #475569;
 }
 
-.grid {
+/* Carousel container styles */
+.carousel-container {
   width: 100%;
-  max-width: none;
-  margin: 18px 0 30px 0;
-  display: grid;
-  /* Force the eight items to stay on a single row on desktop */
-  grid-template-columns: repeat(8, minmax(180px, 1fr));
+  margin: 44px 0 30px 0;
+  position: relative;
+}
+
+/* Thin horizontal scrollbar for the carousel */
+.carousel-viewport::-webkit-scrollbar {
+  height: 10px;
+}
+
+.carousel-viewport::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.carousel-viewport::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, .12);
+  border-radius: 999px;
+}
+
+.carousel-viewport {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, .18) transparent;
+}
+
+/* Badges */
+.carousel-badges {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  /* centrado horizontal */
+  align-items: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.badge {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .12);
+}
+
+/* No back badge anymore */
+
+.badge--hint {
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.nav-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn:hover:not(.nav-btn--disabled) {
+  border-color: #4F9CF9;
+  background: #f8fafc;
+  transform: scale(1.05);
+}
+
+.nav-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.carousel-indicators {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d1d5db;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator--active {
+  background: #4F9CF9;
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: #9ca3af;
+}
+
+.indicator--active:hover {
+  background: #4F9CF9;
+}
+
+.carousel-viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  cursor: grab;
+  padding-top: 28px;
+}
+
+.carousel-viewport.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: nowrap;
   gap: 18px;
 }
 
@@ -391,6 +608,9 @@ onMounted(() => {
   transition: all .4s ease;
   display: flex;
   flex-direction: column;
+  flex: 0 0 calc(25% - 13.5px);
+  /* 4 items per slide on desktop (account for 3 gaps of 18px) */
+  min-width: 180px;
 }
 
 .grid__item.is-visible {
@@ -425,7 +645,7 @@ onMounted(() => {
 }
 
 .title-card__title {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 800;
   margin: 0;
   line-height: 1.2;
@@ -449,7 +669,7 @@ onMounted(() => {
 
 .desc-card__list li {
   margin: 4px 0;
-  font-size: 16px;
+  font-size: 24px;
 }
 
 .track {
@@ -523,7 +743,7 @@ onMounted(() => {
   box-shadow: var(--shadow-md);
   display: grid;
   place-items: center;
-  font-size: 16px;
+  font-size: 24px;
   min-width: 280px;
   opacity: 0;
   transform: translateY(50px);
@@ -568,9 +788,17 @@ onMounted(() => {
     text-align: center;
   }
 
+  .grid__item {
+    flex: 0 0 calc(50% - 12px);
+    /* 2 items per slide on tablets */
+    min-width: 280px;
+  }
+
   .grid {
-    grid-template-columns: repeat(2, minmax(280px, 1fr));
     gap: 24px;
+  }
+
+  .carousel-container {
     margin: 24px 0 40px 0;
   }
 
@@ -605,8 +833,13 @@ onMounted(() => {
 
 /* Large portrait screens (tablets in portrait) */
 @media (orientation: portrait) and (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(280px, 1fr));
+  .grid__item {
+    flex: 0 0 calc(25% - 13.5px);
+    /* keep 4 items per slide for consistency */
+    min-width: 240px;
+  }
+
+  .carousel-container {
     max-width: 1000px;
     margin: 24px auto 40px;
   }
@@ -623,8 +856,10 @@ onMounted(() => {
 }
 
 @media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  .grid__item {
+    flex: 0 0 calc(50% - 9px);
+    /* 2 items per slide on medium screens (account for one 18px gap) */
+    min-width: 220px;
   }
 
   /* Let descriptions grow more comfortably on smaller screens */
@@ -653,8 +888,23 @@ onMounted(() => {
     gap: 10px;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
+  .carousel-viewport {
+    padding-top: 24px;
+  }
+
+  .grid__item {
+    flex: 0 0 100%;
+    /* 1 item per slide on mobile */
+    min-width: auto;
+  }
+
+  .carousel-nav {
+    gap: 12px;
+  }
+
+  .nav-btn {
+    width: 40px;
+    height: 40px;
   }
 
   .track {
@@ -681,13 +931,3 @@ onMounted(() => {
   }
 }
 </style>
-.modal-text { color: #374151; font-size: 14px; margin: 0; }
-
-/* Bigger primary button inside modal */
-.modal .btn-primary {
-padding: 14px 22px;
-font-size: 15px;
-border-radius: 12px;
-width: 100%;
-max-width: 280px;
-}
