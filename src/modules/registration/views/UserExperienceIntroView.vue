@@ -336,23 +336,103 @@ onMounted(() => {
   color: #b45309;
 }
 
-@media (max-width: 768px) {
-  .content-container {
-    padding: 24px;
-    margin: 20px;
+/* Tablet styles */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .intro-content {
+    max-width: 700px;
+    padding: 30px 15px;
   }
 
-  .intro-paragraph {
-    font-size: 1rem;
+  .intro-title-text {
+    font-size: 2.2rem;
+    margin-bottom: 25px;
   }
 
-  .intro-paragraph:first-child {
+  .intro-description-text {
     font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+
+  .benefit-item {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
   }
 
   .start-experience-button {
     padding: 14px 28px;
+    font-size: 1.1rem;
+  }
+
+  .demo-badge {
+    font-size: 0.8rem;
+    padding: 10px 14px;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .intro-content {
+    max-width: 100%;
+    padding: 20px 15px;
+  }
+
+  .intro-title-text {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .intro-description-text {
     font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+  }
+
+  .benefit-item {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .start-experience-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .demo-badge {
+    font-size: 0.8rem;
+    padding: 10px 12px;
+    margin: 15px 0;
+  }
+}
+
+/* Small mobile styles */
+@media (max-width: 480px) {
+  .intro-content {
+    padding: 15px 10px;
+  }
+
+  .intro-title-text {
+    font-size: 1.6rem;
+  }
+
+  .intro-description-text {
+    font-size: 0.9rem;
+  }
+
+  .benefit-item {
+    font-size: 0.9rem;
+  }
+
+  .check-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    margin-right: 10px;
+  }
+
+  .start-experience-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
   }
 }
 </style>

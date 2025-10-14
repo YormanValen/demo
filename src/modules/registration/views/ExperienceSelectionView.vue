@@ -1,9 +1,18 @@
 <template>
   <div class="experience-selection-view">
+    <!-- Imagen en la parte superior -->
+    <div class="experience-hero">
+      <img class="experience-hero__img" src="/src/assets/experience-selection-image.png"
+        alt="Soluciones en el mercado - Experian" />
+    </div>
+
     <div class="selection-container">
       <div class="title-container">
         <h1 class="selection-title">Elige tu experiencia</h1>
         <span>Esta demo te permitirá conocer dos perspectivas clave: </span>
+        <div class="click-badge">
+          Haz clic en una opción para continuar
+        </div>
       </div>
 
       <div class="experience-cards">
@@ -41,11 +50,12 @@
       </div>
 
       <div class="action-buttons">
-        <button class="continue-button" @click="continueWithSelection" :disabled="!selectedExperience">
-          Continuar
-        </button>
-
         <span>Al finalizar, podrás volver a esta pantalla para seleccionar otra experiencia.</span>
+      </div>
+
+      <div class="demo-badge">
+        <span class="badge-label">DEMOSTRACIÓN DE CONCEPTO:</span>
+        Esta es una muestra potencial, no es el producto final. Funcionalidades y datos simulados y sujetos a cambio.
       </div>
     </div>
   </div>
@@ -68,29 +78,27 @@ const visitedProductsStore = useVisitedProductsStore();
 
 const selectExperience = (type: "user" | "entity") => {
   selectedExperience.value = type;
-};
 
-const continueWithSelection = () => {
-  if (!selectedExperience.value) return;
-
+  // Navegar inmediatamente al seleccionar
   // Track analytics
-  analyticsStore.trackExperienceVisit(selectedExperience.value === 'user' ? 'usuario' : 'entidad');
+  analyticsStore.trackExperienceVisit(type === 'user' ? 'usuario' : 'entidad');
 
   // Guardar la selección en localStorage o store
-  localStorage.setItem("selectedExperience", selectedExperience.value);
+  localStorage.setItem("selectedExperience", type);
 
   // Incrementar contador solo para experiencia de usuario
-  if (selectedExperience.value === 'user') {
+  if (type === 'user') {
     userExperienceCounterStore.incrementVisit();
   }
 
   // Navegar según la experiencia seleccionada
-  if (selectedExperience.value === 'entity') {
+  if (type === 'entity') {
     router.push('/entity/intro');
   } else {
     router.push('/registration/user-intro');
   }
 };
+
 
 // Cargar datos del store al montar el componente
 onMounted(() => {
@@ -104,7 +112,24 @@ onMounted(() => {
 
 <style scoped>
 .experience-selection-view {
-  padding: 20px;
+  padding: 16px 20px 20px;
+}
+
+.experience-hero {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.experience-hero__img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: none;
 }
 
 .selection-container {
@@ -124,6 +149,7 @@ onMounted(() => {
   gap: 10px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .selection-title {
@@ -147,7 +173,7 @@ onMounted(() => {
 }
 
 .experience-card {
-  background: white;
+  background: rgb(255, 255, 255);
   border: 2px solid #e5e7eb;
   border-radius: 12px;
   padding: 20px;
@@ -204,34 +230,47 @@ onMounted(() => {
   justify-content: center;
 }
 
-.continue-button {
-  width: fit-content;
+.click-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: linear-gradient(21deg,
       rgb(97, 40, 120) 0%,
       rgb(186, 45, 125) 100%);
   color: white;
-  border: none;
-  padding: 12px 32px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.continue-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(97, 40, 120, 0.3);
+.demo-badge {
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 20px 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #856404;
+  text-align: left;
 }
 
-.continue-button:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+.badge-label {
+  font-weight: 700;
+  color: #b45309;
 }
 
 @media (max-width: 768px) {
+  .experience-hero {
+    margin-bottom: 20px;
+  }
+
+  .experience-hero__img {
+    border-radius: 8px;
+    box-shadow: none;
+  }
+
   .experience-cards {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -249,14 +288,104 @@ onMounted(() => {
 /* Fullscreen mode adjustments */
 .full-mode .experience-selection-view {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  /* apila elementos: selector arriba, imagen abajo */
+  justify-content: flex-start;
+  /* inicia desde arriba */
   align-items: center;
-  min-height: calc(100vh - 300px);
-  padding: 40px 20px;
+  /* centra horizontalmente el contenido apilado */
+  min-height: auto;
+  /* quita la altura que empujaba hacia abajo */
+  padding: 16px 20px 24px;
+  /* padding más compacto */
 }
 
 .full-mode .selection-container {
   max-width: 800px;
   width: 100%;
+  margin-top: 8px;
+  /* ubica el selector justo debajo del contenido superior */
+}
+
+/* Media Queries for horizontal screens */
+@media (min-width: 1000px) and (orientation: landscape) {
+  .experience-selection-view {
+    display: flex !important;
+    flex-direction: row !important;
+    min-height: 100vh;
+    padding: 0 !important;
+  }
+
+  .selection-container {
+    flex: 1.2 !important;
+    order: 1 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 60px 40px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .experience-hero {
+    flex: 1 !important;
+    order: 2 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding: 0px 40px 40px !important;
+  }
+
+  .experience-hero__img {
+    width: 120% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: 110vh !important;
+    object-fit: contain !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+    margin-top: -60px !important;
+    margin-left: -100px !important;
+  }
+
+  .title-container {
+    margin-bottom: 40px !important;
+    text-align: center !important;
+  }
+
+  .experience-cards {
+    margin-bottom: 32px !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    max-width: 400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .experience-card {
+    padding: 24px !important;
+  }
+}
+
+/* Media Queries for larger horizontal screens */
+@media (orientation: landscape) and (min-width: 1600px) {
+  .selection-container {
+    padding: 60px 80px;
+  }
+
+  .experience-hero {
+    padding: 60px;
+  }
+
+  .experience-cards {
+    gap: 24px;
+  }
+
+  .experience-card {
+    padding: 24px;
+  }
 }
 </style>

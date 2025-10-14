@@ -145,6 +145,8 @@ const handleLoadingComplete = () => {
   flex-direction: row;
   flex: 1;
   transition: opacity 0.3s ease;
+  width: 100%;
+  max-width: 100vw;
 }
 
 .main-content.hidden {
@@ -281,6 +283,15 @@ const handleLoadingComplete = () => {
   flex-direction: column;
   padding: 40px;
   box-sizing: border-box;
+}
+
+/* Responsive adjustments for horizontal layouts */
+@media (orientation: landscape) and (min-width: 1200px) {
+  .right-section {
+    width: 1400px !important;
+    flex: 2 !important;
+    max-width: none !important;
+  }
 }
 
 .login-content {
@@ -456,5 +467,60 @@ const handleLoadingComplete = () => {
 
 .terms-link:hover {
   color: #1d4ed8;
+}
+
+
+
+/* Media Queries for 1920x1080 and larger horizontal screens */
+@media screen and (min-width: 1920px) and (orientation: landscape) {
+  .left-section {
+    flex: 1.5;
+    padding: 80px;
+  }
+
+  .right-section {
+    flex: 1;
+    width: auto;
+    max-width: 40%;
+    padding: 80px;
+  }
+
+  .passport-title {
+    font-size: 3.5rem;
+    letter-spacing: 3px;
+  }
+
+  .login-title {
+    font-size: 2.5rem;
+  }
+
+  .login-form {
+    gap: 32px;
+    padding: 40px 0;
+  }
+
+  .form-input {
+    padding: 20px 24px;
+    font-size: 1.1rem;
+  }
+
+  .login-button {
+    padding: 22px 40px;
+    font-size: 1.2rem;
+  }
+
+  .form-label {
+    font-size: 1rem;
+  }
+
+  .signup-text,
+  .signup-link,
+  .forgot-link {
+    font-size: 1rem;
+  }
+
+  .terms-text {
+    font-size: 0.9rem;
+  }
 }
 </style>
