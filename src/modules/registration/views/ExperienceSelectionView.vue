@@ -173,7 +173,7 @@ onMounted(() => {
 }
 
 .experience-card {
-  background: white;
+  background: rgb(255, 255, 255);
   border: 2px solid #e5e7eb;
   border-radius: 12px;
   padding: 20px;
@@ -305,5 +305,87 @@ onMounted(() => {
   width: 100%;
   margin-top: 8px;
   /* ubica el selector justo debajo del contenido superior */
+}
+
+/* Media Queries for horizontal screens */
+@media (min-width: 1000px) and (orientation: landscape) {
+  .experience-selection-view {
+    display: flex !important;
+    flex-direction: row !important;
+    min-height: 100vh;
+    padding: 0 !important;
+  }
+
+  .selection-container {
+    flex: 1.2 !important;
+    order: 1 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 60px 40px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .experience-hero {
+    flex: 1 !important;
+    order: 2 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding: 0px 40px 40px !important;
+  }
+
+  .experience-hero__img {
+    width: 120% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: 110vh !important;
+    object-fit: contain !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+    margin-top: -60px !important;
+    margin-left: -100px !important;
+  }
+
+  .title-container {
+    margin-bottom: 40px !important;
+    text-align: center !important;
+  }
+
+  .experience-cards {
+    margin-bottom: 32px !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    max-width: 400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .experience-card {
+    padding: 24px !important;
+  }
+}
+
+/* Media Queries for larger horizontal screens */
+@media (orientation: landscape) and (min-width: 1600px) {
+  .selection-container {
+    padding: 60px 80px;
+  }
+
+  .experience-hero {
+    padding: 60px;
+  }
+
+  .experience-cards {
+    gap: 24px;
+  }
+
+  .experience-card {
+    padding: 24px;
+  }
 }
 </style>

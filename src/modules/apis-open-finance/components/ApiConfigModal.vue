@@ -227,10 +227,10 @@ const activeTab = ref('parameters')
 
 const parameters = reactive({
   list: [
-    { type: 'api_key' as ParameterType, value: 'sk_live_51H7qR2eZvKYlo2C...', selected: true },
-    { type: 'api_secret' as ParameterType, value: 'whsec_1a2b3c4d5e6f7g8h...', selected: true },
-    { type: 'created_at' as ParameterType, value: '2024-01-15', selected: true },
-    { type: 'expiration_date' as ParameterType, value: '2024-12-31', selected: true }
+    { type: 'api_key' as ParameterType, value: 'sk_***************', selected: true },
+    { type: 'api_secret' as ParameterType, value: 'wh_***************', selected: true },
+    { type: 'created_at' as ParameterType, value: '20***-**-**', selected: true },
+    { type: 'expiration_date' as ParameterType, value: '20***-**-**', selected: true }
   ]
 })
 
@@ -247,10 +247,10 @@ const handleOverlayClick = () => {
 
 const addParameter = () => {
   const defaultValues: Record<ParameterType, string> = {
-    api_key: 'sk_live_51H7qR2eZvKYlo2C...',
-    api_secret: 'whsec_1a2b3c4d5e6f7g8h...',
-    created_at: '2024-01-15',
-    expiration_date: '2024-12-31'
+    api_key: 'sk_***************',
+    api_secret: 'wh_***************',
+    created_at: '20***-**-**',
+    expiration_date: '20***-**-**'
   }
 
   parameters.list.push({
@@ -278,10 +278,10 @@ const getPlaceholder = (type: ParameterType) => {
 
 const updateDefaultValue = (param: { type: ParameterType; value: string; selected: boolean }) => {
   const defaultValues: Record<ParameterType, string> = {
-    api_key: 'sk_live_51H7qR2eZvKYlo2C...',
-    api_secret: 'whsec_1a2b3c4d5e6f7g8h...',
-    created_at: '2024-01-15',
-    expiration_date: '2024-12-31'
+    api_key: 'sk_***************',
+    api_secret: 'wh_***************',
+    created_at: '20***-**-**',
+    expiration_date: '20***-**-**'
   }
   param.value = defaultValues[param.type] || ''
 }

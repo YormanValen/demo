@@ -726,6 +726,48 @@ onMounted(() => {
   overflow: visible !important;
 }
 
+/* Adapt UserExperienceIntroView inside frames */
+.frame__content .user-experience-intro,
+.tablet__content .user-experience-intro {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Tablet-specific layout for UserExperienceIntroView */
+.tablet .user-experience-intro .intro-content {
+  max-width: 700px !important;
+  padding: 30px 15px !important;
+}
+
+.tablet .user-experience-intro .intro-title-text {
+  font-size: 2.2rem !important;
+  margin-bottom: 25px !important;
+}
+
+.tablet .user-experience-intro .intro-description-text {
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
+  margin-bottom: 18px !important;
+}
+
+.tablet .user-experience-intro .benefit-item {
+  font-size: 1.1rem !important;
+  margin-bottom: 10px !important;
+}
+
+.tablet .user-experience-intro .start-experience-button {
+  padding: 14px 28px !important;
+  font-size: 1.1rem !important;
+}
+
+.tablet .user-experience-intro .demo-badge {
+  font-size: 0.8rem !important;
+  padding: 10px 14px !important;
+}
+
 /* Fix footer positioning in full mode */
 .app-container.full-mode .app-layout__footer {
   padding: 15px 40px;
