@@ -404,18 +404,50 @@ onUnmounted(() => {
 <style scoped>
 .agregados-categorizacion-container {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
   padding: 40px 20px 20px;
   opacity: 0;
   transform: scale(1.02);
   animation: fadeInScale 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+}
+
+/* Media Queries for horizontal screens */
+@media (orientation: landscape) and (min-width: 1200px) {
+  .agregados-categorizacion-container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    padding: 30px 20px 40px;
+  }
+
+  .main-title {
+    font-size: 2.8rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .icons-container {
+    margin: 40px 0;
+  }
+
+  .data-cards-container {
+    margin: 30px 0;
+  }
+
+  .button-container {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
 }
 
 @keyframes fadeInScale {

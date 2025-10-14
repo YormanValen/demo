@@ -1065,4 +1065,60 @@ onUnmounted(() => {
     gap: 8px;
   }
 }
+
+/* Media Queries for 1920x1080 and larger horizontal screens */
+@media (orientation: landscape) and (min-width: 1920px) {
+  .desktop-sidebar {
+    width: 350px;
+  }
+
+  .main-area {
+    margin-left: 400px;
+  }
+
+  .main-content {
+    padding: 40px 60px;
+    max-width: 1400px;
+  }
+
+  .nav-item {
+    padding: 16px 28px;
+  }
+
+  .table-header,
+  .table-row {
+    grid-template-columns: 1.3fr 1.3fr 1fr 1fr 0.8fr 90px;
+    gap: 24px;
+    padding: 20px 28px;
+  }
+
+  .action-bar {
+    margin-bottom: 36px;
+  }
+
+  .new-api-key-btn {
+    padding: 14px 28px;
+  }
+
+  .pagination-container {
+    padding: 28px 0;
+  }
+
+  .pagination-btn {
+    padding: 10px 18px;
+  }
+
+  .pagination-number {
+    width: 44px;
+    height: 44px;
+  }
+
+  .insights-container {
+    padding: 50px 40px;
+  }
+
+  .insights-button {
+    padding: 18px 36px;
+  }
+}
 </style>

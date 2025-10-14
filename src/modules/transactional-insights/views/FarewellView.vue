@@ -46,13 +46,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Footer actions -->
-    <div class="footer-actions" :class="{ 'visible': showFooter }">
-      <button class="secondary-button" @click="goBack">
-        ← Explorar más funciones
-      </button>
-    </div>
   </div>
 </template>
 
@@ -103,9 +96,6 @@ const goToEntityMenu = () => {
   router.push({ name: 'entity-intro' })
 }
 
-const goBack = () => {
-  router.push({ name: 'entity-transactional-insights-submenu' })
-}
 
 // Start animations on mount
 onMounted(async () => {

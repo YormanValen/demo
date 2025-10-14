@@ -675,15 +675,14 @@ onMounted(async () => {
   transform: translateY(0);
 }
 
-/* Confirm footer (moved higher up) */
+/* Confirm footer (always below container) */
 .confirm-footer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 350px;
-  /* moved higher up from 16px to 80px */
+  position: relative;
+  width: 100%;
   display: flex;
   justify-content: center;
+  margin-top: 0px;
+  margin-bottom: 30px;
   z-index: 20;
 }
 
