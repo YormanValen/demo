@@ -48,7 +48,7 @@
           </div>
           
           <div class="demo-message">
-            Para fines demostrativos, el OTP de prueba es 123456
+            Para fines demostrativos, ingresa cualquier 6 dígitos
           </div>
         </div>
       </div>
@@ -121,21 +121,12 @@ const checkOtp = () => {
   const enteredOtp = otpDigits.join('')
   
   if (enteredOtp.length === 6) {
-    if (enteredOtp === '123456') {
-      success.value = true
-      error.value = false
-      setTimeout(() => {
-        emit('verified')
-        closeModal()
-      }, 1500)
-    } else {
-      error.value = true
-      success.value = false
-      setTimeout(() => {
-        clearOtp()
-        error.value = false
-      }, 2000)
-    }
+    success.value = true
+    error.value = false
+    setTimeout(() => {
+      emit('verified')
+      closeModal()
+    }, 1500)
   }
 }
 
