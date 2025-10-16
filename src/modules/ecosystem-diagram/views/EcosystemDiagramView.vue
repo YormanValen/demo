@@ -636,19 +636,25 @@ onBeforeUnmount(() => {
 .title-card {
   color: #ffffff;
   border-radius: 12px 12px 0 0;
-  padding: 12px 14px;
-  height: 80px;
-  display: grid;
-  place-items: center;
+  padding: 16px 14px;
+  height: auto;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   box-shadow: var(--shadow-sm);
 }
 
 .title-card__title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.3;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .desc-card {
@@ -656,9 +662,9 @@ onBeforeUnmount(() => {
   border-radius: 0 0 12px 12px;
   padding: 12px 14px 14px;
   box-shadow: var(--shadow-sm);
-  /* Equal height across all cards on desktop */
-  height: 200px;
-  overflow: auto;
+  /* Auto height to show full content */
+  height: auto;
+  min-height: 200px;
 }
 
 .desc-card__list {
@@ -780,8 +786,102 @@ onBeforeUnmount(() => {
 
 /* Responsive */
 
-/* Portrait orientation for vertical screens like 1080x1920 */
-@media (orientation: portrait) and (min-width: 768px) {
+/* Specific rule for vertical 1080x1920 screens - larger items with horizontal scroll */
+@media (orientation: portrait) and (min-width: 1080px) and (max-width: 1200px) {
+  .grid__item {
+    flex: 0 0 calc(85% - 12px);
+    /* Larger items - about 1.1 items visible at once */
+    min-width: 850px;
+    max-width: 950px;
+  }
+
+  .grid {
+    gap: 32px;
+  }
+
+  .carousel-container {
+    margin: 32px 0 50px 0;
+  }
+
+  .icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 18px;
+  }
+
+  .title-card {
+    height: auto;
+    min-height: 140px;
+    padding: 20px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .title-card__title {
+    font-size: 26px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.3;
+    hyphens: auto;
+  }
+
+  .desc-card {
+    height: auto;
+    min-height: 280px;
+    padding: 16px 18px 18px;
+  }
+
+  .desc-card__list li {
+    font-size: 28px;
+    margin: 6px 0;
+  }
+
+  .banner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    text-align: center;
+    padding: 20px 24px;
+  }
+
+  .headline {
+    font-size: 24px;
+  }
+
+  .banner__right {
+    font-size: 16px;
+  }
+
+  .track {
+    margin: 100px 0 0 0;
+  }
+
+  .track-pills {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .track-item {
+    flex: none;
+    width: 100%;
+  }
+
+  .pill {
+    min-width: 400px;
+    max-width: 600px;
+    margin: 0 auto;
+    height: 100px;
+    font-size: 28px;
+  }
+
+  .arrow-connector {
+    display: none;
+  }
+}
+
+/* Portrait orientation for vertical screens like tablets */
+@media (orientation: portrait) and (min-width: 768px) and (max-width: 1079px) {
   .banner {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -803,7 +903,8 @@ onBeforeUnmount(() => {
   }
 
   .desc-card {
-    height: 220px;
+    height: auto;
+    min-height: 220px;
   }
 
   .track {
@@ -864,7 +965,8 @@ onBeforeUnmount(() => {
 
   /* Let descriptions grow more comfortably on smaller screens */
   .desc-card {
-    height: 240px;
+    height: auto;
+    min-height: 240px;
   }
 
   .track {

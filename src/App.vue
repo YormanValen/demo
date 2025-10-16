@@ -54,7 +54,7 @@ const isInApisOpenFinanceExperience = computed(() => {
 
 // Hide the floating Home button on specific routes
 const showHomeControl = computed(() => {
-  return route.path !== '/ecosystem/diagram'
+  return route.path !== '/ecosystem/diagram' && route.path !== '/analytics'
 })
 
 // Computed property to filter device options based on current route
